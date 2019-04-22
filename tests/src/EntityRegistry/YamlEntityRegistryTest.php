@@ -107,6 +107,6 @@ class YamlEntityRegistryTest extends BaseCase
     {
         $fileName = $fileName ?: __DIR__ . '/_fixtures/test.yaml';
 
-        return new YamlEntityRegistry($fileName, $bindings);
+        return new YamlEntityRegistry($fileName);
     }
 }
