@@ -100,14 +100,12 @@ class YamlEntityRegistryTest extends BaseCase
      * Создает объект.
      *
      * @param string|null $fileName
-     * @param array|null  $bindings
      *
      * @return YamlEntityRegistry
      */
-    protected function createRegistry(?string $fileName = null, ?array $bindings = null): YamlEntityRegistry
+    protected function createRegistry(?string $fileName = null): YamlEntityRegistry
     {
         $fileName = $fileName ?: __DIR__ . '/_fixtures/test.yaml';
-        $bindings = $bindings ?: ['Test' => 'NormativeDocumentType'];
 
         return new YamlEntityRegistry($fileName, $bindings);
     }

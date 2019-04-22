@@ -33,7 +33,7 @@ class YamlEntityRegistry implements EntityRegistry
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $pathToYaml, array $bindings = [])
+    public function __construct(string $pathToYaml)
     {
         if (!file_exists($pathToYaml) || !is_readable($pathToYaml)) {
             throw new InvalidArgumentException(
