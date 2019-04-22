@@ -24,23 +24,38 @@ class YamlEntityRegistry implements EntityRegistry
     protected $pathToYaml;
 
     /**
+     * @var string[]
+     */
+    protected $bindings = [];
+
+    /**
      * @var EntityDescriptor[]|null
      */
     protected $registry;
 
     /**
-     * @param string $pathToYaml Путь к файлу с описанием сущностей
+     * @param string   $pathToYaml Путь к файлу с описанием сущностей
+     * @param string[] $bindings   Соответствия между классами реализации и именами сущностей
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $pathToYaml)
+    public function __construct(string $pathToYaml, array $bindings = [])
     {
+        if (!file_exists($pathToYaml) || !is_readable($pathToYaml)) {
+            throw new InvalidArgumentException(
+                "File '{$pathToYaml}' for yaml entity registry isn't readable or doesn't exist."
+            );
+        }
         $this->pathToYaml = trim($pathToYaml);
 
-        if (!file_exists($this->pathToYaml) || !is_readable($this->pathToYaml)) {
+        if (array_unique($bindings) !== $bindings) {
             throw new InvalidArgumentException(
-                "File '{$this->pathToYaml}' for yaml entity registry isn't readable or doesn't exist."
+                "There are doubling entity names in bindings: '" . json_encode($bindings) . "'."
             );
+        }
+        $this->bindings = [];
+        foreach ($bindings as $className => $entityName) {
+            $this->bindings[$this->normalizeClassName($className)] = $this->normalizeEntityName($entityName);
         }
     }
 
@@ -50,9 +65,11 @@ class YamlEntityRegistry implements EntityRegistry
     public function hasEntityDescriptor(string $entityName): bool
     {
         $return = false;
+        $normalizedName = $this->normalizeEntityName($entityName);
 
         foreach ($this->getRegistry() as $descriptor) {
-            if ($descriptor->getName() === $entityName) {
+            $normalizedDescriptorName = $this->normalizeEntityName($descriptor->getName());
+            if ($normalizedName === $normalizedDescriptorName) {
                 $return = true;
                 break;
             }
@@ -67,9 +84,11 @@ class YamlEntityRegistry implements EntityRegistry
     public function getEntityDescriptor(string $entityName): EntityDescriptor
     {
         $return = null;
+        $normalizedName = $this->normalizeEntityName($entityName);
 
         foreach ($this->getRegistry() as $descriptor) {
-            if ($descriptor->getName() === $entityName) {
+            $normalizedDescriptorName = $this->normalizeEntityName($descriptor->getName());
+            if ($normalizedName === $normalizedDescriptorName) {
                 $return = $descriptor;
                 break;
             }
@@ -78,6 +97,27 @@ class YamlEntityRegistry implements EntityRegistry
         if (!$return) {
             throw new InvalidArgumentException(
                 "Can't fin entity with name '{$entityName}' in '{$this->pathToYaml}'."
+            );
+        }
+
+        return $return;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescriptorForClass(string $className): EntityDescriptor
+    {
+        $return = null;
+        $normalizedClassName = $this->normalizeClassName($className);
+
+        if (isset($this->bindings[$normalizedClassName])) {
+            $return = $this->getEntityDescriptor($this->bindings[$normalizedClassName]);
+        }
+
+        if (!$return) {
+            throw new InvalidArgumentException(
+                "Can't fin entity for class '{$className}' in '{$this->pathToYaml}'."
             );
         }
 
@@ -145,5 +185,29 @@ class YamlEntityRegistry implements EntityRegistry
     protected function createEntityFieldFromYaml(array $field): EntityField
     {
         return new BaseEntityField($field);
+    }
+
+    /**
+     * Приводит имена сущностей к единообразному виду.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function normalizeEntityName(string $name): string
+    {
+        return trim(strtolower($name));
+    }
+
+    /**
+     * Приводит имена сущностей к единообразному виду.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function normalizeClassName(string $name): string
+    {
+        return trim($name, ' \\/');
     }
 }

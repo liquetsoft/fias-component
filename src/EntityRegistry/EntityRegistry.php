@@ -14,7 +14,7 @@ use InvalidArgumentException;
 interface EntityRegistry
 {
     /**
-     * Проверяет существует ли сущность с указанным псевдонимом.
+     * Проверяет существует ли описание сущности с указанным псевдонимом.
      *
      * @param string $entityName
      *
@@ -25,7 +25,7 @@ interface EntityRegistry
     public function hasEntityDescriptor(string $entityName): bool;
 
     /**
-     * Возвращает сущность с указанным псевдонимом.
+     * Возвращает описание сущности с указанным псевдонимом.
      *
      * @param string $entityName
      *
@@ -35,4 +35,16 @@ interface EntityRegistry
      * @throws EntityRegistryException
      */
     public function getEntityDescriptor(string $entityName): EntityDescriptor;
+
+    /**
+     * Возвращает описание сущнсоти по классу привязанного к ней объекта.
+     *
+     * @param string $className
+     *
+     * @return EntityDescriptor
+     *
+     * @throws InvalidArgumentException
+     * @throws EntityRegistryException
+     */
+    public function getDescriptorForClass(string $className): EntityDescriptor;
 }

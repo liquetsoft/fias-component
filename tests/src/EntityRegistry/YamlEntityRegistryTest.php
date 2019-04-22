@@ -24,6 +24,15 @@ class YamlEntityRegistryTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект выбросит исключение, если привязки дублируются.
+     */
+    public function testConstructorDoublingBindingsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $registry = $this->createRegistry(null, ['test' => 'test', 'test1' => 'test']);
+    }
+
+    /**
      * Проверяет, что объект верно обработает исключение от парсера.
      */
     public function testParserException()
@@ -53,7 +62,7 @@ class YamlEntityRegistryTest extends BaseCase
         $registry = $this->createRegistry();
 
         $this->assertFalse($registry->hasEntityDescriptor('empty'));
-        $this->assertTrue($registry->hasEntityDescriptor('NormativeDocumentType'));
+        $this->assertTrue($registry->hasEntityDescriptor('   NormativeDocumenttype'));
     }
 
     /**
@@ -62,10 +71,11 @@ class YamlEntityRegistryTest extends BaseCase
     public function testGetEntityDescriptor()
     {
         $name = 'NormativeDocumentType';
+        $rawName = '   NormativeDocumentTYpe ';
         $fieldName = 'NAME';
 
         $registry = $this->createRegistry();
-        $descriptor = $registry->getEntityDescriptor($name);
+        $descriptor = $registry->getEntityDescriptor($rawName);
 
         $this->assertSame($name, $descriptor->getName());
         $this->assertSame($fieldName, $descriptor->getField($fieldName)->getName());
@@ -83,16 +93,45 @@ class YamlEntityRegistryTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект вернет дескриптор по имени класса из массива биндингов.
+     */
+    public function testGetDescriptorForClass()
+    {
+        $className = 'TestClass';
+        $entityName = 'NormativeDocumentType';
+
+        $registry = $this->createRegistry(null, [
+            $className => $entityName,
+        ]);
+        $descriptor = $registry->getDescriptorForClass($className);
+
+        $this->assertSame($entityName, $descriptor->getName());
+    }
+
+    /**
+     * Проверяет, что объект вернет дескриптор по имени класса из массива биндингов.
+     */
+    public function testGetDescriptorForClassException()
+    {
+        $registry = $this->createRegistry();
+
+        $this->expectException(InvalidArgumentException::class);
+        $descriptor = $registry->getDescriptorForClass('empty');
+    }
+
+    /**
      * Создает объект.
      *
-     * @param string $fileName
+     * @param string|null $fileName
+     * @param array|null  $bindings
      *
      * @return YamlEntityRegistry
      */
-    protected function createRegistry(?string $fileName = null): YamlEntityRegistry
+    protected function createRegistry(?string $fileName = null, ?array $bindings = null): YamlEntityRegistry
     {
         $fileName = $fileName ?: __DIR__ . '/_fixtures/test.yaml';
+        $bindings = $bindings ?: ['Test' => 'NormativeDocumentType'];
 
-        return new YamlEntityRegistry($fileName);
+        return new YamlEntityRegistry($fileName, $bindings);
     }
 }
