@@ -1,0 +1,9 @@
+.idea
+vendor
+composer.lock
+.php_cs.cache
+
+tests/coverage
+docker/.env
+
+.~lock.*
