@@ -5,21 +5,19 @@ IntervalStatus:
     xmlInsertFileMask: 'AS_INTVSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_INTVSTAT_*.XML'
     fields:
-        intvstatid:
+        INTVSTATID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: INTVSTATID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -30,21 +28,19 @@ NormativeDocumentType:
     xmlInsertFileMask: 'AS_NDOCTYPE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_NDOCTYPE_*.XML'
     fields:
-        ndtypeid:
+        NDTYPEID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: NDTYPEID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -55,21 +51,19 @@ CurrentStatus:
     xmlInsertFileMask: 'AS_CURENTST_*.XML'
     xmlDeleteFileMask: 'AS_DEL_CURENTST_*.XML'
     fields:
-        curentstid:
+        CURENTSTID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: CURENTSTID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -80,30 +74,27 @@ StructureStatus:
     xmlInsertFileMask: 'AS_STRSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_STRSTAT_*.XML'
     fields:
-        strstatid:
+        STRSTATID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: STRSTATID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        shortname:
+        SHORTNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: SHORTNAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -114,311 +105,276 @@ Object:
     xmlInsertFileMask: 'AS_ADDROBJ_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ADDROBJ_*.XML'
     fields:
-        aoid:
+        AOID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: AOID
             isPrimary: true
             isIndex: false
             isPartition: false
-        aoguid:
+        AOGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: AOGUID
             isPrimary: false
             isIndex: false
             isPartition: false
-        parentguid:
+        PARENTGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: PARENTGUID
             isPrimary: false
             isIndex: false
             isPartition: false
-        nextid:
+        NEXTID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: NEXTID
             isPrimary: false
             isIndex: false
             isPartition: false
-        formalname:
+        FORMALNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: FORMALNAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        offname:
+        OFFNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: OFFNAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        shortname:
+        SHORTNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: SHORTNAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        aolevel:
+        AOLEVEL:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: AOLEVEL
             isPrimary: false
             isIndex: false
             isPartition: false
-        regioncode:
+        REGIONCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 2
             nullable: false
-            name: REGIONCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        areacode:
+        AREACODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 3
             nullable: false
-            name: AREACODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        autocode:
+        AUTOCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 1
             nullable: false
-            name: AUTOCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        citycode:
+        CITYCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 3
             nullable: false
-            name: CITYCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        ctarcode:
+        CTARCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 3
             nullable: false
-            name: CTARCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        placecode:
+        PLACECODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: PLACECODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        plancode:
+        PLANCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: PLANCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        streetcode:
+        STREETCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: STREETCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        extrcode:
+        EXTRCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: EXTRCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        sextcode:
+        SEXTCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 3
             nullable: false
-            name: SEXTCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        plaincode:
+        PLAINCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 15
             nullable: false
-            name: PLAINCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        currstatus:
+        CURRSTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: CURRSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        actstatus:
+        ACTSTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: ACTSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        livestatus:
+        LIVESTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: LIVESTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        centstatus:
+        CENTSTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: CENTSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        operstatus:
+        OPERSTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: OPERSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        ifnsfl:
+        IFNSFL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: IFNSFL
             isPrimary: false
             isIndex: false
             isPartition: false
-        ifnsul:
+        IFNSUL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: IFNSUL
             isPrimary: false
             isIndex: false
             isPartition: false
-        terrifnsfl:
+        TERRIFNSFL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: TERRIFNSFL
             isPrimary: false
             isIndex: false
             isPartition: false
-        terrifnsul:
+        TERRIFNSUL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: TERRIFNSUL
             isPrimary: false
             isIndex: false
             isPartition: false
-        okato:
+        OKATO:
             type: string
-            sub_type: ''
+            subType: ''
             length: 11
             nullable: false
-            name: OKATO
             isPrimary: false
             isIndex: false
             isPartition: false
-        oktmo:
+        OKTMO:
             type: string
-            sub_type: ''
+            subType: ''
             length: 11
             nullable: false
-            name: OKTMO
             isPrimary: false
             isIndex: false
             isPartition: false
-        postalcode:
+        POSTALCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 6
             nullable: false
-            name: POSTALCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        startdate:
+        STARTDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: STARTDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        enddate:
+        ENDDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: ENDDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        updatedate:
+        UPDATEDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: UPDATEDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        divtype:
+        DIVTYPE:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: DIVTYPE
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -429,30 +385,27 @@ FlatType:
     xmlInsertFileMask: 'AS_FLATTYPE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_FLATTYPE_*.XML'
     fields:
-        fltypeid:
+        FLTYPEID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: FLTYPEID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        shortname:
+        SHORTNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: SHORTNAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -463,21 +416,19 @@ OperationStatus:
     xmlInsertFileMask: 'AS_OPERSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_OPERSTAT_*.XML'
     fields:
-        operstatid:
+        OPERSTATID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: OPERSTATID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -488,21 +439,19 @@ ActualStatus:
     xmlInsertFileMask: 'AS_ACTSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ACTSTAT_*.XML'
     fields:
-        actstatid:
+        ACTSTATID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: ACTSTATID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -513,30 +462,27 @@ RoomType:
     xmlInsertFileMask: 'AS_ROOMTYPE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ROOMTYPE_*.XML'
     fields:
-        rmtypeid:
+        RMTYPEID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: RMTYPEID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        shortname:
+        SHORTNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: SHORTNAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -547,150 +493,133 @@ House:
     xmlInsertFileMask: 'AS_HOUSE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_HOUSE_*.XML'
     fields:
-        houseid:
+        HOUSEID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: HOUSEID
             isPrimary: true
             isIndex: false
             isPartition: false
-        houseguid:
+        HOUSEGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: HOUSEGUID
             isPrimary: false
             isIndex: false
             isPartition: false
-        aoguid:
+        AOGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: AOGUID
             isPrimary: false
             isIndex: false
             isPartition: false
-        housenum:
+        HOUSENUM:
             type: string
-            sub_type: ''
+            subType: ''
             length: 20
             nullable: false
-            name: HOUSENUM
             isPrimary: false
             isIndex: false
             isPartition: false
-        strstatus:
+        STRSTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: STRSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        eststatus:
+        ESTSTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: ESTSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        statstatus:
+        STATSTATUS:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: STATSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        ifnsfl:
+        IFNSFL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: IFNSFL
             isPrimary: false
             isIndex: false
             isPartition: false
-        ifnsul:
+        IFNSUL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: IFNSUL
             isPrimary: false
             isIndex: false
             isPartition: false
-        okato:
+        OKATO:
             type: string
-            sub_type: ''
+            subType: ''
             length: 11
             nullable: false
-            name: OKATO
             isPrimary: false
             isIndex: false
             isPartition: false
-        oktmo:
+        OKTMO:
             type: string
-            sub_type: ''
+            subType: ''
             length: 11
             nullable: false
-            name: OKTMO
             isPrimary: false
             isIndex: false
             isPartition: false
-        postalcode:
+        POSTALCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 6
             nullable: false
-            name: POSTALCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        startdate:
+        STARTDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: STARTDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        enddate:
+        ENDDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: ENDDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        updatedate:
+        UPDATEDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: UPDATEDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        counter:
+        COUNTER:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: COUNTER
             isPrimary: false
             isIndex: false
             isPartition: false
-        divtype:
+        DIVTYPE:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: DIVTYPE
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -701,149 +630,132 @@ Stead:
     xmlInsertFileMask: 'AS_STEAD_*.XML'
     xmlDeleteFileMask: 'AS_DEL_STEAD_*.XML'
     fields:
-        steadguid:
+        STEADGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: STEADGUID
             isPrimary: true
             isIndex: false
             isPartition: false
-        number:
+        NUMBER:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NUMBER
             isPrimary: false
             isIndex: false
             isPartition: false
-        regioncode:
+        REGIONCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 2
             nullable: false
-            name: REGIONCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        postalcode:
+        POSTALCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 6
             nullable: false
-            name: POSTALCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        ifnsfl:
+        IFNSFL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: IFNSFL
             isPrimary: false
             isIndex: false
             isPartition: false
-        ifnsul:
+        IFNSUL:
             type: string
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: IFNSUL
             isPrimary: false
             isIndex: false
             isPartition: false
-        okato:
+        OKATO:
             type: string
-            sub_type: ''
+            subType: ''
             length: 11
             nullable: false
-            name: OKATO
             isPrimary: false
             isIndex: false
             isPartition: false
-        oktmo:
+        OKTMO:
             type: string
-            sub_type: ''
+            subType: ''
             length: 11
             nullable: false
-            name: OKTMO
             isPrimary: false
             isIndex: false
             isPartition: false
-        parentguid:
+        PARENTGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: PARENTGUID
             isPrimary: false
             isIndex: false
             isPartition: false
-        steadid:
+        STEADID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: STEADID
             isPrimary: false
             isIndex: false
             isPartition: false
-        operstatus:
+        OPERSTATUS:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: OPERSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        startdate:
+        STARTDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: STARTDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        enddate:
+        ENDDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: ENDDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        updatedate:
+        UPDATEDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: UPDATEDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        livestatus:
+        LIVESTATUS:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: LIVESTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        divtype:
+        DIVTYPE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: DIVTYPE
             isPrimary: false
             isIndex: false
             isPartition: false
-        normdoc:
+        NORMDOC:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: NORMDOC
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -854,21 +766,19 @@ HouseStateStatus:
     xmlInsertFileMask: 'AS_HSTSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_HSTSTAT_*.XML'
     fields:
-        housestid:
+        HOUSESTID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: HOUSESTID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -879,113 +789,100 @@ Room:
     xmlInsertFileMask: 'AS_ROOM_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ROOM_*.XML'
     fields:
-        roomid:
+        ROOMID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: ROOMID
             isPrimary: true
             isIndex: false
             isPartition: false
-        roomguid:
+        ROOMGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: ROOMGUID
             isPrimary: false
             isIndex: false
             isPartition: false
-        houseguid:
+        HOUSEGUID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: HOUSEGUID
             isPrimary: false
             isIndex: false
             isPartition: false
-        regioncode:
+        REGIONCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 2
             nullable: false
-            name: REGIONCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        flatnumber:
+        FLATNUMBER:
             type: string
-            sub_type: ''
+            subType: ''
             length: 50
             nullable: false
-            name: FLATNUMBER
             isPrimary: false
             isIndex: false
             isPartition: false
-        flattype:
+        FLATTYPE:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: FLATTYPE
             isPrimary: false
             isIndex: false
             isPartition: false
-        postalcode:
+        POSTALCODE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 6
             nullable: false
-            name: POSTALCODE
             isPrimary: false
             isIndex: false
             isPartition: false
-        startdate:
+        STARTDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: STARTDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        enddate:
+        ENDDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: ENDDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        updatedate:
+        UPDATEDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: UPDATEDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        operstatus:
+        OPERSTATUS:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: OPERSTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        livestatus:
+        LIVESTATUS:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: LIVESTATUS
             isPrimary: false
             isIndex: false
             isPartition: false
-        normdoc:
+        NORMDOC:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: NORMDOC
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -996,46 +893,41 @@ NormativeDocument:
     xmlInsertFileMask: 'AS_NORMDOC_*.XML'
     xmlDeleteFileMask: 'AS_DEL_NORMDOC_*.XML'
     fields:
-        normdocid:
+        NORMDOCID:
             type: string
-            sub_type: uuid
+            subType: uuid
             nullable: false
-            name: NORMDOCID
             isPrimary: true
             isIndex: false
             isPartition: false
-        docname:
+        DOCNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 500
             nullable: false
-            name: DOCNAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        docdate:
+        DOCDATE:
             type: string
-            sub_type: date
+            subType: date
             nullable: false
-            name: DOCDATE
             isPrimary: false
             isIndex: false
             isPartition: false
-        docnum:
+        DOCNUM:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: DOCNUM
             isPrimary: false
             isIndex: false
             isPartition: false
-        doctype:
+        DOCTYPE:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: DOCTYPE
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -1046,21 +938,19 @@ EstateStatus:
     xmlInsertFileMask: 'AS_ESTSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ESTSTAT_*.XML'
     fields:
-        eststatid:
+        ESTSTATID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: ESTSTATID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -1071,39 +961,35 @@ AddressObjectType:
     xmlInsertFileMask: 'AS_SOCRBASE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_SOCRBASE_*.XML'
     fields:
-        kod_t_st:
+        KOD_T_ST:
             type: int
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: KOD_T_ST
             isPrimary: true
             isIndex: false
             isPartition: false
-        level:
+        LEVEL:
             type: int
-            sub_type: ''
+            subType: ''
             length: 4
             nullable: false
-            name: LEVEL
             isPrimary: false
             isIndex: false
             isPartition: false
-        socrname:
+        SOCRNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: SOCRNAME
             isPrimary: false
             isIndex: false
             isPartition: false
-        scname:
+        SCNAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: SCNAME
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -1114,21 +1000,19 @@ CenterStatus:
     xmlInsertFileMask: 'AS_CENTERST_*.XML'
     xmlDeleteFileMask: 'AS_DEL_CENTERST_*.XML'
     fields:
-        centerstid:
+        CENTERSTID:
             type: int
-            sub_type: ''
+            subType: ''
             length: 10
             nullable: false
-            name: CENTERSTID
             isPrimary: true
             isIndex: false
             isPartition: false
-        name:
+        NAME:
             type: string
-            sub_type: ''
+            subType: ''
             length: 255
             nullable: false
-            name: NAME
             isPrimary: false
             isIndex: false
             isPartition: false
