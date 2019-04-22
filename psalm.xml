@@ -8,9 +8,10 @@
     <projectFiles>
         <directory name="./" />
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="docker" />
+            <directory name="resources" />
             <directory name="tests" />
-            <directory name="build" />
+            <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
 

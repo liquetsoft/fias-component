@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\FiasComponent\Tests;
+namespace Liquetsoft\Fias\Component\Tests;
 
 use PHPUnit\Framework\TestCase;
 
