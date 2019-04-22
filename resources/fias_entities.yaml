@@ -4,1131 +4,1131 @@ IntervalStatus:
     xmlPath: /IntervalStatuses/IntervalStatus
     xmlInsertFileMask: 'AS_INTVSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_INTVSTAT_*.XML'
-    attributes:
+    fields:
         intvstatid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: INTVSTATID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: INTVSTATID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 NormativeDocumentType:
     description: 'Типы нормативных документов'
     partitionsCount: 1
     xmlPath: /NormativeDocumentTypes/NormativeDocumentType
     xmlInsertFileMask: 'AS_NDOCTYPE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_NDOCTYPE_*.XML'
-    attributes:
+    fields:
         ndtypeid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: NDTYPEID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: NDTYPEID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 CurrentStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /CurrentStatuses/CurrentStatus
     xmlInsertFileMask: 'AS_CURENTST_*.XML'
     xmlDeleteFileMask: 'AS_DEL_CURENTST_*.XML'
-    attributes:
+    fields:
         curentstid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: CURENTSTID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: CURENTSTID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 StructureStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /StructureStatuses/StructureStatus
     xmlInsertFileMask: 'AS_STRSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_STRSTAT_*.XML'
-    attributes:
+    fields:
         strstatid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: STRSTATID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: STRSTATID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         shortname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: SHORTNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: SHORTNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 Object:
     description: Адреса
     partitionsCount: 1
     xmlPath: /AddressObjects/Object
     xmlInsertFileMask: 'AS_ADDROBJ_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ADDROBJ_*.XML'
-    attributes:
+    fields:
         aoid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: AOID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: AOID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         aoguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: AOGUID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: AOGUID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         parentguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: PARENTGUID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: PARENTGUID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         nextid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: NEXTID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NEXTID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         formalname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: FORMALNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: FORMALNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         offname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: OFFNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OFFNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         shortname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: SHORTNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: SHORTNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         aolevel:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: AOLEVEL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: AOLEVEL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         regioncode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 2
             nullable: false
-            fias_name: REGIONCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: REGIONCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         areacode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 3
             nullable: false
-            fias_name: AREACODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: AREACODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         autocode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 1
             nullable: false
-            fias_name: AUTOCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: AUTOCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         citycode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 3
             nullable: false
-            fias_name: CITYCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: CITYCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         ctarcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 3
             nullable: false
-            fias_name: CTARCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: CTARCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         placecode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: PLACECODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: PLACECODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         plancode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: PLANCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: PLANCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         streetcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: STREETCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STREETCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         extrcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: EXTRCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: EXTRCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         sextcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 3
             nullable: false
-            fias_name: SEXTCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: SEXTCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         plaincode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 15
             nullable: false
-            fias_name: PLAINCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: PLAINCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         currstatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: CURRSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: CURRSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         actstatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: ACTSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: ACTSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         livestatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: LIVESTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: LIVESTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         centstatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: CENTSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: CENTSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         operstatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: OPERSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OPERSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         ifnsfl:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: IFNSFL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: IFNSFL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         ifnsul:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: IFNSUL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: IFNSUL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         terrifnsfl:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: TERRIFNSFL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: TERRIFNSFL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         terrifnsul:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: TERRIFNSUL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: TERRIFNSUL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         okato:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 11
             nullable: false
-            fias_name: OKATO
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OKATO
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         oktmo:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 11
             nullable: false
-            fias_name: OKTMO
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OKTMO
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         postalcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 6
             nullable: false
-            fias_name: POSTALCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: POSTALCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         startdate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: STARTDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STARTDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         enddate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: ENDDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: ENDDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         updatedate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: UPDATEDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: UPDATEDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         divtype:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: DIVTYPE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: DIVTYPE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 FlatType:
     description: 'Типы квартир'
     partitionsCount: 1
     xmlPath: /FlatTypes/FlatType
     xmlInsertFileMask: 'AS_FLATTYPE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_FLATTYPE_*.XML'
-    attributes:
+    fields:
         fltypeid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: FLTYPEID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: FLTYPEID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         shortname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: SHORTNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: SHORTNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 OperationStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /OperationStatuses/OperationStatus
     xmlInsertFileMask: 'AS_OPERSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_OPERSTAT_*.XML'
-    attributes:
+    fields:
         operstatid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: OPERSTATID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: OPERSTATID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 ActualStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /ActualStatuses/ActualStatus
     xmlInsertFileMask: 'AS_ACTSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ACTSTAT_*.XML'
-    attributes:
+    fields:
         actstatid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: ACTSTATID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: ACTSTATID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 RoomType:
     description: 'Типы комнат'
     partitionsCount: 1
     xmlPath: /RoomTypes/RoomType
     xmlInsertFileMask: 'AS_ROOMTYPE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ROOMTYPE_*.XML'
-    attributes:
+    fields:
         rmtypeid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: RMTYPEID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: RMTYPEID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         shortname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: SHORTNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: SHORTNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 House:
     description: Дома
     partitionsCount: 4
     xmlPath: /Houses/House
     xmlInsertFileMask: 'AS_HOUSE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_HOUSE_*.XML'
-    attributes:
+    fields:
         houseid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: HOUSEID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: HOUSEID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         houseguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: HOUSEGUID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: HOUSEGUID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         aoguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: AOGUID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: AOGUID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         housenum:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 20
             nullable: false
-            fias_name: HOUSENUM
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: HOUSENUM
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         strstatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: STRSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STRSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         eststatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: ESTSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: ESTSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         statstatus:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: STATSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STATSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         ifnsfl:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: IFNSFL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: IFNSFL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         ifnsul:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: IFNSUL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: IFNSUL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         okato:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 11
             nullable: false
-            fias_name: OKATO
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OKATO
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         oktmo:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 11
             nullable: false
-            fias_name: OKTMO
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OKTMO
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         postalcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 6
             nullable: false
-            fias_name: POSTALCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: POSTALCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         startdate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: STARTDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STARTDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         enddate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: ENDDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: ENDDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         updatedate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: UPDATEDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: UPDATEDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         counter:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: COUNTER
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: COUNTER
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         divtype:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: DIVTYPE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: DIVTYPE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 Stead:
     description: 'Земельные участки'
     partitionsCount: 1
     xmlPath: /Steads/Stead
     xmlInsertFileMask: 'AS_STEAD_*.XML'
     xmlDeleteFileMask: 'AS_DEL_STEAD_*.XML'
-    attributes:
+    fields:
         steadguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: STEADGUID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: STEADGUID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         number:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NUMBER
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NUMBER
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         regioncode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 2
             nullable: false
-            fias_name: REGIONCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: REGIONCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         postalcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 6
             nullable: false
-            fias_name: POSTALCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: POSTALCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         ifnsfl:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: IFNSFL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: IFNSFL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         ifnsul:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: IFNSUL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: IFNSUL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         okato:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 11
             nullable: false
-            fias_name: OKATO
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OKATO
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         oktmo:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 11
             nullable: false
-            fias_name: OKTMO
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OKTMO
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         parentguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: PARENTGUID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: PARENTGUID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         steadid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: STEADID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STEADID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         operstatus:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: OPERSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OPERSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         startdate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: STARTDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STARTDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         enddate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: ENDDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: ENDDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         updatedate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: UPDATEDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: UPDATEDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         livestatus:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: LIVESTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: LIVESTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         divtype:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: DIVTYPE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: DIVTYPE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         normdoc:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: NORMDOC
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NORMDOC
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 HouseStateStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /HouseStateStatuses/HouseStateStatus
     xmlInsertFileMask: 'AS_HSTSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_HSTSTAT_*.XML'
-    attributes:
+    fields:
         housestid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: HOUSESTID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: HOUSESTID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 Room:
     description: Комнаты
     partitionsCount: 4
     xmlPath: /Rooms/Room
     xmlInsertFileMask: 'AS_ROOM_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ROOM_*.XML'
-    attributes:
+    fields:
         roomid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: ROOMID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: ROOMID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         roomguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: ROOMGUID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: ROOMGUID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         houseguid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: HOUSEGUID
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: HOUSEGUID
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         regioncode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 2
             nullable: false
-            fias_name: REGIONCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: REGIONCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         flatnumber:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 50
             nullable: false
-            fias_name: FLATNUMBER
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: FLATNUMBER
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         flattype:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: FLATTYPE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: FLATTYPE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         postalcode:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 6
             nullable: false
-            fias_name: POSTALCODE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: POSTALCODE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         startdate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: STARTDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: STARTDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         enddate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: ENDDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: ENDDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         updatedate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: UPDATEDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: UPDATEDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         operstatus:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: OPERSTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: OPERSTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         livestatus:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: LIVESTATUS
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: LIVESTATUS
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         normdoc:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: NORMDOC
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NORMDOC
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 NormativeDocument:
     description: 'Нормативные документы'
     partitionsCount: 1
     xmlPath: /NormativeDocumentes/NormativeDocument
     xmlInsertFileMask: 'AS_NORMDOC_*.XML'
     xmlDeleteFileMask: 'AS_DEL_NORMDOC_*.XML'
-    attributes:
+    fields:
         normdocid:
             type: string
             sub_type: uuid
             nullable: false
-            fias_name: NORMDOCID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: NORMDOCID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         docname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 500
             nullable: false
-            fias_name: DOCNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: DOCNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         docdate:
             type: string
             sub_type: date
             nullable: false
-            fias_name: DOCDATE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: DOCDATE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         docnum:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: DOCNUM
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: DOCNUM
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         doctype:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: DOCTYPE
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: DOCTYPE
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 EstateStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /EstateStatuses/EstateStatus
     xmlInsertFileMask: 'AS_ESTSTAT_*.XML'
     xmlDeleteFileMask: 'AS_DEL_ESTSTAT_*.XML'
-    attributes:
+    fields:
         eststatid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: ESTSTATID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: ESTSTATID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 AddressObjectType:
     description: 'Типы объектов в адресах'
     partitionsCount: 1
     xmlPath: /AddressObjectTypes/AddressObjectType
     xmlInsertFileMask: 'AS_SOCRBASE_*.XML'
     xmlDeleteFileMask: 'AS_DEL_SOCRBASE_*.XML'
-    attributes:
+    fields:
         kod_t_st:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: KOD_T_ST
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: KOD_T_ST
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         level:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 4
             nullable: false
-            fias_name: LEVEL
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: LEVEL
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         socrname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: SOCRNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: SOCRNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
         scname:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: SCNAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: SCNAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
 CenterStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /CenterStatuses/CenterStatus
     xmlInsertFileMask: 'AS_CENTERST_*.XML'
     xmlDeleteFileMask: 'AS_DEL_CENTERST_*.XML'
-    attributes:
+    fields:
         centerstid:
             type: int
-            sub_type: null
+            sub_type: ''
             length: 10
             nullable: false
-            fias_name: CENTERSTID
-            is_primary: true
-            is_index: false
-            is_partition: false
+            name: CENTERSTID
+            isPrimary: true
+            isIndex: false
+            isPartition: false
         name:
             type: string
-            sub_type: null
+            sub_type: ''
             length: 255
             nullable: false
-            fias_name: NAME
-            is_primary: false
-            is_index: false
-            is_partition: false
+            name: NAME
+            isPrimary: false
+            isIndex: false
+            isPartition: false
