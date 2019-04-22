@@ -14,6 +14,15 @@ use InvalidArgumentException;
 interface EntityRegistry
 {
     /**
+     * Возвращает список всех дескрипторов.
+     *
+     * @return EntityDescriptor[]
+     *
+     * @throws EntityRegistryException
+     */
+    public function getDescriptors(): array;
+
+    /**
      * Проверяет существует ли описание сущности с указанным псевдонимом.
      *
      * @param string $entityName
@@ -35,16 +44,4 @@ interface EntityRegistry
      * @throws EntityRegistryException
      */
     public function getEntityDescriptor(string $entityName): EntityDescriptor;
-
-    /**
-     * Возвращает описание сущнсоти по классу привязанного к ней объекта.
-     *
-     * @param string $className
-     *
-     * @return EntityDescriptor
-     *
-     * @throws InvalidArgumentException
-     * @throws EntityRegistryException
-     */
-    public function getDescriptorForClass(string $className): EntityDescriptor;
 }

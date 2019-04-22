@@ -24,15 +24,6 @@ class YamlEntityRegistryTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект выбросит исключение, если привязки дублируются.
-     */
-    public function testConstructorDoublingBindingsException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $registry = $this->createRegistry(null, ['test' => 'test', 'test1' => 'test']);
-    }
-
-    /**
      * Проверяет, что объект верно обработает исключение от парсера.
      */
     public function testParserException()
@@ -52,6 +43,19 @@ class YamlEntityRegistryTest extends BaseCase
 
         $this->expectException(EntityRegistryException::class);
         $registry->hasEntityDescriptor('empty');
+    }
+
+    /**
+     * Проверяет, что объект возвращает массив всех дескрипторов.
+     */
+    public function testGetDescriptiors()
+    {
+        $registry = $this->createRegistry();
+        $descriptors = $registry->getDescriptors();
+
+        $this->assertCount(2, $descriptors);
+        $this->assertSame('IntervalStatus', $descriptors[0]->getName());
+        $this->assertSame('NormativeDocumentType', $descriptors[1]->getName());
     }
 
     /**
@@ -90,33 +94,6 @@ class YamlEntityRegistryTest extends BaseCase
 
         $this->expectException(InvalidArgumentException::class);
         $descriptor = $registry->getEntityDescriptor('empty');
-    }
-
-    /**
-     * Проверяет, что объект вернет дескриптор по имени класса из массива биндингов.
-     */
-    public function testGetDescriptorForClass()
-    {
-        $className = 'TestClass';
-        $entityName = 'NormativeDocumentType';
-
-        $registry = $this->createRegistry(null, [
-            $className => $entityName,
-        ]);
-        $descriptor = $registry->getDescriptorForClass($className);
-
-        $this->assertSame($entityName, $descriptor->getName());
-    }
-
-    /**
-     * Проверяет, что объект вернет дескриптор по имени класса из массива биндингов.
-     */
-    public function testGetDescriptorForClassException()
-    {
-        $registry = $this->createRegistry();
-
-        $this->expectException(InvalidArgumentException::class);
-        $descriptor = $registry->getDescriptorForClass('empty');
     }
 
     /**

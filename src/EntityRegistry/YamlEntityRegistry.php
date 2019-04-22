@@ -24,18 +24,12 @@ class YamlEntityRegistry implements EntityRegistry
     protected $pathToYaml;
 
     /**
-     * @var string[]
-     */
-    protected $bindings = [];
-
-    /**
      * @var EntityDescriptor[]|null
      */
     protected $registry;
 
     /**
-     * @param string   $pathToYaml Путь к файлу с описанием сущностей
-     * @param string[] $bindings   Соответствия между классами реализации и именами сущностей
+     * @param string $pathToYaml Путь к файлу с описанием сущностей
      *
      * @throws InvalidArgumentException
      */
@@ -46,17 +40,16 @@ class YamlEntityRegistry implements EntityRegistry
                 "File '{$pathToYaml}' for yaml entity registry isn't readable or doesn't exist."
             );
         }
-        $this->pathToYaml = trim($pathToYaml);
 
-        if (array_unique($bindings) !== $bindings) {
-            throw new InvalidArgumentException(
-                "There are doubling entity names in bindings: '" . json_encode($bindings) . "'."
-            );
-        }
-        $this->bindings = [];
-        foreach ($bindings as $className => $entityName) {
-            $this->bindings[$this->normalizeClassName($className)] = $this->normalizeEntityName($entityName);
-        }
+        $this->pathToYaml = trim($pathToYaml);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescriptors(): array
+    {
+        return $this->getRegistry();
     }
 
     /**
@@ -97,27 +90,6 @@ class YamlEntityRegistry implements EntityRegistry
         if (!$return) {
             throw new InvalidArgumentException(
                 "Can't fin entity with name '{$entityName}' in '{$this->pathToYaml}'."
-            );
-        }
-
-        return $return;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDescriptorForClass(string $className): EntityDescriptor
-    {
-        $return = null;
-        $normalizedClassName = $this->normalizeClassName($className);
-
-        if (isset($this->bindings[$normalizedClassName])) {
-            $return = $this->getEntityDescriptor($this->bindings[$normalizedClassName]);
-        }
-
-        if (!$return) {
-            throw new InvalidArgumentException(
-                "Can't fin entity for class '{$className}' in '{$this->pathToYaml}'."
             );
         }
 
@@ -197,17 +169,5 @@ class YamlEntityRegistry implements EntityRegistry
     public function normalizeEntityName(string $name): string
     {
         return trim(strtolower($name));
-    }
-
-    /**
-     * Приводит имена сущностей к единообразному виду.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function normalizeClassName(string $name): string
-    {
-        return trim($name, ' \\/');
     }
 }
