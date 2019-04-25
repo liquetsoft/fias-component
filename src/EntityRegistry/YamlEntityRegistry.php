@@ -14,7 +14,7 @@ use Throwable;
 use InvalidArgumentException;
 
 /**
- * Объект, который получает описания сущностей из yaml файла.
+ * Объект, который получает описания сущностей ФИАС из yaml файла.
  */
 class YamlEntityRegistry implements EntityRegistry
 {

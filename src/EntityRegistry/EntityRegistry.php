@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use InvalidArgumentException;
 
 /**
- * Интерфейс для объекта, который содержит описание сушностей.
+ * Интерфейс для объекта, который содержит описание сушностей ФИАС.
  */
 interface EntityRegistry
 {

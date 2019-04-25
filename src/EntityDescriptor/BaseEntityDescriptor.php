@@ -8,7 +8,7 @@ use Liquetsoft\Fias\Component\EntityField\EntityField;
 use InvalidArgumentException;
 
 /**
- * Объект, который хранит описание сущности.
+ * Объект, который хранит описание сущности ФИАС.
  */
 class BaseEntityDescriptor implements EntityDescriptor
 {

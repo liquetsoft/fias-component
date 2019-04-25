@@ -8,7 +8,7 @@ use Liquetsoft\Fias\Component\EntityField\EntityField;
 use InvalidArgumentException;
 
 /**
- * Интерфейс для объекта, который описывает сущность.
+ * Интерфейс для объекта, который описывает сущность ФИАС.
  */
 interface EntityDescriptor
 {
