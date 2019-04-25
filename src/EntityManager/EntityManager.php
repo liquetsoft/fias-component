@@ -29,4 +29,40 @@ interface EntityManager
      * @return string|null
      */
     public function getClassByDescriptor(EntityDescriptor $descriptor): ?string;
+
+    /**
+     * Возвращает дескриптор сущности, которая соответствует файлу с данными для загрузки.
+     *
+     * @param string $insertFileName
+     *
+     * @return EntityDescriptor|null
+     */
+    public function getDescriptorByInsertFile(string $insertFileName): ?EntityDescriptor;
+
+    /**
+     * Возвращает дескриптор сущности, которая соответствует файлу с данными для удаления.
+     *
+     * @param string $insertFileName
+     *
+     * @return EntityDescriptor|null
+     */
+    public function getDescriptorByDeleteFile(string $insertFileName): ?EntityDescriptor;
+
+    /**
+     * Возвращает дескриптор сущности, к которой относится указанный класс.
+     *
+     * @param string $className
+     *
+     * @return EntityDescriptor|null
+     */
+    public function getDescriptorByClass(string $className): ?EntityDescriptor;
+
+    /**
+     * Возвращает дескриптор сущности, к которой относится указанный объект.
+     *
+     * @param mixed $object
+     *
+     * @return EntityDescriptor|null
+     */
+    public function getDescriptorByObject($object): ?EntityDescriptor;
 }

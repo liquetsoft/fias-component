@@ -8,25 +8,18 @@ use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
-use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Symfony\Component\Yaml\Yaml;
-use Throwable;
 use InvalidArgumentException;
 
 /**
  * Объект, который получает описания сущностей ФИАС из yaml файла.
  */
-class YamlEntityRegistry implements EntityRegistry
+class YamlEntityRegistry extends AbstractEntityRegistry
 {
     /**
      * @var string
      */
     protected $pathToYaml;
-
-    /**
-     * @var EntityDescriptor[]|null
-     */
-    protected $registry;
 
     /**
      * @param string $pathToYaml Путь к файлу с описанием сущностей
@@ -47,67 +40,17 @@ class YamlEntityRegistry implements EntityRegistry
     /**
      * @inheritdoc
      */
-    public function hasDescriptor(string $entityName): bool
+    protected function createRegistry(): array
     {
-        $return = false;
-        $normalizedName = $this->normalizeEntityName($entityName);
+        $registry = [];
 
-        foreach ($this->getDescriptors() as $descriptor) {
-            $normalizedDescriptorName = $this->normalizeEntityName($descriptor->getName());
-            if ($normalizedName === $normalizedDescriptorName) {
-                $return = true;
-                break;
-            }
+        $yaml = Yaml::parseFile($this->pathToYaml);
+        foreach ($yaml as $key => $entity) {
+            $entity['name'] = $key;
+            $registry[] = $this->createEntityDescriptorFromYaml($entity);
         }
 
-        return $return;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDescriptor(string $entityName): EntityDescriptor
-    {
-        $return = null;
-        $normalizedName = $this->normalizeEntityName($entityName);
-
-        foreach ($this->getDescriptors() as $descriptor) {
-            $normalizedDescriptorName = $this->normalizeEntityName($descriptor->getName());
-            if ($normalizedName === $normalizedDescriptorName) {
-                $return = $descriptor;
-                break;
-            }
-        }
-
-        if (!$return) {
-            throw new InvalidArgumentException(
-                "Can't fin entity with name '{$entityName}' in '{$this->pathToYaml}'."
-            );
-        }
-
-        return $return;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDescriptors(): array
-    {
-        if ($this->registry === null) {
-            $this->registry = [];
-            try {
-                $yaml = Yaml::parseFile($this->pathToYaml);
-                foreach ($yaml as $key => $entity) {
-                    $entity['name'] = $key;
-                    $this->registry[] = $this->createEntityDescriptorFromYaml($entity);
-                }
-            } catch (Throwable $e) {
-                $message = "Error while parsing '{$this->pathToYaml}'";
-                throw new EntityRegistryException($message, 0, $e);
-            }
-        }
-
-        return $this->registry;
+        return $registry;
     }
 
     /**
@@ -145,17 +88,5 @@ class YamlEntityRegistry implements EntityRegistry
     protected function createEntityFieldFromYaml(array $field): EntityField
     {
         return new BaseEntityField($field);
-    }
-
-    /**
-     * Приводит имена сущностей к единообразному виду.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function normalizeEntityName(string $name): string
-    {
-        return trim(strtolower($name));
     }
 }

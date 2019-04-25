@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
 
 use Liquetsoft\Fias\Component\EntityManager\BaseEntityManager;
+use Liquetsoft\Fias\Component\EntityRegistry\ArrayEntityRegistry;
 use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -36,30 +37,18 @@ class BaseEntityManagerTest extends BaseCase
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
-
-        $class1 = 'TestClass1';
-        $entityName1 = 'TestEntity1';
-
-        $entityName2 = 'TestEntity2';
-
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getName')->will($this->returnValue($entityName));
 
-        $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
-        $registry->method('hasDescriptor')->will($this->returnCallback(function ($name) use ($entityName, $entityName2) {
-            return $name === $entityName || $name === $entityName2;
-        }));
-        $registry->method('getDescriptor')->will($this->returnCallback(function ($name) use ($entityName, $entityName2, $descriptor) {
-            return $name === $entityName || $name === $entityName2 ? $descriptor : null;
-        }));
+        $registry = new ArrayEntityRegistry([$descriptor]);
 
         $manager = new BaseEntityManager($registry, [
             $entityName => $class,
-            $entityName1 => $class1,
+            'TestEntity1' => 'TestClass1',
         ]);
 
         $this->assertSame($descriptor, $manager->getDescriptorByEntityName($entityName));
-        $this->assertNull($manager->getDescriptorByEntityName($entityName1));
-        $this->assertNull($manager->getDescriptorByEntityName($entityName2));
+        $this->assertNull($manager->getDescriptorByEntityName('TestEntity1'));
         $this->assertNull($manager->getDescriptorByEntityName('empty'));
     }
 
@@ -73,23 +62,133 @@ class BaseEntityManagerTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->will($this->returnValue($entityName));
 
+        $descriptorNotBinded = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptorNotBinded->method('getName')->will($this->returnValue('not_binded'));
+
+        $registry = new ArrayEntityRegistry([$descriptor]);
+
+        $manager = new BaseEntityManager($registry, [
+            $entityName => $class,
+            'TestEntity1' => 'TestClass1',
+        ]);
+
+        $this->assertSame($class, $manager->getClassByDescriptor($descriptor));
+        $this->assertNull($manager->getClassByDescriptor($descriptorNotBinded));
+    }
+
+    /**
+     * Проверят, что объект правильно возвращает дескриптор для сущности,
+     * к которой относится файл для импорта.
+     */
+    public function testGetDescriptorByInsertFile()
+    {
+        $file = 'insert_xml.xml';
+
+        $class = 'TestClass';
+        $entityName = 'TestEntity';
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getName')->will($this->returnValue($entityName));
+        $descriptor->method('isFileNameFitsXmlInsertFileMask')->will($this->returnValue(false));
+
         $class1 = 'TestClass1';
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor1->method('getName')->will($this->returnValue($entityName1));
+        $descriptor1->method('isFileNameFitsXmlInsertFileMask')->with($this->equalTo($file))->will($this->returnValue(true));
 
-        $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
-        $registry->method('hasDescriptor')->will($this->returnCallback(function ($name) use ($entityName, $entityName1) {
-            return $name === $entityName || $name === $entityName1;
-        }));
+        $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
 
         $manager = new BaseEntityManager($registry, [
             $entityName => $class,
             $entityName1 => $class1,
         ]);
 
-        $this->assertSame($class, $manager->getClassByDescriptor($descriptor));
-        $this->assertSame($class1, $manager->getClassByDescriptor($descriptor1));
-        $this->assertNull($manager->getDescriptorByEntityName('empty'));
+        $this->assertSame($descriptor1, $manager->getDescriptorByInsertFile($file));
+        $this->assertNull($manager->getDescriptorByDeleteFile('123.xml'));
+    }
+
+    /**
+     * Проверят, что объект правильно возвращает дескриптор для сущности,
+     * к которой относится файл для удаления.
+     */
+    public function testGetDescriptorByDeleteFile()
+    {
+        $file = 'insert_xml.xml';
+
+        $class = 'TestClass';
+        $entityName = 'TestEntity';
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getName')->will($this->returnValue($entityName));
+        $descriptor->method('isFileNameFitsXmlDeleteFileMask')->will($this->returnValue(false));
+
+        $class1 = 'TestClass1';
+        $entityName1 = 'TestEntity1';
+        $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor1->method('getName')->will($this->returnValue($entityName1));
+        $descriptor1->method('isFileNameFitsXmlDeleteFileMask')->will($this->returnCallback(function ($testFile) use ($file) {
+            return $testFile === $file;
+        }));
+
+        $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
+
+        $manager = new BaseEntityManager($registry, [
+            $entityName => $class,
+            $entityName1 => $class1,
+        ]);
+
+        $this->assertSame($descriptor1, $manager->getDescriptorByDeleteFile($file));
+        $this->assertNull($manager->getDescriptorByDeleteFile('123.xml'));
+    }
+
+    /**
+     * Проверят, что объект правильно возвращает дескриптор по классу сущности.
+     */
+    public function testGetDescriptorByClass()
+    {
+        $class = 'TestClass';
+        $entityName = 'TestEntity';
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getName')->will($this->returnValue($entityName));
+
+        $class1 = 'TestClass1';
+        $entityName1 = 'TestEntity1';
+        $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor1->method('getName')->will($this->returnValue($entityName1));
+
+        $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
+
+        $manager = new BaseEntityManager($registry, [
+            $entityName => $class,
+            $entityName1 => $class1,
+        ]);
+
+        $this->assertSame($descriptor1, $manager->getDescriptorByClass($class1));
+        $this->assertNull($manager->getDescriptorByClass('TestEmpty'));
+    }
+
+    /**
+     * Проверят, что объект правильно возвращает дескриптор по объекту.
+     */
+    public function testGetDescriptorByObject()
+    {
+        $class = \stdClass::class;
+        $entityName = 'TestEntity';
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getName')->will($this->returnValue($entityName));
+
+        $class1 = 'TestClass1';
+        $entityName1 = 'TestEntity1';
+        $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor1->method('getName')->will($this->returnValue($entityName1));
+
+        $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
+
+        $manager = new BaseEntityManager($registry, [
+            $entityName => $class,
+            $entityName1 => $class1,
+        ]);
+
+        $this->assertSame($descriptor, $manager->getDescriptorByObject(new \stdClass));
+        $this->assertNull($manager->getDescriptorByObject('TestEmpty'));
     }
 }
