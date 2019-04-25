@@ -1,11 +1,15 @@
 language: php
-sudo: false
-php:
-  - 7.2
-  - 7.3
+
+services:
+  - docker
+
+before_install:
+  - docker build -t php docker/php/Dockerfile
+
 before_script:
   - composer self-update
   - composer install --no-interaction --prefer-source --dev
+
 script:
   - vendor/bin/phpunit -c phpunit.xml.dist
   - vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation --using-cache=no
