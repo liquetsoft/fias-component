@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\XmlReader;
 
+use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use RuntimeException;
 use InvalidArgumentException;
@@ -13,7 +14,7 @@ use SplFileInfo;
 /**
  * Объект, который читает данные из xml файла с помощью XmlReader.
  */
-class BaseXmlReader implements \Liquetsoft\Fias\Component\XmlReader\XmlReader
+class BaseXmlReader implements XmlReaderInterface
 {
     /**
      * Файл, который открыт в данный момент.
