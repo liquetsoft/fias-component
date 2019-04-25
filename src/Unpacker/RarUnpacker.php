@@ -35,7 +35,7 @@ class RarUnpacker implements Unpacker
         }
 
         try {
-            $archive = $this->getRarInstance($source);
+            $archive = RarArchive::open($source->getPathname());
             $this->extractArciveTo($archive, $destination);
         } catch (Throwable $e) {
             $message = "Can't extract '" . $source->getPathname() . "' to '" . $destination->getPathname() . "'.";
@@ -58,11 +58,6 @@ class RarUnpacker implements Unpacker
     protected function extractArciveTo(RarArchive $archive, SplFileInfo $destination): void
     {
         $entries = $archive->getEntries();
-
-        if (!is_array($entries)) {
-            throw new UnpackerException("Can't read entries from archive");
-        }
-
         $path = $destination->getPathname();
         foreach ($entries as $entry) {
             if ($entry->extract($path) === false) {
@@ -72,27 +67,5 @@ class RarUnpacker implements Unpacker
                 );
             }
         }
-    }
-
-    /**
-     * Возвращает объект с открытым архивом.
-     *
-     * @param SplFileInfo $source
-     *
-     * @return RarArchive
-     *
-     * @throws UnpackerException
-     */
-    protected function getRarInstance(SplFileInfo $source): RarArchive
-    {
-        $rar = RarArchive::open($source->getPathname());
-
-        if (!($rar instanceof RarArchive)) {
-            throw new UnpackerException(
-                "Can't open file '" . $source->getPathname() . "' as rar archive"
-            );
-        }
-
-        return $rar;
     }
 }
