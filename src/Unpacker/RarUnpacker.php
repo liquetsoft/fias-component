@@ -41,7 +41,7 @@ class RarUnpacker implements Unpacker
             $message = "Can't extract '" . $source->getPathname() . "' to '" . $destination->getPathname() . "'.";
             throw new UnpackerException($message, 0, $e);
         } finally {
-            if ($archive) {
+            if (!empty($archive)) {
                 $archive->close();
             }
         }
