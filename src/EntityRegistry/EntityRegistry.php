@@ -31,7 +31,7 @@ interface EntityRegistry
      *
      * @throws EntityRegistryException
      */
-    public function hasEntityDescriptor(string $entityName): bool;
+    public function hasDescriptor(string $entityName): bool;
 
     /**
      * Возвращает описание сущности с указанным псевдонимом.
@@ -43,5 +43,5 @@ interface EntityRegistry
      * @throws InvalidArgumentException
      * @throws EntityRegistryException
      */
-    public function getEntityDescriptor(string $entityName): EntityDescriptor;
+    public function getDescriptor(string $entityName): EntityDescriptor;
 }

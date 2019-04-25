@@ -47,20 +47,12 @@ class YamlEntityRegistry implements EntityRegistry
     /**
      * @inheritdoc
      */
-    public function getDescriptors(): array
-    {
-        return $this->getRegistry();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function hasEntityDescriptor(string $entityName): bool
+    public function hasDescriptor(string $entityName): bool
     {
         $return = false;
         $normalizedName = $this->normalizeEntityName($entityName);
 
-        foreach ($this->getRegistry() as $descriptor) {
+        foreach ($this->getDescriptors() as $descriptor) {
             $normalizedDescriptorName = $this->normalizeEntityName($descriptor->getName());
             if ($normalizedName === $normalizedDescriptorName) {
                 $return = true;
@@ -74,12 +66,12 @@ class YamlEntityRegistry implements EntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntityDescriptor(string $entityName): EntityDescriptor
+    public function getDescriptor(string $entityName): EntityDescriptor
     {
         $return = null;
         $normalizedName = $this->normalizeEntityName($entityName);
 
-        foreach ($this->getRegistry() as $descriptor) {
+        foreach ($this->getDescriptors() as $descriptor) {
             $normalizedDescriptorName = $this->normalizeEntityName($descriptor->getName());
             if ($normalizedName === $normalizedDescriptorName) {
                 $return = $descriptor;
@@ -97,13 +89,9 @@ class YamlEntityRegistry implements EntityRegistry
     }
 
     /**
-     * Возвращает массив с описаниями сущностей из указанного yaml файла.
-     *
-     * @return EntityDescriptor[]
-     *
-     * @throws EntityRegistryException
+     * @inheritdoc
      */
-    protected function getRegistry(): array
+    public function getDescriptors(): array
     {
         if ($this->registry === null) {
             $this->registry = [];

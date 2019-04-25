@@ -31,7 +31,7 @@ class YamlEntityRegistryTest extends BaseCase
         $registry = $this->createRegistry(__DIR__ . '/_fixtures/testParserException.yaml');
 
         $this->expectException(EntityRegistryException::class);
-        $registry->hasEntityDescriptor('empty');
+        $registry->hasDescriptor('empty');
     }
 
     /**
@@ -42,7 +42,7 @@ class YamlEntityRegistryTest extends BaseCase
         $registry = $this->createRegistry(__DIR__ . '/_fixtures/testBuildingException.yaml');
 
         $this->expectException(EntityRegistryException::class);
-        $registry->hasEntityDescriptor('empty');
+        $registry->hasDescriptor('empty');
     }
 
     /**
@@ -61,25 +61,25 @@ class YamlEntityRegistryTest extends BaseCase
     /**
      * Проверяет, что объект верно проверяет существование описания сущности по ее имени.
      */
-    public function testHasEntityDescriptor()
+    public function testHasDescriptor()
     {
         $registry = $this->createRegistry();
 
-        $this->assertFalse($registry->hasEntityDescriptor('empty'));
-        $this->assertTrue($registry->hasEntityDescriptor('   NormativeDocumenttype'));
+        $this->assertFalse($registry->hasDescriptor('empty'));
+        $this->assertTrue($registry->hasDescriptor('   NormativeDocumenttype'));
     }
 
     /**
      * Проверяет, что объект вернет описание сущности по ее имени.
      */
-    public function testGetEntityDescriptor()
+    public function testGetDescriptor()
     {
         $name = 'NormativeDocumentType';
         $rawName = '   NormativeDocumentTYpe ';
         $fieldName = 'NAME';
 
         $registry = $this->createRegistry();
-        $descriptor = $registry->getEntityDescriptor($rawName);
+        $descriptor = $registry->getDescriptor($rawName);
 
         $this->assertSame($name, $descriptor->getName());
         $this->assertSame($fieldName, $descriptor->getField($fieldName)->getName());
@@ -88,12 +88,12 @@ class YamlEntityRegistryTest extends BaseCase
     /**
      * Проверяет, что объект вернет исключение, если сущности с заданным именем не сществует
      */
-    public function testGetEntityDescriptorException()
+    public function testGetDescriptorException()
     {
         $registry = $this->createRegistry();
 
         $this->expectException(InvalidArgumentException::class);
-        $descriptor = $registry->getEntityDescriptor('empty');
+        $descriptor = $registry->getDescriptor('empty');
     }
 
     /**
