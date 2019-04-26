@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\Exception\XmlException;
 use Throwable;
 use RuntimeException;
 use InvalidArgumentException;
-use XmlReader;
+use XmlReader as PhpXmlReader;
 use SplFileInfo;
 
 /**
@@ -34,7 +34,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * Объект XMLReader для чтения документа.
      *
-     * @var XMLReader|null
+     * @var PhpXmlReader|null
      */
     protected $reader;
 
@@ -266,7 +266,7 @@ class BaseXmlReader implements XmlReaderInterface
         }
 
         $this->unsetReader();
-        $this->reader = new XmlReader;
+        $this->reader = new PhpXmlReader;
 
         if ($this->reader->open($this->file->getPathname()) === false) {
             throw new RuntimeException(
