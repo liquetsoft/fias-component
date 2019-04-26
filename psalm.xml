@@ -12,7 +12,6 @@
             <directory name="resources" />
             <directory name="tests" />
             <directory name="vendor" />
-            <file name="test.php" />
         </ignoreFiles>
     </projectFiles>
 
