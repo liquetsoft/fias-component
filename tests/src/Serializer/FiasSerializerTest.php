@@ -28,7 +28,6 @@ class FiasSerializerTest extends BaseCase
     }
 }
 
-
 /**
  * Мок для проверки сериализатора.
  */
