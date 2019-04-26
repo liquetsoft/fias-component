@@ -223,29 +223,27 @@ class BaseXmlReader implements XmlReaderInterface
      * @return bool
      *
      * @throws XmlException
-     *
-     * @psalm-suppress PossiblyNullReference
      */
     protected function seekXmlPath(): bool
     {
-        $this->resetReader();
+        $reader = $this->resetReader();
 
         $path = trim($this->xpath, '/');
         $currentPath = [];
         $isCompleted = false;
-        $readResult = $this->reader->read();
+        $readResult = $reader->read();
 
         while ($readResult) {
-            array_push($currentPath, $this->reader->name);
+            array_push($currentPath, $reader->name);
             $currentPathStr = implode('/', $currentPath);
             if ($path === $currentPathStr) {
                 $isCompleted = true;
                 $readResult = false;
             } elseif (mb_strpos($path, $currentPathStr) !== 0) {
                 array_pop($currentPath);
-                $readResult = $this->reader->next();
+                $readResult = $reader->next();
             } else {
-                $readResult = $this->reader->read();
+                $readResult = $reader->read();
             }
         }
 
@@ -255,11 +253,11 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * Пересоздает объект для чтения xml.
      *
-     * @return void
+     * @return PhpXmlReader
      *
      * @throws XmlException
      */
-    protected function resetReader()
+    protected function resetReader(): PhpXmlReader
     {
         if (!$this->file || !$this->xpath) {
             throw new XmlException("File doesn't open");
@@ -273,6 +271,8 @@ class BaseXmlReader implements XmlReaderInterface
                 "Can't open file '" . $this->file->getPathname() . "' for reading."
             );
         }
+
+        return $this->reader;
     }
 
     /**
