@@ -6,5 +6,6 @@ composer.lock
 
 tests/coverage
 docker/.env
+test.php
 
 .~lock.*
