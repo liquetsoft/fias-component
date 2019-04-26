@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\XmlReader;
 
 use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
 use Liquetsoft\Fias\Component\Exception\XmlException;
+use Throwable;
 use RuntimeException;
 use InvalidArgumentException;
 use XmlReader;
@@ -24,7 +25,7 @@ class BaseXmlReader implements XmlReaderInterface
     protected $file;
 
     /**
-     * Xpath, по которомуследует искать данные.
+     * Xpath, по которому следует искать данные.
      *
      * @var string
      */
@@ -160,7 +161,7 @@ class BaseXmlReader implements XmlReaderInterface
      */
     protected function getLine(): ?string
     {
-        if (!$this->reader || !$this->xpath) {
+        if (!$this->reader) {
             throw new XmlException('Reader and xpath must be set before reading');
         }
 
@@ -169,15 +170,21 @@ class BaseXmlReader implements XmlReaderInterface
         $nameFilter = array_pop($arPath);
         $currentDepth = $this->reader->depth;
 
-        $this->skipUselessXml($nameFilter, $currentDepth);
+        try {
+            $this->skipUselessXml($nameFilter, $currentDepth);
 
-        //мы можем выйти из цикла, если найдем нужный элемент
-        //или попадем на уровень выше - проверяем, что нашли нужный
-        if ($nameFilter === $this->reader->name) {
-            $return = $this->reader->readOuterXml();
-            //нужно передвинуть указатель, чтобы дважды не прочитать
-            //один и тот же элемент
-            $this->reader->next();
+            //мы можем выйти из цикла, если найдем нужный элемент
+            //или попадем на уровень выше - проверяем, что нашли нужный
+            if ($nameFilter === $this->reader->name) {
+                $return = html_entity_decode($this->reader->readOuterXml());
+                //нужно передвинуть указатель, чтобы дважды не прочитать
+                //один и тот же элемент
+                $this->reader->next();
+            }
+        } catch (Throwable $e) {
+            $fileName = $this->file ? $this->file->getPathname() : '';
+            $message = "Error while parsing xml '{$fileName}' by '{$this->xpath}' path.";
+            throw new XmlException($message, 0, $e);
         }
 
         return $return;
@@ -216,14 +223,12 @@ class BaseXmlReader implements XmlReaderInterface
      * @return bool
      *
      * @throws XmlException
+     *
+     * @psalm-suppress PossiblyNullReference
      */
     protected function seekXmlPath(): bool
     {
         $this->resetReader();
-
-        if (!$this->reader || !$this->xpath) {
-            throw new XmlException('Reader and xpath must be set before reading');
-        }
 
         $path = trim($this->xpath, '/');
         $currentPath = [];
@@ -256,7 +261,7 @@ class BaseXmlReader implements XmlReaderInterface
      */
     protected function resetReader()
     {
-        if (empty($this->file)) {
+        if (!$this->file || !$this->xpath) {
             throw new XmlException("File doesn't open");
         }
 
@@ -265,7 +270,7 @@ class BaseXmlReader implements XmlReaderInterface
 
         if ($this->reader->open($this->file->getPathname()) === false) {
             throw new RuntimeException(
-                "Can't open file '" . $this->file->getPathname() . "' for reading"
+                "Can't open file '" . $this->file->getPathname() . "' for reading."
             );
         }
     }

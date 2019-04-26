@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <trapLevel>
+        <trapItem>test 1</trapItem>
+        <trapItem>test 2</trapItem>
+        <trapItem>test 3</trapItem>
+    </trapLevel>
+    <firstLevel>
+        <trapLevel>
+            <trapItem>test 1</trapItem>
+            <trapItem>test 2</trapItem>
+            <trapItem>test 3</trapItem>
+        </trapLevel>
+        <secondLevel>
+        </secondLevel>
+        <trapLevel>
+            <trapItem>test 1</trapItem>
+            <trapItem>test 2</trapItem>
+            <trapItem>test 3</trapItem>
+        </trapLevel>
+    </firstLevel>
+    <trapLevel>
+        <trapItem>test 1</trapItem>
+        <trapItem>test 2</trapItem>
+        <trapItem>test 3</trapItem>
+    </trapLevel>
+</root>
