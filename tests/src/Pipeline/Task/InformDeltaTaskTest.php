@@ -45,7 +45,7 @@ class InformDeltaTaskTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект выбросит исключение.
+     * Проверяет, что объект выбросит исключение, если в состоянии не указана текущая версия ФИАС.
      */
     public function testRunNoVersionException()
     {
