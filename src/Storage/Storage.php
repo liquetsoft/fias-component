@@ -34,4 +34,13 @@ interface Storage
      * @throws StorageException
      */
     public function insert(object $entity): void;
+
+    /**
+     * Удаляет объект из хранилища.
+     *
+     * @param object $entity
+     *
+     * @throws StorageException
+     */
+    public function delete(object $entity): void;
 }

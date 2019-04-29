@@ -8,16 +8,16 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use SplFileInfo;
 
 /**
- * Задача, которая читает данные из xml и вставляет их в БД.
+ * Задача, которая читает данные из xml и удаляет их из БД.
  */
-class DataInsertTask extends DataAbstractTask
+class DataDeleteTask extends DataAbstractTask
 {
     /**
      * @inheritdoc
      */
     protected function getDescriptorForFile(SplFileInfo $fileInfo): ?EntityDescriptor
     {
-        return $this->entityManager->getDescriptorByInsertFile($fileInfo->getFilename());
+        return $this->entityManager->getDescriptorByDeleteFile($fileInfo->getFilename());
     }
 
     /**
@@ -25,6 +25,6 @@ class DataInsertTask extends DataAbstractTask
      */
     protected function processItem(object $item): void
     {
-        $this->storage->insert($item);
+        $this->storage->delete($item);
     }
 }
