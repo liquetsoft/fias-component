@@ -23,7 +23,7 @@ class FiasNameConverterTest extends BaseCase
         $converter = new FiasNameConverter;
 
         $this->assertSame('@TEST', $converter->normalize($name));
-        $this->assertSame('tEst1', $converter->normalize($name1));
+        $this->assertSame('@tEst1', $converter->normalize($name1));
     }
 
     /**

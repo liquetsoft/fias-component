@@ -17,7 +17,14 @@ class FiasNameConverter implements NameConverterInterface
      */
     public function normalize($propertyName): string
     {
-        return trim($propertyName);
+        $propertyName = trim($propertyName);
+        $return = $propertyName;
+
+        if (strpos($propertyName, '@') !== 0) {
+            $return = '@' . $propertyName;
+        }
+
+        return $return;
     }
 
     /**
