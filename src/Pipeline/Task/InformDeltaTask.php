@@ -34,7 +34,9 @@ class InformDeltaTask implements Task
     {
         $version = (int) $state->getParameter('currentVersion');
         if (!$version) {
-            throw new TaskException("State parameter 'currentVersion' is required.");
+            throw new TaskException(
+                "State parameter 'currentVersion' is required for '" . self::class . "'."
+            );
         }
 
         $info = $this->informer->getDeltaInfo($version);

@@ -34,7 +34,9 @@ class InformFullTask implements Task
         $info = $this->informer->getCompleteInfo();
 
         if (!$info->hasResult()) {
-            throw new TaskException("Can't find full archive for fias.");
+            throw new TaskException(
+                "Can't find full archive for fias in '" . self::class . "'."
+            );
         }
 
         $state->setAndLockParameter('fiasInfo', $info);
