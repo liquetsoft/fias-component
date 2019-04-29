@@ -65,7 +65,7 @@ class DownloadTaskTest extends BaseCase
         $file = new SplFileInfo(__DIR__ . '/test.file');
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($informerResult, $file) {
+        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($file) {
             return $name === 'downloadTo' ? $file : null;
         }));
 
