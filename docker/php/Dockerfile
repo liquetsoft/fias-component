@@ -1,8 +1,7 @@
 FROM php:7.2-cli-alpine
 
-RUN set -xe && apk update && apk upgrade
 
-RUN apk add --no-cache \
+RUN set -xe && apk update && apk add --no-cache \
     libzip \
     bash \
     curl \
@@ -15,9 +14,9 @@ RUN apk add --no-cache \
     g++ \
     make
 
-RUN docker-php-ext-install pdo_pgsql zip pcntl sockets soap
 
-RUN docker-php-source extract \
+RUN docker-php-ext-install pdo_pgsql zip pcntl sockets soap \
+    && docker-php-source extract \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && pecl install rar \
@@ -25,7 +24,6 @@ RUN docker-php-source extract \
     && docker-php-source delete
 
 
-# composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && mkdir -p /.composer && chmod -Rf 777 /.composer
 
 
