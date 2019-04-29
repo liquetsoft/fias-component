@@ -39,9 +39,10 @@ class DataInsertTask implements Task
     protected $serializer;
 
     /**
-     * @param EntityManager $entityManager
-     * @param XmlReader     $xmlReader
-     * @param Storage       $storage
+     * @param EntityManager       $entityManager
+     * @param XmlReader           $xmlReader
+     * @param Storage             $storage
+     * @param SerializerInterface $serializer
      */
     public function __construct(EntityManager $entityManager, XmlReader $xmlReader, Storage $storage, SerializerInterface $serializer)
     {
@@ -95,8 +96,8 @@ class DataInsertTask implements Task
      * Читает и загружает данные в БД.
      *
      * @param SplFileInfo $fileInfo
-     * @param string $xpath
-     * @param string $entityClass
+     * @param string      $xpath
+     * @param string      $entityClass
      */
     protected function insertDataFromFile(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
     {
