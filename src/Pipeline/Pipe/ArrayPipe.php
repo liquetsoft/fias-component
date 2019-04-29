@@ -27,12 +27,12 @@ class ArrayPipe implements Pipe
     protected $cleanupTask;
 
     /**
-     * @param array $tasks       Список задач, которые должны быть исполены данной очередью
-     * @param Task  $cleanupTask Задача, которая будет выполнена после исключения или по успешному завершению очереди
+     * @param iterable $tasks       Список задач, которые должны быть исполены данной очередью
+     * @param Task     $cleanupTask Задача, которая будет выполнена после исключения или по успешному завершению очереди
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $tasks, ?Task $cleanupTask = null)
+    public function __construct(iterable $tasks, ?Task $cleanupTask = null)
     {
         $this->tasks = [];
         foreach ($tasks as $key => $task) {
