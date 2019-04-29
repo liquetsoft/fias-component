@@ -6,6 +6,8 @@ namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use DateTimeInterface;
+use DateTime;
 
 /**
  * Тест для объекта, который сереализует данные из ФИАС.
@@ -17,7 +19,7 @@ class FiasSerializerTest extends BaseCase
      */
     public function testDenormalize()
     {
-        $data = '<ActualStatus ACTSTATID="2" NAME="Не актуальный"/>';
+        $data = '<ActualStatus ACTSTATID="2" NAME="Не актуальный" TESTDATE="2019-10-10T10:10:10.02"/>';
         $serializer = new FiasSerializer;
 
         $object = $serializer->deserialize($data, FiasSerializerObject::class, 'xml');
@@ -25,6 +27,7 @@ class FiasSerializerTest extends BaseCase
         $this->assertInstanceOf(FiasSerializerObject::class, $object);
         $this->assertSame(2, $object->getActstatid());
         $this->assertSame('Не актуальный', $object->getName());
+        $this->assertEquals(new DateTime('2019-10-10T10:10:10.02'), $object->getTestDate());
     }
 }
 
@@ -35,6 +38,7 @@ class FiasSerializerObject
 {
     private $ACTSTATID;
     private $name;
+    private $testDate;
 
     public function setActstatid(int $ACTSTATID)
     {
@@ -54,5 +58,15 @@ class FiasSerializerObject
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setTestDate(DateTimeInterface $testDate)
+    {
+        $this->testDate = $testDate;
+    }
+
+    public function getTestDate()
+    {
+        return $this->testDate;
     }
 }

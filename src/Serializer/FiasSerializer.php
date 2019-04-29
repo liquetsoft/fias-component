@@ -6,6 +6,8 @@ namespace Liquetsoft\Fias\Component\Serializer;
 
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Serializer;
 
 /**
@@ -17,7 +19,16 @@ class FiasSerializer extends Serializer
     {
         if ($normalizers === null) {
             $normalizers = [
-                new ObjectNormalizer(null, new FiasNameConverter),
+                new DateTimeNormalizer,
+                new ObjectNormalizer(
+                    null,
+                    new FiasNameConverter,
+                    null,
+                    new ReflectionExtractor,
+                    null,
+                    null,
+                    [ObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true]
+                ),
             ];
         }
 
