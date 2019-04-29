@@ -28,12 +28,15 @@ class DownloadTaskTest extends BaseCase
         $informerResult->method('hasResult')->will($this->returnValue(true));
         $informerResult->method('getUrl')->will($this->returnValue($url));
 
-        $file = new SplFileInfo(__DIR__ . '/test.file');
+        $filePath = __DIR__ . '/test.file';
+        $file = new SplFileInfo($filePath);
 
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
         $downloader->expects($this->once())->method('download')->with(
             $this->equalTo($url),
-            $this->equalTo($file)
+            $this->callback(function ($file) use ($filePath) {
+                return $file->getPathname() === $filePath;
+            })
         );
 
         $state = $this->getMockBuilder(State::class)->getMock();
