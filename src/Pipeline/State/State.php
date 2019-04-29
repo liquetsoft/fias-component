@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\State;
 
+use InvalidArgumentException;
+
 /**
  * Интерфейс для объекта, который передает состояние между операциями.
  */
@@ -16,8 +18,22 @@ interface State
      * @param mixed  $parameterValue
      *
      * @return State
+     *
+     * @throws InvalidArgumentException
      */
     public function setParameter(string $parameterName, $parameterValue): State;
+
+    /**
+     * Задает константу состояния по его имени и запрешает изменение.
+     *
+     * @param string $parameterName
+     * @param mixed  $parameterValue
+     *
+     * @return State
+     *
+     * @throws InvalidArgumentException
+     */
+    public function setAndLockParameter(string $parameterName, $parameterValue): State;
 
     /**
      * Возвращает параметр состояния по его имени.
