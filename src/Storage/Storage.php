@@ -43,4 +43,14 @@ interface Storage
      * @throws StorageException
      */
     public function delete(object $entity): void;
+
+    /**
+     * Если запись уже имеется в БД, то обновляет ее из объекта, если записи нет,
+     * то создает новую.
+     *
+     * @param object $entity
+     *
+     * @throws StorageException
+     */
+    public function upsert(object $entity): void;
 }
