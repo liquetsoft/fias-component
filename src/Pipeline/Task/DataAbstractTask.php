@@ -104,7 +104,7 @@ abstract class DataAbstractTask implements Task
         if ($descriptor) {
             $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
             if ($entityClass) {
-                $this->processDataFromFIle($fileInfo, $descriptor->getXmlPath(), $entityClass);
+                $this->processDataFromFile($fileInfo, $descriptor->getXmlPath(), $entityClass);
             }
         }
     }
@@ -116,7 +116,7 @@ abstract class DataAbstractTask implements Task
      * @param string      $xpath
      * @param string      $entityClass
      */
-    protected function processDataFromFIle(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
+    protected function processDataFromFile(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
     {
         $this->xmlReader->open($fileInfo, $xpath);
         $this->storage->start();
