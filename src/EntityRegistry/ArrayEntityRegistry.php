@@ -13,13 +13,18 @@ use InvalidArgumentException;
 class ArrayEntityRegistry extends AbstractEntityRegistry
 {
     /**
+     * @var array
+     */
+    protected $arrayRegistry;
+
+    /**
      * @param array $registry
      *
      * @throws InvalidArgumentException
      */
     public function __construct(array $registry)
     {
-        $this->registry = [];
+        $this->arrayRegistry = [];
 
         foreach ($registry as $key => $descriptor) {
             if (!($descriptor instanceof EntityDescriptor)) {
@@ -27,7 +32,7 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
                     "Item with key {$key} must be an " . EntityDescriptor::class . ' instance.'
                 );
             }
-            $this->registry[] = $descriptor;
+            $this->arrayRegistry[] = $descriptor;
         }
     }
 
@@ -36,6 +41,6 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
      */
     protected function createRegistry(): array
     {
-        return [];
+        return $this->arrayRegistry;
     }
 }
