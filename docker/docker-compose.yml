@@ -8,6 +8,3 @@ services:
             context: php
         volumes:
             - ${DOCKER_APP_PATH}:/var/app:cached
-
-volumes:
-    liquetsoft_fias_db:
