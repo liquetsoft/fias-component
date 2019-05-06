@@ -1,6 +1,6 @@
 {
     "name": "liquetsoft/fias-component",
-    "description": "fias parser for php",
+    "description": "FIAS database parser for php.",
     "type": "library",
     "keywords": ["php", "fias"],
     "license": "MIT",
