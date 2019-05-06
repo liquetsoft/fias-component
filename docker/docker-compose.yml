@@ -1,21 +1,6 @@
 version: '3.7'
 
 services:
-
-    db:
-        container_name: liquetsoft-fias-db
-        build:
-            context: postgres
-        ports:
-            - 5432:5432
-        volumes:
-            - liquetsoft_fias_db:/var/lib/postgresql/data
-        environment:
-            POSTGRES_USER: ${DOCKER_DB_USER}
-            POSTGRES_PASSWORD: ${DOCKER_DB_PASSWORD}
-            POSTGRES_DB: ${DOCKER_DB_NAME}
-            PGDATA: /var/lib/postgresql/data/pgdata
-
     php:
         container_name: liquetsoft-fias-php
         restart: 'no'
