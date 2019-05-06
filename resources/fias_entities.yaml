@@ -98,7 +98,7 @@ StructureStatus:
             isPrimary: false
             isIndex: false
             isPartition: false
-Object:
+AddressObject:
     description: Адреса
     partitionsCount: 1
     xmlPath: /AddressObjects/Object
