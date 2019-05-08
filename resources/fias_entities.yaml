@@ -2,8 +2,8 @@ IntervalStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /IntervalStatuses/IntervalStatus
-    xmlInsertFileMask: 'AS_INTVSTAT_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_INTVSTAT_*.XML'
+    insertFileMask: 'AS_INTVSTAT_*.XML'
+    deleteFileMask: 'AS_DEL_INTVSTAT_*.XML'
     fields:
         INTVSTATID:
             type: int
@@ -25,8 +25,8 @@ NormativeDocumentType:
     description: 'Типы нормативных документов'
     partitionsCount: 1
     xmlPath: /NormativeDocumentTypes/NormativeDocumentType
-    xmlInsertFileMask: 'AS_NDOCTYPE_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_NDOCTYPE_*.XML'
+    insertFileMask: 'AS_NDOCTYPE_*.XML'
+    deleteFileMask: 'AS_DEL_NDOCTYPE_*.XML'
     fields:
         NDTYPEID:
             type: int
@@ -48,8 +48,8 @@ CurrentStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /CurrentStatuses/CurrentStatus
-    xmlInsertFileMask: 'AS_CURENTST_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_CURENTST_*.XML'
+    insertFileMask: 'AS_CURENTST_*.XML'
+    deleteFileMask: 'AS_DEL_CURENTST_*.XML'
     fields:
         CURENTSTID:
             type: int
@@ -71,8 +71,8 @@ StructureStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /StructureStatuses/StructureStatus
-    xmlInsertFileMask: 'AS_STRSTAT_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_STRSTAT_*.XML'
+    insertFileMask: 'AS_STRSTAT_*.XML'
+    deleteFileMask: 'AS_DEL_STRSTAT_*.XML'
     fields:
         STRSTATID:
             type: int
@@ -102,8 +102,8 @@ AddressObject:
     description: Адреса
     partitionsCount: 1
     xmlPath: /AddressObjects/Object
-    xmlInsertFileMask: 'AS_ADDROBJ_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_ADDROBJ_*.XML'
+    insertFileMask: 'AS_ADDROBJ_*.XML'
+    deleteFileMask: 'AS_DEL_ADDROBJ_*.XML'
     fields:
         AOID:
             type: string
@@ -382,8 +382,8 @@ FlatType:
     description: 'Типы квартир'
     partitionsCount: 1
     xmlPath: /FlatTypes/FlatType
-    xmlInsertFileMask: 'AS_FLATTYPE_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_FLATTYPE_*.XML'
+    insertFileMask: 'AS_FLATTYPE_*.XML'
+    deleteFileMask: 'AS_DEL_FLATTYPE_*.XML'
     fields:
         FLTYPEID:
             type: int
@@ -413,8 +413,8 @@ OperationStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /OperationStatuses/OperationStatus
-    xmlInsertFileMask: 'AS_OPERSTAT_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_OPERSTAT_*.XML'
+    insertFileMask: 'AS_OPERSTAT_*.XML'
+    deleteFileMask: 'AS_DEL_OPERSTAT_*.XML'
     fields:
         OPERSTATID:
             type: int
@@ -436,8 +436,8 @@ ActualStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /ActualStatuses/ActualStatus
-    xmlInsertFileMask: 'AS_ACTSTAT_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_ACTSTAT_*.XML'
+    insertFileMask: 'AS_ACTSTAT_*.XML'
+    deleteFileMask: 'AS_DEL_ACTSTAT_*.XML'
     fields:
         ACTSTATID:
             type: int
@@ -459,8 +459,8 @@ RoomType:
     description: 'Типы комнат'
     partitionsCount: 1
     xmlPath: /RoomTypes/RoomType
-    xmlInsertFileMask: 'AS_ROOMTYPE_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_ROOMTYPE_*.XML'
+    insertFileMask: 'AS_ROOMTYPE_*.XML'
+    deleteFileMask: 'AS_DEL_ROOMTYPE_*.XML'
     fields:
         RMTYPEID:
             type: int
@@ -490,8 +490,8 @@ House:
     description: Дома
     partitionsCount: 4
     xmlPath: /Houses/House
-    xmlInsertFileMask: 'AS_HOUSE_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_HOUSE_*.XML'
+    insertFileMask: 'AS_HOUSE_*.XML'
+    deleteFileMask: 'AS_DEL_HOUSE_*.XML'
     fields:
         HOUSEID:
             type: string
@@ -627,8 +627,8 @@ Stead:
     description: 'Земельные участки'
     partitionsCount: 1
     xmlPath: /Steads/Stead
-    xmlInsertFileMask: 'AS_STEAD_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_STEAD_*.XML'
+    insertFileMask: 'AS_STEAD_*.XML'
+    deleteFileMask: 'AS_DEL_STEAD_*.XML'
     fields:
         STEADGUID:
             type: string
@@ -763,8 +763,8 @@ HouseStateStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /HouseStateStatuses/HouseStateStatus
-    xmlInsertFileMask: 'AS_HSTSTAT_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_HSTSTAT_*.XML'
+    insertFileMask: 'AS_HSTSTAT_*.XML'
+    deleteFileMask: 'AS_DEL_HSTSTAT_*.XML'
     fields:
         HOUSESTID:
             type: int
@@ -786,8 +786,8 @@ Room:
     description: Комнаты
     partitionsCount: 4
     xmlPath: /Rooms/Room
-    xmlInsertFileMask: 'AS_ROOM_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_ROOM_*.XML'
+    insertFileMask: 'AS_ROOM_*.XML'
+    deleteFileMask: 'AS_DEL_ROOM_*.XML'
     fields:
         ROOMID:
             type: string
@@ -890,8 +890,8 @@ NormativeDocument:
     description: 'Нормативные документы'
     partitionsCount: 1
     xmlPath: /NormativeDocumentes/NormativeDocument
-    xmlInsertFileMask: 'AS_NORMDOC_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_NORMDOC_*.XML'
+    insertFileMask: 'AS_NORMDOC_*.XML'
+    deleteFileMask: 'AS_DEL_NORMDOC_*.XML'
     fields:
         NORMDOCID:
             type: string
@@ -935,8 +935,8 @@ EstateStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /EstateStatuses/EstateStatus
-    xmlInsertFileMask: 'AS_ESTSTAT_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_ESTSTAT_*.XML'
+    insertFileMask: 'AS_ESTSTAT_*.XML'
+    deleteFileMask: 'AS_DEL_ESTSTAT_*.XML'
     fields:
         ESTSTATID:
             type: int
@@ -958,8 +958,8 @@ AddressObjectType:
     description: 'Типы объектов в адресах'
     partitionsCount: 1
     xmlPath: /AddressObjectTypes/AddressObjectType
-    xmlInsertFileMask: 'AS_SOCRBASE_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_SOCRBASE_*.XML'
+    insertFileMask: 'AS_SOCRBASE_*.XML'
+    deleteFileMask: 'AS_DEL_SOCRBASE_*.XML'
     fields:
         KOD_T_ST:
             type: int
@@ -997,8 +997,8 @@ CenterStatus:
     description: Статусы
     partitionsCount: 1
     xmlPath: /CenterStatuses/CenterStatus
-    xmlInsertFileMask: 'AS_CENTERST_*.XML'
-    xmlDeleteFileMask: 'AS_DEL_CENTERST_*.XML'
+    insertFileMask: 'AS_CENTERST_*.XML'
+    deleteFileMask: 'AS_DEL_CENTERST_*.XML'
     fields:
         CENTERSTID:
             type: int
