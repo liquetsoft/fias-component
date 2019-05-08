@@ -115,21 +115,21 @@ AddressObject:
         AOGUID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
         PARENTGUID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
         NEXTID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
