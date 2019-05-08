@@ -13,6 +13,14 @@ use Exception;
  */
 interface Task
 {
+    const FIAS_VERSION_PARAM = 'fias_version';
+
+    const FIAS_INFO_PARAM = 'fias_info';
+
+    const DOWNLOAD_TO_FILE_PARAM = 'download_to';
+
+    const EXTRACT_TO_FOLDER_PARAM = 'extract_to';
+
     /**
      * Запускает задачу на исполнение.
      *

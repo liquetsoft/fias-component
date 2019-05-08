@@ -39,6 +39,6 @@ class InformFullTask implements Task
             );
         }
 
-        $state->setAndLockParameter('fiasInfo', $info);
+        $state->setAndLockParameter(Task::FIAS_INFO_PARAM, $info);
     }
 }

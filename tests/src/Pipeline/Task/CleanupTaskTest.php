@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
@@ -30,9 +31,9 @@ class CleanupTaskTest extends BaseCase
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($downloadTo, $extractTo) {
             $return = null;
-            if ($name === 'downloadTo') {
+            if ($name === Task::DOWNLOAD_TO_FILE_PARAM) {
                 $return = $downloadTo;
-            } elseif ($name === 'extractTo') {
+            } elseif ($name === Task::EXTRACT_TO_FOLDER_PARAM) {
                 $return = $extractTo;
             }
 
@@ -56,7 +57,7 @@ class CleanupTaskTest extends BaseCase
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($downloadTo) {
-            return $name === 'downloadTo' ? $downloadTo : null;
+            return $name === Task::DOWNLOAD_TO_FILE_PARAM ? $downloadTo : null;
         }));
 
         $task = new CleanupTask;

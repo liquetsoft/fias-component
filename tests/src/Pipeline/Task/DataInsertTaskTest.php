@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
 use Liquetsoft\Fias\Component\Pipeline\Task\DataInsertTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
@@ -48,7 +49,7 @@ class DataInsertTaskTest extends BaseCase
         }));
 
         $state = new ArrayState;
-        $state->setParameter('unpackTo', new SplFileInfo(__DIR__ . '/_fixtures'));
+        $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo(__DIR__ . '/_fixtures'));
 
         $task = new DataInsertTask($entityManager, new BaseXmlReader, $storage, new FiasSerializer);
         $task->run($state);

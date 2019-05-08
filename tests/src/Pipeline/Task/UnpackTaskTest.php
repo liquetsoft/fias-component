@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Exception\TaskException;
@@ -39,9 +40,9 @@ class UnpackTaskTest extends BaseCase
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($source, $destination) {
             $return = null;
-            if ($name === 'downloadTo') {
+            if ($name === Task::DOWNLOAD_TO_FILE_PARAM) {
                 $return = $source;
-            } elseif ($name === 'unpackTo') {
+            } elseif ($name === Task::EXTRACT_TO_FOLDER_PARAM) {
                 $return = $destination;
             }
 
@@ -65,7 +66,7 @@ class UnpackTaskTest extends BaseCase
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($source, $destination) {
-            return $name === 'unpackTo' ? $destination : null;
+            return $name === Task::EXTRACT_TO_FOLDER_PARAM ? $destination : null;
         }));
 
         $task = new UnpackTask($unpacker);
@@ -87,7 +88,7 @@ class UnpackTaskTest extends BaseCase
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($source, $destination) {
-            return $name === 'downloadTo' ? $source : null;
+            return $name === Task::DOWNLOAD_TO_FILE_PARAM ? $source : null;
         }));
 
         $task = new UnpackTask($unpacker);

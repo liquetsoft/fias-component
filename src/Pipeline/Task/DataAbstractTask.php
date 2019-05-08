@@ -74,10 +74,10 @@ abstract class DataAbstractTask implements Task
      */
     public function run(State $state): void
     {
-        $filesFolder = $state->getParameter('unpackTo');
+        $filesFolder = $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM);
         if (!($filesFolder instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter 'unpackTo' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . Task::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 

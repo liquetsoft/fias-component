@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
 use Liquetsoft\Fias\Component\Pipeline\Task\InformFullTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
@@ -31,7 +32,7 @@ class InformFullTaskTest extends BaseCase
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->expects($this->once())->method('setAndLockParameter')->with(
-            $this->equalTo('fiasInfo'),
+            $this->equalTo(Task::FIAS_INFO_PARAM),
             $this->equalTo($informerResult)
         );
 

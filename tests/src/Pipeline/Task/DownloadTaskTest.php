@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
 use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
@@ -42,9 +43,9 @@ class DownloadTaskTest extends BaseCase
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($informerResult, $file) {
             $return = null;
-            if ($name === 'fiasInfo') {
+            if ($name === Task::FIAS_INFO_PARAM) {
                 $return = $informerResult;
-            } elseif ($name === 'downloadTo') {
+            } elseif ($name === Task::DOWNLOAD_TO_FILE_PARAM) {
                 $return = $file;
             }
 
@@ -66,7 +67,7 @@ class DownloadTaskTest extends BaseCase
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($file) {
-            return $name === 'downloadTo' ? $file : null;
+            return $name === Task::DOWNLOAD_TO_FILE_PARAM ? $file : null;
         }));
 
         $task = new DownloadTask($downloader);
@@ -89,7 +90,7 @@ class DownloadTaskTest extends BaseCase
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->method('getParameter')->will($this->returnCallback(function ($name) use ($informerResult) {
-            return $name === 'fiasInfo' ? $informerResult : null;
+            return $name === Task::FIAS_INFO_PARAM ? $informerResult : null;
         }));
 
         $task = new DownloadTask($downloader);

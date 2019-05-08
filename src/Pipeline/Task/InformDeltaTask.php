@@ -32,10 +32,10 @@ class InformDeltaTask implements Task
      */
     public function run(State $state): void
     {
-        $version = (int) $state->getParameter('currentVersion');
+        $version = (int) $state->getParameter(Task::FIAS_VERSION_PARAM);
         if (!$version) {
             throw new TaskException(
-                "State parameter 'currentVersion' is required for '" . self::class . "'."
+                "State parameter '" . Task::FIAS_VERSION_PARAM . "' is required for '" . self::class . "'."
             );
         }
 
@@ -44,6 +44,6 @@ class InformDeltaTask implements Task
             $state->complete();
         }
 
-        $state->setAndLockParameter('fiasInfo', $info);
+        $state->setAndLockParameter(Task::FIAS_INFO_PARAM, $info);
     }
 }
