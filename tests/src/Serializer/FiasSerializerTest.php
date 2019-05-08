@@ -19,7 +19,7 @@ class FiasSerializerTest extends BaseCase
      */
     public function testDenormalize()
     {
-        $data = '<ActualStatus ACTSTATID="2" NAME="Не актуальный" TESTDATE="2019-10-10T10:10:10.02"/>';
+        $data = '<ActualStatus ACTSTATID="2" NAME="Не актуальный" TESTDATE="2019-10-10T10:10:10.02" KOD_T_ST="10"/>';
         $serializer = new FiasSerializer;
 
         $object = $serializer->deserialize($data, FiasSerializerObject::class, 'xml');
@@ -27,6 +27,7 @@ class FiasSerializerTest extends BaseCase
         $this->assertInstanceOf(FiasSerializerObject::class, $object);
         $this->assertSame(2, $object->getActstatid());
         $this->assertSame('Не актуальный', $object->getName());
+        $this->assertSame('10', $object->getKodtst());
         $this->assertEquals(new DateTime('2019-10-10T10:10:10.02'), $object->getTestDate());
     }
 }
@@ -39,6 +40,7 @@ class FiasSerializerObject
     private $ACTSTATID;
     private $name;
     private $testDate;
+    private $kodtst;
 
     public function setActstatid(int $ACTSTATID)
     {
@@ -68,5 +70,15 @@ class FiasSerializerObject
     public function getTestDate()
     {
         return $this->testDate;
+    }
+
+    public function setKodtst(string $kodtst)
+    {
+        $this->kodtst = $kodtst;
+    }
+
+    public function getKodtst()
+    {
+        return $this->kodtst;
     }
 }
