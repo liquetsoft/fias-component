@@ -65,6 +65,7 @@ class ArrayPipe implements Pipe
             }
         }
 
+        $state->complete();
         $this->cleanup($state);
 
         return $this;

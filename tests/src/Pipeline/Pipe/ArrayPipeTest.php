@@ -35,6 +35,7 @@ class ArrayPipeTest extends BaseCase
     public function testRun()
     {
         $state = $this->getMockBuilder(State::class)->getMock();
+        $state->expects($this->once())->method('complete');
 
         $cleanUp = $this->getMockBuilder(Task::class)->getMock();
         $cleanUp->expects($this->once())->method('run')->with($this->equalTo($state));
@@ -82,6 +83,7 @@ class ArrayPipeTest extends BaseCase
     public function testRunException()
     {
         $state = $this->getMockBuilder(State::class)->getMock();
+        $state->expects($this->never())->method('complete');
 
         $cleanUp = $this->getMockBuilder(Task::class)->getMock();
         $cleanUp->expects($this->once())->method('run')->with($this->equalTo($state));
