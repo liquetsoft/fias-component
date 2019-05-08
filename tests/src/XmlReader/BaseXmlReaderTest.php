@@ -74,6 +74,7 @@ class BaseXmlReaderTest extends BaseCase
             [
                 0 => '<ActualStatus ACTSTATID="0" NAME="Не актуальный"/>',
                 1 => '<ActualStatus ACTSTATID="1" NAME="Актуальный"/>',
+                2 => '<ActualStatus ACTSTATID="2" NAME="3-й &quot;А&quot;"/>',
             ],
             $result
         );
