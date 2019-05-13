@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 interface EntityManager
 {
     /**
-     * Возвращает дескриптор для сущности по имени сущности.
+     * Возвращает дескриптор для сущности по имени сущности из ФИАС.
      *
      * @param string $entityName
      *
@@ -22,7 +22,7 @@ interface EntityManager
     public function getDescriptorByEntityName(string $entityName): ?EntityDescriptor;
 
     /**
-     * Ищет класс реализации сущности ФИАС для указанного дескриптора.
+     * Ищет класс реализации сущности для указанного дескриптора.
      *
      * @param EntityDescriptor $descriptor
      *
@@ -65,4 +65,11 @@ interface EntityManager
      * @return EntityDescriptor|null
      */
     public function getDescriptorByObject($object): ?EntityDescriptor;
+
+    /**
+     * Возвращает список имен классов, у которых есть отношения к сущностям ФИАС.
+     *
+     * @return string[]
+     */
+    public function getBindedClasses(): array;
 }

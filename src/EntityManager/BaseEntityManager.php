@@ -141,6 +141,14 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getBindedClasses(): array
+    {
+        return array_unique(array_values($this->bindings));
+    }
+
+    /**
      * Приводит имя сущности к единообразному виду.
      *
      * @param string $entityName

@@ -191,4 +191,20 @@ class BaseEntityManagerTest extends BaseCase
         $this->assertSame($descriptor, $manager->getDescriptorByObject(new \stdClass));
         $this->assertNull($manager->getDescriptorByObject('TestEmpty'));
     }
+
+    /**
+     * Проверяет, что объект вернет список всехх лкассов, которые имеют отношения
+     * к сущностям ФИАС.
+     */
+    public function testGetBindedClasses()
+    {
+        $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
+
+        $manager = new BaseEntityManager($registry, [
+            'TestEntity1' => '\Test\Class1',
+            'TestEntity2' => 'Test\Class2',
+        ]);
+
+        $this->assertSame(['Test\Class1', 'Test\Class2'], $manager->getBindedClasses());
+    }
 }
