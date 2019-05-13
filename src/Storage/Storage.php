@@ -53,4 +53,13 @@ interface Storage
      * @throws StorageException
      */
     public function upsert(object $entity): void;
+
+    /**
+     * Очищает хранилище для объектов с указаным в параметре классом.
+     *
+     * @param string $entityClassName
+     *
+     * @throws StorageException
+     */
+    public function truncate(string $entityClassName): void;
 }
