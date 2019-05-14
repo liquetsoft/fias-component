@@ -57,7 +57,7 @@ class ArrayPipe implements Pipe
                 $task->run($state);
             } catch (Throwable $e) {
                 $this->cleanup($state);
-                $message = "Error wlihe running '" . get_class($task) . "' task.";
+                $message = "Error while running '" . get_class($task) . "' task.";
                 throw new PipeException($message, 0, $e);
             }
             if ($state->isCompleted()) {
