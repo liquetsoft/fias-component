@@ -503,14 +503,14 @@ House:
         HOUSEGUID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
         AOGUID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -696,14 +696,14 @@ Stead:
         PARENTGUID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
         STEADID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -755,7 +755,7 @@ Stead:
         NORMDOC:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -799,14 +799,14 @@ Room:
         ROOMGUID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
         HOUSEGUID:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -882,7 +882,7 @@ Room:
         NORMDOC:
             type: string
             subType: uuid
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
