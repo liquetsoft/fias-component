@@ -58,7 +58,7 @@ class DataDeleteTaskTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект выбросит исключение, если не указан катклог для чтения.
+     * Проверяет, что объект выбросит исключение, если не указан каталог для чтения.
      */
     public function testRunEmptyUnpackToException()
     {

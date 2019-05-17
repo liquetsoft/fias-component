@@ -13,6 +13,7 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Symfony\Component\Serializer\SerializerInterface;
 use SplFileInfo;
 use RecursiveDirectoryIterator;
+use Throwable;
 
 /**
  * Абстрактная задача, которая переносит данные из xml в хранилище данных.
@@ -121,12 +122,35 @@ abstract class DataAbstractTask implements Task
         $this->xmlReader->open($fileInfo, $xpath);
         $this->storage->start();
 
-        foreach ($this->xmlReader as $xml) {
+        try {
+            foreach ($this->xmlReader as $xml) {
+                $this->processItem($this->deserializeXmlStringToObject($xml, $entityClass));
+            }
+        } finally {
+            $this->storage->stop();
+            $this->xmlReader->close();
+        }
+    }
+
+    /**
+     * Десериализует xml строку в объект указанного класса.
+     *
+     * @param string $xml
+     * @param string $entityClass
+     *
+     * @return object
+     *
+     * @throws TaskException
+     */
+    protected function deserializeXmlStringToObject(string $xml, string $entityClass): object
+    {
+        try {
             $entity = $this->serializer->deserialize($xml, $entityClass, 'xml');
-            $this->processItem($entity);
+        } catch (Throwable $e) {
+            $message = "Deserialization error while deserializing '{$xml}' string to object with '{$entityClass}' class.";
+            throw new TaskException($message, 0, $e);
         }
 
-        $this->storage->stop();
-        $this->xmlReader->close();
+        return $entity;
     }
 }

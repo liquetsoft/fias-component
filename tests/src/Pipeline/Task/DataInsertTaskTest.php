@@ -16,8 +16,10 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
+use InvalidArgumentException;
 
 /**
  * Тест для задачи, которая загружает данные из файла в БД.
@@ -58,7 +60,43 @@ class DataInsertTaskTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект выбросит исключение, если не указан катклог для чтения.
+     * Проверяет, что объект обработает исключение от сериализатора.
+     */
+    public function testRunDeserializeException()
+    {
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getXmlPath')->will($this->returnValue('/ActualStatuses/ActualStatus'));
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
+        $entityManager->method('getDescriptorByInsertFile')->will($this->returnCallback(function ($file) use ($descriptor) {
+            return $file === 'data.xml' ? $descriptor : null;
+        }));
+        $entityManager->method('getClassByDescriptor')->will($this->returnCallback(function ($testDescriptor) use ($descriptor) {
+            return $testDescriptor === $descriptor ? DataInsertTaskObject::class : null;
+        }));
+
+        $insertedData = [];
+        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage->expects($this->once())->method('start');
+        $storage->expects($this->once())->method('stop');
+        $storage->method('insert')->will($this->returnCallback(function ($object) use (&$insertedData) {
+            $insertedData[] = $object->getActstatid();
+        }));
+
+        $state = new ArrayState;
+        $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo(__DIR__ . '/_fixtures'));
+
+        $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
+        $serializer->method('deserialize')->will($this->throwException(new InvalidArgumentException));
+
+        $task = new DataInsertTask($entityManager, new BaseXmlReader, $storage, $serializer);
+
+        $this->expectException(TaskException::class);
+        $task->run($state);
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение, если не указан каталог для чтения.
      */
     public function testRunEmptyUnpackToException()
     {
