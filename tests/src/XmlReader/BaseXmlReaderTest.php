@@ -72,9 +72,9 @@ class BaseXmlReaderTest extends BaseCase
 
         $this->assertSame(
             [
-                0 => '<ActualStatus ACTSTATID="0" NAME="Не актуальный &lt;&lt;A&gt;&gt;"/>',
-                1 => '<ActualStatus ACTSTATID="1" NAME="Актуальный"/>',
-                2 => '<ActualStatus ACTSTATID="2" NAME="3-й &quot;А&quot;"/>',
+                0 => '<ActualStatus ACTSTATID="0" NAME="&#x41D;&#x435; &#x430;&#x43A;&#x442;&#x443;&#x430;&#x43B;&#x44C;&#x43D;&#x44B;&#x439; &lt;&lt;A&gt;&gt;"/>',
+                1 => '<ActualStatus ACTSTATID="1" NAME="&#x410;&#x43A;&#x442;&#x443;&#x430;&#x43B;&#x44C;&#x43D;&#x44B;&#x439;"/>',
+                2 => '<ActualStatus ACTSTATID="2" NAME="3-&#x439; &quot;&#x410;&quot;"/>',
             ],
             $result
         );
