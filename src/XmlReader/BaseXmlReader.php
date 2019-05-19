@@ -176,8 +176,10 @@ class BaseXmlReader implements XmlReaderInterface
             //мы можем выйти из цикла, если найдем нужный элемент
             //или попадем на уровень выше - проверяем, что нашли нужный
             if ($nameFilter === $this->reader->name) {
-                //возвращаем сырой xml
-                $return = $this->reader->readOuterXml();
+                //некоторые проблемы с получением человекочитаемого xml
+                $return = preg_replace_callback('/&#[A-Z0-9]+;/i', function (array $matches): string {
+                    return html_entity_decode($matches[0]);
+                }, $this->reader->readOuterXml());
                 //нужно передвинуть указатель, чтобы дважды не прочитать
                 //один и тот же элемент
                 $this->reader->next();
