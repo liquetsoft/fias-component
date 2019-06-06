@@ -954,7 +954,7 @@ NormativeDocument:
         DOCNAME:
             type: string
             subType: ''
-            length: 500
+            length: 1000
             isNullable: false
             isPrimary: false
             isIndex: false
