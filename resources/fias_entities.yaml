@@ -1,5 +1,5 @@
 IntervalStatus:
-    description: Статусы
+    description: 'Перечень возможных значений интервалов домов (обычный, четный, нечетный)'
     partitionsCount: 1
     xmlPath: /IntervalStatuses/IntervalStatus
     insertFileMask: 'AS_INTVSTAT_*.XML'
@@ -45,7 +45,7 @@ NormativeDocumentType:
             isIndex: false
             isPartition: false
 CurrentStatus:
-    description: Статусы
+    description: 'Перечень статусов актуальности записи адресного элемента по классификатору КЛАДР4.0'
     partitionsCount: 1
     xmlPath: /CurrentStatuses/CurrentStatus
     insertFileMask: 'AS_CURENTST_*.XML'
@@ -68,7 +68,7 @@ CurrentStatus:
             isIndex: false
             isPartition: false
 StructureStatus:
-    description: Статусы
+    description: 'Перечень видов строений'
     partitionsCount: 1
     xmlPath: /StructureStatuses/StructureStatus
     insertFileMask: 'AS_STRSTAT_*.XML'
@@ -99,7 +99,7 @@ StructureStatus:
             isIndex: false
             isPartition: false
 AddressObject:
-    description: Адреса
+    description: 'Реестр адресообразующих элементов'
     partitionsCount: 1
     xmlPath: /AddressObjects/Object
     insertFileMask: 'AS_ADDROBJ_*.XML'
@@ -112,6 +112,7 @@ AddressObject:
             isPrimary: true
             isIndex: false
             isPartition: false
+            description: 'Уникальный идентификатор записи. Ключевое поле.'
         AOGUID:
             type: string
             subType: uuid
@@ -119,6 +120,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Глобальный уникальный идентификатор адресного объекта'
         PARENTGUID:
             type: string
             subType: uuid
@@ -126,6 +128,15 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Идентификатор объекта родительского объекта'
+        PREVID:
+            type: string
+            subType: uuid
+            isNullable: true
+            isPrimary: false
+            isIndex: false
+            isPartition: false
+            description: 'Идентификатор записи связывания с предыдушей исторической записью'
         NEXTID:
             type: string
             subType: uuid
@@ -133,6 +144,15 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Идентификатор записи  связывания с последующей исторической записью'
+        CODE:
+            type: string
+            subType: ''
+            isNullable: true
+            isPrimary: false
+            isIndex: false
+            isPartition: false
+            description: 'Код адресного объекта одной строкой с признаком актуальности из КЛАДР 4.0. '
         FORMALNAME:
             type: string
             subType: ''
@@ -141,6 +161,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Формализованное наименование'
         OFFNAME:
             type: string
             subType: ''
@@ -149,6 +170,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Официальное наименование'
         SHORTNAME:
             type: string
             subType: ''
@@ -157,6 +179,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Краткое наименование типа объекта'
         AOLEVEL:
             type: int
             subType: ''
@@ -165,6 +188,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Уровень адресного объекта'
         REGIONCODE:
             type: string
             subType: ''
@@ -173,6 +197,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код региона'
         AREACODE:
             type: string
             subType: ''
@@ -181,6 +206,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код района'
         AUTOCODE:
             type: string
             subType: ''
@@ -189,6 +215,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код автономии'
         CITYCODE:
             type: string
             subType: ''
@@ -197,6 +224,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код города'
         CTARCODE:
             type: string
             subType: ''
@@ -205,6 +233,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код внутригородского района'
         PLACECODE:
             type: string
             subType: ''
@@ -213,6 +242,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код населенного пункта'
         PLANCODE:
             type: string
             subType: ''
@@ -221,6 +251,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код элемента планировочной структуры'
         STREETCODE:
             type: string
             subType: ''
@@ -229,6 +260,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код улицы'
         EXTRCODE:
             type: string
             subType: ''
@@ -237,6 +269,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код дополнительного адресообразующего элемента'
         SEXTCODE:
             type: string
             subType: ''
@@ -245,6 +278,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код подчиненного дополнительного адресообразующего элемента'
         PLAINCODE:
             type: string
             subType: ''
@@ -253,6 +287,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код адресного объекта из КЛАДР 4.0 одной строкой без признака актуальности (последних двух цифр)'
         CURRSTATUS:
             type: int
             subType: ''
@@ -261,6 +296,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Статус актуальности КЛАДР 4 (последние две цифры в коде)'
         ACTSTATUS:
             type: int
             subType: ''
@@ -269,6 +305,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Статус актуальности адресного объекта ФИАС. Актуальный адрес на текущую дату. Обычно последняя запись об адресном объекте'
         LIVESTATUS:
             type: int
             subType: ''
@@ -277,6 +314,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Признак действующего адресного объекта'
         CENTSTATUS:
             type: int
             subType: ''
@@ -285,6 +323,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Статус центра'
         OPERSTATUS:
             type: int
             subType: ''
@@ -293,6 +332,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Статус действия над записью – причина появления записи'
         IFNSFL:
             type: string
             subType: ''
@@ -301,6 +341,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код ИФНС ФЛ'
         IFNSUL:
             type: string
             subType: ''
@@ -309,6 +350,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код ИФНС ЮЛ'
         TERRIFNSFL:
             type: string
             subType: ''
@@ -317,6 +359,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код территориального участка ИФНС ФЛ'
         TERRIFNSUL:
             type: string
             subType: ''
@@ -325,6 +368,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Код территориального участка ИФНС ЮЛ'
         OKATO:
             type: string
             subType: ''
@@ -333,6 +377,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'OKATO'
         OKTMO:
             type: string
             subType: ''
@@ -341,6 +386,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'OKTMO'
         POSTALCODE:
             type: string
             subType: ''
@@ -349,6 +395,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Почтовый индекс'
         STARTDATE:
             type: string
             subType: date
@@ -356,6 +403,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Начало действия записи'
         ENDDATE:
             type: string
             subType: date
@@ -363,6 +411,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Окончание действия записи'
         UPDATEDATE:
             type: string
             subType: date
@@ -370,6 +419,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Дата  внесения (обновления) записи'
         DIVTYPE:
             type: int
             subType: ''
@@ -378,8 +428,9 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
+            description: 'Признак адресации'
 FlatType:
-    description: 'Типы квартир'
+    description: 'Перечень типов помещения или офиса'
     partitionsCount: 1
     xmlPath: /FlatTypes/FlatType
     insertFileMask: 'AS_FLATTYPE_*.XML'
@@ -410,7 +461,7 @@ FlatType:
             isIndex: false
             isPartition: false
 OperationStatus:
-    description: Статусы
+    description: 'Перечень кодов операций над адресными объектами'
     partitionsCount: 1
     xmlPath: /OperationStatuses/OperationStatus
     insertFileMask: 'AS_OPERSTAT_*.XML'
@@ -433,7 +484,7 @@ OperationStatus:
             isIndex: false
             isPartition: false
 ActualStatus:
-    description: Статусы
+    description: 'Перечень статусов актуальности записи адресного элемента по ФИАС'
     partitionsCount: 1
     xmlPath: /ActualStatuses/ActualStatus
     insertFileMask: 'AS_ACTSTAT_*.XML'
@@ -456,7 +507,7 @@ ActualStatus:
             isIndex: false
             isPartition: false
 RoomType:
-    description: 'Типы комнат'
+    description: 'Перечень типов комнат'
     partitionsCount: 1
     xmlPath: /RoomTypes/RoomType
     insertFileMask: 'AS_ROOMTYPE_*.XML'
@@ -487,7 +538,7 @@ RoomType:
             isIndex: false
             isPartition: false
 House:
-    description: Дома
+    description: 'Элементы адреса, идентифицирующие адресуемые объекты'
     partitionsCount: 4
     xmlPath: /Houses/House
     insertFileMask: 'AS_HOUSE_*.XML'
@@ -624,7 +675,7 @@ House:
             isIndex: false
             isPartition: false
 Stead:
-    description: 'Земельные участки'
+    description: 'Сведения о земельных участках '
     partitionsCount: 1
     xmlPath: /Steads/Stead
     insertFileMask: 'AS_STEAD_*.XML'
@@ -760,7 +811,7 @@ Stead:
             isIndex: false
             isPartition: false
 HouseStateStatus:
-    description: Статусы
+    description: 'Перечень возможных состояний объектов недвижимости'
     partitionsCount: 1
     xmlPath: /HouseStateStatuses/HouseStateStatus
     insertFileMask: 'AS_HSTSTAT_*.XML'
@@ -783,7 +834,7 @@ HouseStateStatus:
             isIndex: false
             isPartition: false
 Room:
-    description: Комнаты
+    description: 'Сведения о помещениях (квартирах, офисах, комнатах и т.д.)'
     partitionsCount: 4
     xmlPath: /Rooms/Room
     insertFileMask: 'AS_ROOM_*.XML'
@@ -887,7 +938,7 @@ Room:
             isIndex: false
             isPartition: false
 NormativeDocument:
-    description: 'Нормативные документы'
+    description: 'Сведения по нормативному документу, являющемуся основанием присвоения адресному элементу наименования'
     partitionsCount: 1
     xmlPath: /NormativeDocumentes/NormativeDocument
     insertFileMask: 'AS_NORMDOC_*.XML'
@@ -932,7 +983,7 @@ NormativeDocument:
             isIndex: false
             isPartition: false
 EstateStatus:
-    description: Статусы
+    description: 'Перечень возможных видов владений'
     partitionsCount: 1
     xmlPath: /EstateStatuses/EstateStatus
     insertFileMask: 'AS_ESTSTAT_*.XML'
@@ -955,7 +1006,7 @@ EstateStatus:
             isIndex: false
             isPartition: false
 AddressObjectType:
-    description: 'Типы объектов в адресах'
+    description: 'Перечень полных, сокращённых наименований типов адресных элементов и уровней их классификациих'
     partitionsCount: 1
     xmlPath: /AddressObjectTypes/AddressObjectType
     insertFileMask: 'AS_SOCRBASE_*.XML'
@@ -994,7 +1045,7 @@ AddressObjectType:
             isIndex: false
             isPartition: false
 CenterStatus:
-    description: Статусы
+    description: 'Перечень возможных статусов (центров) адресных объектов административных единиц'
     partitionsCount: 1
     xmlPath: /CenterStatuses/CenterStatus
     insertFileMask: 'AS_CENTERST_*.XML'
