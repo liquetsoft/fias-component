@@ -19,6 +19,11 @@ class BaseEntityField implements EntityField
     /**
      * @var string
      */
+    protected $description;
+
+    /**
+     * @var string
+     */
     protected $type;
 
     /**
@@ -59,6 +64,7 @@ class BaseEntityField implements EntityField
     public function __construct(array $p)
     {
         $this->name = $this->extractStringFromOptions($p, 'name', true);
+        $this->description = $this->extractStringFromOptions($p, 'description');
         $this->type = $this->extractStringFromOptions($p, 'type', true);
         $this->subType = $this->extractStringFromOptions($p, 'subType');
         $this->length = isset($p['length']) ? (int) $p['length'] : null;
@@ -80,6 +86,14 @@ class BaseEntityField implements EntityField
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 
     /**

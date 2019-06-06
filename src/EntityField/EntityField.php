@@ -17,6 +17,13 @@ interface EntityField
     public function getName(): string;
 
     /**
+     * Возвращает описание поля.
+     *
+     * @return string
+     */
+    public function getDescription(): string;
+
+    /**
      * Возвращает тип поля.
      *
      * @return string

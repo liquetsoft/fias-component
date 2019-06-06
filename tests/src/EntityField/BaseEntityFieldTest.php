@@ -28,12 +28,26 @@ class BaseEntityFieldTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект правильно вернет описание поля.
+     */
+    public function testGetDescription()
+    {
+        $description = $this->createFakeData()->word;
+
+        $field = $this->createField([
+            'description' => $description,
+        ]);
+
+        $this->assertSame($description, $field->getDescription());
+    }
+
+    /**
      * Проверяет, что объект правильно выбросит исключение, если имя не задано.
      */
     public function testEmptyNameException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $field = $this->createField([
+        $this->createField([
             'name' => null,
         ]);
     }
