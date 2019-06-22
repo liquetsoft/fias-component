@@ -118,7 +118,7 @@ AddressObject:
             subType: uuid
             isNullable: true
             isPrimary: false
-            isIndex: false
+            isIndex: true
             isPartition: false
             description: 'Глобальный уникальный идентификатор адресного объекта'
         PARENTGUID:
