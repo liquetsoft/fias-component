@@ -87,7 +87,9 @@ class BaseXmlReader implements XmlReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws XmlException
      */
     public function rewind()
     {
@@ -98,7 +100,9 @@ class BaseXmlReader implements XmlReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws XmlException
      */
     public function current()
     {
@@ -119,7 +123,9 @@ class BaseXmlReader implements XmlReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws XmlException
      */
     public function next()
     {
@@ -129,7 +135,9 @@ class BaseXmlReader implements XmlReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws XmlException
      */
     public function valid()
     {
@@ -261,13 +269,13 @@ class BaseXmlReader implements XmlReaderInterface
     protected function resetReader(): PhpXmlReader
     {
         if (!$this->file || !$this->xpath) {
-            throw new XmlException("File doesn't open");
+            throw new XmlException("File doesn't open.");
         }
 
         $this->unsetReader();
         $this->reader = new PhpXmlReader;
 
-        if ($this->reader->open($this->file->getPathname()) === false) {
+        if ($this->reader->open($this->file->getPathname(), 'UTF-8', LIBXML_COMPACT) === false) {
             throw new RuntimeException(
                 "Can't open file '" . $this->file->getPathname() . "' for reading."
             );

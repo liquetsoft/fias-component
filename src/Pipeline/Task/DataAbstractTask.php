@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
+use Liquetsoft\Fias\Component\Exception\StorageException;
+use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
@@ -98,6 +100,10 @@ abstract class DataAbstractTask implements Task
      * Обрабатывает указанный файл.
      *
      * @param SplFileInfo $fileInfo
+     *
+     * @throws TaskException
+     * @throws StorageException
+     * @throws XmlException
      */
     protected function processFile(SplFileInfo $fileInfo): void
     {
@@ -116,6 +122,10 @@ abstract class DataAbstractTask implements Task
      * @param SplFileInfo $fileInfo
      * @param string      $xpath
      * @param string      $entityClass
+     *
+     * @throws TaskException
+     * @throws StorageException
+     * @throws XmlException
      */
     protected function processDataFromFile(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
     {
@@ -147,7 +157,7 @@ abstract class DataAbstractTask implements Task
         try {
             $entity = $this->serializer->deserialize($xml, $entityClass, 'xml');
         } catch (Throwable $e) {
-            $message = "Deserialization error while deserializing '{$xml}' string to object with '{$entityClass}' class.";
+            $message = "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class.";
             throw new TaskException($message, 0, $e);
         }
 

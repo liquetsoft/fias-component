@@ -30,7 +30,7 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getCompleteInfo(): InformerResponse
     {
-        $response = $this->soapClient->GetLastDownloadFileInfo();
+        $response = $this->soapClient->__call('GetLastDownloadFileInfo', []);
 
         $res = new InformerResponseBase;
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
@@ -44,7 +44,7 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getDeltaInfo(int $version): InformerResponse
     {
-        $response = $this->soapClient->GetAllDownloadFileInfo();
+        $response = $this->soapClient->__call('GetAllDownloadFileInfo', []);
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
 
         $res = new InformerResponseBase;

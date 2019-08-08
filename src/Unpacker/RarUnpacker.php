@@ -36,7 +36,7 @@ class RarUnpacker implements Unpacker
 
         try {
             $archive = RarArchive::open($source->getPathname());
-            $this->extractArciveTo($archive, $destination);
+            $this->extractArchiveTo($archive, $destination);
         } catch (Throwable $e) {
             $message = "Can't extract '" . $source->getPathname() . "' to '" . $destination->getPathname() . "'.";
             throw new UnpackerException($message, 0, $e);
@@ -55,7 +55,7 @@ class RarUnpacker implements Unpacker
      *
      * @psalm-suppress TooFewArguments
      */
-    protected function extractArciveTo(RarArchive $archive, SplFileInfo $destination): void
+    protected function extractArchiveTo(RarArchive $archive, SplFileInfo $destination): void
     {
         $entries = $archive->getEntries();
         $path = $destination->getPathname();

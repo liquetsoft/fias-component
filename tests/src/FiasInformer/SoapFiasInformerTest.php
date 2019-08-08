@@ -26,10 +26,11 @@ class SoapFiasInformerTest extends BaseCase
         $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber;
 
         $soapClient = $this->getMockBuilder(SoapClient::class)
-            ->setMethods(['GetLastDownloadFileInfo'])
             ->disableOriginalConstructor()
             ->getMock();
-        $soapClient->method('GetLastDownloadFileInfo')->will($this->returnValue($soapResponse));
+        $soapClient->method('__call')
+            ->with($this->identicalTo('GetLastDownloadFileInfo'))
+            ->will($this->returnValue($soapResponse));
 
         $service = new SoapFiasInformer($soapClient);
         $result = $service->getCompleteInfo();
@@ -69,10 +70,11 @@ class SoapFiasInformerTest extends BaseCase
         shuffle($soapResponse->GetAllDownloadFileInfoResult->DownloadFileInfo);
 
         $soapClient = $this->getMockBuilder(SoapClient::class)
-            ->setMethods(['GetAllDownloadFileInfo'])
             ->disableOriginalConstructor()
             ->getMock();
-        $soapClient->method('GetAllDownloadFileInfo')->will($this->returnValue($soapResponse));
+        $soapClient->method('__call')
+            ->with($this->identicalTo('GetAllDownloadFileInfo'))
+            ->will($this->returnValue($soapResponse));
 
         $service = new SoapFiasInformer($soapClient);
         $result = $service->getDeltaInfo($currentDelta);

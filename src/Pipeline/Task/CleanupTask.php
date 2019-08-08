@@ -25,9 +25,9 @@ class CleanupTask implements Task
 
         $toRemove = array_diff($toRemove, [null]);
 
-        foreach ($toRemove as $fileinfo) {
-            if ($fileinfo instanceof SplFileInfo) {
-                FileSystemHelper::remove($fileinfo);
+        foreach ($toRemove as $fileInfo) {
+            if ($fileInfo instanceof SplFileInfo) {
+                FileSystemHelper::remove($fileInfo);
             }
         }
     }

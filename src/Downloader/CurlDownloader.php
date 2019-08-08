@@ -18,7 +18,7 @@ class CurlDownloader implements Downloader
      */
     public function download(string $url, SplFileInfo $localFile): void
     {
-        if (!preg_match('#https?\://.+\.[^\.]+.*#', $url)) {
+        if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
             throw new InvalidArgumentException("Wrong url format: {$url}");
         }
 

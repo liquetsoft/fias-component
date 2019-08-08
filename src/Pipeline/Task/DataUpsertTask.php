@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\Exception\StorageException;
 use SplFileInfo;
 
 /**
@@ -22,7 +23,9 @@ class DataUpsertTask extends DataAbstractTask
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws StorageException
      */
     protected function processItem(object $item): void
     {

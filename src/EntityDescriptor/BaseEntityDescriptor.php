@@ -152,7 +152,7 @@ class BaseEntityDescriptor implements EntityDescriptor
 
         if (!$return) {
             throw new InvalidArgumentException(
-                "EntityDescriptor doesn't have fild with name '{$name}'."
+                "EntityDescriptor doesn't have field with name '{$name}'."
             );
         }
 

@@ -5,6 +5,9 @@
     "keywords": ["php", "fias"],
     "license": "MIT",
     "require": {
+        "ext-soap": "*",
+        "ext-libxml": "*",
+        "ext-xmlreader": "*",
         "php": ">=7.2",
         "symfony/yaml": "^4.2",
         "symfony/serializer": "^4.2",

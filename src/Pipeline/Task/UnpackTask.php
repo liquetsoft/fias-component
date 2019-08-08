@@ -20,7 +20,7 @@ class UnpackTask implements Task
     protected $unpacker;
 
     /**
-     * @param Unpacker $downloader
+     * @param Unpacker $unpacker
      */
     public function __construct(Unpacker $unpacker)
     {

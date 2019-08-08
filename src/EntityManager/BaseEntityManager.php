@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\EntityManager;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 
 /**
  * Объект, который содержит соответствия между сущностями ФИАС и их реализациями
@@ -48,7 +49,9 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws EntityRegistryException
      */
     public function getDescriptorByEntityName(string $entityName): ?EntityDescriptor
     {
@@ -73,7 +76,9 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws EntityRegistryException
      */
     public function getDescriptorByInsertFile(string $insertFileName): ?EntityDescriptor
     {
@@ -91,7 +96,9 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws EntityRegistryException
      */
     public function getDescriptorByDeleteFile(string $insertFileName): ?EntityDescriptor
     {
@@ -109,16 +116,18 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws EntityRegistryException
      */
     public function getDescriptorByClass(string $className): ?EntityDescriptor
     {
         $normalizedClassName = $this->normalizeClassName($className);
         $entityName = null;
 
-        foreach ($this->bindings as $bindedEntity => $bindedClass) {
-            if ($normalizedClassName === $bindedClass) {
-                $entityName = $bindedEntity;
+        foreach ($this->bindings as $bindEntity => $bindClass) {
+            if ($normalizedClassName === $bindClass) {
+                $entityName = $bindEntity;
                 break;
             }
         }
@@ -127,7 +136,9 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws EntityRegistryException
      */
     public function getDescriptorByObject($object): ?EntityDescriptor
     {

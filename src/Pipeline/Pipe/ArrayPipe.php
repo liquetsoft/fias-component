@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
 
+use Exception;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Exception\PipeException;
@@ -48,7 +49,9 @@ class ArrayPipe implements Pipe
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws Exception
      */
     public function run(State $state): Pipe
     {
@@ -75,6 +78,8 @@ class ArrayPipe implements Pipe
      * Обработка завершения задачи.
      *
      * @param State $state
+     *
+     * @throws Exception
      */
     protected function cleanup(State $state): void
     {
