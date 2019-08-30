@@ -180,7 +180,6 @@ class BaseXmlReader implements XmlReaderInterface
 
         try {
             $this->skipUselessXml($nameFilter, $currentDepth);
-
             //мы можем выйти из цикла, если найдем нужный элемент
             //или попадем на уровень выше - проверяем, что нашли нужный
             if ($nameFilter === $this->reader->name) {
@@ -275,7 +274,7 @@ class BaseXmlReader implements XmlReaderInterface
         $this->unsetReader();
         $this->reader = new PhpXmlReader;
 
-        if ($this->reader->open($this->file->getPathname(), 'UTF-8', LIBXML_COMPACT) === false) {
+        if ($this->reader->open($this->file->getPathname(), 'UTF-8', LIBXML_COMPACT | LIBXML_NONET | LIBXML_NOBLANKS) === false) {
             throw new RuntimeException(
                 "Can't open file '" . $this->file->getPathname() . "' for reading."
             );
