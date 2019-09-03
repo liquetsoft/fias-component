@@ -419,7 +419,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
-            description: 'Дата  внесения (обновления) записи'
+            description: 'Дата внесения (обновления) записи'
         DIVTYPE:
             type: int
             subType: ''
