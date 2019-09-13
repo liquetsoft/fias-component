@@ -1006,7 +1006,7 @@ EstateStatus:
             isIndex: false
             isPartition: false
 AddressObjectType:
-    description: 'Перечень полных, сокращённых наименований типов адресных элементов и уровней их классификациих'
+    description: 'Перечень полных, сокращённых наименований типов адресных элементов и уровней их классификации'
     partitionsCount: 1
     xmlPath: /AddressObjectTypes/AddressObjectType
     insertFileMask: 'AS_SOCRBASE_*.XML'
