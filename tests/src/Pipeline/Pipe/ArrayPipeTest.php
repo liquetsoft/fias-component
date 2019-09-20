@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Тест для объекта, который запускает на исполнение задачи из внутреннего массива.
@@ -33,6 +34,24 @@ class ArrayPipeTest extends BaseCase
      * Проверяет, что задачи добавляются в очередь и запускаются.
      */
     public function testRun()
+    {
+        $state = $this->getMockBuilder(State::class)->getMock();
+        $state->expects($this->once())->method('complete');
+
+        $task1 = $this->getMockBuilder(Task::class)->getMock();
+        $task1->expects($this->once())->method('run')->with($this->equalTo($state));
+
+        $task2 = $this->getMockBuilder(Task::class)->getMock();
+        $task2->expects($this->once())->method('run')->with($this->equalTo($state));
+
+        $pipe = new ArrayPipe([$task1, $task2]);
+        $pipe->run($state);
+    }
+
+    /**
+     * Проверяет, что задачи добавляются в очередь и запускаются, а после задач запускается задача очистки.
+     */
+    public function testRunWithCleanup()
     {
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->expects($this->once())->method('complete');
@@ -96,6 +115,23 @@ class ArrayPipeTest extends BaseCase
         $pipe = new ArrayPipe([$task1, $task2], $cleanUp);
 
         $this->expectException(PipeException::class);
+        $pipe->run($state);
+    }
+
+    /**
+     * Проверяет, что очередь пишет данные в лог.
+     */
+    public function testLogger()
+    {
+        $state = $this->getMockBuilder(State::class)->getMock();
+        $state->expects($this->once())->method('complete');
+
+        $task = $this->getMockBuilder(Task::class)->getMock();
+
+        $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+        $logger->expects($this->atLeastOnce())->method('log');
+
+        $pipe = new ArrayPipe([$task], null, $logger);
         $pipe->run($state);
     }
 }
