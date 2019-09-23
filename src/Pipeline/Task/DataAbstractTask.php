@@ -12,6 +12,7 @@ use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Psr\Log\LogLevel;
 use Symfony\Component\Serializer\SerializerInterface;
 use SplFileInfo;
 use RecursiveDirectoryIterator;
@@ -20,8 +21,10 @@ use Throwable;
 /**
  * Абстрактная задача, которая переносит данные из xml в хранилище данных.
  */
-abstract class DataAbstractTask implements Task
+abstract class DataAbstractTask implements Task, LoggableTask
 {
+    use LoggableTaskTrait;
+
     /**
      * @var EntityManager
      */
@@ -129,17 +132,36 @@ abstract class DataAbstractTask implements Task
      */
     protected function processDataFromFile(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
     {
+        $this->log(
+            LogLevel::INFO,
+            "Start processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity.",
+            [
+                'entity' => $entityClass,
+                'path' => $fileInfo->getRealPath(),
+            ]
+        );
+
+        $total = 0;
         $this->xmlReader->open($fileInfo, $xpath);
         $this->storage->start();
-
         try {
             foreach ($this->xmlReader as $xml) {
                 $this->processItem($this->deserializeXmlStringToObject($xml, $entityClass));
+                ++$total;
             }
         } finally {
             $this->storage->stop();
             $this->xmlReader->close();
         }
+
+        $this->log(
+            LogLevel::INFO,
+            "Complete processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity. {$total} items processed.",
+            [
+                'entity' => $entityClass,
+                'path' => $fileInfo->getRealPath(),
+            ]
+        );
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Pipe;
 
 use Liquetsoft\Fias\Component\Pipeline\Pipe\ArrayPipe;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Exception\PipeException;
@@ -124,12 +125,45 @@ class ArrayPipeTest extends BaseCase
     public function testLogger()
     {
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->once())->method('complete');
-
         $task = $this->getMockBuilder(Task::class)->getMock();
 
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-        $logger->expects($this->atLeastOnce())->method('log');
+        $logger->expects($this->atLeastOnce())
+            ->method('log')
+            ->with(
+                $this->anything(),
+                $this->anything(),
+                $this->logicalAnd(
+                    $this->arrayHasKey('pipeline_class'),
+                    $this->arrayHasKey('pipeline_id')
+                )
+            )
+        ;
+
+        $pipe = new ArrayPipe([$task], null, $logger);
+        $pipe->run($state);
+    }
+
+    /**
+     * Проверяет, что очередь передаст объект лога в задачу, если требуется.
+     */
+    public function testLoggableTaskLoggerInjected()
+    {
+        $state = $this->getMockBuilder(State::class)->getMock();
+        $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+
+        $task = $this->getMockBuilder([Task::class, LoggableTask::class])->getMock();
+        $task->expects($this->once())
+            ->method('injectLogger')
+            ->with(
+                $this->identicalTo($logger),
+                $this->logicalAnd(
+                    $this->arrayHasKey('pipeline_class'),
+                    $this->arrayHasKey('pipeline_id'),
+                    $this->arrayHasKey('task')
+                )
+            )
+        ;
 
         $pipe = new ArrayPipe([$task], null, $logger);
         $pipe->run($state);

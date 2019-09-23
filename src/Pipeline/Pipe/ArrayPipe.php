@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
 
 use Exception;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use InvalidArgumentException;
@@ -101,12 +102,13 @@ class ArrayPipe implements Pipe
      */
     protected function proceedTask(State $state, Task $task): void
     {
-        $taskName = get_class($task);
+        $taskName = $this->getTaskId($task);
         $this->log(
             LogLevel::INFO,
             "Start '{$taskName}' task.",
             ['task' => $taskName]
         );
+        $this->injectLoggerToTask($task);
         $task->run($state);
         $this->log(
             LogLevel::INFO,
@@ -126,7 +128,7 @@ class ArrayPipe implements Pipe
      */
     protected function proceedException(State $state, Task $task, Throwable $e): void
     {
-        $taskName = get_class($task);
+        $taskName = $this->getTaskId($task);
         $message = "Error while running {$taskName} task: {$e->getMessage()}";
 
         $this->log(LogLevel::ERROR, $message, [
@@ -177,10 +179,41 @@ class ArrayPipe implements Pipe
     protected function log(string $level, string $message, array $context = []): void
     {
         if ($this->logger) {
-            $context['pipeline'] = get_class($this);
-            $context['pipeline_id'] = $this->id;
-            $this->logger->log($level, "Pipeline {$this->id}. {$message}", $context);
+            $context = $this->createLoggerContext($context);
+            $this->logger->log($level, $message, $context);
         }
+    }
+
+    /**
+     * Добавляет логгер в операцию, если операция поддерживает логгирование.
+     *
+     * @param Task $task
+     */
+    protected function injectLoggerToTask(Task $task): void
+    {
+        if ($task instanceof LoggableTask && $this->logger) {
+            $task->injectLogger(
+                $this->logger,
+                $this->createLoggerContext(['task' => $this->getTaskId($task)])
+            );
+        }
+    }
+
+    /**
+     * Возвращает дефолтный контекст логгирования.
+     *
+     * @param array $currentContext
+     *
+     * @return array
+     */
+    protected function createLoggerContext(array $currentContext = []): array
+    {
+        $defaultContext = [
+            'pipeline_class' => get_class($this),
+            'pipeline_id' => $this->id,
+        ];
+
+        return array_merge($defaultContext, $currentContext);
     }
 
     /**
@@ -206,5 +239,17 @@ class ArrayPipe implements Pipe
         }
 
         return $return;
+    }
+
+    /**
+     * Возвращает идентификатор операции.
+     *
+     * @param Task $task
+     *
+     * @return string
+     */
+    protected function getTaskId(Task $task): string
+    {
+        return get_class($task);
     }
 }
