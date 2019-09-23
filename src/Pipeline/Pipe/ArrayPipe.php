@@ -89,7 +89,7 @@ class ArrayPipe implements Pipe
      */
     protected function proceedStart(State $state): void
     {
-        $this->log(LogLevel::INFO, "Start  '" . get_class($this) . "' pipeline.");
+        $this->log(LogLevel::INFO, "Start '" . get_class($this) . "' pipeline.");
     }
 
     /**
