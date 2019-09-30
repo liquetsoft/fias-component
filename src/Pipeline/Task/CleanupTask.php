@@ -6,13 +6,16 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Helper\FileSystemHelper;
+use Psr\Log\LogLevel;
 use SplFileInfo;
 
 /**
  * Задача, которая удаляет все временные файлы, полученные во время импорта.
  */
-class CleanupTask implements Task
+class CleanupTask implements Task, LoggableTask
 {
+    use LoggableTaskTrait;
+
     /**
      * @inheritdoc
      */
@@ -27,6 +30,7 @@ class CleanupTask implements Task
 
         foreach ($toRemove as $fileInfo) {
             if ($fileInfo instanceof SplFileInfo) {
+                $this->log(LogLevel::INFO, "Cleaning up '{$fileInfo->getRealPath()}' folder.");
                 FileSystemHelper::remove($fileInfo);
             }
         }
