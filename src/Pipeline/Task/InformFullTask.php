@@ -44,7 +44,7 @@ class InformFullTask implements Task, LoggableTask
 
         $this->log(
             LogLevel::INFO,
-            "Full version of FIAS is '{$info->getVersion()}' and can be donloaded from '{$info->getUrl()}'.",
+            "Full version of FIAS is '{$info->getVersion()}' and can be downloaded from '{$info->getUrl()}'.",
             [
                 'next_version' => $info->getVersion(),
                 'url' => $info->getUrl(),

@@ -55,7 +55,7 @@ class InformDeltaTask implements Task, LoggableTask
         } else {
             $this->log(
                 LogLevel::INFO,
-                "Current version of FIAS is '{$version}', next version is '{$info->getVersion()}' and can be donloaded from '{$info->getUrl()}'.",
+                "Current version of FIAS is '{$version}', next version is '{$info->getVersion()}' and can be donwloaded from '{$info->getUrl()}'.",
                 [
                     'current_version' => $version,
                     'next_version' => $info->getVersion(),
