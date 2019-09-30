@@ -7,13 +7,16 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Psr\Log\LogLevel;
 
 /**
  * Задача, которая получает ссылку на архив с обновлениями ФИАС
  * относительно указанной в состоянии версии.
  */
-class InformDeltaTask implements Task
+class InformDeltaTask implements Task, LoggableTask
 {
+    use LoggableTaskTrait;
+
     /**
      * @var FiasInformer
      */
@@ -42,6 +45,23 @@ class InformDeltaTask implements Task
         $info = $this->informer->getDeltaInfo($version);
         if (!$info->hasResult()) {
             $state->complete();
+            $this->log(
+                LogLevel::INFO,
+                "Current version '{$version}' is up to date.",
+                [
+                    'current_version' => $version,
+                ]
+            );
+        } else {
+            $this->log(
+                LogLevel::INFO,
+                "Current version of FIAS is '{$version}', next version is '{$info->getVersion()}' and can be donloaded from '{$info->getUrl()}'.",
+                [
+                    'current_version' => $version,
+                    'next_version' => $info->getVersion(),
+                    'url' => $info->getUrl(),
+                ]
+            );
         }
 
         $state->setAndLockParameter(Task::FIAS_INFO_PARAM, $info);
