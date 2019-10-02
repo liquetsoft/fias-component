@@ -51,7 +51,7 @@ class UnpackTask implements Task, LoggableTask
 
         $this->log(
             LogLevel::INFO,
-            "Extracting '{$source->getRealPath()}' to '{$destination->getRealPath()}'."
+            "Extracting '{$source->getRealPath()}' to '{$destination->getPathname()}'."
         );
 
         $this->unpacker->unpack($source, $destination);
