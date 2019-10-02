@@ -8,14 +8,17 @@ use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Psr\Log\LogLevel;
 use SplFileInfo;
 
 /**
  * Задача, которая скачивает архив из текущего состояния по ссылке
  * в указанный в состоянии локальный файл.
  */
-class DownloadTask implements Task
+class DownloadTask implements Task, LoggableTask
 {
+    use LoggableTaskTrait;
+
     /**
      * @var Downloader
      */
@@ -47,6 +50,11 @@ class DownloadTask implements Task
                 "State parameter '" . Task::DOWNLOAD_TO_FILE_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
+
+        $this->log(
+            LogLevel::INFO,
+            "Downloading '{$info->getUrl()}' to '{$localFile->getRealPath()}'."
+        );
 
         $this->downloader->download($info->getUrl(), $localFile);
     }

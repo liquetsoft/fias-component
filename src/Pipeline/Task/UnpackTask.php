@@ -7,13 +7,16 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Psr\Log\LogLevel;
 use SplFileInfo;
 
 /**
  * Задача, которая распаковывает архив из файла в папку, указанные в состоянии.
  */
-class UnpackTask implements Task
+class UnpackTask implements Task, LoggableTask
 {
+    use LoggableTaskTrait;
+
     /**
      * @var Unpacker
      */
@@ -45,6 +48,11 @@ class UnpackTask implements Task
                 "State parameter '" . Task::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
+
+        $this->log(
+            LogLevel::INFO,
+            "Extracting '{$source->getRealPath()}' to '{$destination->getRealPath()}'."
+        );
 
         $this->unpacker->unpack($source, $destination);
     }

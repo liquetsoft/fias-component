@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Helper\FileSystemHelper;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Psr\Log\LogLevel;
 use SplFileInfo;
 use InvalidArgumentException;
 
@@ -14,8 +15,10 @@ use InvalidArgumentException;
  * Задача, которая подготавливает все необходимые каталоги и файлы для процесса
  * установки/обновления.
  */
-class PrepareFolderTask implements Task
+class PrepareFolderTask implements Task, LoggableTask
 {
+    use LoggableTaskTrait;
+
     /**
      * @var SplFileInfo
      */
@@ -46,6 +49,7 @@ class PrepareFolderTask implements Task
     public function run(State $state): void
     {
         if ($this->folder->isDir()) {
+            $this->log(LogLevel::INFO, "Emptying '{$this->folder->getRealPath()}' folder.");
             FileSystemHelper::remove($this->folder);
         }
 
@@ -56,6 +60,7 @@ class PrepareFolderTask implements Task
         $downloadToFile = new SplFileInfo($this->folder->getRealPath() . '/archive');
         $extractToFolder = new SplFileInfo($this->folder->getRealPath() . '/extracted');
 
+        $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder.");
         if (!mkdir($extractToFolder->getPathname())) {
             throw new TaskException("Can't create '" . $extractToFolder->getPathname() . "' folder.");
         }

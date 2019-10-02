@@ -7,13 +7,16 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Psr\Log\LogLevel;
 
 /**
  * Задача, которая очищает хранилища, для всех сущностей, которые привязаны к
  * сущностям ФИАС.
  */
-class TruncateTask implements Task
+class TruncateTask implements Task, LoggableTask
 {
+    use LoggableTaskTrait;
+
     /**
      * @var EntityManager
      */
@@ -41,6 +44,9 @@ class TruncateTask implements Task
     {
         $this->storage->start();
         foreach ($this->entityManager->getBindedClasses() as $className) {
+            $this->log(LogLevel::INFO, "Truncating '{$className}' entity.", [
+                'entity' => $className,
+            ]);
             $this->storage->truncate($className);
         }
         $this->storage->stop();
