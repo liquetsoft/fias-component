@@ -53,7 +53,7 @@ class DownloadTask implements Task, LoggableTask
 
         $this->log(
             LogLevel::INFO,
-            "Downloading '{$info->getUrl()}' to '{$localFile->getRealPath()}'."
+            "Downloading '{$info->getUrl()}' to '{$localFile->getPathname()}'."
         );
 
         $this->downloader->download($info->getUrl(), $localFile);
