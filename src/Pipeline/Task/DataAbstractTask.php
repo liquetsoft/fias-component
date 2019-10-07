@@ -146,7 +146,9 @@ abstract class DataAbstractTask implements Task, LoggableTask
         $this->storage->start();
         try {
             foreach ($this->xmlReader as $xml) {
-                $this->processItem($this->deserializeXmlStringToObject($xml, $entityClass));
+                $item = $this->deserializeXmlStringToObject($xml, $entityClass);
+                $this->processItem($item);
+                unset($item, $xml);
                 ++$total;
             }
         } finally {
