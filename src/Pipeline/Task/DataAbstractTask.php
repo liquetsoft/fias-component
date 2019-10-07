@@ -115,6 +115,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
             $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
             if ($entityClass) {
                 $this->processDataFromFile($fileInfo, $descriptor->getXmlPath(), $entityClass);
+                gc_collect_cycles();
             }
         }
     }
