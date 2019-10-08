@@ -955,14 +955,14 @@ NormativeDocument:
             type: string
             subType: ''
             length: 1000
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
         DOCDATE:
             type: string
             subType: date
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -970,7 +970,7 @@ NormativeDocument:
             type: string
             subType: ''
             length: 255
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
