@@ -569,7 +569,7 @@ House:
             type: string
             subType: ''
             length: 20
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -601,7 +601,7 @@ House:
             type: string
             subType: ''
             length: 4
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -609,7 +609,7 @@ House:
             type: string
             subType: ''
             length: 4
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -617,7 +617,7 @@ House:
             type: string
             subType: ''
             length: 11
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -625,7 +625,7 @@ House:
             type: string
             subType: ''
             length: 11
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -633,7 +633,7 @@ House:
             type: string
             subType: ''
             length: 6
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
