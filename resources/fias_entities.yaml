@@ -692,7 +692,7 @@ Stead:
             type: string
             subType: ''
             length: 255
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
