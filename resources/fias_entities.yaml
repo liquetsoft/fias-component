@@ -346,7 +346,7 @@ AddressObject:
             type: string
             subType: ''
             length: 4
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -355,7 +355,7 @@ AddressObject:
             type: string
             subType: ''
             length: 4
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -364,7 +364,7 @@ AddressObject:
             type: string
             subType: ''
             length: 4
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -382,7 +382,7 @@ AddressObject:
             type: string
             subType: ''
             length: 11
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
@@ -391,7 +391,7 @@ AddressObject:
             type: string
             subType: ''
             length: 6
-            isNullable: false
+            isNullable: true
             isPrimary: false
             isIndex: false
             isPartition: false
