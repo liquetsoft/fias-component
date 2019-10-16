@@ -26,7 +26,7 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->setMethods(['curlDownload'])
+            ->onlyMethods(['curlDownload'])
             ->disableOriginalConstructor()
             ->getMock();
         $curl->expects($this->once())->method('curlDownload')
@@ -51,7 +51,7 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->setMethods(['curlDownload'])
+            ->onlyMethods(['curlDownload'])
             ->disableOriginalConstructor()
             ->getMock();
         $curl->expects($this->never())->method('curlDownload');
@@ -72,7 +72,7 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->setMethods(['curlDownload'])
+            ->onlyMethods(['curlDownload'])
             ->disableOriginalConstructor()
             ->getMock();
         $curl->expects($this->once())->method('curlDownload')
@@ -94,7 +94,7 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->setMethods(['curlDownload'])
+            ->onlyMethods(['curlDownload'])
             ->disableOriginalConstructor()
             ->getMock();
         $curl->expects($this->once())->method('curlDownload')
@@ -116,7 +116,7 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->setMethods(['curlDownload'])
+            ->onlyMethods(['curlDownload'])
             ->disableOriginalConstructor()
             ->getMock();
         $curl->expects($this->never())->method('curlDownload');
