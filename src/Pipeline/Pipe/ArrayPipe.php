@@ -41,7 +41,7 @@ class ArrayPipe implements Pipe
     protected $logger;
 
     /**
-     * @param iterable             $tasks       Список задач, которые должны быть исполены данной очередью
+     * @param iterable             $tasks       Список задач, которые должны быть исполнены данной очередью
      * @param Task|null            $cleanupTask Задача, которая будет выполнена после исключения или по успешному завершению очереди
      * @param LoggerInterface|null $logger      PSR-3 совместимый логгер
      *
