@@ -137,15 +137,7 @@ class ParallelPool implements Pool
 
         //оставшиеся задачи распределяем равномерно по всем тредам
         foreach ($tasks as $task) {
-            $smallestThread = null;
-            $smallestThreadNumber = null;
-            foreach ($threads as $threadNumber => $thread) {
-                $threadCount = count($thread);
-                if ($smallestThread === null || $smallestThread > $threadCount) {
-                    $smallestThread = $threadCount;
-                    $smallestThreadNumber = $threadNumber;
-                }
-            }
+            $smallestThreadNumber = $this->getSmallestThreadNumber($threads);
             $threads[$smallestThreadNumber][] = $task;
         }
 
@@ -174,5 +166,28 @@ class ParallelPool implements Pool
     protected function clearTasks(): void
     {
         $this->tasks = [];
+    }
+
+    /**
+     * Возвращает номер треда, в котором меньше всего задач.
+     *
+     * @param array $threads
+     *
+     * @return int
+     */
+    protected function getSmallestThreadNumber(array $threads): int
+    {
+        $smallestThread = null;
+        $smallestThreadNumber = null;
+
+        foreach ($threads as $threadNumber => $thread) {
+            $threadCount = count($thread);
+            if ($smallestThread === null || $smallestThread > $threadCount) {
+                $smallestThread = $threadCount;
+                $smallestThreadNumber = $threadNumber;
+            }
+        }
+
+        return (int) $smallestThreadNumber;
     }
 }
