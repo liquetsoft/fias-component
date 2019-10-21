@@ -15,7 +15,6 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Psr\Log\LogLevel;
 use Symfony\Component\Serializer\SerializerInterface;
 use SplFileInfo;
-use RecursiveDirectoryIterator;
 use Throwable;
 
 /**
@@ -60,6 +59,15 @@ abstract class DataAbstractTask implements Task, LoggableTask
     }
 
     /**
+     * Получает список дескрипторов для фпйлов, которые нужно обработать.
+     *
+     * @param State $state
+     *
+     * @return string[]
+     */
+    abstract protected function getFileNamesFromState(State $state): array;
+
+    /**
      * Получает дескриптор по имени файла.
      *
      * @param SplFileInfo $fileInfo
@@ -80,22 +88,9 @@ abstract class DataAbstractTask implements Task, LoggableTask
      */
     public function run(State $state): void
     {
-        $filesFolder = $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM);
-        if (!($filesFolder instanceof SplFileInfo)) {
-            throw new TaskException(
-                "State parameter '" . Task::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
-            );
-        }
-
-        $iterator = new RecursiveDirectoryIterator(
-            $filesFolder->getRealPath(),
-            RecursiveDirectoryIterator::SKIP_DOTS
-        );
-
-        foreach ($iterator as $fileInfo) {
-            if ($fileInfo->isFile()) {
-                $this->processFile($fileInfo);
-            }
+        $fileNames = $this->getFileNamesFromState($state);
+        foreach ($fileNames as $fileName) {
+            $this->processFile(new SplFileInfo($fileName));
         }
     }
 

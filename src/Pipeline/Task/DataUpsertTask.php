@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\StorageException;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 use SplFileInfo;
 
 /**
@@ -14,6 +15,16 @@ use SplFileInfo;
  */
 class DataUpsertTask extends DataAbstractTask
 {
+    /**
+     * @inheritdoc
+     */
+    protected function getFileNamesFromState(State $state): array
+    {
+        $fileNames = $state->getParameter(Task::FILES_TO_INSERT_PARAM);
+
+        return is_array($fileNames) ? $fileNames : [];
+    }
+
     /**
      * @inheritdoc
      */
