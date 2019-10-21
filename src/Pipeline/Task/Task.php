@@ -21,6 +21,10 @@ interface Task
 
     const EXTRACT_TO_FOLDER_PARAM = 'extract_to';
 
+    const FILES_TO_INSERT_PARAM = 'files_to_insert';
+
+    const FILES_TO_DELETE_PARAM = 'files_to_delete';
+
     /**
      * Запускает задачу на исполнение.
      *
