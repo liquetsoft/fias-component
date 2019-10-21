@@ -102,9 +102,6 @@ class SelectFilesToProceedTask implements Task, LoggableTask
         );
 
         foreach ($iterator as $fileInfo) {
-            if (!$fileInfo->isFile()) {
-                continue;
-            }
             if ($this->isFileAllowedToInsert($fileInfo)) {
                 $filesToInsert[] = $fileInfo->getRealPath();
             } elseif ($this->isFileAllowedToDelete($fileInfo)) {

@@ -40,7 +40,10 @@ class SelectFilesToProceedTaskTest extends BaseCase
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
         $state = new ArrayState;
-        $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, __DIR__ . '/test');
+        $state->setParameter(
+            Task::EXTRACT_TO_FOLDER_PARAM,
+            new SplFileInfo(__DIR__ . '/test')
+        );
 
         $task = new SelectFilesToProceedTask($entityManager);
 
@@ -59,7 +62,10 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')->will($this->returnCallback(function ($file) use ($descriptor) {
-            return $file === 'SelectFilesToProceedTaskTest.xml' ? $descriptor : null;
+            return $file === 'SelectFilesToProceedTaskTest_insert.xml' ? $descriptor : null;
+        }));
+        $entityManager->method('getDescriptorByDeleteFile')->will($this->returnCallback(function ($file) use ($descriptor) {
+            return $file === 'SelectFilesToProceedTaskTest_delete.xml' ? $descriptor : null;
         }));
         $entityManager->method('getClassByDescriptor')->will($this->returnCallback(function ($testDescriptor) use ($descriptor) {
             return $testDescriptor === $descriptor ? SelectFilesToProceedTaskObject::class : null;
@@ -72,10 +78,13 @@ class SelectFilesToProceedTaskTest extends BaseCase
         $task->run($state);
 
         $this->assertSame(
-            [$fixturesFolder . '/SelectFilesToProceedTaskTest.xml'],
+            [$fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml'],
             $state->getParameter(Task::FILES_TO_INSERT_PARAM)
         );
-        $this->assertSame([], $state->getParameter(Task::FILES_TO_DELETE_PARAM));
+        $this->assertSame(
+            [$fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml'],
+            $state->getParameter(Task::FILES_TO_DELETE_PARAM)
+        );
     }
 }
 
