@@ -96,20 +96,20 @@ abstract class BaseCase extends TestCase
     /**
      * Создает тестовый файл во временной директории.
      *
-     * @param string $name
+     * @param string      $name
+     * @param string|null $content
      *
      * @return string
-     *
-     * @throws RuntimeException
      */
-    protected function getPathToTestFile(string $name = ''): string
+    protected function getPathToTestFile(string $name = '', ?string $content = null): string
     {
         if ($name === '') {
             $name = $this->createFakeData()->word . '.txt';
         }
 
         $pathToFile = $this->getTempDir() . DIRECTORY_SEPARATOR . $name;
-        if (file_put_contents($pathToFile, $this->createFakeData()->word) === false) {
+        $content = $content === null ? $this->createFakeData()->word : $content;
+        if (file_put_contents($pathToFile, $content) === false) {
             throw new RuntimeException("Can't create file {$pathToFile}");
         }
 

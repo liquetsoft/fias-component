@@ -7,18 +7,14 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataInsertTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use SplFileInfo;
 use InvalidArgumentException;
 
 /**
@@ -51,7 +47,7 @@ class DataInsertTaskTest extends BaseCase
         }));
 
         $state = new ArrayState;
-        $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo(__DIR__ . '/_fixtures'));
+        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [__DIR__ . '/_fixtures/data.xml']);
 
         $task = new DataInsertTask($entityManager, new BaseXmlReader, $storage, new FiasSerializer);
         $task->run($state);
@@ -84,29 +80,12 @@ class DataInsertTaskTest extends BaseCase
         }));
 
         $state = new ArrayState;
-        $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo(__DIR__ . '/_fixtures'));
+        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [__DIR__ . '/_fixtures/data.xml']);
 
         $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
         $serializer->method('deserialize')->will($this->throwException(new InvalidArgumentException));
 
         $task = new DataInsertTask($entityManager, new BaseXmlReader, $storage, $serializer);
-
-        $this->expectException(TaskException::class);
-        $task->run($state);
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если не указан каталог для чтения.
-     */
-    public function testRunEmptyUnpackToException()
-    {
-        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $reader = $this->getMockBuilder(XmlReader::class)->getMock();
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
-        $serializer = $this->getMockBuilder(Serializer::class)->getMock();
-        $state = $this->getMockBuilder(State::class)->getMock();
-
-        $task = new DataInsertTask($entityManager, $reader, $storage, $serializer);
 
         $this->expectException(TaskException::class);
         $task->run($state);
