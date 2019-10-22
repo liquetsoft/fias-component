@@ -144,7 +144,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
-            description: 'Идентификатор записи  связывания с последующей исторической записью'
+            description: 'Идентификатор записи связывания с последующей исторической записью'
         CODE:
             type: string
             subType: ''
