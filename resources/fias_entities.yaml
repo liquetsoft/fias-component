@@ -128,7 +128,7 @@ AddressObject:
             isPrimary: false
             isIndex: false
             isPartition: false
-            description: 'Идентификатор объекта родительского объекта'
+            description: 'Идентификатор родительского объекта'
         PREVID:
             type: string
             subType: uuid
