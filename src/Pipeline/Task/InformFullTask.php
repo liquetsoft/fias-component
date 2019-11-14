@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
+use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\Exception\TaskException;
 use Psr\Log\LogLevel;
 
 /**

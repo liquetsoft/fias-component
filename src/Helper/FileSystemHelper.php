@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Helper;
 
-use SplFileInfo;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use SplFileInfo;
 
 /**
  * Хэлпер, который содержит функции для работы с файловой системой.

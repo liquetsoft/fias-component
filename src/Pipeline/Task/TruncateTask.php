@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Storage\Storage;
 use Psr\Log\LogLevel;
 
 /**

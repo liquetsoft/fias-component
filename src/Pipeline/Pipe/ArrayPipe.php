@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
 
 use Exception;
+use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Exception\PipeException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
-use Liquetsoft\Fias\Component\Exception\PipeException;
-use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Ramsey\Uuid\Uuid;

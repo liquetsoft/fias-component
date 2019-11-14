@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
 
-use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который хранит описание поля сущности во внутреннем массиве.

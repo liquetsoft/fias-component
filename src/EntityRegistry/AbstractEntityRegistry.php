@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Throwable;
-use InvalidArgumentException;
 
 /**
  * Абстрактный класс для реестра сущностей ФИАС.

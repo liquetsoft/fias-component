@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\StorageException;
-use Liquetsoft\Fias\Component\Exception\XmlException;
-use Liquetsoft\Fias\Component\XmlReader\XmlReader;
-use Liquetsoft\Fias\Component\Storage\Storage;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Exception\XmlException;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Storage\Storage;
+use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Psr\Log\LogLevel;
-use Symfony\Component\Serializer\SerializerInterface;
 use SplFileInfo;
+use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
 /**

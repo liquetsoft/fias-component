@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Unpacker;
 
-use Liquetsoft\Fias\Component\Unpacker\RarUnpacker;
-use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Exception\UnpackerException;
-use SplFileInfo;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Exception\UnpackerException;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Unpacker\RarUnpacker;
+use SplFileInfo;
 
 /**
  * Тест для объекта, который распаковывает данные из rar архива.

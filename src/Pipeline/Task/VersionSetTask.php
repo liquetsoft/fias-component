@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\VersionManager\VersionManager;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 
 /**
  * Задача, которая сохраняет текущую версию ФИАС.

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
 
+use InvalidArgumentException;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\BaseEntityManager;
 use Liquetsoft\Fias\Component\EntityRegistry\ArrayEntityRegistry;
 use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use InvalidArgumentException;
 
 /**
  * Тест для объекта, содержит соответствия между сущностями ФИАС и их реализациями.

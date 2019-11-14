@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Downloader;
 
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use SplFileInfo;
-use InvalidArgumentException;
 
 /**
  * Интерфейс для объекта, который скачивает файл по ссылке.

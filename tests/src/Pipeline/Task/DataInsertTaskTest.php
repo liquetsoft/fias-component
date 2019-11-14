@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
+use InvalidArgumentException;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\EntityManager\EntityManager;
+use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataInsertTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
-use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
-use Liquetsoft\Fias\Component\Exception\TaskException;
-use Symfony\Component\Serializer\SerializerInterface;
+use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use InvalidArgumentException;
+use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Тест для задачи, которая загружает данные из файла в БД.

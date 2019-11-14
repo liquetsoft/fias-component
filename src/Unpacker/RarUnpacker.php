@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Unpacker;
 
-use Liquetsoft\Fias\Component\Exception\UnpackerException;
-use SplFileInfo;
-use RarArchive;
-use Throwable;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Exception\UnpackerException;
+use RarArchive;
+use SplFileInfo;
+use Throwable;
 
 /**
  * Объект, который распаковывает файлы из rar архива.

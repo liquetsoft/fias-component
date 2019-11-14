@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Exception;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 
 /**
  * Интерфейс для объекта, который производит одну атомарную операцию,

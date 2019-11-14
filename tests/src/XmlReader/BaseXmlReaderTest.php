@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Unpacker;
 
-use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
-use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Exception\XmlException;
-use SplFileInfo;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Exception\XmlException;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use SplFileInfo;
 
 /**
  * Тест для объекта, который читает данные из xml файла.

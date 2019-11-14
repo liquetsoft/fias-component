@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
-use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
-use Liquetsoft\Fias\Component\Unpacker\Unpacker;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
+use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Unpacker\Unpacker;
 use SplFileInfo;
 
 /**

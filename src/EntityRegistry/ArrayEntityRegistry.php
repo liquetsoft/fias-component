@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 
 /**
  * Объект, который получает хранит описания сущностей ФИАС во внутреннем массиве.

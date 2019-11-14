@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
 
-use Liquetsoft\Fias\Component\EntityRegistry\YamlEntityRegistry;
-use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\EntityRegistry\YamlEntityRegistry;
+use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который получает описания сущностей из yaml.
