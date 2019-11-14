@@ -10,6 +10,7 @@ $rules = [
     'array_syntax' => ['syntax' => 'short'],
     'yoda_style' => false,
     'phpdoc_no_empty_return' => false,
+    'no_superfluous_phpdoc_tags' => false,
 ];
 
 return PhpCsFixer\Config::create()->setRules($rules)->setFinder($finder);
