@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
-use Liquetsoft\Fias\Component\Pipeline\Task\VersionSetTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
-use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
+use Liquetsoft\Fias\Component\Pipeline\Task\VersionSetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 
 /**
  * Тест для задачи, которая сохраняет текущую версию ФИАС.

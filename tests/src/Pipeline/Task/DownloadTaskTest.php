@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
-use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
+use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
+use DateTime;
+use DateTimeInterface;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use DateTimeInterface;
-use DateTime;
 
 /**
  * Тест для объекта, который сереализует данные из ФИАС.

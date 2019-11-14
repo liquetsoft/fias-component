@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\DownloaderTest;
 
-use Liquetsoft\Fias\Component\Tests\BaseCase;
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
-use InvalidArgumentException;
 
 /**
  * Тест для объекта, который загружает файл с помощью curl.

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
+use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\PrepareFolderTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
-use InvalidArgumentException;
 
 /**
  * Тест для задачи, которая подготавливает папки и файлы для импорта.

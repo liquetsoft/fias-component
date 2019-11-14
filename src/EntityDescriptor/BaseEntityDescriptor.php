@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityDescriptor;
 
-use Liquetsoft\Fias\Component\EntityField\EntityField;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\EntityField\EntityField;
 
 /**
  * Объект, который хранит описание сущности ФИАС.

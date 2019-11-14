@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\XmlReader;
 
-use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
-use Liquetsoft\Fias\Component\Exception\XmlException;
-use Throwable;
-use RuntimeException;
 use InvalidArgumentException;
-use XmlReader as PhpXmlReader;
+use Liquetsoft\Fias\Component\Exception\XmlException;
+use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
+use RuntimeException;
 use SplFileInfo;
+use Throwable;
+use XmlReader as PhpXmlReader;
 
 /**
  * Объект, который читает данные из xml файла с помощью XmlReader.

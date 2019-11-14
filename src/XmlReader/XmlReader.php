@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\XmlReader;
 
-use SplFileInfo;
+use InvalidArgumentException;
 use Iterator;
 use Liquetsoft\Fias\Component\Exception\XmlException;
-use InvalidArgumentException;
+use SplFileInfo;
 
 /**
  * Интерфейс для объекта, который читает данные из xml файла.

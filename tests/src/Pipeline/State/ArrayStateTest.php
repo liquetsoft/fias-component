@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use InvalidArgumentException;
 
 /**
  * Тест для объекта, который хранит состояние во внутреннем массиве.

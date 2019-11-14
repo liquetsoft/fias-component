@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
 use Symfony\Component\Yaml\Yaml;
-use InvalidArgumentException;
 
 /**
  * Объект, который получает описания сущностей ФИАС из yaml файла.

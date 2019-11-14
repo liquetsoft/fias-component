@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
 
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Exception\PipeException;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 
 /**
  * Интерфейс для объекта, который включает в себя несколько операций для

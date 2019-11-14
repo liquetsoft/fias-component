@@ -6,8 +6,8 @@ namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 
 use Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use stdClass;
 use SoapClient;
+use stdClass;
 
 /**
  * Тест для объекта, который получает ссылку на файл с архивом ФИАС

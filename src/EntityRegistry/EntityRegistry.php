@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
-use InvalidArgumentException;
 
 /**
  * Интерфейс для объекта, который содержит описание сушностей ФИАС.

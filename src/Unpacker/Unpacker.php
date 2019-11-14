@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Unpacker;
 
-use SplFileInfo;
-use Liquetsoft\Fias\Component\Exception\UnpackerException;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Exception\UnpackerException;
+use SplFileInfo;
 
 /**
  * Интерфейс для объекта, который распаковывает данные из архива.

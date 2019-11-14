@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponseBase;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use InvalidArgumentException;
 
 /**
  * Тест для объекта, который представляет результат со ссылкой на файлы
