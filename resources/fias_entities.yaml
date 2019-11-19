@@ -675,7 +675,7 @@ House:
             isIndex: false
             isPartition: false
 Stead:
-    description: 'Сведения о земельных участках '
+    description: 'Сведения о земельных участках'
     partitionsCount: 1
     xmlPath: /Steads/Stead
     insertFileMask: 'AS_STEAD_*.XML'
