@@ -47,9 +47,9 @@ class EntityFileDispatcherTest extends BaseCase
         }));
 
         $dispatcher = new EntityFileDispatcher($entityManager, ['entity', 'entity_1']);
-        $dispatchedFiles = $dispatcher->dispatchInsert(['test.xml', 'test_1.xml', 'test_2.xml'], 2);
+        $dispatchedFiles = $dispatcher->dispatchInsert(['/var/test.xml', '/var/test/test_1.xml', 'test_2.xml'], 2);
 
-        $this->assertSame([['test.xml', 'test_2.xml'], ['test_1.xml']], $dispatchedFiles);
+        $this->assertSame([['/var/test.xml', 'test_2.xml'], ['/var/test/test_1.xml']], $dispatchedFiles);
     }
 
     /**
@@ -85,8 +85,8 @@ class EntityFileDispatcherTest extends BaseCase
         }));
 
         $dispatcher = new EntityFileDispatcher($entityManager, ['entity', 'entity_1']);
-        $dispatchedFiles = $dispatcher->dispatchDelete(['test.xml', 'test_1.xml', 'test_2.xml'], 2);
+        $dispatchedFiles = $dispatcher->dispatchDelete(['/var/test.xml', '/var/test/test_1.xml', 'test_2.xml'], 2);
 
-        $this->assertSame([['test.xml', 'test_2.xml'], ['test_1.xml']], $dispatchedFiles);
+        $this->assertSame([['/var/test.xml', 'test_2.xml'], ['/var/test/test_1.xml']], $dispatchedFiles);
     }
 }

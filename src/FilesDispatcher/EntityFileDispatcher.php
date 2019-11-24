@@ -69,7 +69,8 @@ class EntityFileDispatcher implements FilesDispatcher
         $filesByEntities = [];
 
         foreach ($filesToInsert as $fileToInsert) {
-            $descriptor = $this->entityManager->getDescriptorByInsertFile($fileToInsert);
+            $fileName = pathinfo($fileToInsert, PATHINFO_BASENAME);
+            $descriptor = $this->entityManager->getDescriptorByInsertFile($fileName);
             if ($descriptor) {
                 $filesByEntities[$descriptor->getName()] = $fileToInsert;
             }
@@ -90,7 +91,8 @@ class EntityFileDispatcher implements FilesDispatcher
         $filesByEntities = [];
 
         foreach ($filesToDelete as $fileToDelete) {
-            $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileToDelete);
+            $fileName = pathinfo($fileToDelete, PATHINFO_BASENAME);
+            $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileName);
             if ($descriptor) {
                 $filesByEntities[$descriptor->getName()] = $fileToDelete;
             }
