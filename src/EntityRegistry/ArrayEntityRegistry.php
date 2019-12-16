@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 
 /**
- * Объект, который получает хранит описания сущностей ФИАС во внутреннем массиве.
+ * Объект, который хранит описания сущностей ФИАС во внутреннем массиве.
  */
 class ArrayEntityRegistry extends AbstractEntityRegistry
 {
