@@ -38,7 +38,7 @@ class RarUnpacker implements Unpacker
             $archive = RarArchive::open($source->getPathname());
             $this->extractArchiveTo($archive, $destination);
         } catch (Throwable $e) {
-            $message = "Can't extract '" . $source->getPathname() . "' to '" . $destination->getPathname() . "'.";
+            $message = "Can't extract '{$source->getPathname()}' to '{$destination->getPathname()}'.";
             throw new UnpackerException($message, 0, $e);
         }
 
