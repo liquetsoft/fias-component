@@ -65,7 +65,7 @@ class TemplateProcess
             if (preg_match('/^\{\{([a-zA-Z0-9_\-]+)\}\}$/', $commandPart, $matches)) {
                 $commandArray[] = $replaces[$matches[1]] ?? '';
             } elseif ($commandPart !== '') {
-                $commandArray[] = $commandPart;
+                $commandArray = array_merge($commandArray, explode(' ', $commandPart));
             }
         }
 

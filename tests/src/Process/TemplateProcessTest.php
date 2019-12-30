@@ -18,11 +18,11 @@ class TemplateProcessTest extends BaseCase
      */
     public function testCreateProcess()
     {
-        $template = new TemplateProcess('command {{argument_1}} --option {{option_value}}');
+        $template = new TemplateProcess('command argument_0 {{argument_1}} --option {{option_value}}');
 
         $process = $template->createProcess(['argument_1' => 'argument', 'option_value' => '/path/to']);
 
         $this->assertInstanceOf(Process::class, $process);
-        $this->assertSame("'command' 'argument' '--option' '/path/to'", $process->getCommandLine());
+        $this->assertSame("'command' 'argument_0' 'argument' '--option' '/path/to'", $process->getCommandLine());
     }
 }
