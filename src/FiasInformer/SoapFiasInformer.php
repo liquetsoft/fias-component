@@ -13,16 +13,25 @@ use SoapClient;
 class SoapFiasInformer implements FiasInformer
 {
     /**
-     * @var SoapClient
+     * @var string
+     */
+    protected $wsdl = '';
+
+    /**
+     * @var SoapClient|null
      */
     protected $soapClient;
 
     /**
-     * @param SoapClient $soapClient
+     * @param SoapClient|string $soapClient
      */
-    public function __construct(SoapClient $soapClient)
+    public function __construct($soapClient)
     {
-        $this->soapClient = $soapClient;
+        if ($soapClient instanceof SoapClient) {
+            $this->soapClient = $soapClient;
+        } else {
+            $this->wsdl = $soapClient;
+        }
     }
 
     /**
@@ -30,7 +39,7 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getCompleteInfo(): InformerResponse
     {
-        $response = $this->soapClient->__call('GetLastDownloadFileInfo', []);
+        $response = $this->getSoapClient()->__call('GetLastDownloadFileInfo', []);
 
         $res = new InformerResponseBase;
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
@@ -44,7 +53,7 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getDeltaInfo(int $version): InformerResponse
     {
-        $response = $this->soapClient->__call('GetAllDownloadFileInfo', []);
+        $response = $this->getSoapClient()->__call('GetAllDownloadFileInfo', []);
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
 
         $res = new InformerResponseBase;
@@ -78,5 +87,21 @@ class SoapFiasInformer implements FiasInformer
         array_multisort($versionsSort, SORT_ASC, $versions);
 
         return $versions;
+    }
+
+    /**
+     * Возвращает объект SOAP-клиента для запросов.
+     *
+     * @return SoapClient
+     */
+    protected function getSoapClient(): SoapClient
+    {
+        if ($this->soapClient === null) {
+            $this->soapClient = new SoapClient($this->wsdl, [
+                'exceptions' => true,
+            ]);
+        }
+
+        return $this->soapClient;
     }
 }
