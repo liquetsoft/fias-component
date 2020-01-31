@@ -152,7 +152,7 @@ class ArrayPipeTest extends BaseCase
         $state = $this->getMockBuilder(State::class)->getMock();
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 
-        $task = $this->getMockBuilder([Task::class, LoggableTask::class])->getMock();
+        $task = $this->getMockBuilder(ArrayPipeTestLoggableMock::class)->getMock();
         $task->expects($this->once())
             ->method('injectLogger')
             ->with(
@@ -168,4 +168,11 @@ class ArrayPipeTest extends BaseCase
         $pipe = new ArrayPipe([$task], null, $logger);
         $pipe->run($state);
     }
+}
+
+/**
+ * Abstract mock class to test task with loggable task interface.
+ */
+abstract class ArrayPipeTestLoggableMock implements Task, LoggableTask
+{
 }
