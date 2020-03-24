@@ -4,7 +4,6 @@ php:
   - 7.2
 before_script:
   - pecl install rar
-  - pecl install parallel
   - composer self-update
   - composer install --no-interaction --prefer-source --dev
 script:
