@@ -39,6 +39,9 @@ class DataDeleteTaskTest extends BaseCase
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
+        $storage->method('supports')->will($this->returnCallback(function ($object) use (&$insertedData) {
+            return $object->getActstatid() === 321;
+        }));
         $storage->method('delete')->will($this->returnCallback(function ($object) use (&$insertedData) {
             $insertedData[] = $object->getActstatid();
         }));
@@ -49,7 +52,7 @@ class DataDeleteTaskTest extends BaseCase
         $task = new DataDeleteTask($entityManager, new BaseXmlReader, $storage, new FiasSerializer);
         $task->run($state);
 
-        $this->assertSame([123, 321], $insertedData);
+        $this->assertSame([321], $insertedData);
     }
 }
 

@@ -42,6 +42,9 @@ class DataInsertTaskTest extends BaseCase
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
+        $storage->method('supports')->will($this->returnCallback(function ($object) use (&$insertedData) {
+            return $object->getActstatid() === 321;
+        }));
         $storage->method('insert')->will($this->returnCallback(function ($object) use (&$insertedData) {
             $insertedData[] = $object->getActstatid();
         }));
@@ -52,7 +55,7 @@ class DataInsertTaskTest extends BaseCase
         $task = new DataInsertTask($entityManager, new BaseXmlReader, $storage, new FiasSerializer);
         $task->run($state);
 
-        $this->assertSame([123, 321], $insertedData);
+        $this->assertSame([321], $insertedData);
     }
 
     /**
@@ -75,6 +78,7 @@ class DataInsertTaskTest extends BaseCase
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
+        $storage->method('supports')->will($this->returnValue(true));
         $storage->method('insert')->will($this->returnCallback(function ($object) use (&$insertedData) {
             $insertedData[] = $object->getActstatid();
         }));
