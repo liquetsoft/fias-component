@@ -54,9 +54,44 @@ class CompositeStorage implements Storage
     /**
      * @inheritDoc
      */
+    public function supports(object $entity): bool
+    {
+        $isSupport = false;
+        foreach ($this->internalStorages as $storage) {
+            if ($storage->supports($entity)) {
+                $isSupport = true;
+                break;
+            }
+        }
+
+        return $isSupport;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsClass(string $class): bool
+    {
+        $isSupport = false;
+        foreach ($this->internalStorages as $storage) {
+            if ($storage->supportsClass($class)) {
+                $isSupport = true;
+                break;
+            }
+        }
+
+        return $isSupport;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function insert(object $entity): void
     {
         foreach ($this->internalStorages as $storage) {
+            if (!$storage->supports($entity)) {
+                continue;
+            }
             $storage->insert($entity);
         }
     }
@@ -67,6 +102,9 @@ class CompositeStorage implements Storage
     public function delete(object $entity): void
     {
         foreach ($this->internalStorages as $storage) {
+            if (!$storage->supports($entity)) {
+                continue;
+            }
             $storage->delete($entity);
         }
     }
@@ -77,6 +115,9 @@ class CompositeStorage implements Storage
     public function upsert(object $entity): void
     {
         foreach ($this->internalStorages as $storage) {
+            if (!$storage->supports($entity)) {
+                continue;
+            }
             $storage->upsert($entity);
         }
     }

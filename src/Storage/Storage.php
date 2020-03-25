@@ -27,6 +27,24 @@ interface Storage
     public function stop(): void;
 
     /**
+     * Проверяет может ли хранилище работать с данным объектом.
+     *
+     * @param object $entity
+     *
+     * @return bool
+     */
+    public function supports(object $entity): bool;
+
+    /**
+     * Проверяет может ли хранилище работать с данным типом объектов.
+     *
+     * @param string $class
+     *
+     * @return bool
+     */
+    public function supportsClass(string $class): bool;
+
+    /**
      * Отправляет объект на запись в хранилище.
      *
      * @param object $entity
