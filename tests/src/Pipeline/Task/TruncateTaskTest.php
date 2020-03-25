@@ -32,6 +32,9 @@ class TruncateTaskTest extends BaseCase
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
+        $storage->method('supportsClass')->will($this->returnCallback(function ($className) use (&$insertedData) {
+            return $className === 'Test\Class2';
+        }));
         $storage->method('truncate')->will($this->returnCallback(function ($className) use (&$truncated) {
             $truncated[] = $className;
         }));
@@ -41,6 +44,6 @@ class TruncateTaskTest extends BaseCase
         $task = new TruncateTask($entityManager, $storage);
         $task->run($state);
 
-        $this->assertSame($classes, $truncated);
+        $this->assertSame(['Test\Class2'], $truncated);
     }
 }
