@@ -15,7 +15,7 @@ class FiasNameConverter implements NameConverterInterface
     /**
      * @inheritdoc
      */
-    public function normalize($propertyName): string
+    public function normalize(string $propertyName): string
     {
         $propertyName = trim($propertyName);
         $return = $propertyName;
@@ -30,7 +30,7 @@ class FiasNameConverter implements NameConverterInterface
     /**
      * @inheritdoc
      */
-    public function denormalize($propertyName): string
+    public function denormalize(string $propertyName): string
     {
         $propertyName = trim($propertyName);
         $return = $propertyName;
