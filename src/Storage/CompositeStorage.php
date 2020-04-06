@@ -128,6 +128,9 @@ class CompositeStorage implements Storage
     public function truncate(string $entityClassName): void
     {
         foreach ($this->internalStorages as $storage) {
+            if (!$storage->supportsClass($entityClassName)) {
+                continue;
+            }
             $storage->truncate($entityClassName);
         }
     }

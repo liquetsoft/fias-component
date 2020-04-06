@@ -196,9 +196,17 @@ class CompositeStorageTest extends BaseCase
         $object = 'className';
 
         $storage = $this->getMockBuilder(Storage::class)->getMock();
-        $storage->expects($this->once())->method('truncate')->with($this->identicalTo($object));
+        $storage->expects($this->once())
+            ->method('supportsClass')
+            ->with($this->identicalTo($object))
+            ->will($this->returnValue(false));
+        $storage->expects($this->never())->method('truncate');
 
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1->expects($this->once())
+            ->method('supportsClass')
+            ->with($this->identicalTo($object))
+            ->will($this->returnValue(true));
         $storage1->expects($this->once())->method('truncate')->with($this->identicalTo($object));
 
         $compositeStorage = new CompositeStorage([$storage, $storage1]);
