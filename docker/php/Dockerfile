@@ -25,7 +25,8 @@ RUN docker-php-ext-install pdo_pgsql pdo_mysql zip pcntl sockets soap intl opcac
     && docker-php-source extract \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && docker-php-source delete
+    && docker-php-source delete \
+    && echo 'date.timezone=Europe/London' >> /usr/local/etc/php/conf.d/php-date.ini
 
 
 # composer
