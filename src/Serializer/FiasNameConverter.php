@@ -15,9 +15,9 @@ class FiasNameConverter implements NameConverterInterface
     /**
      * @inheritdoc
      */
-    public function normalize(string $propertyName): string
+    public function normalize($propertyName): string
     {
-        $propertyName = trim($propertyName);
+        $propertyName = trim((string) $propertyName);
         $return = $propertyName;
 
         if (strpos($propertyName, '@') !== 0) {
@@ -30,9 +30,9 @@ class FiasNameConverter implements NameConverterInterface
     /**
      * @inheritdoc
      */
-    public function denormalize(string $propertyName): string
+    public function denormalize($propertyName): string
     {
-        $propertyName = trim($propertyName);
+        $propertyName = trim((string) $propertyName);
         $return = $propertyName;
 
         if (strpos($propertyName, '@') === 0) {
