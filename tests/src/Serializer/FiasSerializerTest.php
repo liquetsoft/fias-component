@@ -19,7 +19,15 @@ class FiasSerializerTest extends BaseCase
      */
     public function testDenormalize()
     {
-        $data = '<ActualStatus ACTSTATID="2" NAME="&#x41D;&#x435; &#x430;&#x43A;&#x442;&#x443;&#x430;&#x43B;&#x44C;&#x43D;&#x44B;&#x439;" TESTDATE="2019-10-10T10:10:10.02" KOD_T_ST="10"/>';
+        $data = <<<EOT
+<ActualStatus
+    ACTSTATID="2"
+    NAME="&#x41D;&#x435; &#x430;&#x43A;&#x442;&#x443;&#x430;&#x43B;&#x44C;&#x43D;&#x44B;&#x439;"
+    TESTDATE="2019-10-10T10:10:10.02"
+    KOD_T_ST="10"
+    EMPTYSTRINGINT=""
+/>
+EOT;
         $serializer = new FiasSerializer;
 
         $object = $serializer->deserialize($data, FiasSerializerObject::class, 'xml');
@@ -29,6 +37,7 @@ class FiasSerializerTest extends BaseCase
         $this->assertSame('Не актуальный', $object->getName());
         $this->assertSame('10', $object->getKodtst());
         $this->assertEquals(new DateTime('2019-10-10T10:10:10.02'), $object->getTestDate());
+        $this->assertSame(0, $object->getEmptyStringInt());
     }
 }
 
@@ -37,10 +46,11 @@ class FiasSerializerTest extends BaseCase
  */
 class FiasSerializerObject
 {
-    private $ACTSTATID;
-    private $name;
+    private $ACTSTATID = 0;
+    private $name = '';
     private $testDate;
-    private $kodtst;
+    private $kodtst = '';
+    private $emptyStringInt = 0;
 
     public function setActstatid(int $ACTSTATID)
     {
@@ -80,5 +90,15 @@ class FiasSerializerObject
     public function getKodtst()
     {
         return $this->kodtst;
+    }
+
+    public function setEmptyStringInt(int $emptyStringInt)
+    {
+        $this->emptyStringInt = $emptyStringInt;
+    }
+
+    public function getEmptyStringInt()
+    {
+        return $this->emptyStringInt;
     }
 }
