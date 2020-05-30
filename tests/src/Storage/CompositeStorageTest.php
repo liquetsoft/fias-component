@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\Serializer;
+namespace Liquetsoft\Fias\Component\Tests\Storage;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Storage\CompositeStorage;
