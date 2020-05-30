@@ -34,6 +34,13 @@ interface EntityDescriptor
     public function getPartitionsCount(): int;
 
     /**
+     * Возвращает параметры к сущности Render.
+     * @param string $type
+     * @return string
+     */
+    public function getRenderParams(string $type): array;
+    
+    /**
      * Возвращает xpath к сущности в xml файле.
      *
      * @return string
@@ -41,18 +48,18 @@ interface EntityDescriptor
     public function getXmlPath(): string;
 
     /**
-     * Возвращает маску xml файла, в котором содержатся данные для вставки.
+     * Возвращает маску файла, в котором содержатся данные для вставки.
      *
      * @return string
      */
-    public function getXmlInsertFileMask(): string;
+    public function getInsertFileMask(): string;
 
     /**
-     * Возвращает маску xml файла, в котором содержатся данные для удаления.
+     * Возвращает маску файла, в котором содержатся данные для удаления.
      *
      * @return string
      */
-    public function getXmlDeleteFileMask(): string;
+    public function getDeleteFileMask(): string;
 
     /**
      * Возвращает список полей для данной сущности.
@@ -88,7 +95,7 @@ interface EntityDescriptor
      *
      * @return bool
      */
-    public function isFileNameFitsXmlInsertFileMask(string $fileName): bool;
+    public function isFileNameMatchInsertFileMask(string $fileName): bool;
 
     /**
      * Проверяет подходит ли имя файла для удаления данных.
@@ -97,5 +104,5 @@ interface EntityDescriptor
      *
      * @return bool
      */
-    public function isFileNameFitsXmlDeleteFileMask(string $fileName): bool;
+    public function isFileNameMatchDeleteFileMask(string $fileName): bool;
 }

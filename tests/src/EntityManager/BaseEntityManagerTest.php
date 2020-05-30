@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
+namespace Liquetsoft\Fias\Component\Tests\EntityManager;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
@@ -88,13 +88,14 @@ class BaseEntityManagerTest extends BaseCase
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->will($this->returnValue($entityName));
-        $descriptor->method('isFileNameFitsXmlInsertFileMask')->will($this->returnValue(false));
+        $descriptor->method('isFileNameMatchInsertFileMask')->will($this->returnValue(false));
 
         $class1 = 'TestClass1';
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor1->method('getName')->will($this->returnValue($entityName1));
-        $descriptor1->method('isFileNameFitsXmlInsertFileMask')->with($this->equalTo($file))->will($this->returnValue(true));
+        $descriptor1->method('isFileNameMatchInsertFileMask')->with($this->equalTo($file))->
+            will($this->returnValue(true));
 
         $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
 
@@ -119,13 +120,13 @@ class BaseEntityManagerTest extends BaseCase
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->will($this->returnValue($entityName));
-        $descriptor->method('isFileNameFitsXmlDeleteFileMask')->will($this->returnValue(false));
+        $descriptor->method('isFileNameMatchDeleteFileMask')->will($this->returnValue(false));
 
         $class1 = 'TestClass1';
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor1->method('getName')->will($this->returnValue($entityName1));
-        $descriptor1->method('isFileNameFitsXmlDeleteFileMask')->will($this->returnCallback(function ($testFile) use ($file) {
+        $descriptor1->method('isFileNameMatchDeleteFileMask')->will($this->returnCallback(function ($testFile) use ($file) {
             return $testFile === $file;
         }));
 

@@ -91,7 +91,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет маску файла для загрузки данных.
      */
-    public function testGetXmlInsertFileMask()
+    public function testGetInsertFileMask()
     {
         $file = $this->createFakeData()->word . '_*.xml';
 
@@ -99,23 +99,23 @@ class BaseEntityDescriptorTest extends BaseCase
             'insertFileMask' => $file,
         ]);
 
-        $this->assertSame($file, $descriptor->getXmlInsertFileMask());
+        $this->assertSame($file, $descriptor->getInsertFileMask());
     }
 
     /**
      * Проверяет, что объект по умолчанию вернет пустую маску файла для загрузки данных.
      */
-    public function testGetXmlInsertFileMaskDefault()
+    public function testGetInsertFileMaskDefault()
     {
         $descriptor = $this->createDescriptor();
 
-        $this->assertSame('', $descriptor->getXmlInsertFileMask());
+        $this->assertSame('', $descriptor->getInsertFileMask());
     }
 
     /**
      * Проверяет, что объект правильно вернет маску файла для удаления данных.
      */
-    public function testGetXmlDeleteFileMask()
+    public function testGetDeleteFileMask()
     {
         $file = $this->createFakeData()->word . '_*.xml';
 
@@ -123,17 +123,17 @@ class BaseEntityDescriptorTest extends BaseCase
             'deleteFileMask' => $file,
         ]);
 
-        $this->assertSame($file, $descriptor->getXmlDeleteFileMask());
+        $this->assertSame($file, $descriptor->getDeleteFileMask());
     }
 
     /**
      * Проверяет, что объект по умолчанию вернет пустую маску файла для удаления данных.
      */
-    public function testGetXmlDeleteFileMaskDefault()
+    public function testGetDeleteFileMaskDefault()
     {
         $descriptor = $this->createDescriptor();
 
-        $this->assertSame('', $descriptor->getXmlDeleteFileMask());
+        $this->assertSame('', $descriptor->getDeleteFileMask());
     }
 
     /**
@@ -274,7 +274,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно сопоставляет имена файлов для вставки с шаблоном.
      */
-    public function testIsFileNameFitsXmlInsertFileMask()
+    public function testIsFileNameMatchInsertFileMask()
     {
         $fileMask = '*_test_*.xml';
 
@@ -282,14 +282,14 @@ class BaseEntityDescriptorTest extends BaseCase
             'insertFileMask' => $fileMask,
         ]);
 
-        $this->assertTrue($descriptor->isFileNameFitsXmlInsertFileMask('123_test_321.xml'));
-        $this->assertFalse($descriptor->isFileNameFitsXmlInsertFileMask('123_321_test.xml'));
+        $this->assertTrue($descriptor->isFileNameMatchInsertFileMask('123_test_321.xml'));
+        $this->assertFalse($descriptor->isFileNameMatchInsertFileMask('123_321_test.xml'));
     }
 
     /**
      * Проверяет, что объект правильно сопоставляет имена файлов для удаления с шаблоном.
      */
-    public function testIsFileNameFitsXmlDeleteFileMask()
+    public function testIsFileNameMatchDeleteFileMask()
     {
         $fileMask = '*_test_*.xml';
 
@@ -297,8 +297,8 @@ class BaseEntityDescriptorTest extends BaseCase
             'deleteFileMask' => $fileMask,
         ]);
 
-        $this->assertTrue($descriptor->isFileNameFitsXmlDeleteFileMask('123_test_321.xml'));
-        $this->assertFalse($descriptor->isFileNameFitsXmlDeleteFileMask('123_321_test.xml'));
+        $this->assertTrue($descriptor->isFileNameMatchDeleteFileMask('123_test_321.xml'));
+        $this->assertFalse($descriptor->isFileNameMatchDeleteFileMask('123_321_test.xml'));
     }
 
     /**

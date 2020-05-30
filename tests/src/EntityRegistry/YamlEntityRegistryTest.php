@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
+namespace Liquetsoft\Fias\Component\Tests\EntityRegistry;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityRegistry\YamlEntityRegistry;

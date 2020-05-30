@@ -1,11 +1,15 @@
+.dockerignore
+.gitignore
+
 .idea
-vendor
-composer.lock
 .php_cs.cache
 .phpunit.result.cache
-
-tests/coverage
-docker/.env
-test.php
+.vscode
 
 .~lock.*
+
+composer.lock
+docker/.env
+tests/coverage
+test.php
+vendor

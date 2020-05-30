@@ -33,6 +33,11 @@ class BaseEntityDescriptor implements EntityDescriptor
     protected $xmlPath = '';
 
     /**
+     * @var array
+     */
+    protected $params = [];
+
+    /**
      * @var string
      */
     protected $insertFileMask = '';
@@ -98,7 +103,20 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @inheritdoc
      */
-    public function getXmlInsertFileMask(): string
+    public function getRenderParams(string $type): array
+    {
+        if ($type === 'xml') {
+            $this->params = [$type, $this->xmlPath];
+        } elseif ($type === 'dbf') {
+            $this->params = [$type, null];
+        }
+        return $this->params;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInsertFileMask(): string
     {
         return $this->insertFileMask;
     }
@@ -106,7 +124,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @inheritdoc
      */
-    public function getXmlDeleteFileMask(): string
+    public function getDeleteFileMask(): string
     {
         return $this->deleteFileMask;
     }
@@ -162,17 +180,17 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @inheritdoc
      */
-    public function isFileNameFitsXmlInsertFileMask(string $fileName): bool
+    public function isFileNameMatchInsertFileMask(string $fileName): bool
     {
-        return $this->isFileNameFitsMask($fileName, $this->insertFileMask);
+        return $this->isFileNameMatchMask($fileName, $this->insertFileMask);
     }
 
     /**
      * @inheritdoc
      */
-    public function isFileNameFitsXmlDeleteFileMask(string $fileName): bool
+    public function isFileNameMatchDeleteFileMask(string $fileName): bool
     {
-        return $this->isFileNameFitsMask($fileName, $this->deleteFileMask);
+        return $this->isFileNameMatchMask($fileName, $this->deleteFileMask);
     }
 
     /**
@@ -245,7 +263,7 @@ class BaseEntityDescriptor implements EntityDescriptor
      *
      * @return bool
      */
-    protected function isFileNameFitsMask(string $fileName, string $mask): bool
+    protected function isFileNameMatchMask(string $fileName, string $mask): bool
     {
         $pattern = '/^' . implode('.+', array_map('preg_quote', explode('*', $mask))) . '$/i';
 
