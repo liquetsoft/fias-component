@@ -14,6 +14,19 @@ use SplFileInfo;
 class CurlDownloader implements Downloader
 {
     /**
+     * @var array
+     */
+    private $additionalCurlOptions;
+
+    /**
+     * @param array $additionalCurlOptions
+     */
+    public function __construct(array $additionalCurlOptions = [])
+    {
+        $this->additionalCurlOptions = $additionalCurlOptions;
+    }
+
+    /**
      * @inheritdoc
      */
     public function download(string $url, SplFileInfo $localFile): void
@@ -23,14 +36,9 @@ class CurlDownloader implements Downloader
         }
 
         $fh = $this->openLocalFile($localFile);
-        $requestOptions = [
-            CURLOPT_URL => $url,
-            CURLOPT_FILE => $fh,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_FRESH_CONNECT => true,
-        ];
+        $requestOptions = $this->createRequestOptions($url, $fh);
 
-        list($res, $httpCode, $error) = $this->curlDownload($requestOptions);
+        [$res, $httpCode, $error] = $this->curlDownload($requestOptions);
         fclose($fh);
 
         if ($res === false) {
@@ -87,5 +95,25 @@ class CurlDownloader implements Downloader
         }
 
         return $hLocal;
+    }
+
+    /**
+     * Создаем массив настроек для запроса.
+     *
+     * @param string   $url
+     * @param resource $fh
+     *
+     * @return array
+     */
+    protected function createRequestOptions(string $url, $fh): array
+    {
+        $requestOptions = $this->additionalCurlOptions ?: [];
+
+        $requestOptions[CURLOPT_URL] = $url;
+        $requestOptions[CURLOPT_FILE] = $fh;
+        $requestOptions[CURLOPT_FOLLOWLOCATION] = true;
+        $requestOptions[CURLOPT_FRESH_CONNECT] = true;
+
+        return $requestOptions;
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
+namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
@@ -43,8 +43,8 @@ class CleanupTaskTest extends BaseCase
         $task = new CleanupTask;
         $task->run($state);
 
-        $this->assertFileNotExists($downloadToPath);
-        $this->assertFileNotExists($extractToPath);
+        $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');
+        $this->assertFalse(file_exists($extractToPath), 'Extracted files removed');
     }
 
     /**
@@ -63,6 +63,6 @@ class CleanupTaskTest extends BaseCase
         $task = new CleanupTask;
         $task->run($state);
 
-        $this->assertFileNotExists($downloadToPath);
+        $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');
     }
 }
