@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
+namespace Liquetsoft\Fias\Component\Tests\Process;
 
 use Liquetsoft\Fias\Component\Process\TemplateProcess;
 use Liquetsoft\Fias\Component\Tests\BaseCase;

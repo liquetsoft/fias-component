@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\Unpacker;
+namespace Liquetsoft\Fias\Component\Tests\XmlReader;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\XmlException;

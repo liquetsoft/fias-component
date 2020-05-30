@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
+namespace Liquetsoft\Fias\Component\Tests\EntityField;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
