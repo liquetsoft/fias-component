@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\DownloaderTest;
+namespace Liquetsoft\Fias\Component\Tests\Downloader;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Downloader\CurlDownloader;

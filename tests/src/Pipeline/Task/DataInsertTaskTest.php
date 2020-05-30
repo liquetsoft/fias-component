@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
+namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;

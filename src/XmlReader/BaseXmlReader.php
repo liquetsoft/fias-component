@@ -53,7 +53,7 @@ class BaseXmlReader implements XmlReaderInterface
     protected $isBufferFull = false;
 
     /**
-     * Массив с буффером, для isValid и current.
+     * Массив с буфером, для isValid и current.
      *
      * @var string|null
      */
@@ -101,6 +101,8 @@ class BaseXmlReader implements XmlReaderInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return mixed|null
      *
      * @throws XmlException
      */
