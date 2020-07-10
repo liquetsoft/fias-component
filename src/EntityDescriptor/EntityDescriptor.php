@@ -36,9 +36,10 @@ interface EntityDescriptor
     /**
      * Возвращает параметры к сущности Render.
      * @param string $type
-     * @return string
+     *
+     * @return mixed
      */
-    public function getReaderParams(string $type): array;
+    public function getReaderParams(string $type);
     
     /**
      * Возвращает xpath к сущности в xml файле.

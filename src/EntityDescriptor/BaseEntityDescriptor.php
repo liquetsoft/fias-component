@@ -33,11 +33,6 @@ class BaseEntityDescriptor implements EntityDescriptor
     protected $xmlPath = '';
 
     /**
-     * @var array
-     */
-    protected $params = [];
-
-    /**
      * @var string
      */
     protected $insertFileMask = '';
@@ -102,8 +97,6 @@ class BaseEntityDescriptor implements EntityDescriptor
 
     /**
      * @inheritdoc
-     *
-     * @return mixed
      */
     public function getReaderParams(string $type)
     {
@@ -115,7 +108,7 @@ class BaseEntityDescriptor implements EntityDescriptor
                 return null;
 
             default:
-                throw new InvalidArgumentException("Unsupported reader type: {$type}");
+                throw new InvalidArgumentException("Unsupported reader type: \"{$type}\"");
         }
     }
 

@@ -54,6 +54,24 @@ class BaseEntityDescriptorTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект вернет корректные параметры.
+     */
+    public function testGetReaderParams()
+    {
+        $xpath = '/root/' . $this->createFakeData()->word;
+        
+        $descriptor = $this->createDescriptor([
+            'xmlPath' => $xpath,
+        ]);
+
+        $this->assertSame($descriptor->getReaderParams('xml'), $descriptor->getXmlPath());
+        $this->assertSame($descriptor->getReaderParams('dbf'), null);
+        
+        $this->expectException(InvalidArgumentException::class);
+        $descriptor->getReaderParams('');
+    }
+
+    /**
      * Проверяет, что объект правильно выбросит исключение, если xpath не задан.
      */
     public function testEmptyXmlPathException()
