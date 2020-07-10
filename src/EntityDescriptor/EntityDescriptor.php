@@ -38,7 +38,7 @@ interface EntityDescriptor
      * @param string $type
      * @return string
      */
-    public function getRenderParams(string $type): array;
+    public function getReaderParams(string $type): array;
     
     /**
      * Возвращает xpath к сущности в xml файле.

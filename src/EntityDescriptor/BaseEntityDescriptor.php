@@ -102,15 +102,21 @@ class BaseEntityDescriptor implements EntityDescriptor
 
     /**
      * @inheritdoc
+     *
+     * @return mixed
      */
-    public function getRenderParams(string $type): array
+    public function getReaderParams(string $type)
     {
-        if ($type === 'xml') {
-            $this->params = [$type, $this->xmlPath];
-        } elseif ($type === 'dbf') {
-            $this->params = [$type, null];
+        switch ($type) {
+            case 'xml':
+                return $this->xmlPath;
+            
+            case 'dbf':
+                return null;
+
+            default:
+                throw new InvalidArgumentException("Unsupported reader type: {$type}");
         }
-        return $this->params;
     }
 
     /**

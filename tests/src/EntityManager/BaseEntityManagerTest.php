@@ -94,8 +94,8 @@ class BaseEntityManagerTest extends BaseCase
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor1->method('getName')->will($this->returnValue($entityName1));
-        $descriptor1->method('isFileNameMatchInsertFileMask')->with($this->equalTo($file))->
-            will($this->returnValue(true));
+        $descriptor1->method('isFileNameMatchInsertFileMask')->with($this->equalTo($file))
+            ->will($this->returnValue(true));
 
         $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
 
