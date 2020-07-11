@@ -79,8 +79,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
             try {
                 $this->registry = $this->createRegistry();
             } catch (Throwable $e) {
-                $message = 'Error while creating registry.';
-                throw new EntityRegistryException($message, 0, $e);
+                throw new EntityRegistryException($e->getMessage(), 0, $e);
             }
         }
 

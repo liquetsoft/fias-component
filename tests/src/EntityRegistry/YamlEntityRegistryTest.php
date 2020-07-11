@@ -19,8 +19,10 @@ class YamlEntityRegistryTest extends BaseCase
      */
     public function testConstructorUnexistedException()
     {
-        $this->expectException(InvalidArgumentException::class);
         $registry = $this->createRegistry(__DIR__ . '/_fixtures/empty.yaml');
+
+        $this->expectException(EntityRegistryException::class);
+        $registry->getDescriptors();
     }
 
     /**

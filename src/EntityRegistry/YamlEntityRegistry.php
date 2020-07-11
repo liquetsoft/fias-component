@@ -23,18 +23,10 @@ class YamlEntityRegistry extends AbstractEntityRegistry
 
     /**
      * @param string $pathToYaml Путь к файлу с описанием сущностей
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct(string $pathToYaml)
     {
-        if (!file_exists($pathToYaml) || !is_readable($pathToYaml)) {
-            throw new InvalidArgumentException(
-                "File '{$pathToYaml}' for yaml entity registry isn't readable or doesn't exist."
-            );
-        }
-
-        $this->pathToYaml = trim($pathToYaml);
+        $this->pathToYaml = $pathToYaml;
     }
 
     /**
@@ -44,7 +36,8 @@ class YamlEntityRegistry extends AbstractEntityRegistry
     {
         $registry = [];
 
-        $yaml = Yaml::parseFile($this->pathToYaml);
+        $yaml = Yaml::parseFile($this->checkAndReturnPathToYaml());
+
         foreach ($yaml as $key => $entity) {
             $entity['name'] = $key;
             $registry[] = $this->createEntityDescriptorFromYaml($entity);
@@ -62,7 +55,7 @@ class YamlEntityRegistry extends AbstractEntityRegistry
      *
      * @throws InvalidArgumentException
      */
-    protected function createEntityDescriptorFromYaml(array $entity): EntityDescriptor
+    private function createEntityDescriptorFromYaml(array $entity): EntityDescriptor
     {
         if (!empty($entity['fields']) && is_array($entity['fields'])) {
             $fields = [];
@@ -85,8 +78,26 @@ class YamlEntityRegistry extends AbstractEntityRegistry
      *
      * @throws InvalidArgumentException
      */
-    protected function createEntityFieldFromYaml(array $field): EntityField
+    private function createEntityFieldFromYaml(array $field): EntityField
     {
         return new BaseEntityField($field);
+    }
+
+    /**
+     * Проверяет, что путь до файла с описанием сущностей
+     * существует и возвращает его.
+     *
+     * @return string
+     */
+    private function checkAndReturnPathToYaml(): string
+    {
+        $path = trim($this->pathToYaml);
+
+        if (!file_exists($path) || !is_readable($path)) {
+            $message = sprintf("File '%s' for yaml entity registry isn't readable or doesn't exist.", $this->pathToYaml);
+            throw new InvalidArgumentException($message);
+        }
+
+        return $path;
     }
 }
