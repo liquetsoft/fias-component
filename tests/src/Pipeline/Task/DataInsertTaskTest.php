@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use Liquetsoft\Fias\Component\Reader\BaseReader;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -52,7 +52,7 @@ class DataInsertTaskTest extends BaseCase
         $state = new ArrayState;
         $state->setParameter(Task::FILES_TO_INSERT_PARAM, [__DIR__ . '/_fixtures/data.xml']);
 
-        $task = new DataInsertTask($entityManager, new BaseXmlReader, $storage, new FiasSerializer);
+        $task = new DataInsertTask($entityManager, new BaseReader, $storage, new FiasSerializer);
         $task->run($state);
 
         $this->assertSame([321], $insertedData);
@@ -89,7 +89,7 @@ class DataInsertTaskTest extends BaseCase
         $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
         $serializer->method('deserialize')->will($this->throwException(new InvalidArgumentException));
 
-        $task = new DataInsertTask($entityManager, new BaseXmlReader, $storage, $serializer);
+        $task = new DataInsertTask($entityManager, new BaseReader, $storage, $serializer);
 
         $this->expectException(TaskException::class);
         $task->run($state);

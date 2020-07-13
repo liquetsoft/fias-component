@@ -131,8 +131,8 @@ class BaseReaderTest extends BaseCase
         $reader->close();
 
         $this->assertSame([
-            '<realItem firstParam="real item 1 first param" secondParam="real item 1 second param"
-                thirdParam="real item 1 third param" fake="real item 1 fake attr"/>',
+            '<realItem firstParam="real item 1 first param" secondParam="real item 1 second param" '
+                .'thirdParam="real item 1 third param" fake="real item 1 fake attr"/>',
             '<realItem firstParam="real item 2 first param" secondParam="real item 2 second param"/>',
             '<realItem fake="real item 3 fake attr"/>',
         ], $result);

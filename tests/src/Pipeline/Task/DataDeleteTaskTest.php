@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use Liquetsoft\Fias\Component\Reader\BaseReader;
 
 /**
  * Тест для задачи, которая удаляет данные из файла из БД.
@@ -49,7 +49,7 @@ class DataDeleteTaskTest extends BaseCase
         $state = new ArrayState;
         $state->setParameter(Task::FILES_TO_DELETE_PARAM, [__DIR__ . '/_fixtures/data.xml']);
 
-        $task = new DataDeleteTask($entityManager, new BaseXmlReader, $storage, new FiasSerializer);
+        $task = new DataDeleteTask($entityManager, new BaseReader, $storage, new FiasSerializer);
         $task->run($state);
 
         $this->assertSame([321], $insertedData);

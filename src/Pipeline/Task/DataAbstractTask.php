@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
+use Liquetsoft\Fias\Component\Tests\EntityDescriptor\BaseEntityDescriptorTest;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\StorageException;
@@ -11,7 +12,7 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Storage\Storage;
-use Liquetsoft\Fias\Component\XmlReader\XmlReader;
+use Liquetsoft\Fias\Component\Reader\Reader;
 use Psr\Log\LogLevel;
 use SplFileInfo;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -30,9 +31,9 @@ abstract class DataAbstractTask implements Task, LoggableTask
     protected $entityManager;
 
     /**
-     * @var XmlReader
+     * @var Reader
      */
-    protected $xmlReader;
+    protected $reader;
 
     /**
      * @var Storage
@@ -46,14 +47,14 @@ abstract class DataAbstractTask implements Task, LoggableTask
 
     /**
      * @param EntityManager       $entityManager
-     * @param XmlReader           $xmlReader
+     * @param Reader              $reader
      * @param Storage             $storage
      * @param SerializerInterface $serializer
      */
-    public function __construct(EntityManager $entityManager, XmlReader $xmlReader, Storage $storage, SerializerInterface $serializer)
+    public function __construct(EntityManager $entityManager, Reader $reader, Storage $storage, SerializerInterface $serializer)
     {
         $this->entityManager = $entityManager;
-        $this->xmlReader = $xmlReader;
+        $this->reader = $reader;
         $this->storage = $storage;
         $this->serializer = $serializer;
     }
@@ -138,10 +139,12 @@ abstract class DataAbstractTask implements Task, LoggableTask
         );
 
         $total = 0;
-        $this->xmlReader->open($fileInfo, $xpath);
+        $descriptor = new BaseEntityDescriptorTest();
+        $this->reader->open($fileInfo, $descriptor->createDescriptor(['xmlPath' => $xpath]));
+        //$this->reader->open($fileInfo, $xpath);
         $this->storage->start();
         try {
-            foreach ($this->xmlReader as $xml) {
+            foreach ($this->reader as $xml) {
                 $item = $this->deserializeXmlStringToObject($xml, $entityClass);
                 if (!$this->storage->supports($item)) {
                     continue;
@@ -152,7 +155,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
             }
         } finally {
             $this->storage->stop();
-            $this->xmlReader->close();
+            $this->reader->close();
         }
 
         $this->log(
