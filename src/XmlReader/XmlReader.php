@@ -2,17 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\XmlReader;
+namespace Liquetsoft\Fias\Component\Reader;
 
 use InvalidArgumentException;
 use Iterator;
-use Liquetsoft\Fias\Component\Exception\XmlException;
+use Liquetsoft\Fias\Component\Exception\Exception;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use SplFileInfo;
 
 /**
- * Интерфейс для объекта, который читает данные из xml файла.
+ * Интерфейс для объекта, который читает данные из файла.
  */
-interface XmlReader extends Iterator
+
+ // file
+ // EntityDescriptor
+
+interface Reader extends Iterator
 {
     /**
      * Открывает файл на чтение, пытается найти указанный путь, если
@@ -20,14 +25,14 @@ interface XmlReader extends Iterator
      * возвращает ложь.
      *
      * @param SplFileInfo $file
-     * @param string      $xpath
+     * @param EntityDescriptor $entity_descriptor
      *
      * @return bool
      *
      * @throws InvalidArgumentException
-     * @throws XmlException
+     * @throws Exception
      */
-    public function open(SplFileInfo $file, string $xpath): bool;
+    public function open(SplFileInfo $file, EntityDescriptor $entity_descriptor): bool;
 
     /**
      * Закрывает открытый файл, если такой был.
@@ -35,4 +40,11 @@ interface XmlReader extends Iterator
      * @return void
      */
     public function close(): void;
+
+    /**
+     * Возвращает тип объекта Reader.
+     *
+     * @return string
+     */
+    public function getType(): string;
 }

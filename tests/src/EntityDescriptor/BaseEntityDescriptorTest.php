@@ -326,7 +326,7 @@ class BaseEntityDescriptorTest extends BaseCase
      *
      * @return BaseEntityDescriptor
      */
-    protected function createDescriptor(array $options = []): BaseEntityDescriptor
+    public function createDescriptor(array $options = []): BaseEntityDescriptor
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
         $field->method('getName')->will($this->returnValue('test'));
