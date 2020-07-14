@@ -44,13 +44,13 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlPath()
     {
-        $xpath = '/root/' . $this->createFakeData()->word;
+        $xmlPath = '/root/' . $this->createFakeData()->word;
 
         $descriptor = $this->createDescriptor([
-            'xmlPath' => $xpath,
+            'xmlPath' => $xmlPath,
         ]);
 
-        $this->assertSame($xpath, $descriptor->getXmlPath());
+        $this->assertSame($xmlPath, $descriptor->getReaderParams('xml')['xmlPath']);
     }
 
     /**
@@ -58,13 +58,13 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetReaderParams()
     {
-        $xpath = '/root/' . $this->createFakeData()->word;
+        $xmlPath = '/root/' . $this->createFakeData()->word;
         
         $descriptor = $this->createDescriptor([
-            'xmlPath' => $xpath,
+            'xmlPath' => $xmlPath,
         ]);
 
-        $this->assertSame($descriptor->getReaderParams('xml'), $descriptor->getXmlPath());
+        $this->assertSame($descriptor->getReaderParams('xml')['xmlPath'], $xmlPath);
         $this->assertSame($descriptor->getReaderParams('dbf'), null);
         
         $this->expectException(InvalidArgumentException::class);

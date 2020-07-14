@@ -41,12 +41,6 @@ interface EntityDescriptor
      */
     public function getReaderParams(string $type);
     
-    /**
-     * Возвращает xpath к сущности в xml файле.
-     *
-     * @return string
-     */
-    public function getXmlPath(): string;
 
     /**
      * Возвращает маску файла, в котором содержатся данные для вставки.

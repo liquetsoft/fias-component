@@ -9,7 +9,8 @@ use Liquetsoft\Fias\Component\Tests\EntityDescriptor\BaseEntityDescriptorTest;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
 use Liquetsoft\Fias\Component\Exception\Exception;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Reader\BaseReader;
+use XmlReader as PhpXmlReader;
+use Liquetsoft\Fias\Component\Reader\XmlReader;
 use SplFileInfo;
 
 /**
@@ -24,7 +25,7 @@ class BaseReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/empty.xml');
 
-        $reader = new BaseReader;
+        $reader = new XmlReader;
         $descriptor = new BaseEntityDescriptorTest;
 
         $this->expectException(InvalidArgumentException::class);
@@ -36,7 +37,7 @@ class BaseReaderTest extends BaseCase
      */
     public function testReadNotOpenException()
     {
-        $reader = new BaseReader;
+        $reader = new XmlReader;
 
         $this->expectException(Exception::class);
         $result = [];
@@ -50,7 +51,7 @@ class BaseReaderTest extends BaseCase
      */
     public function testReadNotOpenExceptionIterator()
     {
-        $reader = new BaseReader;
+        $reader = new XmlReader;
 
         $this->expectException(Exception::class);
         $reader->current();
@@ -63,7 +64,7 @@ class BaseReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
 
-        $reader = new BaseReader;
+        $reader = new XmlReader;
         $descriptor = new BaseEntityDescriptorTest;
 
         $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/ActualStatuses/ActualStatus']));
@@ -83,7 +84,7 @@ class BaseReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
 
-        $reader = new BaseReader;
+        $reader = new XmlReader;
         $descriptor = new BaseEntityDescriptorTest();
         $reader->open($file, $descriptor->createDescriptor());
 
@@ -98,7 +99,7 @@ class BaseReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadEmpty.xml');
 
-        $reader = new BaseReader;
+        $reader = new XmlReader;
         $descriptor = new BaseEntityDescriptorTest;
 
         $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/ActualStatuses/ActualStatus']));
@@ -119,8 +120,7 @@ class BaseReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadMessyFile.xml');
 
-        $reader = new BaseReader;
-
+        $reader = new XmlReader;
         $descriptor = new BaseEntityDescriptorTest;
 
         $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/root/firstLevel/secondLevel/realItem']));
@@ -145,7 +145,7 @@ class BaseReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadException.xml');
 
-        $reader = new BaseReader;
+        $reader = new XmlReader;
         $descriptor = new BaseEntityDescriptorTest;
 
         $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/root/qwe']));

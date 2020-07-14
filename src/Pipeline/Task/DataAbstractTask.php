@@ -9,10 +9,10 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Exception\XmlException;
+use Liquetsoft\Fias\Component\Exception\ReaderException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Storage\Storage;
-use Liquetsoft\Fias\Component\Reader\Reader;
+use Liquetsoft\Fias\Component\Reader\XmlReader;
 use Psr\Log\LogLevel;
 use SplFileInfo;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -31,7 +31,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
     protected $entityManager;
 
     /**
-     * @var Reader
+     * @var XmlReader
      */
     protected $reader;
 
@@ -47,11 +47,11 @@ abstract class DataAbstractTask implements Task, LoggableTask
 
     /**
      * @param EntityManager       $entityManager
-     * @param Reader              $reader
+     * @param XmlReader           $reader
      * @param Storage             $storage
      * @param SerializerInterface $serializer
      */
-    public function __construct(EntityManager $entityManager, Reader $reader, Storage $storage, SerializerInterface $serializer)
+    public function __construct(EntityManager $entityManager, XmlReader $reader, Storage $storage, SerializerInterface $serializer)
     {
         $this->entityManager = $entityManager;
         $this->reader = $reader;
@@ -102,7 +102,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
      *
      * @throws TaskException
      * @throws StorageException
-     * @throws XmlException
+     * @throws ReaderException
      */
     protected function processFile(SplFileInfo $fileInfo): void
     {
@@ -110,7 +110,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
         if ($descriptor) {
             $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
             if ($entityClass) {
-                $this->processDataFromFile($fileInfo, $descriptor->getXmlPath(), $entityClass);
+                $this->processDataFromFile($fileInfo, $descriptor->getReaderParams($fileInfo->getExtension()), $entityClass);
                 gc_collect_cycles();
             }
         }
@@ -125,7 +125,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
      *
      * @throws TaskException
      * @throws StorageException
-     * @throws XmlException
+     * @throws ReaderException
      */
     protected function processDataFromFile(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
     {

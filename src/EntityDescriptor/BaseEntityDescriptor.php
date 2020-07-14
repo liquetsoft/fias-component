@@ -90,19 +90,11 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @inheritdoc
      */
-    public function getXmlPath(): string
-    {
-        return $this->xmlPath;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getReaderParams(string $type)
     {
         switch ($type) {
             case 'xml':
-                return $this->xmlPath;
+                return ['xmlPath' => $this->xmlPath];
             
             case 'dbf':
                 return null;

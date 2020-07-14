@@ -17,7 +17,7 @@ use SplFileInfo;
  // file
  // EntityDescriptor
 
-interface Reader extends Iterator
+interface XmlReaderInterface extends Iterator
 {
     /**
      * Открывает файл на чтение, пытается найти указанный путь, если
