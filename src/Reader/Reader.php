@@ -13,11 +13,7 @@ use SplFileInfo;
 /**
  * Интерфейс для объекта, который читает данные из файла.
  */
-
- // file
- // EntityDescriptor
-
-interface XmlReaderInterface extends Iterator
+interface Reader extends Iterator
 {
     /**
      * Открывает файл на чтение, пытается найти указанный путь, если

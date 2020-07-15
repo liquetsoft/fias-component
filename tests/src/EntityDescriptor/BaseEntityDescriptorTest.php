@@ -50,7 +50,7 @@ class BaseEntityDescriptorTest extends BaseCase
             'xmlPath' => $xmlPath,
         ]);
 
-        $this->assertSame($xmlPath, $descriptor->getReaderParams('xml')['xmlPath']);
+        $this->assertSame($xmlPath, $descriptor->getReaderParams('xml'));
     }
 
     /**
@@ -64,7 +64,7 @@ class BaseEntityDescriptorTest extends BaseCase
             'xmlPath' => $xmlPath,
         ]);
 
-        $this->assertSame($descriptor->getReaderParams('xml')['xmlPath'], $xmlPath);
+        $this->assertSame($descriptor->getReaderParams('xml'), $xmlPath);
         $this->assertSame($descriptor->getReaderParams('dbf'), null);
         
         $this->expectException(InvalidArgumentException::class);

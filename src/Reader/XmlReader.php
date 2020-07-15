@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Reader;
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\ReaderException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\Reader\Reader as ReaderInterface;
 use RuntimeException;
 use SplFileInfo;
 use Throwable;
@@ -15,7 +16,7 @@ use XmlReader as PhpXmlReader;
 /**
  * Объект, который читает данные из файла
  */
-class XmlReader implements XmlReaderInterface
+class XmlReader implements ReaderInterface
 {
     /**
      * Файл, который открыт в данный момент.
@@ -64,11 +65,7 @@ class XmlReader implements XmlReaderInterface
      */
     public function getType(): string
     {
-        if ($this->file) {
-            return $this->file->getExtension();
-        } else {
-            return null;
-        }
+        return 'xml';
     }
 
     /**
@@ -83,7 +80,7 @@ class XmlReader implements XmlReaderInterface
         }
 
         $this->file = $file;
-        $this->xpath = $entity_descriptor->getReaderParams($this->getType())['xmlPath'];
+        $this->xpath = $entity_descriptor->getReaderParams($this->getType());
         return $this->seekXmlPath();
     }
 
