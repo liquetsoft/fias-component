@@ -13,6 +13,8 @@ use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Reader\XmlReader;
+use Liquetsoft\Fias\Component\Parser\XmlParser;
+use SplFileInfo;
 
 /**
  * Тест для задачи, которая обновляет данные данные из файла в БД.
@@ -32,7 +34,7 @@ class DataUpsertTaskTest extends BaseCase
             return $file === 'data.xml' ? $descriptor : null;
         }));
         $entityManager->method('getClassByDescriptor')->will($this->returnCallback(function ($testDescriptor) use ($descriptor) {
-            return $testDescriptor === $descriptor ? DataInsertTaskObject::class : null;
+            return $testDescriptor === $descriptor ? DataUpsertTaskObject::class : null;
         }));
 
         $insertedData = [];
@@ -46,10 +48,14 @@ class DataUpsertTaskTest extends BaseCase
             $insertedData[] = $object->getActstatid();
         }));
 
+        $file = new SplFileInfo(__DIR__ . '/_fixtures/data.xml');
         $state = new ArrayState;
-        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [__DIR__ . '/_fixtures/data.xml']);
+        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [$file->getPathname()]);
 
-        $task = new DataUpsertTask($entityManager, new XmlReader, $storage, new FiasSerializer);
+        $reader = new XmlReader;
+        $reader->open($file, $descriptor);
+
+        $task = new DataUpsertTask($entityManager, new XmlParser($reader, new FiasSerializer), $storage);
         $task->run($state);
 
         $this->assertSame([321], $insertedData);

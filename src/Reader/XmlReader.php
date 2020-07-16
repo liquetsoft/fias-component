@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Reader;
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\ReaderException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\Reader\Reader as ReaderInterface;
+use Liquetsoft\Fias\Component\Reader\Reader;
 use RuntimeException;
 use SplFileInfo;
 use Throwable;
@@ -16,7 +16,7 @@ use XmlReader as PhpXmlReader;
 /**
  * Объект, который читает данные из файла xml
  */
-class XmlReader implements ReaderInterface
+class XmlReader implements Reader
 {
     /**
      * Файл, который открыт в данный момент.

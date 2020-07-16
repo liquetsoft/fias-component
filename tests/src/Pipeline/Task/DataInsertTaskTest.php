@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Exception\ParserException;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataInsertTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
@@ -15,7 +15,9 @@ use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Reader\XmlReader;
+use Liquetsoft\Fias\Component\Parser\XmlParser;
 use Symfony\Component\Serializer\SerializerInterface;
+use SplFileInfo;
 
 /**
  * Тест для задачи, которая загружает данные из файла в БД.
@@ -49,11 +51,16 @@ class DataInsertTaskTest extends BaseCase
             $insertedData[] = $object->getActstatid();
         }));
 
+        $file = new SplFileInfo(__DIR__ . '/_fixtures/data.xml');
         $state = new ArrayState;
-        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [__DIR__ . '/_fixtures/data.xml']);
+        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [$file->getPathname()]);
 
-        $task = new DataInsertTask($entityManager, new XmlReader, $storage, new FiasSerializer);
+        $reader = new XmlReader;
+        $reader->open($file, $descriptor);
+
+        $task = new DataInsertTask($entityManager, new XmlParser($reader, new FiasSerializer), $storage);
         $task->run($state);
+        $reader->close();
 
         $this->assertSame([321], $insertedData);
     }
@@ -76,23 +83,25 @@ class DataInsertTaskTest extends BaseCase
 
         $insertedData = [];
         $storage = $this->getMockBuilder(Storage::class)->getMock();
-        $storage->expects($this->once())->method('start');
-        $storage->expects($this->once())->method('stop');
         $storage->method('supports')->will($this->returnValue(true));
         $storage->method('insert')->will($this->returnCallback(function ($object) use (&$insertedData) {
             $insertedData[] = $object->getActstatid();
         }));
 
+        $file = new SplFileInfo(__DIR__ . '/_fixtures/data.xml');
         $state = new ArrayState;
-        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [__DIR__ . '/_fixtures/data.xml']);
+        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [$file->getPathname()]);
 
         $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
         $serializer->method('deserialize')->will($this->throwException(new InvalidArgumentException));
 
-        $task = new DataInsertTask($entityManager, new XmlReader, $storage, $serializer);
+        $reader = new XmlReader;
+        $reader->open($file, $descriptor);
+        $task = new DataInsertTask($entityManager, new XmlParser($reader, $serializer), $storage);
 
-        $this->expectException(TaskException::class);
+        $this->expectException(ParserException::class);
         $task->run($state);
+        $reader->close();
     }
 }
 

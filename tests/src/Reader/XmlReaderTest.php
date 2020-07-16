@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Reader;
 
 use InvalidArgumentException;
-use Liquetsoft\Fias\Component\Tests\EntityDescriptor\BaseEntityDescriptorTest;
-use Liquetsoft\Fias\Component\Exception\Exception;
+use Liquetsoft\Fias\Component\Exception\ReaderException;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Reader\XmlReader;
 use SplFileInfo;
@@ -23,11 +23,13 @@ class XmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/empty.xml');
 
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
+        
         $reader = new XmlReader;
-        $descriptor = new BaseEntityDescriptorTest;
 
         $this->expectException(InvalidArgumentException::class);
-        $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/ActualStatuses/ActualStatus']));
+        $reader->open($file, $descriptor);
     }
 
     /**
@@ -37,7 +39,7 @@ class XmlReaderTest extends BaseCase
     {
         $reader = new XmlReader;
 
-        $this->expectException(Exception::class);
+        $this->expectException(ReaderException::class);
         $result = [];
         foreach ($reader as $key => $item) {
             $result[$key] = $item;
@@ -51,7 +53,7 @@ class XmlReaderTest extends BaseCase
     {
         $reader = new XmlReader;
 
-        $this->expectException(Exception::class);
+        $this->expectException(ReaderException::class);
         $reader->current();
     }
 
@@ -62,10 +64,12 @@ class XmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
 
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
+        
         $reader = new XmlReader;
-        $descriptor = new BaseEntityDescriptorTest;
 
-        $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/ActualStatuses/ActualStatus']));
+        $reader->open($file, $descriptor);
 
         foreach ($reader as $key => $item) {
             $this->assertStringContainsString('ActualStatus', $item);
@@ -82,9 +86,11 @@ class XmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
 
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
+        
         $reader = new XmlReader;
-        $descriptor = new BaseEntityDescriptorTest();
-        $reader->open($file, $descriptor->createDescriptor());
+        $reader->open($file, $descriptor);
 
         $this->assertSame($reader->getType(), 'xml');
         $reader->close();
@@ -97,10 +103,12 @@ class XmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadEmpty.xml');
 
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
+        
         $reader = new XmlReader;
-        $descriptor = new BaseEntityDescriptorTest;
 
-        $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/ActualStatuses/ActualStatus']));
+        $reader->open($file, $descriptor);
         $result = [];
         foreach ($reader as $key => $item) {
             $result[$key] = $item;
@@ -118,10 +126,12 @@ class XmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadMessyFile.xml');
 
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getReaderParams')->will($this->returnValue('/root/firstLevel/secondLevel/realItem'));
+        
         $reader = new XmlReader;
-        $descriptor = new BaseEntityDescriptorTest;
 
-        $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/root/firstLevel/secondLevel/realItem']));
+        $reader->open($file, $descriptor);
         $result = [];
         foreach ($reader as $key => $item) {
             $result[$key] = $item;
@@ -144,11 +154,13 @@ class XmlReaderTest extends BaseCase
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadException.xml');
 
         $reader = new XmlReader;
-        $descriptor = new BaseEntityDescriptorTest;
 
-        $reader->open($file, $descriptor->createDescriptor(['xmlPath' => '/root/qwe']));
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getReaderParams')->will($this->returnValue('/root/qwe'));
 
-        $this->expectException(Exception::class);
+        $reader->open($file, $descriptor);
+
+        $this->expectException(ReaderException::class);
         $result = [];
         foreach ($reader as $key => $item) {
             $result[$key] = $item;
