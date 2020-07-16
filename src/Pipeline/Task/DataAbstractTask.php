@@ -141,7 +141,6 @@ abstract class DataAbstractTask implements Task, LoggableTask
         $total = 0;
         $descriptor = new BaseEntityDescriptorTest();
         $this->reader->open($fileInfo, $descriptor->createDescriptor(['xmlPath' => $xpath]));
-        //$this->reader->open($fileInfo, $xpath);
         $this->storage->start();
         try {
             foreach ($this->reader as $xml) {

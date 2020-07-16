@@ -11,7 +11,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use SplFileInfo;
 
 /**
- * Интерфейс для объекта, который читает данные из файла.
+ * Интерфейс чтения данных из файла.
  */
 interface Reader extends Iterator
 {

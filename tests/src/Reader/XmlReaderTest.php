@@ -6,17 +6,15 @@ namespace Liquetsoft\Fias\Component\Tests\Reader;
 
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Tests\EntityDescriptor\BaseEntityDescriptorTest;
-use Liquetsoft\Fias\Component\EntityField\EntityField;
 use Liquetsoft\Fias\Component\Exception\Exception;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use XmlReader as PhpXmlReader;
 use Liquetsoft\Fias\Component\Reader\XmlReader;
 use SplFileInfo;
 
 /**
- * Тест для объекта, который читает данные из xml файла.
+ * Тест для объекта, который читает данные из файла.
  */
-class BaseReaderTest extends BaseCase
+class XmlReaderTest extends BaseCase
 {
     /**
      * Проверяет, что объект читает данные из xml.
@@ -78,7 +76,7 @@ class BaseReaderTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект читает данные из xml.
+     * Проверяет корректность типа файла.
      */
     public function testGetType()
     {

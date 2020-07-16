@@ -14,7 +14,7 @@ use Throwable;
 use XmlReader as PhpXmlReader;
 
 /**
- * Объект, который читает данные из файла
+ * Объект, который читает данные из файла xml
  */
 class XmlReader implements ReaderInterface
 {
