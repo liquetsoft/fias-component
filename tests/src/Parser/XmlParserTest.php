@@ -29,12 +29,10 @@ class BaseParserTest extends BaseCase
         $descriptor->method('getReaderParams')->will($this->returnValue('/StructureStatuses/StructureStatus'));
 
         $reader = new XmlReader;
-        $reader->open($file, $descriptor);
         
         $parser = new XmlParser($reader, $serializer);
     
-        $result = iterator_to_array($parser->getEntities(ParserObject::class));
-        $reader->close();
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, ParserObject::class));
 
         $this->assertSame($result[1]->getStrstatid(), 1);
         $this->assertSame($result[2]->getName(), 'Сооружение');
@@ -44,21 +42,19 @@ class BaseParserTest extends BaseCase
     /**
      * Проверяет, что объект правильно парсит данные из xml, в котором нет нужных данных.
      */
-    public function testParseXmlEmpty()
+    public function testParseUnexpectedXml()
     {
-        $file = new SplFileInfo(__DIR__ . '/_fixtures/test_error.xml');
+        $file = new SplFileInfo(__DIR__ . '/_fixtures/unexpected_test.xml');
         $serializer = new FiasSerializer;
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/StructureStatuses/StructureStatus'));
 
         $reader = new XmlReader;
-        $reader->open($file, $descriptor);
-        
         $parser = new XmlParser($reader, $serializer);
     
-        $result = iterator_to_array($parser->getEntities(ParserObject::class));
-        $reader->close();
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, ParserObject::class));
+
         $this->assertSame([], $result);
     }
 }

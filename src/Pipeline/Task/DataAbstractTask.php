@@ -128,7 +128,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
         );
 
         $total = 0;
-        $items = iterator_to_array($this->parser->getEntities($entityClass));
+        $items = $this->parser->getEntities($fileInfo, $descriptor, $entityClass);
         $this->storage->start();
         try {
             foreach ($items as $item) {

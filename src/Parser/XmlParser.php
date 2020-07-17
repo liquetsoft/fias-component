@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Parser;
 
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Reader\Reader;
 use Symfony\Component\Serializer\SerializerInterface;
 use Liquetsoft\Fias\Component\Exception\ParserException;
+use Liquetsoft\Fias\Component\Exception\TaskException;
 use InvalidArgumentException;
+use SplFileInfo;
 
 /**
  * Описание сущности парсинга файлов xml
@@ -24,6 +27,10 @@ class XmlParser implements Parser
      */
     protected $serializer;
 
+    /**
+     * @param Reader              $reader
+     * @param SerializerInterface $serializer
+     */
     public function __construct(Reader $reader, SerializerInterface $serializer = null)
     {
         if ($reader->getType() !== 'xml') {
@@ -36,11 +43,14 @@ class XmlParser implements Parser
     /**
      * @inheritdoc
      */
-    public function getEntities(string $entity_class): \Generator
+    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entity_class): \Generator
     {
+        $this->reader->open($file, $descriptor);
+
         foreach ($this->reader as $xml) {
             yield $this->deserializeXmlStringToObject($xml, $entity_class);
         }
+        $this->reader->close();
     }
 
     /**
@@ -59,7 +69,7 @@ class XmlParser implements Parser
             $entity = $this->serializer->deserialize($xml, $entity_class, 'xml');
         } catch (\Throwable $e) {
             $message = "Deserialization error while deserialization of '{$xml}' string to object with '{$entity_class}' class.";
-            throw new ParserException($message, 0, $e);
+            throw new TaskException($message, 0, $e);
         }
 
         if (!is_object($entity)) {

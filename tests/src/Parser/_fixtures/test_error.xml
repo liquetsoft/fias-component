@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ErrorStatuses>
-    <ErrorStatus STRSTATID="0" NAME="Не определено" SHORTNAME="Не определено" />
-    <ErrorStatus STRSTATID="1" NAME="Строение" SHORTNAME="стр" />
-    <ErrorStatus STRSTATID="2" NAME="Сооружение" SHORTNAME="соор" />
-    <ErrorStatus STRSTATID="3" NAME="Литер" SHORTNAME="литер" />
-</ErrorStatuses>
