@@ -17,7 +17,7 @@ use SplFileInfo;
 class XmlReaderTest extends BaseCase
 {
     /**
-     * Проверяет, что объект читает данные из xml.
+     * Проверяет, что объект выбросит исключение, при попытке прочитать несуществующий файл.
      */
     public function testOpenUnexistedFileException()
     {

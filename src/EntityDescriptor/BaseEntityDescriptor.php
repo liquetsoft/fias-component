@@ -33,6 +33,11 @@ class BaseEntityDescriptor implements EntityDescriptor
     protected $xmlPath = '';
 
     /**
+     * @var string|null
+     */
+    protected $dbfEncoding = null;
+
+    /**
      * @var string
      */
     protected $insertFileMask = '';
@@ -55,7 +60,8 @@ class BaseEntityDescriptor implements EntityDescriptor
     public function __construct(array $p)
     {
         $this->name = $this->extractStringFromOptions($p, 'name', true);
-        $this->xmlPath = $this->extractStringFromOptions($p, 'xmlPath', true);
+        $this->xmlPath = $this->extractStringFromOptions($p, 'xmlPath');
+        $this->dbfEncoding = $this->extractStringFromOptions($p, 'dbfEncoding');
         $this->description = $this->extractStringFromOptions($p, 'description');
         $this->insertFileMask = $this->extractStringFromOptions($p, 'insertFileMask');
         $this->deleteFileMask = $this->extractStringFromOptions($p, 'deleteFileMask');
@@ -97,7 +103,7 @@ class BaseEntityDescriptor implements EntityDescriptor
                 return $this->xmlPath;
             
             case 'dbf':
-                return null;
+                return $this->dbfEncoding;
 
             default:
                 throw new InvalidArgumentException("Unsupported reader type: \"{$type}\"");

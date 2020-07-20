@@ -43,12 +43,12 @@ class XmlParser implements Parser
     /**
      * @inheritdoc
      */
-    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entity_class): \Generator
+    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entity_class = null): \Generator
     {
         $this->reader->open($file, $descriptor);
 
-        foreach ($this->reader as $xml) {
-            yield $this->deserializeXmlStringToObject($xml, $entity_class);
+        foreach ($this->reader as $item) {
+            yield $this->deserializeXmlStringToObject($item, $entity_class);
         }
         $this->reader->close();
     }
@@ -63,12 +63,12 @@ class XmlParser implements Parser
      *
      * @throws ParserException
      */
-    protected function deserializeXmlStringToObject(string $xml, string $entity_class): object
+    protected function deserializeXmlStringToObject(string $item, string $entity_class): object
     {
         try {
-            $entity = $this->serializer->deserialize($xml, $entity_class, 'xml');
+            $entity = $this->serializer->deserialize($item, $entity_class, 'xml');
         } catch (\Throwable $e) {
-            $message = "Deserialization error while deserialization of '{$xml}' string to object with '{$entity_class}' class.";
+            $message = "Deserialization error while deserialization of '{$item}' string to object with '{$entity_class}' class.";
             throw new TaskException($message, 0, $e);
         }
 

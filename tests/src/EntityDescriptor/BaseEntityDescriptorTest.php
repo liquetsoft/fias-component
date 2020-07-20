@@ -47,7 +47,7 @@ class BaseEntityDescriptorTest extends BaseCase
         $xmlPath = '/root/' . $this->createFakeData()->word;
 
         $descriptor = $this->createDescriptor([
-            'xmlPath' => $xmlPath,
+            'xmlPath' => $xmlPath
         ]);
 
         $this->assertSame($xmlPath, $descriptor->getReaderParams('xml'));
@@ -62,24 +62,14 @@ class BaseEntityDescriptorTest extends BaseCase
         
         $descriptor = $this->createDescriptor([
             'xmlPath' => $xmlPath,
+            'dbfEncoding' => 'utf-8'
         ]);
 
         $this->assertSame($descriptor->getReaderParams('xml'), $xmlPath);
-        $this->assertSame($descriptor->getReaderParams('dbf'), null);
+        $this->assertSame($descriptor->getReaderParams('dbf'), 'utf-8');
         
         $this->expectException(InvalidArgumentException::class);
         $descriptor->getReaderParams('');
-    }
-
-    /**
-     * Проверяет, что объект правильно выбросит исключение, если xpath не задан.
-     */
-    public function testEmptyXmlPathException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $descriptor = $this->createDescriptor([
-            'xmlPath' => null,
-        ]);
     }
 
     /**

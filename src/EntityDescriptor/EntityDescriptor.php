@@ -38,6 +38,8 @@ interface EntityDescriptor
      * @param string $type
      *
      * @return mixed
+     *
+     * @throws InvalidArgumentException
      */
     public function getReaderParams(string $type);
     

@@ -12,9 +12,9 @@ use Liquetsoft\Fias\Component\Reader\XmlReader;
 use SplFileInfo;
 
 /**
- * Тест для объекта, который парсит данные из файлов xml/dbf.
+ * Тест для объекта, который парсит данные из файлов xml.
  */
-class BaseParserTest extends BaseCase
+class XmlParserTest extends BaseCase
 {
     /**
      * Проверяет, что объект парсит данные из xml.
@@ -22,17 +22,15 @@ class BaseParserTest extends BaseCase
     public function testParseXml()
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/test.xml');
-        
         $serializer = new FiasSerializer;
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/StructureStatuses/StructureStatus'));
 
         $reader = new XmlReader;
-        
         $parser = new XmlParser($reader, $serializer);
     
-        $result = iterator_to_array($parser->getEntities($file, $descriptor, ParserObject::class));
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, XmlParserObject::class));
 
         $this->assertSame($result[1]->getStrstatid(), 1);
         $this->assertSame($result[2]->getName(), 'Сооружение');
@@ -53,8 +51,48 @@ class BaseParserTest extends BaseCase
         $reader = new XmlReader;
         $parser = new XmlParser($reader, $serializer);
     
-        $result = iterator_to_array($parser->getEntities($file, $descriptor, ParserObject::class));
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, XmlParserObject::class));
 
         $this->assertSame([], $result);
+    }
+}
+
+/**
+ * Мок для проверки парсера.
+ */
+class XmlParserObject
+{
+    private $strstatid = 0;
+    private $name = '';
+    private $shortname = '';
+
+    public function setStrstatid(int $strstatid)
+    {
+        $this->strstatid = $strstatid;
+    }
+
+    public function getStrstatid()
+    {
+        return $this->strstatid;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setShortname(string $shortname)
+    {
+        $this->shortname = $shortname;
+    }
+
+    public function getShortname()
+    {
+        return $this->shortname;
     }
 }
