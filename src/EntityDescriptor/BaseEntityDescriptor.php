@@ -33,6 +33,11 @@ class BaseEntityDescriptor implements EntityDescriptor
     protected $xmlPath = '';
 
     /**
+     * @var string|null
+     */
+    protected $dbfEncoding = null;
+
+    /**
      * @var string
      */
     protected $insertFileMask = '';
@@ -55,7 +60,8 @@ class BaseEntityDescriptor implements EntityDescriptor
     public function __construct(array $p)
     {
         $this->name = $this->extractStringFromOptions($p, 'name', true);
-        $this->xmlPath = $this->extractStringFromOptions($p, 'xmlPath', true);
+        $this->xmlPath = $this->extractStringFromOptions($p, 'xmlPath');
+        $this->dbfEncoding = $this->extractStringFromOptions($p, 'dbfEncoding');
         $this->description = $this->extractStringFromOptions($p, 'description');
         $this->insertFileMask = $this->extractStringFromOptions($p, 'insertFileMask');
         $this->deleteFileMask = $this->extractStringFromOptions($p, 'deleteFileMask');
@@ -90,15 +96,24 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @inheritdoc
      */
-    public function getXmlPath(): string
+    public function getReaderParams(string $type)
     {
-        return $this->xmlPath;
+        switch ($type) {
+            case 'xml':
+                return $this->xmlPath;
+            
+            case 'dbf':
+                return $this->dbfEncoding;
+
+            default:
+                throw new InvalidArgumentException("Unsupported reader type: \"{$type}\"");
+        }
     }
 
     /**
      * @inheritdoc
      */
-    public function getXmlInsertFileMask(): string
+    public function getInsertFileMask(): string
     {
         return $this->insertFileMask;
     }
@@ -106,7 +121,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @inheritdoc
      */
-    public function getXmlDeleteFileMask(): string
+    public function getDeleteFileMask(): string
     {
         return $this->deleteFileMask;
     }
@@ -162,17 +177,17 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @inheritdoc
      */
-    public function isFileNameFitsXmlInsertFileMask(string $fileName): bool
+    public function isFileNameMatchInsertFileMask(string $fileName): bool
     {
-        return $this->isFileNameFitsMask($fileName, $this->insertFileMask);
+        return $this->isFileNameMatchMask($fileName, $this->insertFileMask);
     }
 
     /**
      * @inheritdoc
      */
-    public function isFileNameFitsXmlDeleteFileMask(string $fileName): bool
+    public function isFileNameMatchDeleteFileMask(string $fileName): bool
     {
-        return $this->isFileNameFitsMask($fileName, $this->deleteFileMask);
+        return $this->isFileNameMatchMask($fileName, $this->deleteFileMask);
     }
 
     /**
@@ -245,7 +260,7 @@ class BaseEntityDescriptor implements EntityDescriptor
      *
      * @return bool
      */
-    protected function isFileNameFitsMask(string $fileName, string $mask): bool
+    protected function isFileNameMatchMask(string $fileName, string $mask): bool
     {
         $pattern = '/^' . implode('.+', array_map('preg_quote', explode('*', $mask))) . '$/i';
 

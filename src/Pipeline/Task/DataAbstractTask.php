@@ -8,14 +8,11 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Storage\Storage;
-use Liquetsoft\Fias\Component\XmlReader\XmlReader;
+use Liquetsoft\Fias\Component\Parser\Parser;
 use Psr\Log\LogLevel;
 use SplFileInfo;
-use Symfony\Component\Serializer\SerializerInterface;
-use Throwable;
 
 /**
  * Абстрактная задача, которая переносит данные из xml в хранилище данных.
@@ -30,9 +27,9 @@ abstract class DataAbstractTask implements Task, LoggableTask
     protected $entityManager;
 
     /**
-     * @var XmlReader
+     * @var Parser
      */
-    protected $xmlReader;
+    protected $parser;
 
     /**
      * @var Storage
@@ -40,22 +37,15 @@ abstract class DataAbstractTask implements Task, LoggableTask
     protected $storage;
 
     /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
-
-    /**
      * @param EntityManager       $entityManager
-     * @param XmlReader           $xmlReader
+     * @param Parser              $parser
      * @param Storage             $storage
-     * @param SerializerInterface $serializer
      */
-    public function __construct(EntityManager $entityManager, XmlReader $xmlReader, Storage $storage, SerializerInterface $serializer)
+    public function __construct(EntityManager $entityManager, Parser $parser, Storage $storage)
     {
         $this->entityManager = $entityManager;
-        $this->xmlReader = $xmlReader;
+        $this->parser = $parser;
         $this->storage = $storage;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -101,7 +91,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
      *
      * @throws TaskException
      * @throws StorageException
-     * @throws XmlException
+     * @throws ParserException
      */
     protected function processFile(SplFileInfo $fileInfo): void
     {
@@ -109,7 +99,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
         if ($descriptor) {
             $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
             if ($entityClass) {
-                $this->processDataFromFile($fileInfo, $descriptor->getXmlPath(), $entityClass);
+                $this->processDataFromFile($fileInfo, $descriptor, $entityClass);
                 gc_collect_cycles();
             }
         }
@@ -118,15 +108,15 @@ abstract class DataAbstractTask implements Task, LoggableTask
     /**
      * Обрабатывает данные из файла и передает в хранилище.
      *
-     * @param SplFileInfo $fileInfo
-     * @param string      $xpath
-     * @param string      $entityClass
+     * @param SplFileInfo       $fileInfo
+     * @param EntityDescriptor  $descriptor
+     * @param string            $entityClass
      *
      * @throws TaskException
      * @throws StorageException
-     * @throws XmlException
+     * @throws ParserException
      */
-    protected function processDataFromFile(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
+    protected function processDataFromFile(SplFileInfo $fileInfo, EntityDescriptor $descriptor, string $entityClass): void
     {
         $this->log(
             LogLevel::INFO,
@@ -138,21 +128,19 @@ abstract class DataAbstractTask implements Task, LoggableTask
         );
 
         $total = 0;
-        $this->xmlReader->open($fileInfo, $xpath);
+        $items = $this->parser->getEntities($fileInfo, $descriptor, $entityClass);
         $this->storage->start();
         try {
-            foreach ($this->xmlReader as $xml) {
-                $item = $this->deserializeXmlStringToObject($xml, $entityClass);
+            foreach ($items as $item) {
                 if (!$this->storage->supports($item)) {
                     continue;
                 }
                 $this->processItem($item);
-                unset($item, $xml);
+                unset($item);
                 ++$total;
             }
         } finally {
             $this->storage->stop();
-            $this->xmlReader->close();
         }
 
         $this->log(
@@ -163,31 +151,5 @@ abstract class DataAbstractTask implements Task, LoggableTask
                 'path' => $fileInfo->getRealPath(),
             ]
         );
-    }
-
-    /**
-     * Десериализует xml строку в объект указанного класса.
-     *
-     * @param string $xml
-     * @param string $entityClass
-     *
-     * @return object
-     *
-     * @throws TaskException
-     */
-    protected function deserializeXmlStringToObject(string $xml, string $entityClass): object
-    {
-        try {
-            $entity = $this->serializer->deserialize($xml, $entityClass, 'xml');
-        } catch (Throwable $e) {
-            $message = "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class.";
-            throw new TaskException($message, 0, $e);
-        }
-
-        if (!is_object($entity)) {
-            throw new TaskException('Serializer must returns an object instance.');
-        }
-
-        return $entity;
     }
 }

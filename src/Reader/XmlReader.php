@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\XmlReader;
+namespace Liquetsoft\Fias\Component\Reader;
 
 use InvalidArgumentException;
-use Liquetsoft\Fias\Component\Exception\XmlException;
-use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
+use Liquetsoft\Fias\Component\Exception\ReaderException;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\Reader\Reader;
 use RuntimeException;
 use SplFileInfo;
 use Throwable;
 use XmlReader as PhpXmlReader;
 
 /**
- * Объект, который читает данные из xml файла с помощью XmlReader.
+ * Объект, который читает данные из файла xml
  */
-class BaseXmlReader implements XmlReaderInterface
+class XmlReader implements Reader
 {
     /**
      * Файл, который открыт в данный момент.
@@ -58,11 +59,19 @@ class BaseXmlReader implements XmlReaderInterface
      * @var string|null
      */
     protected $buffer;
+ 
+    /**
+     * @inheritdoc
+     */
+    public function getType(): string
+    {
+        return 'xml';
+    }
 
     /**
      * @inheritdoc
      */
-    public function open(SplFileInfo $file, string $xpath): bool
+    public function open(SplFileInfo $file, EntityDescriptor $entity_descriptor): bool
     {
         if (!$file->isFile() || !$file->isReadable()) {
             throw new InvalidArgumentException(
@@ -71,8 +80,7 @@ class BaseXmlReader implements XmlReaderInterface
         }
 
         $this->file = $file;
-        $this->xpath = $xpath;
-
+        $this->xpath = $entity_descriptor->getReaderParams($this->getType());
         return $this->seekXmlPath();
     }
 
@@ -86,10 +94,11 @@ class BaseXmlReader implements XmlReaderInterface
         $this->xpath = '';
     }
 
+
     /**
      * {@inheritdoc}
      *
-     * @throws XmlException
+     * @throws ReaderException
      */
     public function rewind()
     {
@@ -104,7 +113,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @return mixed|null
      *
-     * @throws XmlException
+     * @throws ReaderException
      */
     public function current()
     {
@@ -127,7 +136,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      *
-     * @throws XmlException
+     * @throws ReaderException
      */
     public function next()
     {
@@ -139,7 +148,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      *
-     * @throws XmlException
+     * @throws ReaderException
      */
     public function valid()
     {
@@ -167,12 +176,12 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @return string|null
      *
-     * @throws XmlException
+     * @throws ReaderException
      */
     protected function getLine(): ?string
     {
         if (!$this->reader) {
-            throw new XmlException('Reader and xpath must be set before reading');
+            throw new ReaderException('Reader must be set before reading');
         }
 
         $return = null;
@@ -193,7 +202,7 @@ class BaseXmlReader implements XmlReaderInterface
         } catch (Throwable $e) {
             $fileName = $this->file ? $this->file->getPathname() : '';
             $message = "Error while parsing xml '{$fileName}' by '{$this->xpath}' path.";
-            throw new XmlException($message, 0, $e);
+            throw new ReaderException($message, 0, $e);
         }
 
         return $return;
@@ -210,8 +219,7 @@ class BaseXmlReader implements XmlReaderInterface
      */
     protected function skipUselessXml(string $nodeName, int $nodeDepth): void
     {
-        while (
-            $this->reader
+        while ($this->reader
             && $this->reader->depth === $nodeDepth
             && $nodeName !== $this->reader->name
             && $this->reader->next()
@@ -231,7 +239,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @return bool
      *
-     * @throws XmlException
+     * @throws ReaderException
      */
     protected function seekXmlPath(): bool
     {
@@ -264,18 +272,22 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @return PhpXmlReader
      *
-     * @throws XmlException
+     * @throws ReaderException
      */
     protected function resetReader(): PhpXmlReader
     {
         if (!$this->file || !$this->xpath) {
-            throw new XmlException("File doesn't open.");
+            throw new ReaderException("File doesn't open.");
         }
 
         $this->unsetReader();
         $this->reader = new PhpXmlReader;
 
-        if ($this->reader->open($this->file->getPathname(), 'UTF-8', LIBXML_COMPACT | LIBXML_NONET | LIBXML_NOBLANKS) === false) {
+        if ($this->reader->open(
+            $this->file->getPathname(),
+            'UTF-8',
+            LIBXML_COMPACT | LIBXML_NONET | LIBXML_NOBLANKS
+        ) === false) {
             throw new RuntimeException(
                 "Can't open file '" . $this->file->getPathname() . "' for reading."
             );
