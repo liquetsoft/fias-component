@@ -84,8 +84,6 @@ class DbfParserTest extends BaseCase
         /** @var EntityDescriptor $descriptor */
         $result = iterator_to_array($parser->getEntities($file, $descriptor, DbfParserObject::class));
 
-        var_dump($result[1]);
-
         $this->assertSame($result[1]->strstatid, 1);
         $this->assertSame($result[2]->name, 'Сооружение');
 

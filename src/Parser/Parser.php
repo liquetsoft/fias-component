@@ -17,7 +17,7 @@ interface Parser
      *
      * @param SplFileInfo $file
      * @param EntityDescriptor $descriptor
-     * @param string $entity_class
+     * @param string $entityClass
      *
      * @return \Generator
      */

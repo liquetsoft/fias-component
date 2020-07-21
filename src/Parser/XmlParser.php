@@ -30,7 +30,7 @@ class XmlParser implements Parser
      * @param Reader              $reader
      * @param SerializerInterface $serializer
      */
-    public function __construct(Reader $reader, SerializerInterface $serializer = null)
+    public function __construct(Reader $reader, SerializerInterface $serializer)
     {
         if ($reader->getType() !== 'xml') {
             throw new InvalidArgumentException('Unexpected reader type');
@@ -56,7 +56,7 @@ class XmlParser implements Parser
      * Десериализует xml строку в объект указанного класса.
      *
      * @param string $xml
-     * @param string $entity_class
+     * @param string $entityClass
      *
      * @return object
      *
