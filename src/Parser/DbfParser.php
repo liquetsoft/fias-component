@@ -10,8 +10,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 use InvalidArgumentException;
 use SplFileInfo;
 
-use function DeepCopy\deep_copy;
-
 /**
  * Описание сущности парсинга файлов dbf
  */
@@ -41,12 +39,17 @@ class DbfParser implements Parser
     /**
      * @inheritdoc
      */
-    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entity_class = null): \Generator
+    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entityСlass): \Generator
     {
         $this->reader->open($file, $descriptor);
 
+        /** @var XBase\Record\Record $record */
         while ($record = $this->reader->next()) {
-            yield deep_copy($record);
+            $result = new $entityСlass;
+            foreach ($record->getData() as $field => $value) {
+                $result->{$field} = $value;
+            }
+            yield $result;
         }
         $this->reader->close();
     }

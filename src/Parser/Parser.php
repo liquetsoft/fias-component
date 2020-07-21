@@ -21,5 +21,5 @@ interface Parser
      *
      * @return \Generator
      */
-    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entity_class = null): \Generator;
+    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entityСlass): \Generator;
 }

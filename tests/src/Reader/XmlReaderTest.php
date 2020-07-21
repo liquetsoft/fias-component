@@ -29,6 +29,7 @@ class XmlReaderTest extends BaseCase
         $reader = new XmlReader;
 
         $this->expectException(InvalidArgumentException::class);
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
     }
 
@@ -69,6 +70,7 @@ class XmlReaderTest extends BaseCase
         
         $reader = new XmlReader;
 
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
 
         foreach ($reader as $key => $item) {
@@ -90,6 +92,7 @@ class XmlReaderTest extends BaseCase
         $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
         
         $reader = new XmlReader;
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
 
         $this->assertSame($reader->getType(), 'xml');
@@ -108,6 +111,7 @@ class XmlReaderTest extends BaseCase
         
         $reader = new XmlReader;
 
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
         $result = [];
         foreach ($reader as $key => $item) {
@@ -131,6 +135,7 @@ class XmlReaderTest extends BaseCase
         
         $reader = new XmlReader;
 
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
         $result = [];
         foreach ($reader as $key => $item) {
@@ -158,6 +163,7 @@ class XmlReaderTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/root/qwe'));
 
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
 
         $this->expectException(ReaderException::class);

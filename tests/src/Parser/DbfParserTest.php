@@ -25,12 +25,13 @@ class DbfParserTest extends BaseCase
         $file = new SplFileInfo(__DIR__ . '/_fixtures/test.dbf');
         
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getReaderParams')->will($this->returnValue('cp 866'));
+        $descriptor->method('getReaderParams')->will($this->returnValue('CP866'));
 
         $reader = new DbfReader;
         $parser = new DbfParser($reader);
-    
-        $result = iterator_to_array($parser->getEntities($file, $descriptor));
+
+        /** @var EntityDescriptor $descriptor */
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, DbfParserObject::class));
 
         $this->assertSame($result[1]->strstatid, 1);
         $this->assertSame($result[2]->name, 'Сооружение');
@@ -50,11 +51,12 @@ class DbfParserTest extends BaseCase
         $reader = new DbfReader;
         $parser = new DbfParser($reader);
     
-        $result = iterator_to_array($parser->getEntities($file, $descriptor));
+        /** @var EntityDescriptor $descriptor */
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, DbfParserObject::class));
 
         $this->assertSame($result[1]->strstatid, 1);
-        $this->assertSame($result[2]->name, 'Construction');
-        $this->assertSame($result[3]->shortname, 'liter');
+        $this->assertSame($result[2]->name, 'ଡିଜାଇନ୍ |');
+        $this->assertSame($result[3]->shortname, 'ਪੰਜਾਬੀ');
     }
 
     /**
@@ -62,7 +64,7 @@ class DbfParserTest extends BaseCase
      */
     public function testParseColumnDbf()
     {
-        $file = new SplFileInfo(__DIR__ . '/_fixtures/testUTF.dbf');
+        $file = new SplFileInfo(__DIR__ . '/_fixtures/test.dbf');
         // Колонки, которые будут парситься
         $columns = ['strstatid', 'name'];
         $fields = [];
@@ -74,21 +76,23 @@ class DbfParserTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getFields')->will($this->returnValue($fields));
-        $descriptor->method('getReaderParams')->will($this->returnValue('utf-8'));
-
+        $descriptor->method('getReaderParams')->will($this->returnValue('CP866'));
 
         $reader = new DbfReader;
         $parser = new DbfParser($reader);
-    
-        $result = iterator_to_array($parser->getEntities($file, $descriptor));
+
+        /** @var EntityDescriptor $descriptor */
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, DbfParserObject::class));
+
+        var_dump($result[1]);
 
         $this->assertSame($result[1]->strstatid, 1);
-        $this->assertSame($result[2]->name, 'Construction');
+        $this->assertSame($result[2]->name, 'Сооружение');
 
         // Исключение при обращении к колонке, которая не была указана в списке
         $this->expectException(ParserException::class);
         try {
-            $this->assertSame($result[3]->shortname, 'liter');
+            $this->assertSame($result[3]->shortname, 'литер');
         } catch (\Throwable $e) {
             throw new ParserException($e->getMessage(), 0, $e);
         }
@@ -106,9 +110,20 @@ class DbfParserTest extends BaseCase
 
         $reader = new DbfReader;
         $parser = new DbfParser($reader);
-    
-        $result = iterator_to_array($parser->getEntities($file, $descriptor));
+        
+        /** @var EntityDescriptor $descriptor */
+        $result = iterator_to_array($parser->getEntities($file, $descriptor, DbfParserObject::class));
 
         $this->assertSame($result, []);
     }
+}
+
+/**
+ * Класс для проверки парсера.
+ */
+class DbfParserObject
+{
+    public $strstatid = 0;
+    public $name = '';
+    public $shortname = '';
 }

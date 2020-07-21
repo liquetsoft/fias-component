@@ -8,7 +8,6 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Reader\Reader;
 use Symfony\Component\Serializer\SerializerInterface;
 use Liquetsoft\Fias\Component\Exception\ParserException;
-use Liquetsoft\Fias\Component\Exception\TaskException;
 use InvalidArgumentException;
 use SplFileInfo;
 
@@ -43,12 +42,12 @@ class XmlParser implements Parser
     /**
      * @inheritdoc
      */
-    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entity_class = null): \Generator
+    public function getEntities(SplFileInfo $file, EntityDescriptor $descriptor, string $entityСlass): \Generator
     {
         $this->reader->open($file, $descriptor);
 
         foreach ($this->reader as $item) {
-            yield $this->deserializeXmlStringToObject($item, $entity_class);
+            yield $this->deserializeXmlStringToObject($item, $entityСlass);
         }
         $this->reader->close();
     }
@@ -63,17 +62,17 @@ class XmlParser implements Parser
      *
      * @throws ParserException
      */
-    protected function deserializeXmlStringToObject(string $item, string $entity_class): object
+    protected function deserializeXmlStringToObject(string $item, string $entityСlass): object
     {
         try {
-            $entity = $this->serializer->deserialize($item, $entity_class, 'xml');
+            $entity = $this->serializer->deserialize($item, $entityСlass, 'xml');
         } catch (\Throwable $e) {
-            $message = "Deserialization error while deserialization of '{$item}' string to object with '{$entity_class}' class.";
-            throw new TaskException($message, 0, $e);
+            $message = "Deserialization error while deserialization of '{$item}' string to object with '{$entityСlass}' class.";
+            throw new ParserException($message, 0, $e);
         }
 
         if (!is_object($entity)) {
-            throw new ParserException('Serializer must returns an object instance.');
+            throw new ParserException('Serializer must return an object instance.');
         }
 
         return $entity;

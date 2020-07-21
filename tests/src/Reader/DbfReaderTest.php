@@ -26,10 +26,10 @@ class DbfReaderTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('utf-8'));
-        
         $reader = new DbfReader;
 
         $this->expectException(InvalidArgumentException::class);
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
     }
 
@@ -66,17 +66,19 @@ class DbfReaderTest extends BaseCase
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.dbf');
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getReaderParams')->will($this->returnValue('cp 866'));
+        $descriptor->method('getReaderParams')->will($this->returnValue('CP866'));
         $reader = new DbfReader;
        
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
-        $this->assertSame($reader->getEncoding(), 'cp 866');
+        $this->assertSame($reader->getEncoding(), 'CP866');
         $reader->close();
 
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadUTF.dbf');
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('utf-8'));
         
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
         $this->assertSame($reader->getEncoding(), 'utf-8');
         $reader->close();
@@ -102,6 +104,7 @@ class DbfReaderTest extends BaseCase
 
         $reader = new DbfReader;
        
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
         $this->assertSame(array_keys($reader->getTableColumns()), $columns);
         $reader->close();
@@ -115,9 +118,10 @@ class DbfReaderTest extends BaseCase
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadUTF.dbf');
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getReaderParams')->will($this->returnValue('cp 866'));
+        $descriptor->method('getReaderParams')->will($this->returnValue('CP866'));
         
         $reader = new DbfReader;
+        /** @var EntityDescriptor $descriptor */
         $this->assertSame($reader->open($file, $descriptor), true);
         $reader->close();
     }
@@ -141,9 +145,10 @@ class DbfReaderTest extends BaseCase
         $reader = new DbfReader;
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getReaderParams')->will($this->returnValue('cp 866'));
+        $descriptor->method('getReaderParams')->will($this->returnValue('CP866'));
         
         $this->expectException(ReaderException::class);
+        /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
     }
 }

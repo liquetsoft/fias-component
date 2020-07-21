@@ -18,27 +18,6 @@ use XBase\Table;
 class DbfReader implements Reader
 {
     /**
-     * Файл, который открыт в данный момент.
-     *
-     * @var SplFileInfo|null
-     */
-    protected $file;
-
-    /**
-     * Массив используемых столбцов. При значении null выбираются все столбцы по умолчанию.
-     *
-     * @var array|null
-     */
-    protected $dbfColumns;
-
-    /**
-     * Исходная кодировка таблицы. При значении null выбирается кодировка UTF-8 по умолчанию.
-     *
-     * @var string|null
-     */
-    protected $dbfEncoding;
-
-    /**
      * Таблица с данными.
      *
      * @var Table|null
@@ -56,18 +35,16 @@ class DbfReader implements Reader
             );
         }
 
-        $this->file = $file;
-
+        // Массив используемых столбцов. При значении null выбираются все столбцы по умолчанию.
         $dbfColumns = [];
         foreach ($entity_descriptor->getFields() as $field) {
             $dbfColumns[] = $field->getName();
         }
-        
-        $this->dbfColumns = $dbfColumns;
-        $this->dbfEncoding = $entity_descriptor->getReaderParams($this->getType());
+        // Исходная кодировка таблицы. При значении null выбирается кодировка UTF-8 по умолчанию.
+        $dbfEncoding = $entity_descriptor->getReaderParams($this->getType());
 
         try {
-            $this->table = new Table($file->getPathname(), $this->dbfColumns, $this->dbfEncoding);
+            $this->table = new Table($file->getPathname(), $dbfColumns, $dbfEncoding);
         } catch (Throwable $e) {
             $message = "Error during create/open dbf table";
             throw new ReaderException($message, 0, $e);
@@ -84,9 +61,6 @@ class DbfReader implements Reader
             $this->table->close();
             $this->table = null;
         }
-        $this->file = null;
-        $this->dbfColumns = null;
-        $this->dbfEncoding = null;
     }
 
     /**
@@ -194,11 +168,8 @@ class DbfReader implements Reader
     }
 
     /**
-     * Деструктор.
-     *
-     * Закрывает файл, если он все еще открыт.
+     * Деструктор, закрывает файл, если он все еще открыт.
      */
-    
     public function __destruct()
     {
         $this->close();

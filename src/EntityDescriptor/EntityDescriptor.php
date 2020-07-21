@@ -34,7 +34,7 @@ interface EntityDescriptor
     public function getPartitionsCount(): int;
 
     /**
-     * Возвращает параметры к сущности Render.
+     * Возвращает параметры к сущности Reader.
      * @param string $type
      *
      * @return mixed

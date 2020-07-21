@@ -30,6 +30,7 @@ class XmlParserTest extends BaseCase
         $reader = new XmlReader;
         $parser = new XmlParser($reader, $serializer);
     
+        /** @var EntityDescriptor $descriptor */
         $result = iterator_to_array($parser->getEntities($file, $descriptor, XmlParserObject::class));
 
         $this->assertSame($result[1]->getStrstatid(), 1);
@@ -51,6 +52,7 @@ class XmlParserTest extends BaseCase
         $reader = new XmlReader;
         $parser = new XmlParser($reader, $serializer);
     
+        /** @var EntityDescriptor $descriptor */
         $result = iterator_to_array($parser->getEntities($file, $descriptor, XmlParserObject::class));
 
         $this->assertSame([], $result);
@@ -58,7 +60,7 @@ class XmlParserTest extends BaseCase
 }
 
 /**
- * Мок для проверки парсера.
+ * Класс для проверки парсера.
  */
 class XmlParserObject
 {
