@@ -22,7 +22,14 @@ class DbfReader implements Reader
      *
      * @var Table|null
      */
-    protected $table;
+    public $table;
+
+    /**
+     * Текущее смещение внутри массива.
+     *
+     * @var int
+     */
+    protected $position = 0;
 
     /**
      * @inheritdoc
@@ -70,24 +77,24 @@ class DbfReader implements Reader
      */
     public function rewind()
     {
-        try {
-            $this->table->moveTo(0);
-        } catch (Throwable $e) {
-            $message = "Error during rewind position in dbf reader";
-            throw new ReaderException($message, 0, $e);
+        $this->position = 0;
+        if (!$this->table) {
+            throw new ReaderException('Reader must be set before reading');
         }
+        $this->table->moveTo($this->position);
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @return mixed|null
      *
      * @throws ReaderException
      */
     public function current()
     {
         try {
+            if (!$this->table) {
+                throw new ReaderException('Reader must be set before reading');
+            }
             return $this->table->getRecord();
         } catch (Throwable $e) {
             $message = "Error during returning current item in dbf reader";
@@ -97,23 +104,28 @@ class DbfReader implements Reader
 
     /**
      * @inheritdoc
+     *
+     * @throws ReaderException
      */
     public function key()
     {
+        if (!$this->table) {
+            throw new ReaderException('Reader must be set before reading');
+        }
         return $this->table->getRecordPos();
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @throws ReaderException
      */
     public function next()
     {
-        try {
-            return $this->table->nextRecord();
-        } catch (Throwable $e) {
-            $message = "Error during returning next item in dbf reader";
-            throw new ReaderException($message, 0, $e);
+        if (!$this->table) {
+            throw new ReaderException('Reader must be set before reading');
         }
+        $this->table->moveTo(++$this->position);
     }
 
     /**
@@ -127,12 +139,9 @@ class DbfReader implements Reader
             throw new ReaderException('Reader must be set before reading');
         }
         $position = $this->key();
-        if ($position >= $this->table->getRecordCount() || $position < 0) {
-            throw new ReaderException("Row with index {$position} does not exists");
-        }
-        return true;
+        return ($position < $this->table->getRecordCount() && $position >= 0);
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -145,6 +154,8 @@ class DbfReader implements Reader
      * Получить используемую кодировку
      *
      * @return string|null
+     *
+     * @throws ReaderException
      */
     public function getEncoding()
     {
@@ -158,6 +169,8 @@ class DbfReader implements Reader
      * Получить используемые столбцы
      *
      * @return array|null
+     *
+     * @throws ReaderException
      */
     public function getTableColumns()
     {
