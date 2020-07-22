@@ -13,11 +13,11 @@ use SplFileInfo;
 interface Parser
 {
     /**
-     * Получить сущности
+     * Получить сущности.
      *
-     * @param SplFileInfo $file
+     * @param SplFileInfo      $file
      * @param EntityDescriptor $descriptor
-     * @param string $entityClass
+     * @param string           $entityClass
      *
      * @return \Generator
      */
