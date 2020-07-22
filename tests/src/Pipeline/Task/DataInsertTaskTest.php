@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\Exception\ParserException;
+use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataInsertTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
@@ -99,7 +99,7 @@ class DataInsertTaskTest extends BaseCase
         $reader->open($file, $descriptor);
         $task = new DataInsertTask($entityManager, new XmlParser($reader, $serializer), $storage);
 
-        $this->expectException(ParserException::class);
+        $this->expectException(TaskException::class);
         $task->run($state);
         $reader->close();
     }

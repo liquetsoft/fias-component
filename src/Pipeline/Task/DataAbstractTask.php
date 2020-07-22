@@ -8,6 +8,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Exception\ParserException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Parser\Parser;
@@ -91,7 +92,6 @@ abstract class DataAbstractTask implements Task, LoggableTask
      *
      * @throws TaskException
      * @throws StorageException
-     * @throws ParserException
      */
     protected function processFile(SplFileInfo $fileInfo): void
     {
@@ -114,7 +114,6 @@ abstract class DataAbstractTask implements Task, LoggableTask
      *
      * @throws TaskException
      * @throws StorageException
-     * @throws ParserException
      */
     protected function processDataFromFile(SplFileInfo $fileInfo, EntityDescriptor $descriptor, string $entityClass): void
     {
@@ -128,9 +127,9 @@ abstract class DataAbstractTask implements Task, LoggableTask
         );
 
         $total = 0;
-        $items = $this->parser->getEntities($fileInfo, $descriptor, $entityClass);
         $this->storage->start();
         try {
+            $items = $this->parser->getEntities($fileInfo, $descriptor, $entityClass);
             foreach ($items as $item) {
                 if (!$this->storage->supports($item)) {
                     continue;
@@ -139,6 +138,8 @@ abstract class DataAbstractTask implements Task, LoggableTask
                 unset($item);
                 ++$total;
             }
+        } catch (ParserException $e) {
+            throw new TaskException("Error occured during entities parsing: {$e->getMessage()}", 0, $e);
         } finally {
             $this->storage->stop();
         }
