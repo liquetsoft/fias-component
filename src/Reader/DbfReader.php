@@ -79,7 +79,7 @@ class DbfReader implements Reader
     {
         $this->position = 0;
         if (!$this->table) {
-            throw new ReaderException('Reader must be set before reading');
+            throw new ReaderException('Must open a file before reading');
         }
         $this->table->moveTo($this->position);
     }
@@ -93,7 +93,7 @@ class DbfReader implements Reader
     {
         try {
             if (!$this->table) {
-                throw new ReaderException('Reader must be set before reading');
+                throw new ReaderException('Must open a file before reading');
             }
             return $this->table->getRecord();
         } catch (Throwable $e) {
@@ -110,7 +110,7 @@ class DbfReader implements Reader
     public function key()
     {
         if (!$this->table) {
-            throw new ReaderException('Reader must be set before reading');
+            throw new ReaderException('Must open a file before reading');
         }
         return $this->table->getRecordPos();
     }
@@ -123,7 +123,7 @@ class DbfReader implements Reader
     public function next()
     {
         if (!$this->table) {
-            throw new ReaderException('Reader must be set before reading');
+            throw new ReaderException('Must open a file before reading');
         }
         $this->table->moveTo(++$this->position);
     }
@@ -136,7 +136,7 @@ class DbfReader implements Reader
     public function valid()
     {
         if (!$this->table) {
-            throw new ReaderException('Reader must be set before reading');
+            throw new ReaderException('Must open a file before reading');
         }
         $position = $this->key();
         return ($position < $this->table->getRecordCount() && $position >= 0);
@@ -160,7 +160,7 @@ class DbfReader implements Reader
     public function getEncoding()
     {
         if (!$this->table) {
-            throw new ReaderException('Reader must be set before reading');
+            throw new ReaderException('Must open a file before reading');
         }
         return $this->table->getConvertFrom();
     }
@@ -175,7 +175,7 @@ class DbfReader implements Reader
     public function getTableColumns()
     {
         if (!$this->table) {
-            throw new ReaderException('Reader must be set before reading');
+            throw new ReaderException('Must open a file before reading');
         }
         return $this->table->getColumns();
     }
