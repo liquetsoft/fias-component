@@ -6,12 +6,12 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
+use Liquetsoft\Fias\Component\Exception\ParserException;
 use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Exception\ParserException;
+use Liquetsoft\Fias\Component\Parser\Parser;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Storage\Storage;
-use Liquetsoft\Fias\Component\Parser\Parser;
 use Psr\Log\LogLevel;
 use SplFileInfo;
 
@@ -38,9 +38,9 @@ abstract class DataAbstractTask implements Task, LoggableTask
     protected $storage;
 
     /**
-     * @param EntityManager       $entityManager
-     * @param Parser              $parser
-     * @param Storage             $storage
+     * @param EntityManager $entityManager
+     * @param Parser        $parser
+     * @param Storage       $storage
      */
     public function __construct(EntityManager $entityManager, Parser $parser, Storage $storage)
     {
@@ -108,9 +108,9 @@ abstract class DataAbstractTask implements Task, LoggableTask
     /**
      * Обрабатывает данные из файла и передает в хранилище.
      *
-     * @param SplFileInfo       $fileInfo
-     * @param EntityDescriptor  $descriptor
-     * @param string            $entityClass
+     * @param SplFileInfo      $fileInfo
+     * @param EntityDescriptor $descriptor
+     * @param string           $entityClass
      *
      * @throws TaskException
      * @throws StorageException

@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Reader;
 
 use InvalidArgumentException;
-use Liquetsoft\Fias\Component\Exception\ReaderException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\Reader\Reader;
+use Liquetsoft\Fias\Component\Exception\ReaderException;
 use SplFileInfo;
 use Throwable;
 use XBase\Table;
 
 /**
- * Объект, который читает данные из файла xml
+ * Объект, который читает данные из файла xml.
  */
 class DbfReader implements Reader
 {
@@ -53,12 +52,13 @@ class DbfReader implements Reader
         try {
             $this->table = new Table($file->getPathname(), $dbfColumns, $dbfEncoding);
         } catch (Throwable $e) {
-            $message = "Error during create/open dbf table";
+            $message = 'Error during create/open dbf table';
             throw new ReaderException($message, 0, $e);
         }
+
         return true;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -95,9 +95,10 @@ class DbfReader implements Reader
             if (!$this->table) {
                 throw new ReaderException('Must open a file before reading');
             }
+
             return $this->table->getRecord();
         } catch (Throwable $e) {
-            $message = "Error during returning current item in dbf reader";
+            $message = 'Error during returning current item in dbf reader';
             throw new ReaderException($message, 0, $e);
         }
     }
@@ -112,6 +113,7 @@ class DbfReader implements Reader
         if (!$this->table) {
             throw new ReaderException('Must open a file before reading');
         }
+
         return $this->table->getRecordPos();
     }
 
@@ -139,9 +141,10 @@ class DbfReader implements Reader
             throw new ReaderException('Must open a file before reading');
         }
         $position = $this->key();
-        return ($position < $this->table->getRecordCount() && $position >= 0);
+
+        return $position < $this->table->getRecordCount() && $position >= 0;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -149,9 +152,9 @@ class DbfReader implements Reader
     {
         return 'dbf';
     }
-    
+
     /**
-     * Получить используемую кодировку
+     * Получить используемую кодировку.
      *
      * @return string|null
      *
@@ -162,11 +165,12 @@ class DbfReader implements Reader
         if (!$this->table) {
             throw new ReaderException('Must open a file before reading');
         }
+
         return $this->table->getConvertFrom();
     }
 
     /**
-     * Получить используемые столбцы
+     * Получить используемые столбцы.
      *
      * @return array|null
      *
@@ -177,6 +181,7 @@ class DbfReader implements Reader
         if (!$this->table) {
             throw new ReaderException('Must open a file before reading');
         }
+
         return $this->table->getColumns();
     }
 

@@ -6,8 +6,8 @@ namespace Liquetsoft\Fias\Component\Reader;
 
 use InvalidArgumentException;
 use Iterator;
-use Liquetsoft\Fias\Component\Exception\Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\Exception\Exception;
 use SplFileInfo;
 
 /**
@@ -20,7 +20,7 @@ interface Reader extends Iterator
      * путь найден, то открывает файл и возвращает правду, если не найден, то
      * возвращает ложь.
      *
-     * @param SplFileInfo $file
+     * @param SplFileInfo      $file
      * @param EntityDescriptor $entity_descriptor
      *
      * @return bool

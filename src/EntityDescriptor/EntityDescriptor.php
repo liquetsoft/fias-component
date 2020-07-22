@@ -35,6 +35,7 @@ interface EntityDescriptor
 
     /**
      * Возвращает параметры к сущности Reader.
+     *
      * @param string $type
      *
      * @return mixed
@@ -42,7 +43,6 @@ interface EntityDescriptor
      * @throws InvalidArgumentException
      */
     public function getReaderParams(string $type);
-    
 
     /**
      * Возвращает маску файла, в котором содержатся данные для вставки.

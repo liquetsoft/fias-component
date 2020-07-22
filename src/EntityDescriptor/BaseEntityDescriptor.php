@@ -101,7 +101,7 @@ class BaseEntityDescriptor implements EntityDescriptor
         switch ($type) {
             case 'xml':
                 return $this->xmlPath;
-            
+
             case 'dbf':
                 return $this->dbfEncoding;
 

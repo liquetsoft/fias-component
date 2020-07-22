@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Parser;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\Reader\Reader;
-use Symfony\Component\Serializer\SerializerInterface;
-use Liquetsoft\Fias\Component\Exception\ParserException;
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\Exception\ParserException;
+use Liquetsoft\Fias\Component\Reader\Reader;
 use SplFileInfo;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Описание сущности парсинга файлов xml
+ * Описание сущности парсинга файлов xml.
  */
 class XmlParser implements Parser
 {

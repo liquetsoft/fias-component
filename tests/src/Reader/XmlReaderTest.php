@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Reader;
 
 use InvalidArgumentException;
-use Liquetsoft\Fias\Component\Exception\ReaderException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Exception\ReaderException;
 use Liquetsoft\Fias\Component\Reader\XmlReader;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
 
 /**
@@ -25,7 +25,7 @@ class XmlReaderTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
-        
+
         $reader = new XmlReader;
 
         $this->expectException(InvalidArgumentException::class);
@@ -67,7 +67,7 @@ class XmlReaderTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
-        
+
         $reader = new XmlReader;
 
         /** @var EntityDescriptor $descriptor */
@@ -77,7 +77,7 @@ class XmlReaderTest extends BaseCase
             $this->assertStringContainsString('ActualStatus', $item);
             $this->assertStringContainsString('ACTSTATID="' . $key . '', $item);
         }
-     
+
         $reader->close();
     }
 
@@ -90,7 +90,7 @@ class XmlReaderTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
-        
+
         $reader = new XmlReader;
         /** @var EntityDescriptor $descriptor */
         $reader->open($file, $descriptor);
@@ -108,7 +108,7 @@ class XmlReaderTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/ActualStatuses/ActualStatus'));
-        
+
         $reader = new XmlReader;
 
         /** @var EntityDescriptor $descriptor */
@@ -132,7 +132,7 @@ class XmlReaderTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('/root/firstLevel/secondLevel/realItem'));
-        
+
         $reader = new XmlReader;
 
         /** @var EntityDescriptor $descriptor */
@@ -145,7 +145,7 @@ class XmlReaderTest extends BaseCase
 
         $this->assertSame([
             '<realItem firstParam="real item 1 first param" secondParam="real item 1 second param" '
-                .'thirdParam="real item 1 third param" fake="real item 1 fake attr"/>',
+                . 'thirdParam="real item 1 third param" fake="real item 1 fake attr"/>',
             '<realItem firstParam="real item 2 first param" secondParam="real item 2 second param"/>',
             '<realItem fake="real item 3 fake attr"/>',
         ], $result);

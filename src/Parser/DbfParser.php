@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Parser;
 
+use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Reader\Reader;
-use InvalidArgumentException;
 use SplFileInfo;
 use XBase\Record;
 
 /**
- * Описание сущности парсинга файлов dbf
+ * Описание сущности парсинга файлов dbf.
  */
 class DbfParser implements Parser
 {
@@ -21,7 +21,7 @@ class DbfParser implements Parser
     protected $reader;
 
     /**
-     * @param Reader              $reader
+     * @param Reader $reader
      */
     public function __construct(Reader $reader)
     {

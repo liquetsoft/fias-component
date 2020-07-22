@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Parser;
 
-use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Parser\DbfParser;
-use Liquetsoft\Fias\Component\Exception\ParserException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
+use Liquetsoft\Fias\Component\Exception\ParserException;
+use Liquetsoft\Fias\Component\Parser\DbfParser;
 use Liquetsoft\Fias\Component\Reader\DbfReader;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
 
 /**
@@ -23,7 +23,7 @@ class DbfParserTest extends BaseCase
     public function testParseDbf()
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/test.dbf');
-        
+
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('CP866'));
 
@@ -44,13 +44,13 @@ class DbfParserTest extends BaseCase
     public function testParseDbfUtf()
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testUTF.dbf');
-        
+
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('utf-8'));
 
         $reader = new DbfReader;
         $parser = new DbfParser($reader);
-    
+
         /** @var EntityDescriptor $descriptor */
         $result = iterator_to_array($parser->getEntities($file, $descriptor, DbfParserObject::class));
 
@@ -102,13 +102,13 @@ class DbfParserTest extends BaseCase
     public function testParseEmptyDbf()
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/empty.dbf');
-        
+
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getReaderParams')->will($this->returnValue('utf-8'));
 
         $reader = new DbfReader;
         $parser = new DbfParser($reader);
-        
+
         /** @var EntityDescriptor $descriptor */
         $result = iterator_to_array($parser->getEntities($file, $descriptor, DbfParserObject::class));
 

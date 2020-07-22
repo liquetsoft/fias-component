@@ -8,16 +8,16 @@ use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Parser\XmlParser;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataInsertTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
+use Liquetsoft\Fias\Component\Reader\XmlReader;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Reader\XmlReader;
-use Liquetsoft\Fias\Component\Parser\XmlParser;
-use Symfony\Component\Serializer\SerializerInterface;
 use SplFileInfo;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Тест для задачи, которая загружает данные из файла в БД.

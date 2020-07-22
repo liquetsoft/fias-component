@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Parser;
 
-use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Parser\XmlParser;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
+use Liquetsoft\Fias\Component\Parser\XmlParser;
 use Liquetsoft\Fias\Component\Reader\XmlReader;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
 
 /**
@@ -29,7 +29,7 @@ class XmlParserTest extends BaseCase
 
         $reader = new XmlReader;
         $parser = new XmlParser($reader, $serializer);
-    
+
         /** @var EntityDescriptor $descriptor */
         $result = iterator_to_array($parser->getEntities($file, $descriptor, XmlParserObject::class));
 
@@ -51,7 +51,7 @@ class XmlParserTest extends BaseCase
 
         $reader = new XmlReader;
         $parser = new XmlParser($reader, $serializer);
-    
+
         /** @var EntityDescriptor $descriptor */
         $result = iterator_to_array($parser->getEntities($file, $descriptor, XmlParserObject::class));
 
