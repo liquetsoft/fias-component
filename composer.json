@@ -34,7 +34,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/neos1/liquetsoft-component"
+            "url": "https://github.com/liquetsoft/fias-component"
         }
     ]
 }
