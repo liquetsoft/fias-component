@@ -1,5 +1,5 @@
 {
-    "name": "liquetsoft/fias-component",
+    "name": "neos1/fias-component",
     "description": "FIAS database parser for php.",
     "type": "library",
     "keywords": ["php", "fias"],
@@ -33,7 +33,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/liquetsoft/fias-component"
+            "url": "https://github.com/neos1/fias-component"
         }
     ]
 }
