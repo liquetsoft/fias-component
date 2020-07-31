@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UnexpectedStatuses>
+    <UnexpectedStatus STRSTATID="0" NAME="Не определено" SHORTNAME="Не определено" />
+    <UnexpectedStatus STRSTATID="1" NAME="Строение" SHORTNAME="стр" />
+    <UnexpectedStatus STRSTATID="2" NAME="Сооружение" SHORTNAME="соор" />
+    <UnexpectedStatus STRSTATID="3" NAME="Литер" SHORTNAME="литер" />
+</UnexpectedStatuses>

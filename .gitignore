@@ -9,3 +9,4 @@ docker/.env
 test.php
 
 .~lock.*
+.vscode

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StructureStatuses>
+    <StructureStatus STRSTATID="0" NAME="Не определено" SHORTNAME="Не определено" />
+    <StructureStatus STRSTATID="1" NAME="Строение" SHORTNAME="стр" />
+    <StructureStatus STRSTATID="2" NAME="Сооружение" SHORTNAME="соор" />
+    <StructureStatus STRSTATID="3" NAME="Литер" SHORTNAME="литер" />
+</StructureStatuses>
