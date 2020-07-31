@@ -86,7 +86,7 @@ class BaseEntityManager implements EntityManager
 
         foreach ($this->bindings as $entityName => $className) {
             $descriptor = $this->getDescriptorByEntityName($entityName);
-            if ($descriptor && $descriptor->isFileNameFitsXmlInsertFileMask($insertFileName)) {
+            if ($descriptor && $descriptor->isFileNameMatchInsertFileMask($insertFileName)) {
                 $return = $descriptor;
                 break;
             }
@@ -106,7 +106,7 @@ class BaseEntityManager implements EntityManager
 
         foreach ($this->bindings as $entityName => $className) {
             $descriptor = $this->getDescriptorByEntityName($entityName);
-            if ($descriptor && $descriptor->isFileNameFitsXmlDeleteFileMask($insertFileName)) {
+            if ($descriptor && $descriptor->isFileNameMatchDeleteFileMask($insertFileName)) {
                 $return = $descriptor;
                 break;
             }
