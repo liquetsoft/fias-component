@@ -111,7 +111,7 @@ class ArrayPipeTest extends BaseCase
         $task1 = $this->getMockBuilder(Task::class)->getMock();
 
         $task2 = $this->getMockBuilder(Task::class)->getMock();
-        $task2->method('run')->will($this->throwException(new InvalidArgumentException));
+        $task2->method('run')->will($this->throwException(new InvalidArgumentException()));
 
         $pipe = new ArrayPipe([$task1, $task2], $cleanUp);
 

@@ -40,7 +40,7 @@ class CleanupTaskTest extends BaseCase
             return $return;
         }));
 
-        $task = new CleanupTask;
+        $task = new CleanupTask();
         $task->run($state);
 
         $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');
@@ -60,7 +60,7 @@ class CleanupTaskTest extends BaseCase
             return $name === Task::DOWNLOAD_TO_FILE_PARAM ? $downloadTo : null;
         }));
 
-        $task = new CleanupTask;
+        $task = new CleanupTask();
         $task->run($state);
 
         $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');

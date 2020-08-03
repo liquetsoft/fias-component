@@ -188,7 +188,7 @@ class BaseEntityManagerTest extends BaseCase
             $entityName1 => $class1,
         ]);
 
-        $this->assertSame($descriptor, $manager->getDescriptorByObject(new \stdClass));
+        $this->assertSame($descriptor, $manager->getDescriptorByObject(new \stdClass()));
         $this->assertNull($manager->getDescriptorByObject('TestEmpty'));
     }
 

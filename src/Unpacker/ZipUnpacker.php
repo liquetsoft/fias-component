@@ -39,7 +39,7 @@ class ZipUnpacker implements Unpacker
     private function runUnZip(SplFileInfo $source, SplFileInfo $destination): void
     {
         $filePath = $source->getPathName();
-        $zip = new ZipArchive;
+        $zip = new ZipArchive();
         if ($zip->open($filePath) === true) {
             $zip->extractTo($destination->getPathName());
             $zip->close();

@@ -22,7 +22,7 @@ class BaseXmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/empty.xml');
 
-        $reader = new BaseXmlReader;
+        $reader = new BaseXmlReader();
 
         $this->expectException(InvalidArgumentException::class);
         $reader->open($file, '/ActualStatuses/ActualStatus');
@@ -33,7 +33,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testReadNotOpenException()
     {
-        $reader = new BaseXmlReader;
+        $reader = new BaseXmlReader();
 
         $this->expectException(XmlException::class);
         $result = [];
@@ -47,7 +47,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testReadNotOpenExceptionIterator()
     {
-        $reader = new BaseXmlReader;
+        $reader = new BaseXmlReader();
 
         $this->expectException(XmlException::class);
         $reader->current();
@@ -60,7 +60,7 @@ class BaseXmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
 
-        $reader = new BaseXmlReader;
+        $reader = new BaseXmlReader();
         $reader->open($file, '/ActualStatuses/ActualStatus');
         foreach ($reader as $key => $item) {
         }
@@ -79,7 +79,7 @@ class BaseXmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadEmpty.xml');
 
-        $reader = new BaseXmlReader;
+        $reader = new BaseXmlReader();
         $reader->open($file, '/ActualStatuses/ActualStatus');
         $result = [];
         foreach ($reader as $key => $item) {
@@ -98,7 +98,7 @@ class BaseXmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadMessyFile.xml');
 
-        $reader = new BaseXmlReader;
+        $reader = new BaseXmlReader();
         $reader->open($file, '/root/firstLevel/secondLevel/realItem');
         $result = [];
         foreach ($reader as $key => $item) {
@@ -120,7 +120,7 @@ class BaseXmlReaderTest extends BaseCase
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadException.xml');
 
-        $reader = new BaseXmlReader;
+        $reader = new BaseXmlReader();
         $reader->open($file, '/root/qwe');
 
         $this->expectException(XmlException::class);

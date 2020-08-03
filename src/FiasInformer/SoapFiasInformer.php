@@ -41,7 +41,7 @@ class SoapFiasInformer implements FiasInformer
     {
         $response = $this->getSoapClient()->__call('GetLastDownloadFileInfo', []);
 
-        $res = new InformerResponseBase;
+        $res = new InformerResponseBase();
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
         $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl);
 
@@ -56,7 +56,7 @@ class SoapFiasInformer implements FiasInformer
         $response = $this->getSoapClient()->__call('GetAllDownloadFileInfo', []);
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
 
-        $res = new InformerResponseBase;
+        $res = new InformerResponseBase();
         foreach ($versions as $serviceVersion) {
             if ((int) $serviceVersion['VersionId'] <= $version) {
                 continue;
