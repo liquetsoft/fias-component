@@ -9,6 +9,7 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Psr\Log\LogLevel;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use SplFileInfo;
 
 class SelectFilesToProceedTask implements Task, LoggableTask
@@ -96,18 +97,22 @@ class SelectFilesToProceedTask implements Task, LoggableTask
         $filesToInsert = [];
         $filesToDelete = [];
 
-        $iterator = new RecursiveDirectoryIterator(
+        $directoryIterator = new RecursiveDirectoryIterator(
             $filesFolder->getRealPath(),
             RecursiveDirectoryIterator::SKIP_DOTS
         );
+        $iterator = new RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {
             if ($this->isFileAllowedToInsert($fileInfo)) {
-                $filesToInsert[] = $fileInfo->getRealPath();
+                $filesToInsert[] = (string) $fileInfo->getRealPath();
             } elseif ($this->isFileAllowedToDelete($fileInfo)) {
-                $filesToDelete[] = $fileInfo->getRealPath();
+                $filesToDelete[] = (string) $fileInfo->getRealPath();
             }
         }
+
+        sort($filesToInsert, SORT_STRING);
+        sort($filesToDelete, SORT_STRING);
 
         return [$filesToInsert, $filesToDelete];
     }

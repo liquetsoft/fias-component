@@ -66,7 +66,12 @@ class SelectFilesToProceedTaskTest extends BaseCase
             ->will(
                 $this->returnCallback(
                     function ($file) use ($descriptor) {
-                        return $file === 'SelectFilesToProceedTaskTest_insert.xml' ? $descriptor : null;
+                        $files = [
+                            'SelectFilesToProceedTaskTest_insert.xml',
+                            'SelectFilesToProceedTaskTest_nested_insert.xml',
+                        ];
+
+                        return in_array($file, $files, true) ? $descriptor : null;
                     }
                 )
             );
@@ -74,7 +79,12 @@ class SelectFilesToProceedTaskTest extends BaseCase
             ->will(
                 $this->returnCallback(
                     function ($file) use ($descriptor) {
-                        return $file === 'SelectFilesToProceedTaskTest_delete.xml' ? $descriptor : null;
+                        $files = [
+                            'SelectFilesToProceedTaskTest_delete.xml',
+                            'SelectFilesToProceedTaskTest_nested_delete.xml',
+                        ];
+
+                        return in_array($file, $files, true) ? $descriptor : null;
                     }
                 )
             );
@@ -96,12 +106,14 @@ class SelectFilesToProceedTaskTest extends BaseCase
         $this->assertSame(
             [
                 $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
+                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
             ],
             $state->getParameter(Task::FILES_TO_INSERT_PARAM)
         );
         $this->assertSame(
             [
                 $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
+                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
             ],
             $state->getParameter(Task::FILES_TO_DELETE_PARAM)
         );
