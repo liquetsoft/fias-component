@@ -20,8 +20,8 @@ class SoapFiasInformerTest extends BaseCase
      */
     public function testGetCompleteInfo()
     {
-        $soapResponse = new stdClass;
-        $soapResponse->GetLastDownloadFileInfoResult = new stdClass;
+        $soapResponse = new stdClass();
+        $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url;
         $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber;
 
@@ -50,8 +50,8 @@ class SoapFiasInformerTest extends BaseCase
      */
     public function testGetDeltaInfo()
     {
-        $soapResponse = new stdClass;
-        $soapResponse->GetAllDownloadFileInfoResult = new stdClass;
+        $soapResponse = new stdClass();
+        $soapResponse->GetAllDownloadFileInfoResult = new stdClass();
         $soapResponse->GetAllDownloadFileInfoResult->DownloadFileInfo = [];
 
         $totalDeltas = 10;
@@ -59,7 +59,7 @@ class SoapFiasInformerTest extends BaseCase
         $nextDelta = $currentDelta + 1;
         $nextUrl = null;
         for ($i = 1; $i <= $totalDeltas; ++$i) {
-            $delta = new stdClass;
+            $delta = new stdClass();
             $delta->VersionId = $i;
             $delta->FiasDeltaXmlUrl = $this->createFakeData()->url;
             $soapResponse->GetAllDownloadFileInfoResult->DownloadFileInfo[] = $delta;

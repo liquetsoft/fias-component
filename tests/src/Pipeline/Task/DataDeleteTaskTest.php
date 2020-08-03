@@ -46,10 +46,10 @@ class DataDeleteTaskTest extends BaseCase
             $insertedData[] = $object->getActstatid();
         }));
 
-        $state = new ArrayState;
+        $state = new ArrayState();
         $state->setParameter(Task::FILES_TO_DELETE_PARAM, [__DIR__ . '/_fixtures/data.xml']);
 
-        $task = new DataDeleteTask($entityManager, new BaseXmlReader, $storage, new FiasSerializer);
+        $task = new DataDeleteTask($entityManager, new BaseXmlReader(), $storage, new FiasSerializer());
         $task->run($state);
 
         $this->assertSame([321], $insertedData);

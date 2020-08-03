@@ -273,7 +273,7 @@ class BaseXmlReader implements XmlReaderInterface
         }
 
         $this->unsetReader();
-        $this->reader = new PhpXmlReader;
+        $this->reader = new PhpXmlReader();
 
         if ($this->reader->open($this->file->getPathname(), 'UTF-8', LIBXML_COMPACT | LIBXML_NONET | LIBXML_NOBLANKS) === false) {
             throw new RuntimeException(

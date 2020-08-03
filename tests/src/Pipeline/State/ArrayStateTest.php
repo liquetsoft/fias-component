@@ -21,7 +21,7 @@ class ArrayStateTest extends BaseCase
         $parameterName = $this->createFakeData()->word;
         $parameterValue = $this->createFakeData()->word;
 
-        $state = new ArrayState;
+        $state = new ArrayState();
         $state->setParameter($parameterName, $parameterValue);
 
         $this->assertSame($parameterValue, $state->getParameter($parameterName));
@@ -35,7 +35,7 @@ class ArrayStateTest extends BaseCase
         $parameterName = $this->createFakeData()->word;
         $parameterValue = $this->createFakeData()->word;
 
-        $state = new ArrayState;
+        $state = new ArrayState();
         $state->setAndLockParameter($parameterName, $parameterValue);
 
         $this->assertSame($parameterValue, $state->getParameter($parameterName));
@@ -50,7 +50,7 @@ class ArrayStateTest extends BaseCase
         $parameterName = $this->createFakeData()->word;
         $parameterValue = $this->createFakeData()->word;
 
-        $state = new ArrayState;
+        $state = new ArrayState();
         $state->setAndLockParameter($parameterName, $parameterValue);
 
         $this->expectException(InvalidArgumentException::class);
@@ -62,9 +62,9 @@ class ArrayStateTest extends BaseCase
      */
     public function testComplete()
     {
-        $state = new ArrayState;
+        $state = new ArrayState();
 
-        $stateCompleted = new ArrayState;
+        $stateCompleted = new ArrayState();
         $stateCompleted->complete();
 
         $this->assertFalse($state->isCompleted());

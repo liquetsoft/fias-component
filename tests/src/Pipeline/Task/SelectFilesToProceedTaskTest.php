@@ -12,6 +12,7 @@ use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
+use stdClass;
 
 /**
  * Тест для задачи, которая выбирает файлы из папки для загрузки в базу на основе данных из EntityManager.
@@ -24,7 +25,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     public function testRunEmptyUnpackToException()
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $state = new ArrayState;
+        $state = new ArrayState();
 
         $task = new SelectFilesToProceedTask($entityManager);
 
@@ -39,7 +40,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
-        $state = new ArrayState;
+        $state = new ArrayState();
         $state->setParameter(
             Task::EXTRACT_TO_FOLDER_PARAM,
             new SplFileInfo(__DIR__ . '/test')
@@ -61,36 +62,48 @@ class SelectFilesToProceedTaskTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $entityManager->method('getDescriptorByInsertFile')->will($this->returnCallback(function ($file) use ($descriptor) {
-            return $file === 'SelectFilesToProceedTaskTest_insert.xml' ? $descriptor : null;
-        }));
-        $entityManager->method('getDescriptorByDeleteFile')->will($this->returnCallback(function ($file) use ($descriptor) {
-            return $file === 'SelectFilesToProceedTaskTest_delete.xml' ? $descriptor : null;
-        }));
-        $entityManager->method('getClassByDescriptor')->will($this->returnCallback(function ($testDescriptor) use ($descriptor) {
-            return $testDescriptor === $descriptor ? SelectFilesToProceedTaskObject::class : null;
-        }));
+        $entityManager->method('getDescriptorByInsertFile')
+            ->will(
+                $this->returnCallback(
+                    function ($file) use ($descriptor) {
+                        return $file === 'SelectFilesToProceedTaskTest_insert.xml' ? $descriptor : null;
+                    }
+                )
+            );
+        $entityManager->method('getDescriptorByDeleteFile')
+            ->will(
+                $this->returnCallback(
+                    function ($file) use ($descriptor) {
+                        return $file === 'SelectFilesToProceedTaskTest_delete.xml' ? $descriptor : null;
+                    }
+                )
+            );
+        $entityManager->method('getClassByDescriptor')
+            ->will(
+                $this->returnCallback(
+                    function ($testDescriptor) use ($descriptor) {
+                        return $testDescriptor === $descriptor ? stdClass::class : null;
+                    }
+                )
+            );
 
-        $state = new ArrayState;
+        $state = new ArrayState();
         $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo($fixturesFolder));
 
         $task = new SelectFilesToProceedTask($entityManager);
         $task->run($state);
 
         $this->assertSame(
-            [$fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml'],
+            [
+                $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
+            ],
             $state->getParameter(Task::FILES_TO_INSERT_PARAM)
         );
         $this->assertSame(
-            [$fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml'],
+            [
+                $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
+            ],
             $state->getParameter(Task::FILES_TO_DELETE_PARAM)
         );
     }
-}
-
-/**
- * Мок для проверки задачи, которая выбирает файлы для обработки.
- */
-class SelectFilesToProceedTaskObject
-{
 }
