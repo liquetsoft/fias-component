@@ -90,7 +90,7 @@ class SoapFiasInformerTest extends BaseCase
             ->will($this->returnValue($soapResponse));
 
         $service = new SoapFiasInformer($soapClient);
-        $result = $service->getDeltaInfo('xml', $currentDelta);
+        $result = $service->getDeltaInfo($currentDelta, 'xml');
 
         $this->assertSame($nextUrl, $result->getUrl());
         $this->assertSame($nextDelta, $result->getVersion());
@@ -128,7 +128,7 @@ class SoapFiasInformerTest extends BaseCase
             ->will($this->returnValue($soapResponse));
 
         $service = new SoapFiasInformer($soapClient);
-        $result = $service->getDeltaInfo('dbf', $currentDelta);
+        $result = $service->getDeltaInfo($currentDelta, 'dbf');
 
         $this->assertSame($nextUrl, $result->getUrl());
         $this->assertSame($nextDelta, $result->getVersion());

@@ -61,7 +61,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @inheritdoc
      */
-    public function getDeltaInfo(string $type, int $version): InformerResponse
+    public function getDeltaInfo(int $version, string $type): InformerResponse
     {
         $response = $this->getSoapClient()->__call('GetAllDownloadFileInfo', []);
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);

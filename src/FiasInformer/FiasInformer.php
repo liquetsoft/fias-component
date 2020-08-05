@@ -27,10 +27,10 @@ interface FiasInformer
      * до последней версии ФИАС, то нужно запрашивать данный метод в цикле,
      * изменяя версию, до тех пор, пока он не перестанет возвращать результат.
      *
-     * @param string $type Тип скачиваемого файла (xml/dbf)
      * @param int $version Текущая версия, относительно которой нужно ополучить файл с изменениями на следующую версию
+     * @param string $type Тип скачиваемого файла (xml/dbf)
      *
      * @return InformerResponse
      */
-    public function getDeltaInfo(string $type, int $version): InformerResponse;
+    public function getDeltaInfo(int $version, string $type): InformerResponse;
 }

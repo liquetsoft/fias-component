@@ -23,18 +23,11 @@ class InformDeltaTask implements Task, LoggableTask
     protected $informer;
 
     /**
-     * @var string
-     */
-    protected $type;
-
-    /**
      * @param FiasInformer $informer
-     * @param string $type
      */
-    public function __construct(FiasInformer $informer, string $type = 'dbf')
+    public function __construct(FiasInformer $informer)
     {
         $this->informer = $informer;
-        $this->type = $type;
     }
 
     /**
@@ -42,6 +35,12 @@ class InformDeltaTask implements Task, LoggableTask
      */
     public function run(State $state): void
     {
+        $type = $state->getParameter(Task::DOWNLOAD_FILE_TYPE);
+        if (!$type) {
+            throw new TaskException(
+                "State parameter '" . Task::DOWNLOAD_FILE_TYPE . "' is required for '" . self::class . "'."
+            );
+        }
         $version = (int) $state->getParameter(Task::FIAS_VERSION_PARAM);
         if (!$version) {
             throw new TaskException(
@@ -49,7 +48,7 @@ class InformDeltaTask implements Task, LoggableTask
             );
         }
 
-        $info = $this->informer->getDeltaInfo($this->type, $version);
+        $info = $this->informer->getDeltaInfo($version, $type);
         if (!$info->hasResult()) {
             $state->complete();
             $this->log(

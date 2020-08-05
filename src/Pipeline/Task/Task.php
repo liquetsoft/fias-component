@@ -25,6 +25,8 @@ interface Task
 
     const FILES_TO_DELETE_PARAM = 'files_to_delete';
 
+    const DOWNLOAD_FILE_TYPE = 'download_file_type';
+
     /**
      * Запускает задачу на исполнение.
      *

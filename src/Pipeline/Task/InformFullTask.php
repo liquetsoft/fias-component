@@ -22,11 +22,6 @@ class InformFullTask implements Task, LoggableTask
     protected $informer;
 
     /**
-     * @var string
-     */
-    protected $type = 'dbf';
-
-    /**
      * @param FiasInformer $informer
      */
     public function __construct(FiasInformer $informer)
@@ -39,7 +34,9 @@ class InformFullTask implements Task, LoggableTask
      */
     public function run(State $state): void
     {
-        $info = $this->informer->getCompleteInfo($this->type);
+        $type = $state->getParameter(Task::DOWNLOAD_FILE_TYPE) ?? 'dbf';
+
+        $info = $this->informer->getCompleteInfo($type);
 
         if (!$info->hasResult()) {
             throw new TaskException(
