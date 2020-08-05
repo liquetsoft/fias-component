@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
 use SoapClient;
+use InvalidArgumentException;
 
 /**
  * Объект, который получает ссылку на файл с архивом ФИАС
@@ -37,13 +38,22 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @inheritdoc
      */
-    public function getCompleteInfo(): InformerResponse
+    public function getCompleteInfo(string $type): InformerResponse
     {
         $response = $this->getSoapClient()->__call('GetLastDownloadFileInfo', []);
 
         $res = new InformerResponseBase;
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
-        $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl);
+        switch ($type) {
+            case 'xml':
+                $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl);
+                break;
+            case 'dbf':
+                $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteDbfUrl);
+                break;
+            default:
+                throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
+        }
 
         return $res;
     }
@@ -51,7 +61,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @inheritdoc
      */
-    public function getDeltaInfo(int $version): InformerResponse
+    public function getDeltaInfo(string $type, int $version): InformerResponse
     {
         $response = $this->getSoapClient()->__call('GetAllDownloadFileInfo', []);
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
@@ -62,7 +72,16 @@ class SoapFiasInformer implements FiasInformer
                 continue;
             }
             $res->setVersion((int) $serviceVersion['VersionId']);
-            $res->setUrl($serviceVersion['FiasDeltaXmlUrl']);
+            switch ($type) {
+                case 'xml':
+                    $res->setUrl($serviceVersion['FiasDeltaXmlUrl']);
+                    break;
+                case 'dbf':
+                    $res->setUrl($serviceVersion['FiasDeltaDbfUrl']);
+                    break;
+                default:
+                    throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
+            }
             break;
         }
 

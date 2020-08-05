@@ -23,11 +23,18 @@ class InformDeltaTask implements Task, LoggableTask
     protected $informer;
 
     /**
-     * @param FiasInformer $informer
+     * @var string
      */
-    public function __construct(FiasInformer $informer)
+    protected $type;
+
+    /**
+     * @param FiasInformer $informer
+     * @param string $type
+     */
+    public function __construct(FiasInformer $informer, string $type = 'dbf')
     {
         $this->informer = $informer;
+        $this->type = $type;
     }
 
     /**
@@ -42,7 +49,7 @@ class InformDeltaTask implements Task, LoggableTask
             );
         }
 
-        $info = $this->informer->getDeltaInfo($version);
+        $info = $this->informer->getDeltaInfo($this->type, $version);
         if (!$info->hasResult()) {
             $state->complete();
             $this->log(
