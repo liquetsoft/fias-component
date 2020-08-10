@@ -41,18 +41,23 @@ class SoapFiasInformer implements FiasInformer
     public function getCompleteInfo(string $type): InformerResponse
     {
         $response = $this->getSoapClient()->__call('GetLastDownloadFileInfo', []);
-
         $res = new InformerResponseBase;
-        $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
+
         switch ($type) {
             case 'xml':
-                $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl);
+                $type_format = 'FiasCompleteXmlUrl';
                 break;
             case 'dbf':
-                $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteDbfUrl);
+                $type_format = 'FiasCompleteDbfUrl';
                 break;
             default:
                 throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
+        }
+        $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
+
+        $url = $res->validateUrl($response->GetLastDownloadFileInfoResult->$type_format);
+        if ($url !== false) {
+            $res->setUrl($url);
         }
 
         return $res;
@@ -67,21 +72,24 @@ class SoapFiasInformer implements FiasInformer
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
 
         $res = new InformerResponseBase;
+
+        switch ($type) {
+            case 'xml':
+                $type_format = 'FiasDeltaXmlUrl';
+                break;
+            case 'dbf':
+                $type_format = 'FiasDeltaDbfUrl';
+                break;
+            default:
+                throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
+        }
         foreach ($versions as $serviceVersion) {
-            if ((int) $serviceVersion['VersionId'] <= $version) {
+            $url = $res->validateUrl($serviceVersion[$type_format]);
+            if ((int) $serviceVersion['VersionId'] <= $version || $url === false) {
                 continue;
             }
             $res->setVersion((int) $serviceVersion['VersionId']);
-            switch ($type) {
-                case 'xml':
-                    $res->setUrl($serviceVersion['FiasDeltaXmlUrl']);
-                    break;
-                case 'dbf':
-                    $res->setUrl($serviceVersion['FiasDeltaDbfUrl']);
-                    break;
-                default:
-                    throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
-            }
+            $res->setUrl($url);
             break;
         }
 

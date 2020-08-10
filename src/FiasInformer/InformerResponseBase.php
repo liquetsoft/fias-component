@@ -43,14 +43,24 @@ class InformerResponseBase implements InformerResponse
     /**
      * @inheritdoc
      */
-    public function setUrl(string $url): InformerResponse
+    public function validateUrl(string $url)
     {
         if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
+            return false;
+        } else {
+            return $url;
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setUrl(string $url): InformerResponse
+    {
+        if ($this->validateUrl($url) === false) {
             throw new InvalidArgumentException("Wrong url format: {$url}");
         }
-
         $this->url = $url;
-
         return $this;
     }
 
