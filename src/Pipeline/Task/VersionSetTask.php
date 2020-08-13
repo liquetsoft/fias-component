@@ -32,9 +32,10 @@ class VersionSetTask implements Task
     public function run(State $state): void
     {
         $version = $state->getParameter(Task::FIAS_INFO_PARAM);
+        $size = $state->getParameter(Task::FIAS_SIZE);
 
         if ($version instanceof InformerResponse && $version->hasResult()) {
-            $this->versionManager->setCurrentVersion($version);
+            $this->versionManager->setCurrentVersion($version, $size);
         }
     }
 }

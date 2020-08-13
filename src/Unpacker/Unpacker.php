@@ -19,9 +19,10 @@ interface Unpacker
      *
      * @param SplFileInfo $source
      * @param SplFileInfo $destination
+     * @param array $files_to_extract
      *
      * @throws InvalidArgumentException
      * @throws UnpackerException
      */
-    public function unpack(SplFileInfo $source, SplFileInfo $destination): void;
+    public function unpack(SplFileInfo $source, SplFileInfo $destination, array $files_to_extract = []): void;
 }

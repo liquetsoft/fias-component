@@ -7,7 +7,11 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
+use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Psr\Log\LogLevel;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use FilesystemIterator;
 use SplFileInfo;
 
 /**
@@ -23,11 +27,17 @@ class UnpackTask implements Task, LoggableTask
     protected $unpacker;
 
     /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
      * @param Unpacker $unpacker
      */
-    public function __construct(Unpacker $unpacker)
+    public function __construct(Unpacker $unpacker, EntityManager $entityManager = null)
     {
         $this->unpacker = $unpacker;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -54,6 +64,30 @@ class UnpackTask implements Task, LoggableTask
             "Extracting '{$source->getRealPath()}' to '{$destination->getPathname()}'."
         );
 
-        $this->unpacker->unpack($source, $destination);
+        $classes = $this->entityManager->getBindedClasses();
+        $files_to_extract = [];
+        foreach ($classes as $class) {
+            $files_to_extract[] = $this->entityManager->getDescriptorByClass($class)->getInsertFileMask();
+            $files_to_extract[] = $this->entityManager->getDescriptorByClass($class)->getDeleteFileMask();
+        }
+        
+        $this->unpacker->unpack($source, $destination, $files_to_extract);
+
+        $size = $this->getDirSize($destination->getRealPath());
+        $state->setAndLockParameter(Task::FIAS_SIZE, $size);
+    }
+
+    /**
+     * Возвращает объем файлов в папке
+     */
+    protected function getDirSize($directory)
+    {
+        $size = 0;
+        foreach (new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS)
+        ) as $file) {
+            $size+=$file->getSize();
+        }
+        return $size;
     }
 }
