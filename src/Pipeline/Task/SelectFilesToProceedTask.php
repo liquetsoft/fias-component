@@ -100,8 +100,14 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             $filesFolder->getRealPath(),
             RecursiveDirectoryIterator::SKIP_DOTS
         );
+        
+        $filesInfo = iterator_to_array($iterator);
+        
+        array_multisort(array_map(function ($value) {
+            return $this->sortFilesInfo($value);
+        }, $filesInfo), SORT_ASC, $filesInfo);
 
-        foreach ($iterator as $fileInfo) {
+        foreach ($filesInfo as $fileInfo) {
             if ($this->isFileAllowedToInsert($fileInfo)) {
                 $filesToInsert[] = $fileInfo->getRealPath();
             } elseif ($this->isFileAllowedToDelete($fileInfo)) {
@@ -110,6 +116,25 @@ class SelectFilesToProceedTask implements Task, LoggableTask
         }
 
         return [$filesToInsert, $filesToDelete];
+    }
+
+    /**
+     * Устанавливает порядок файлов для обработки.
+     *
+     * @param SplFileInfo $fileInfo
+     *
+     * @return mixed
+     */
+    protected function sortFilesInfo($fileInfo)
+    {
+        $patterns = ['ADDROB', 'HOUSE', 'ROOM', 'STEAD'];
+
+        foreach ($patterns as $key => $pattern) {
+            if (preg_match("/{$pattern}\d\d/", $fileInfo->getFilename())) {
+                return $key + 1;
+            }
+        }
+        return 0;
     }
 
     /**
