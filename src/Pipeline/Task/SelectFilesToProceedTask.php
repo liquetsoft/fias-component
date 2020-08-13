@@ -102,10 +102,10 @@ class SelectFilesToProceedTask implements Task, LoggableTask
         );
         
         $filesInfo = iterator_to_array($iterator);
-        
-        array_multisort(array_map(function ($value) {
+        $order = array_map(function ($value): int {
             return $this->sortFilesInfo($value);
-        }, $filesInfo), SORT_ASC, $filesInfo);
+        }, $filesInfo);
+        array_multisort($order, SORT_ASC, $filesInfo);
 
         foreach ($filesInfo as $fileInfo) {
             if ($this->isFileAllowedToInsert($fileInfo)) {

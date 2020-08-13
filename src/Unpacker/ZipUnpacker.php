@@ -49,7 +49,11 @@ class ZipUnpacker implements Unpacker
                     $entries[] = $fileName;
                 }
             }
-            $entries = empty($entries) ? null : $entries;
+            if (!empty($entries)) {
+                $zip->extractTo($destination->getPathName(), $entries);
+            } else {
+                $zip->extractTo($destination->getPathName());
+            }
             $zip->extractTo($destination->getPathName(), $entries);
             $zip->close();
         } else {

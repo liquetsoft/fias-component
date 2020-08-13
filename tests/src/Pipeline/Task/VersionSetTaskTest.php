@@ -30,7 +30,7 @@ class VersionSetTaskTest extends BaseCase
         $response->method('hasResult')->will($this->returnValue(true));
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->once())->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
+        $state->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
             return $name === Task::FIAS_INFO_PARAM ? $response : null;
         }));
 
@@ -50,7 +50,7 @@ class VersionSetTaskTest extends BaseCase
         $response->method('hasResult')->will($this->returnValue(false));
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->once())->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
+        $state->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
             return $name === Task::FIAS_INFO_PARAM ? $response : null;
         }));
 

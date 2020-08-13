@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
@@ -26,6 +27,8 @@ class UnpackTaskTest extends BaseCase
         $source = new SplFileInfo($sourcePath);
         $destinationPath = __DIR__;
         $destination = new SplFileInfo($destinationPath);
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
         $unpacker = $this->getMockBuilder(Unpacker::class)->getMock();
         $unpacker->expects($this->once())->method('unpack')->with(
@@ -49,7 +52,7 @@ class UnpackTaskTest extends BaseCase
             return $return;
         }));
 
-        $task = new UnpackTask($unpacker);
+        $task = new UnpackTask($unpacker, $entityManager);
         $task->run($state);
     }
 
@@ -58,18 +61,19 @@ class UnpackTaskTest extends BaseCase
      */
     public function testRunNoSourceException()
     {
-        $source = new SplFileInfo(__DIR__ . '/test.file');
         $destination = new SplFileInfo(__DIR__);
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
         $unpacker = $this->getMockBuilder(Unpacker::class)->getMock();
         $unpacker->expects($this->never())->method('unpack');
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($source, $destination) {
+        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($destination) {
             return $name === Task::EXTRACT_TO_FOLDER_PARAM ? $destination : null;
         }));
 
-        $task = new UnpackTask($unpacker);
+        $task = new UnpackTask($unpacker, $entityManager);
 
         $this->expectException(TaskException::class);
         $task->run($state);
@@ -81,17 +85,18 @@ class UnpackTaskTest extends BaseCase
     public function testRunNoDestinationException()
     {
         $source = new SplFileInfo(__DIR__ . '/test.file');
-        $destination = new SplFileInfo(__DIR__);
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
         $unpacker = $this->getMockBuilder(Unpacker::class)->getMock();
         $unpacker->expects($this->never())->method('unpack');
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($source, $destination) {
+        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($source) {
             return $name === Task::DOWNLOAD_TO_FILE_PARAM ? $source : null;
         }));
 
-        $task = new UnpackTask($unpacker);
+        $task = new UnpackTask($unpacker, $entityManager);
 
         $this->expectException(TaskException::class);
         $task->run($state);

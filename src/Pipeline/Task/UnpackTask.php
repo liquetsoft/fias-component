@@ -12,6 +12,7 @@ use Psr\Log\LogLevel;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use FilesystemIterator;
+use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use SplFileInfo;
 
 /**
@@ -34,7 +35,7 @@ class UnpackTask implements Task, LoggableTask
     /**
      * @param Unpacker $unpacker
      */
-    public function __construct(Unpacker $unpacker, EntityManager $entityManager = null)
+    public function __construct(Unpacker $unpacker, EntityManager $entityManager)
     {
         $this->unpacker = $unpacker;
         $this->entityManager = $entityManager;
@@ -67,8 +68,11 @@ class UnpackTask implements Task, LoggableTask
         $classes = $this->entityManager->getBindedClasses();
         $files_to_extract = [];
         foreach ($classes as $class) {
-            $files_to_extract[] = $this->entityManager->getDescriptorByClass($class)->getInsertFileMask();
-            $files_to_extract[] = $this->entityManager->getDescriptorByClass($class)->getDeleteFileMask();
+            $descriptor = $this->entityManager->getDescriptorByClass($class);
+            if ($descriptor !== null) {
+                $files_to_extract[] = $descriptor->getInsertFileMask();
+                $files_to_extract[] = $descriptor->getDeleteFileMask();
+            }
         }
         
         $this->unpacker->unpack($source, $destination, $files_to_extract);
@@ -79,8 +83,12 @@ class UnpackTask implements Task, LoggableTask
 
     /**
      * Возвращает объем файлов в папке
+     *
+     * @param string $directory
+     *
+     * @return int
      */
-    protected function getDirSize($directory)
+    protected function getDirSize(string $directory): int
     {
         $size = 0;
         foreach (new RecursiveIteratorIterator(
