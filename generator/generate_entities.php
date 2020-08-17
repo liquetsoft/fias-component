@@ -9,5 +9,5 @@ $entitiesArrayGenerator = new EntitesArrayFromXSDGenerator();
 $entitiesArrayGenerator->generate(
     PathHelper::resource('xsd'),
     PathHelper::resource('fias_entites.php'),
-    PathHelper::resource('fias_entites_default.php'),
+    PathHelper::resource('fias_entites_default.php')
 );
