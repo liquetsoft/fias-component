@@ -143,44 +143,74 @@ class EntitesArrayFromXSDGenerator
         $fields = $xpath->query('.//xs:complexType/xs:attribute', $innerElement);
         foreach ($fields as $field) {
             $fieldName = $field->getAttribute('name');
-
-            $type = $field->getAttribute('type');
-            if (empty($type)) {
-                $type = $xpath->query('.//xs:simpleType/xs:restriction', $field)->item(0)->getAttribute('base');
-            }
-            $typeArray = $this->convertType($type);
-
-            $fieldArray = [
-                'type' => $typeArray['type'] ?? '',
-                'subType' => $typeArray['subType'] ?? '',
-                'isNullable' => $field->getAttribute('use') !== 'required',
-                'description' => $xpath->query('.//xs:annotation/xs:documentation', $field)->item(0)->nodeValue,
-            ];
-
-            if ($fieldArray['type'] === 'string') {
-                $length = $xpath->query('.//xs:simpleType/xs:restriction/xs:length', $field)->item(0);
-                $maxLength = $xpath->query('.//xs:simpleType/xs:restriction/xs:maxLength', $field)->item(0);
-                if ($length) {
-                    $fieldArray['length'] = (int) $length->getAttribute('value');
-                    if ($fieldArray['length'] === 36) {
-                        $fieldArray['subType'] = 'uuid';
-                    }
-                } elseif ($maxLength) {
-                    $fieldArray['length'] = (int) $maxLength->getAttribute('value');
-                }
-            }
-
-            if ($fieldArray['type'] === 'int') {
-                $length = $xpath->query('.//xs:simpleType/xs:restriction/xs:totalDigits', $field)->item(0);
-                if ($length) {
-                    $fieldArray['length'] = (int) $length->getAttribute('value');
-                }
-            }
-
-            $fieldsList[$fieldName] = $fieldArray;
+            $fieldsList[$fieldName] = $this->extractFieldDescription($field, $xpath);
         }
 
         return $fieldsList;
+    }
+
+    /**
+     * Получает все данные поля из описания.
+     *
+     * @param DOMNode  $field
+     * @param DOMXpath $xpath
+     *
+     * @return array
+     *
+     * @psalm-suppress UndefinedMethod
+     */
+    private function extractFieldDescription(DOMNode $field, DOMXpath $xpath): array
+    {
+        $typeArray = $this->extractTypeArray($field, $xpath);
+
+        $fieldArray = [
+            'type' => $typeArray['type'] ?? '',
+            'subType' => $typeArray['subType'] ?? '',
+            'isNullable' => $field->getAttribute('use') !== 'required',
+            'description' => $xpath->query('.//xs:annotation/xs:documentation', $field)->item(0)->nodeValue,
+        ];
+
+        if ($fieldArray['type'] === 'string') {
+            $length = $xpath->query('.//xs:simpleType/xs:restriction/xs:length', $field)->item(0);
+            $maxLength = $xpath->query('.//xs:simpleType/xs:restriction/xs:maxLength', $field)->item(0);
+            if ($length) {
+                $fieldArray['length'] = (int) $length->getAttribute('value');
+                if ($fieldArray['length'] === 36) {
+                    $fieldArray['subType'] = 'uuid';
+                }
+            } elseif ($maxLength) {
+                $fieldArray['length'] = (int) $maxLength->getAttribute('value');
+            }
+        }
+
+        if ($fieldArray['type'] === 'int') {
+            $length = $xpath->query('.//xs:simpleType/xs:restriction/xs:totalDigits', $field)->item(0);
+            if ($length) {
+                $fieldArray['length'] = (int) $length->getAttribute('value');
+            }
+        }
+
+        return $fieldArray;
+    }
+
+    /**
+     * Получает тип поля из описания.
+     *
+     * @param DOMNode  $field
+     * @param DOMXpath $xpath
+     *
+     * @return array
+     *
+     * @psalm-suppress UndefinedMethod
+     */
+    private function extractTypeArray(DOMNode $field, DOMXpath $xpath): array
+    {
+        $type = $field->getAttribute('type');
+        if (empty($type)) {
+            $type = $xpath->query('.//xs:simpleType/xs:restriction', $field)->item(0)->getAttribute('base');
+        }
+
+        return $this->convertType($type);
     }
 
     /**
