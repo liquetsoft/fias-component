@@ -114,7 +114,7 @@ class EntitesArrayFromXSDGenerator
             $innerElementName = $innerElement->getAttribute('name');
 
             $entity = [
-                'entity_name' => $innerElementName,
+                'entity_name' => $innerElementName === 'Object' ? 'AddressObject' : $innerElementName,
                 'description' => $xpath->query('.//xs:annotation/xs:documentation', $innerElement)->item(0)->nodeValue,
                 'xmlPath' => '/' . $element->getAttribute('name') . '/' . $innerElementName,
                 'fields' => $this->extractFieldsDecription($innerElement, $xpath),
