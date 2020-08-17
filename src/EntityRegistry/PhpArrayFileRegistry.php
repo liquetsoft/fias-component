@@ -9,6 +9,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
+use Liquetsoft\Fias\Component\Helper\PathHelper;
 
 /**
  * Объект, который получает описания сущностей ФИАС из php файла с массивом.
@@ -26,7 +27,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
     public function __construct(?string $pathToSource = null)
     {
         if ($pathToSource === null) {
-            $pathToSource = dirname(__DIR__, 2) . '/resources/fias_entities.php';
+            $pathToSource = PathHelper::resource('fias_entities.php');
         }
 
         $this->pathToSource = $pathToSource;
