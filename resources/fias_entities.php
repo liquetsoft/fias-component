@@ -174,7 +174,7 @@ return [
                 'description' => 'Номер помещения или офиса',
             ],
             'FLATTYPE' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
@@ -246,7 +246,7 @@ return [
 ',
             ],
             'LIVESTATUS' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'length' => 255,
                 'isNullable' => false,
@@ -273,7 +273,7 @@ return [
                 'length' => 50,
             ],
             'ROOMTYPE' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Тип комнаты',
@@ -556,7 +556,7 @@ return [
                 'description' => 'Дата  внесения записи',
             ],
             'LIVESTATUS' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'length' => 255,
                 'isNullable' => false,
@@ -566,7 +566,7 @@ return [
                 'description' => 'Признак действующего адресного объекта',
             ],
             'DIVTYPE' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'length' => 255,
                 'isNullable' => false,
@@ -1085,13 +1085,13 @@ return [
                 'length' => 36,
             ],
             'LIVESTATUS' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Признак действующего адресного объекта',
             ],
             'DIVTYPE' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => '
@@ -1268,7 +1268,7 @@ return [
                 'description' => 'Счетчик записей домов для КЛАДР 4',
             ],
             'DIVTYPE' => [
-                'type' => 'string',
+                'type' => 'int',
                 'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
