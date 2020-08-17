@@ -224,7 +224,7 @@ class EntitesArrayFromXSDGenerator
     {
         $convertMap = [
             'xs:date' => ['type' => 'string', 'subType' => 'date'],
-            'xs:integer' => ['type' => 'int', 'subType' => 'date'],
+            'xs:integer' => ['type' => 'int', 'subType' => ''],
         ];
 
         return $convertMap[$type] ?? ['type' => 'string', 'subType' => ''];

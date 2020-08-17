@@ -10,7 +10,7 @@ return [
         'fields' => [
             'FLTYPEID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -49,7 +49,7 @@ return [
         'fields' => [
             'ACTSTATID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -81,7 +81,7 @@ return [
         'fields' => [
             'OPERSTATID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -222,7 +222,7 @@ return [
             ],
             'OPERSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => false,
@@ -327,7 +327,7 @@ return [
             ],
             'LEVEL' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => false,
@@ -366,7 +366,7 @@ return [
         'fields' => [
             'RMTYPEID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -505,7 +505,7 @@ return [
             ],
             'OPERSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => false,
@@ -634,7 +634,7 @@ return [
         'fields' => [
             'CENTERSTID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -702,7 +702,7 @@ return [
             ],
             'DOCTYPE' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => false,
@@ -728,7 +728,7 @@ return [
         'fields' => [
             'CURENTSTID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -757,7 +757,7 @@ return [
         'fields' => [
             'NDTYPEID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -786,7 +786,7 @@ return [
         'fields' => [
             'ESTSTATID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
@@ -972,7 +972,7 @@ return [
             ],
             'AOLEVEL' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уровень адресного объекта ',
                 'length' => 10,
@@ -1021,7 +1021,7 @@ return [
             ],
             'ACTSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'isNullable' => false,
                 'description' => 'Статус актуальности адресного объекта ФИАС. Актуальный адрес на текущую дату. Обычно последняя запись об адресном объекте.
 0 – Не актуальный
@@ -1031,14 +1031,14 @@ return [
             ],
             'CENTSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'isNullable' => false,
                 'description' => 'Статус центра',
                 'length' => 10,
             ],
             'OPERSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'isNullable' => false,
                 'description' => 'Статус действия над записью – причина появления записи (см. описание таблицы OperationStatus):
 01 – Инициация;
@@ -1060,7 +1060,7 @@ return [
             ],
             'CURRSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'isNullable' => true,
                 'description' => 'Статус актуальности КЛАДР 4 (последние две цифры в коде)',
                 'length' => 10,
@@ -1152,7 +1152,7 @@ return [
             ],
             'STRSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => true,
                 'isPrimary' => false,
@@ -1162,7 +1162,7 @@ return [
             ],
             'ESTSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 2,
                 'isNullable' => false,
                 'isPrimary' => false,
@@ -1172,7 +1172,7 @@ return [
             ],
             'STATSTATUS' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => false,
@@ -1259,7 +1259,7 @@ return [
             ],
             'COUNTER' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => false,
@@ -1340,7 +1340,7 @@ return [
         'fields' => [
             'STRSTATID' => [
                 'type' => 'int',
-                'subType' => 'date',
+                'subType' => '',
                 'length' => 10,
                 'isNullable' => false,
                 'isPrimary' => true,
