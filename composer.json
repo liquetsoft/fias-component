@@ -9,7 +9,6 @@
         "ext-libxml": "*",
         "ext-xmlreader": "*",
         "php": ">=7.2",
-        "symfony/yaml": "^4.0|^5.0",
         "symfony/serializer": "^4.0|^5.0",
         "symfony/property-access": "^4.0|^5.0",
         "symfony/property-info": "^4.0|^5.0",
