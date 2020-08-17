@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by TeaM DJiNN (TeaM DJiNN) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:usch="http://www.unisoftware.ru/schematron-extensions" xmlns:sql="urn:schemas-microsoft-com:mapping-schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Houses">
+		<xs:annotation>
+			<xs:documentation>Состав и структура файла с информацией по номерам домов улиц городов и населенных пунктов в БД ФИАС</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="House" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Сведения по номерам домов улиц городов и населенных пунктов</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="POSTALCODE" use="optional">
+							<xs:annotation>
+								<xs:documentation>Почтовый индекс</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="6"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="REGIONCODE" use="optional">
+							<xs:annotation>
+								<xs:documentation>Код региона</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="IFNSFL" use="optional">
+							<xs:annotation>
+								<xs:documentation>Код ИФНС ФЛ</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="TERRIFNSFL" use="optional">
+							<xs:annotation>
+								<xs:documentation>Код территориального участка ИФНС ФЛ</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="IFNSUL" use="optional">
+							<xs:annotation>
+								<xs:documentation>Код ИФНС ЮЛ</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="TERRIFNSUL" use="optional">
+							<xs:annotation>
+								<xs:documentation>Код территориального участка ИФНС ЮЛ</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="OKATO" use="optional">
+							<xs:annotation>
+								<xs:documentation>OKATO</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="11"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="OKTMO" use="optional">
+							<xs:annotation>
+								<xs:documentation>OKTMO</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="8"/>
+									<xs:maxLength value="11"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="UPDATEDATE" type="xs:date" use="required">
+							<xs:annotation>
+								<xs:documentation>Дата время внесения записи</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="HOUSENUM" use="optional">
+							<xs:annotation>
+								<xs:documentation>Номер дома</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ESTSTATUS" use="required">
+							<xs:annotation>
+								<xs:documentation>Признак владения</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:totalDigits value="2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="BUILDNUM" use="optional">
+							<xs:annotation>
+								<xs:documentation>Номер корпуса</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="STRUCNUM" use="optional">
+							<xs:annotation>
+								<xs:documentation>Номер строения</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="STRSTATUS" use="optional">
+							<xs:annotation>
+								<xs:documentation>Признак строения</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:totalDigits value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="HOUSEID" use="required">
+							<xs:annotation>
+								<xs:documentation>Уникальный идентификатор записи дома</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="HOUSEGUID" use="required">
+							<xs:annotation>
+								<xs:documentation>Глобальный уникальный идентификатор дома</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="AOGUID" use="required">
+							<xs:annotation>
+								<xs:documentation>Guid записи родительского объекта (улицы, города, населенного пункта и т.п.)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="STARTDATE" type="xs:date" use="required">
+							<xs:annotation>
+								<xs:documentation>Начало действия записи</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ENDDATE" type="xs:date" use="required">
+							<xs:annotation>
+								<xs:documentation>Окончание действия записи</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="STATSTATUS" use="required">
+							<xs:annotation>
+								<xs:documentation>Состояние дома</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:totalDigits value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="NORMDOC" use="optional">
+							<xs:annotation>
+								<xs:documentation>Внешний ключ на нормативный документ</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="COUNTER" use="required">
+							<xs:annotation>
+								<xs:documentation>Счетчик записей домов для КЛАДР 4</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:totalDigits value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="CADNUM" use="optional">
+							<xs:annotation>
+								<xs:documentation>Кадастровый номер</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="DIVTYPE" use="required">
+							<xs:annotation>
+								<xs:documentation>Тип адресации:
+0 - не определено
+1 - муниципальный;
+2 - административно-территориальный</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:enumeration value="0"/>
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
