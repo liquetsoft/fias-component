@@ -26,11 +26,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     public function __construct(?string $pathToSource = null)
     {
-        if ($pathToSource === null) {
-            $pathToSource = PathHelper::resource('fias_entities.php');
-        }
-
-        $this->pathToSource = $pathToSource;
+        $this->pathToSource = !is_null($pathToSource) ? $pathToSource : PathHelper::resource('fias_entities.php');
     }
 
     /**
