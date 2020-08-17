@@ -76,26 +76,5 @@ class UnpackTask implements Task, LoggableTask
         }
         
         $this->unpacker->unpack($source, $destination, $files_to_extract);
-
-        $size = $this->getDirSize($destination->getRealPath());
-        $state->setAndLockParameter(Task::FIAS_SIZE, $size);
-    }
-
-    /**
-     * Возвращает объем файлов в папке
-     *
-     * @param string $directory
-     *
-     * @return int
-     */
-    protected function getDirSize(string $directory): int
-    {
-        $size = 0;
-        foreach (new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS)
-        ) as $file) {
-            $size+=$file->getSize();
-        }
-        return $size;
     }
 }
