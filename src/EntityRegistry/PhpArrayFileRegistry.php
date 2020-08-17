@@ -97,9 +97,9 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     private function checkAndReturnPath(): string
     {
-        $path = realpath(trim($this->pathToSource));
+        $path = trim($this->pathToSource);
 
-        if (empty($path)) {
+        if (!file_exists($path)) {
             $message = sprintf(
                 "File '%s' for php entity registry doesn't exist.",
                 $this->pathToSource
