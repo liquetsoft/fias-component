@@ -19,7 +19,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      */
     public function testConstructorUnexistedException()
     {
-        $registry = $this->createRegistry(__DIR__ . '/_fixtures/notExist.php');
+        $registry = $this->createRegistry(__DIR__ . '/fixtures/notExist.php');
 
         $this->expectException(EntityRegistryException::class);
         $registry->getDescriptors();
@@ -30,7 +30,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      */
     public function testConstructorBadExtensionException()
     {
-        $registry = $this->createRegistry(__DIR__ . '/_fixtures/badExtension.yaml');
+        $registry = $this->createRegistry(__DIR__ . '/fixtures/badExtension.yaml');
 
         $this->expectException(EntityRegistryException::class);
         $registry->getDescriptors();
@@ -41,7 +41,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      */
     public function testBuildingException()
     {
-        $registry = $this->createRegistry(__DIR__ . '/_fixtures/testBuildingException.php');
+        $registry = $this->createRegistry(__DIR__ . '/fixtures/testBuildingException.php');
 
         $this->expectException(EntityRegistryException::class);
         $registry->hasDescriptor('empty');
@@ -107,7 +107,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      */
     protected function createRegistry(?string $fileName = null): PhpArrayFileRegistry
     {
-        $fileName = $fileName ?: __DIR__ . '/_fixtures/test.php';
+        $fileName = $fileName ?: __DIR__ . '/fixtures/test.php';
 
         return new PhpArrayFileRegistry($fileName);
     }
