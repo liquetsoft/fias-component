@@ -26,7 +26,8 @@
     "autoload": {
         "psr-4": {
             "Liquetsoft\\Fias\\Component\\": "src/",
-            "Liquetsoft\\Fias\\Component\\Tests\\": "tests/src"
+            "Liquetsoft\\Fias\\Component\\Tests\\": "tests/src",
+            "Liquetsoft\\Fias\\Component\\Generator\\": "generator"
         }
     },
     "repositories": [

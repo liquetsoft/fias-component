@@ -10,6 +10,16 @@ namespace Liquetsoft\Fias\Component\Helper;
 class PathHelper
 {
     /**
+     * Возвращает полный путь к папке с ресурсами.
+     *
+     * @return string
+     */
+    public static function resources(): string
+    {
+        return realpath(__DIR__ . '/../../resources');
+    }
+
+    /**
      * Возвращает полный путь до файла внутри папки с ресурсами.
      *
      * @param string $resourceName
@@ -18,7 +28,7 @@ class PathHelper
      */
     public static function resource(string $resourceName): string
     {
-        $path = realpath(__DIR__ . '/../../resources');
+        $path = self::resources();
 
         return "{$path}/{$resourceName}";
     }

@@ -13,6 +13,18 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 class PathHelperTest extends BaseCase
 {
     /**
+     * Тест, который проверяет, что хэлпер вернет правильный путь до папки с ресурсами.
+     */
+    public function testResources()
+    {
+        $realPath = realpath(__DIR__ . '/../../../resources');
+
+        $testPath = PathHelper::resources();
+
+        $this->assertSame($realPath, $testPath);
+    }
+
+    /**
      * Тест, который проверяет, что хэлпер вернет правильный путь до ресурса.
      */
     public function testResource()
