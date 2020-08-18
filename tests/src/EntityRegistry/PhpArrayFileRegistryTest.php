@@ -5,35 +5,35 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\EntityRegistry;
 
 use InvalidArgumentException;
-use Liquetsoft\Fias\Component\EntityRegistry\YamlEntityRegistry;
+use Liquetsoft\Fias\Component\EntityRegistry\PhpArrayFileRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
- * Тест для объекта, который получает описания сущностей из yaml.
+ * Тест для объекта, который получает описания сущностей из php файла с массивом.
  */
-class YamlEntityRegistryTest extends BaseCase
+class PhpArrayFileRegistryTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение, если yaml не существует.
+     * Проверяет, что объект выбросит исключение, если файл не существует.
      */
     public function testConstructorUnexistedException()
     {
-        $registry = $this->createRegistry(__DIR__ . '/_fixtures/empty.yaml');
+        $registry = $this->createRegistry(__DIR__ . '/_fixtures/notExist.php');
 
         $this->expectException(EntityRegistryException::class);
         $registry->getDescriptors();
     }
 
     /**
-     * Проверяет, что объект верно обработает исключение от парсера.
+     * Проверяет, что объект выбросит исключение, если файл имеет неправильное расширение.
      */
-    public function testParserException()
+    public function testConstructorBadExtensionException()
     {
-        $registry = $this->createRegistry(__DIR__ . '/_fixtures/testParserException.yaml');
+        $registry = $this->createRegistry(__DIR__ . '/_fixtures/badExtension.yaml');
 
         $this->expectException(EntityRegistryException::class);
-        $registry->hasDescriptor('empty');
+        $registry->getDescriptors();
     }
 
     /**
@@ -41,7 +41,7 @@ class YamlEntityRegistryTest extends BaseCase
      */
     public function testBuildingException()
     {
-        $registry = $this->createRegistry(__DIR__ . '/_fixtures/testBuildingException.yaml');
+        $registry = $this->createRegistry(__DIR__ . '/_fixtures/testBuildingException.php');
 
         $this->expectException(EntityRegistryException::class);
         $registry->hasDescriptor('empty');
@@ -103,12 +103,12 @@ class YamlEntityRegistryTest extends BaseCase
      *
      * @param string|null $fileName
      *
-     * @return YamlEntityRegistry
+     * @return PhpArrayFileRegistry
      */
-    protected function createRegistry(?string $fileName = null): YamlEntityRegistry
+    protected function createRegistry(?string $fileName = null): PhpArrayFileRegistry
     {
-        $fileName = $fileName ?: __DIR__ . '/_fixtures/test.yaml';
+        $fileName = $fileName ?: __DIR__ . '/_fixtures/registryTest.php';
 
-        return new YamlEntityRegistry($fileName);
+        return new PhpArrayFileRegistry($fileName);
     }
 }

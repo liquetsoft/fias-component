@@ -10,11 +10,7 @@ docker_compose_bin := $(shell command -v docker-compose 2> /dev/null)
 docker_compose_yml := docker/docker-compose.yml
 user_id := $(shell id -u)
 
-.PHONY : help pull build push login test clean \
-         app-pull app app-push\
-         sources-pull sources sources-push\
-         nginx-pull nginx nginx-push\
-         up down restart shell install
+.PHONY : build test fixer linter shell buildEntities
 .DEFAULT_GOAL := build
 
 # --- [ Development tasks ] -------------------------------------------------------------------------------------------
@@ -37,3 +33,7 @@ linter: ## Run code checks
 
 shell: ## Run shell environment in container
 	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" /bin/bash
+
+buildEntities: ## Build entities
+	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" php -f generator/generate_entities.php
+	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/php-cs-fixer fix -q

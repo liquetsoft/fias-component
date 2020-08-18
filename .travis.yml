@@ -9,6 +9,6 @@ before_script:
   - composer install --no-interaction --prefer-source --dev
 script:
   - vendor/bin/phpunit -c phpunit.xml.dist
-  - vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation --using-cache=no
+  - vendor/bin/php-cs-fixer fix --config=.php_cs.dist -vvv --dry-run --stop-on-violation --using-cache=no
   - vendor/bin/phpcpd src
   - vendor/bin/psalm
