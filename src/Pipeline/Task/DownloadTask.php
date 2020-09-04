@@ -33,7 +33,7 @@ class DownloadTask implements Task, LoggableTask
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function run(State $state): void
     {
