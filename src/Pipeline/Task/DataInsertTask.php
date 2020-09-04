@@ -15,7 +15,7 @@ use SplFileInfo;
 class DataInsertTask extends DataAbstractTask
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getFileNamesFromState(State $state): array
     {
@@ -25,7 +25,7 @@ class DataInsertTask extends DataAbstractTask
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getDescriptorForFile(SplFileInfo $fileInfo): ?EntityDescriptor
     {
@@ -33,7 +33,7 @@ class DataInsertTask extends DataAbstractTask
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @throws StorageException
      */

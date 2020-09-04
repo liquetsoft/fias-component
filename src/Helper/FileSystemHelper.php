@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Helper;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RuntimeException;
 use SplFileInfo;
 
 /**
@@ -39,6 +40,30 @@ class FileSystemHelper
             rmdir($fileInfo->getRealPath());
         } elseif ($fileInfo->isFile()) {
             unlink($fileInfo->getRealPath());
+        }
+    }
+
+    /**
+     * Переносит файлы или папки по указанному пути.
+     *
+     * @param SplFileInfo $fileInfo
+     * @param SplFileInfo $destination
+     *
+     * @throws RuntimeException
+     */
+    public static function move(SplFileInfo $source, SplFileInfo $destination): void
+    {
+        if (!$source->isFile() && !$source->isDir()) {
+            $message = sprintf("Can't find source object '%s' to moving.", $source->getPathname());
+            throw new RuntimeException($message);
+        }
+
+        $source = $source->getRealPath();
+        $destination = $destination->getPathname();
+
+        if (!rename($source, $destination)) {
+            $message = sprintf("Error while moving '%s' to '%s'.", $source, $destination);
+            throw new RuntimeException($message);
         }
     }
 }

@@ -17,7 +17,7 @@ class CleanupTask implements Task, LoggableTask
     use LoggableTaskTrait;
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function run(State $state): void
     {

@@ -44,7 +44,7 @@ class PrepareFolderTask implements Task, LoggableTask
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function run(State $state): void
     {

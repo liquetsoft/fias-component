@@ -27,7 +27,7 @@ class VersionGetTask implements Task
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function run(State $state): void
     {
