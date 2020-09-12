@@ -25,9 +25,16 @@ interface FiasInformer
      * до последней версии ФИАС, то нужно запрашивать данный метод в цикле,
      * изменяя версию, до тех пор, пока он не перестанет возвращать результат.
      *
-     * @param int $version Текущая версия, относительно которой нужно ополучить файл с изменениями на следующую версию
+     * @param int $currentVersion Текущая версия, относительно которой нужно ополучить файл с изменениями на следующую версию
      *
      * @return InformerResponse
      */
-    public function getDeltaInfo(int $version): InformerResponse;
+    public function getDeltaInfo(int $currentVersion): InformerResponse;
+
+    /**
+     * Возвращает список всех версиий, доступных для установки обновления.
+     *
+     * @return InformerResponse[]
+     */
+    public function getDeltaList(): array;
 }

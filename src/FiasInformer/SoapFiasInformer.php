@@ -15,12 +15,12 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @var string
      */
-    protected $wsdl = '';
+    private $wsdl = '';
 
     /**
      * @var SoapClient|null
      */
-    protected $soapClient;
+    private $soapClient;
 
     /**
      * @param SoapClient|string $soapClient
@@ -35,58 +35,78 @@ class SoapFiasInformer implements FiasInformer
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getCompleteInfo(): InformerResponse
     {
-        $response = $this->getSoapClient()->__call('GetLastDownloadFileInfo', []);
+        $response = $this->getSoapClient()->__call(
+            'GetLastDownloadFileInfo',
+            []
+        );
 
-        $res = new InformerResponseBase();
-        $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
-        $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl);
+        $versionId = $response->GetLastDownloadFileInfoResult->VersionId ?? 0;
+        $url = $response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl ?? '';
 
-        return $res;
+        return $this->createResponseObject(
+            (int) $versionId,
+            (string) $url
+        );
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function getDeltaInfo(int $version): InformerResponse
+    public function getDeltaInfo(int $currentVersion): InformerResponse
     {
-        $response = $this->getSoapClient()->__call('GetAllDownloadFileInfo', []);
-        $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
+        $versions = $this->getDeltaList();
 
-        $res = new InformerResponseBase();
-        foreach ($versions as $serviceVersion) {
-            if ((int) $serviceVersion['VersionId'] <= $version) {
-                continue;
+        $delta = new InformerResponseBase();
+        foreach ($versions as $version) {
+            $versionNumber = $version->getVersion();
+            if ($versionNumber > $currentVersion && (!$delta->hasResult() || $delta->getVersion() > $versionNumber)) {
+                $delta = $version;
             }
-            $res->setVersion((int) $serviceVersion['VersionId']);
-            $res->setUrl($serviceVersion['FiasDeltaXmlUrl']);
-            break;
         }
 
-        return $res;
+        return $delta;
     }
 
     /**
-     * Сортирует ответ по номерам версии по возрастанию.
-     *
-     * @param array $response
-     *
-     * @return array
+     * @inheritDoc
      */
-    protected function sortResponseByVersion(array $response): array
+    public function getDeltaList(): array
     {
-        $versions = [];
-        $versionsSort = [];
-        foreach ($response as $key => $version) {
-            $versions[$key] = (array) $version;
-            $versionsSort[$key] = (int) $version->VersionId;
-        }
-        array_multisort($versionsSort, SORT_ASC, $versions);
+        $response = $this->getSoapClient()->__call(
+            'GetAllDownloadFileInfo',
+            []
+        );
+        $response = $response->GetAllDownloadFileInfoResult->DownloadFileInfo ?? [];
 
-        return $versions;
+        $list = [];
+        foreach ($response as $responseObject) {
+            $versionId = $responseObject->VersionId ?? 0;
+            $url = $responseObject->FiasDeltaXmlUrl ?? '';
+            $list[] = $this->createResponseObject((int) $versionId, (string) $url);
+        }
+
+        return $list;
+    }
+
+    /**
+     * Создает объект с ответом по номеру версии и url.
+     *
+     * @param int    $versionId
+     * @param string $url
+     *
+     * @return InformerResponse
+     */
+    private function createResponseObject(int $versionId, string $url): InformerResponse
+    {
+        $res = new InformerResponseBase();
+        $res->setVersion($versionId);
+        $res->setUrl($url);
+
+        return $res;
     }
 
     /**
@@ -94,12 +114,15 @@ class SoapFiasInformer implements FiasInformer
      *
      * @return SoapClient
      */
-    protected function getSoapClient(): SoapClient
+    private function getSoapClient(): SoapClient
     {
         if ($this->soapClient === null) {
-            $this->soapClient = new SoapClient($this->wsdl, [
-                'exceptions' => true,
-            ]);
+            $this->soapClient = new SoapClient(
+                $this->wsdl,
+                [
+                    'exceptions' => true,
+                ]
+            );
         }
 
         return $this->soapClient;
