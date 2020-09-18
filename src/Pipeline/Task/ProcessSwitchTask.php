@@ -94,7 +94,7 @@ class ProcessSwitchTask implements Task, LoggableTask
     protected function startProcesses(array $processes): void
     {
         foreach ($processes as $process) {
-            $process->disableOutput();
+            $process->enableOutput();
             $process->setTimeout(null);
             $process->start();
         }
