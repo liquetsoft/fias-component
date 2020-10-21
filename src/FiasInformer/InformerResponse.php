@@ -33,7 +33,7 @@ interface InformerResponse
      *
      * @param string $url
      *
-     * @return string|false
+     * @return bool
      */
     public function validateUrl(string $url);
 

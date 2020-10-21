@@ -55,8 +55,9 @@ class SoapFiasInformer implements FiasInformer
         }
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
 
-        $url = $res->validateUrl($response->GetLastDownloadFileInfoResult->$type_format);
-        if ($url !== false) {
+        $url = $response->GetLastDownloadFileInfoResult->$type_format;
+        
+        if ($res->validateUrl($url)) {
             $res->setUrl($url);
         }
 
@@ -84,8 +85,8 @@ class SoapFiasInformer implements FiasInformer
                 throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
         }
         foreach ($versions as $serviceVersion) {
-            $url = $res->validateUrl($serviceVersion[$type_format]);
-            if ((int) $serviceVersion['VersionId'] <= $version || $url === false) {
+            $url = $serviceVersion[$type_format];
+            if ((int) $serviceVersion['VersionId'] <= $version || !$res->validateUrl($url)) {
                 continue;
             }
             $res->setVersion((int) $serviceVersion['VersionId']);

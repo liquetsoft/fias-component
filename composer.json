@@ -30,5 +30,11 @@
             "Liquetsoft\\Fias\\Component\\": "src/",
             "Liquetsoft\\Fias\\Component\\Tests\\": "tests/src"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/liquetsoft/fias-component"
+        }
+    ]
 }

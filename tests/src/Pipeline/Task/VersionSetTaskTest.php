@@ -35,7 +35,7 @@ class VersionSetTaskTest extends BaseCase
         }));
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->once())->method('setCurrentVersion')->with($this->equalTo($response));
+        $versionManager->expects($this->once())->method('setCurrentVersionData')->with($this->equalTo($response));
 
         $task = new VersionSetTask($versionManager);
         $task->run($state);
@@ -55,7 +55,7 @@ class VersionSetTaskTest extends BaseCase
         }));
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->never())->method('setCurrentVersion');
+        $versionManager->expects($this->never())->method('setCurrentVersionData');
 
         $task = new VersionSetTask($versionManager);
         $task->run($state);
@@ -69,7 +69,7 @@ class VersionSetTaskTest extends BaseCase
         $state = $this->getMockBuilder(State::class)->getMock();
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->never())->method('setCurrentVersion');
+        $versionManager->expects($this->never())->method('setCurrentVersionData');
 
         $task = new VersionSetTask($versionManager);
         $task->run($state);

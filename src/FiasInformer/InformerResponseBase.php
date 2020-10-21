@@ -45,11 +45,7 @@ class InformerResponseBase implements InformerResponse
      */
     public function validateUrl(string $url)
     {
-        if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
-            return false;
-        } else {
-            return $url;
-        }
+        return boolval(preg_match('#https?://.+\.[^.]+.*#', $url));
     }
 
     /**
@@ -57,7 +53,7 @@ class InformerResponseBase implements InformerResponse
      */
     public function setUrl(string $url): InformerResponse
     {
-        if ($this->validateUrl($url) === false) {
+        if (!$this->validateUrl($url)) {
             throw new InvalidArgumentException("Wrong url format: {$url}");
         }
         $this->url = $url;

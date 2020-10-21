@@ -101,13 +101,7 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             RecursiveDirectoryIterator::SKIP_DOTS
         );
         
-        $filesInfo = iterator_to_array($iterator);
-        $order = array_map(function ($value): int {
-            return $this->sortFilesInfo($value);
-        }, $filesInfo);
-        array_multisort($order, SORT_ASC, $filesInfo);
-
-        foreach ($filesInfo as $fileInfo) {
+        foreach ($iterator as $fileInfo) {
             if ($this->isFileAllowedToInsert($fileInfo)) {
                 $filesToInsert[] = $fileInfo->getRealPath();
             } elseif ($this->isFileAllowedToDelete($fileInfo)) {
@@ -115,26 +109,30 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             }
         }
 
-        return [$filesToInsert, $filesToDelete];
+        return [$this->sortFilesInfo($filesToInsert), $this->sortFilesInfo($filesToDelete)];
     }
 
     /**
-     * Устанавливает порядок файлов для обработки.
+     * Сортирует имена файлов для обработки.
      *
-     * @param SplFileInfo $fileInfo
+     * @param array $files
      *
-     * @return mixed
+     * @return array
      */
-    protected function sortFilesInfo($fileInfo)
+    protected function sortFilesInfo($files)
     {
-        $patterns = ['ADDROB', 'HOUSE', 'ROOM', 'STEAD'];
-
-        foreach ($patterns as $key => $pattern) {
-            if (preg_match("/{$pattern}\d\d/", $fileInfo->getFilename())) {
-                return $key + 1;
+        $order = array_map(function ($filepath): int {
+            $patterns = ['ADDROB', 'HOUSE', 'ROOM', 'STEAD'];
+            foreach ($patterns as $key => $pattern) {
+                if (preg_match("/{$pattern}\d\d/", $filepath)) {
+                    return $key + 1;
+                }
             }
-        }
-        return 0;
+            return 0;
+        }, $files);
+        array_multisort($files, $order, SORT_ASC);
+
+        return $files;
     }
 
     /**

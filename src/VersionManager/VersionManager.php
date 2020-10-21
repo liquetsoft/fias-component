@@ -20,7 +20,8 @@ interface VersionManager
      *
      * @return VersionManager
      */
-    public function setCurrentVersion(InformerResponse $info, $size): VersionManager;
+    public function setCurrentVersionData(InformerResponse $info, $size): VersionManager;
+
 
     /**
      * Возвращает текущую версию ФИАС.

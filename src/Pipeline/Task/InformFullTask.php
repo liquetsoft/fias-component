@@ -34,7 +34,7 @@ class InformFullTask implements Task, LoggableTask
      */
     public function run(State $state): void
     {
-        $type = $state->getParameter(Task::DOWNLOAD_FILE_TYPE) ?? 'dbf';
+        $type = $state->getParameter(Task::DOWNLOAD_FILE_TYPE) ?? 'xml';
 
         $info = $this->informer->getCompleteInfo($type);
 
