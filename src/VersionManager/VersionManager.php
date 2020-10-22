@@ -16,11 +16,10 @@ interface VersionManager
      * Задает версию ФИАС из ответа от информера.
      *
      * @param InformerResponse $info
-     * @param int|null         $size
      *
      * @return VersionManager
      */
-    public function setCurrentVersionData(InformerResponse $info, $size): VersionManager;
+    public function setCurrentVersion(InformerResponse $info): VersionManager;
 
 
     /**

@@ -30,12 +30,12 @@ class VersionSetTaskTest extends BaseCase
         $response->method('hasResult')->will($this->returnValue(true));
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
+        $state->expects($this->once())->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
             return $name === Task::FIAS_INFO_PARAM ? $response : null;
         }));
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->once())->method('setCurrentVersionData')->with($this->equalTo($response));
+        $versionManager->expects($this->once())->method('setCurrentVersion')->with($this->equalTo($response));
 
         $task = new VersionSetTask($versionManager);
         $task->run($state);
@@ -50,12 +50,12 @@ class VersionSetTaskTest extends BaseCase
         $response->method('hasResult')->will($this->returnValue(false));
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->exactly(2))->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
+        $state->expects($this->once())->method('getParameter')->will($this->returnCallback(function ($name) use ($response) {
             return $name === Task::FIAS_INFO_PARAM ? $response : null;
         }));
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->never())->method('setCurrentVersionData');
+        $versionManager->expects($this->never())->method('setCurrentVersion');
 
         $task = new VersionSetTask($versionManager);
         $task->run($state);
@@ -69,7 +69,7 @@ class VersionSetTaskTest extends BaseCase
         $state = $this->getMockBuilder(State::class)->getMock();
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->never())->method('setCurrentVersionData');
+        $versionManager->expects($this->never())->method('setCurrentVersion');
 
         $task = new VersionSetTask($versionManager);
         $task->run($state);

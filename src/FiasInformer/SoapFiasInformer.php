@@ -51,15 +51,12 @@ class SoapFiasInformer implements FiasInformer
                 $type_format = 'FiasCompleteDbfUrl';
                 break;
             default:
-                throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
+                throw new InvalidArgumentException("Unsupported type: \"{$type}\"");
         }
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
 
         $url = $response->GetLastDownloadFileInfoResult->$type_format;
-        
-        if ($res->validateUrl($url)) {
-            $res->setUrl($url);
-        }
+        $res->setUrl($url);
 
         return $res;
     }
@@ -82,7 +79,7 @@ class SoapFiasInformer implements FiasInformer
                 $type_format = 'FiasDeltaDbfUrl';
                 break;
             default:
-                throw new InvalidArgumentException("Unsupported required type: \"{$type}\"");
+                throw new InvalidArgumentException("Unsupported type: \"{$type}\"");
         }
         foreach ($versions as $serviceVersion) {
             $url = $serviceVersion[$type_format];

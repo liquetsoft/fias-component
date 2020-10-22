@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use phpDocumentor\Reflection\Types\Boolean;
 use Psr\Log\LogLevel;
 use RecursiveDirectoryIterator;
 use SplFileInfo;
@@ -109,17 +110,18 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             }
         }
 
-        return [$this->sortFilesInfo($filesToInsert), $this->sortFilesInfo($filesToDelete)];
+        return [$this->sortFilesInfo($filesToInsert), $this->sortFilesInfo($filesToDelete, true)];
     }
 
     /**
      * Сортирует имена файлов для обработки.
      *
      * @param array $files
+     * @param bool $inverse_sort
      *
      * @return array
      */
-    protected function sortFilesInfo($files)
+    protected function sortFilesInfo(array $files, bool $inverse_sort = false)
     {
         $order = array_map(function ($filepath): int {
             $patterns = ['ADDROB', 'HOUSE', 'ROOM', 'STEAD'];
@@ -130,7 +132,7 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             }
             return 0;
         }, $files);
-        array_multisort($files, $order, SORT_ASC);
+        array_multisort($files, $order, $inverse_sort ? SORT_DESC : SORT_ASC);
 
         return $files;
     }
