@@ -83,7 +83,7 @@ class SoapFiasInformer implements FiasInformer
         }
         foreach ($versions as $serviceVersion) {
             $url = $serviceVersion[$type_format];
-            if ((int) $serviceVersion['VersionId'] <= $version || !$res->validateUrl($url)) {
+            if ((int) $serviceVersion['VersionId'] <= $version) {
                 continue;
             }
             $res->setVersion((int) $serviceVersion['VersionId']);

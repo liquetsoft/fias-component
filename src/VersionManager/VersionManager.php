@@ -21,7 +21,6 @@ interface VersionManager
      */
     public function setCurrentVersion(InformerResponse $info): VersionManager;
 
-
     /**
      * Возвращает текущую версию ФИАС.
      *

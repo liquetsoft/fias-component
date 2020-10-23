@@ -7,7 +7,6 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
-use phpDocumentor\Reflection\Types\Boolean;
 use Psr\Log\LogLevel;
 use RecursiveDirectoryIterator;
 use SplFileInfo;
