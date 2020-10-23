@@ -45,7 +45,8 @@ class ProcessUnpackerTest extends BaseCase
         $processUnpacker = new ProcessUnpacker($commandTemplate);
         $processUnpacker->unpack(
             new SplFileInfo($testArchive),
-            new SplFileInfo($testDestination)
+            new SplFileInfo($testDestination),
+            []
         );
     }
 

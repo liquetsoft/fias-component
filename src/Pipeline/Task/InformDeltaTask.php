@@ -35,6 +35,12 @@ class InformDeltaTask implements Task, LoggableTask
      */
     public function run(State $state): void
     {
+        $type = $state->getParameter(Task::DOWNLOAD_FILE_TYPE);
+        if (!$type) {
+            throw new TaskException(
+                "State parameter '" . Task::DOWNLOAD_FILE_TYPE . "' is required for '" . self::class . "'."
+            );
+        }
         $version = (int) $state->getParameter(Task::FIAS_VERSION_PARAM);
         if (!$version) {
             throw new TaskException(
@@ -42,7 +48,7 @@ class InformDeltaTask implements Task, LoggableTask
             );
         }
 
-        $info = $this->informer->getDeltaInfo($version);
+        $info = $this->informer->getDeltaInfo($version, $type);
         if (!$info->hasResult()) {
             $state->complete();
             $this->log(

@@ -13,9 +13,11 @@ interface FiasInformer
     /**
      * Получает ссылку на файл с полными данными ФИАС.
      *
+     * @param string $type Тип скачиваемого файла (xml/dbf)
+     *
      * @return InformerResponse
      */
-    public function getCompleteInfo(): InformerResponse;
+    public function getCompleteInfo(string $type): InformerResponse;
 
     /**
      * Получает ссылку на файл с разницей между двумя версиями ФИАС.
@@ -26,8 +28,9 @@ interface FiasInformer
      * изменяя версию, до тех пор, пока он не перестанет возвращать результат.
      *
      * @param int $version Текущая версия, относительно которой нужно ополучить файл с изменениями на следующую версию
+     * @param string $type Тип скачиваемого файла (xml/dbf)
      *
      * @return InformerResponse
      */
-    public function getDeltaInfo(int $version): InformerResponse;
+    public function getDeltaInfo(int $version, string $type): InformerResponse;
 }

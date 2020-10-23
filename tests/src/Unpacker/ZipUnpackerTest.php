@@ -25,7 +25,8 @@ class ZipUnpackerTest extends BaseCase
         $zipUnpacker = new ZipUnpacker();
         $zipUnpacker->unpack(
             new SplFileInfo($testArchive),
-            new SplFileInfo($testDestination)
+            new SplFileInfo($testDestination),
+            []
         );
 
         $this->assertFileExists($testDestination . '/test.txt');

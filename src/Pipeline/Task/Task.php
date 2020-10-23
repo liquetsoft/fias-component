@@ -17,6 +17,8 @@ interface Task
 
     const FIAS_INFO_PARAM = 'fias_info';
 
+    const FIAS_SIZE = 'fias_size';
+
     const DOWNLOAD_TO_FILE_PARAM = 'download_to';
 
     const EXTRACT_TO_FOLDER_PARAM = 'extract_to';
@@ -24,6 +26,8 @@ interface Task
     const FILES_TO_INSERT_PARAM = 'files_to_insert';
 
     const FILES_TO_DELETE_PARAM = 'files_to_delete';
+
+    const DOWNLOAD_FILE_TYPE = 'download_file_type';
 
     /**
      * Запускает задачу на исполнение.

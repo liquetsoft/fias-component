@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
 use SoapClient;
+use InvalidArgumentException;
 
 /**
  * Объект, который получает ссылку на файл с архивом ФИАС
@@ -37,13 +38,25 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @inheritdoc
      */
-    public function getCompleteInfo(): InformerResponse
+    public function getCompleteInfo(string $type): InformerResponse
     {
         $response = $this->getSoapClient()->__call('GetLastDownloadFileInfo', []);
-
         $res = new InformerResponseBase;
+
+        switch ($type) {
+            case 'xml':
+                $type_format = 'FiasCompleteXmlUrl';
+                break;
+            case 'dbf':
+                $type_format = 'FiasCompleteDbfUrl';
+                break;
+            default:
+                throw new InvalidArgumentException("Unsupported type: \"{$type}\"");
+        }
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
-        $res->setUrl($response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl);
+
+        $url = $response->GetLastDownloadFileInfoResult->$type_format;
+        $res->setUrl($url);
 
         return $res;
     }
@@ -51,18 +64,30 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @inheritdoc
      */
-    public function getDeltaInfo(int $version): InformerResponse
+    public function getDeltaInfo(int $version, string $type): InformerResponse
     {
         $response = $this->getSoapClient()->__call('GetAllDownloadFileInfo', []);
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
 
         $res = new InformerResponseBase;
+
+        switch ($type) {
+            case 'xml':
+                $type_format = 'FiasDeltaXmlUrl';
+                break;
+            case 'dbf':
+                $type_format = 'FiasDeltaDbfUrl';
+                break;
+            default:
+                throw new InvalidArgumentException("Unsupported type: \"{$type}\"");
+        }
         foreach ($versions as $serviceVersion) {
+            $url = $serviceVersion[$type_format];
             if ((int) $serviceVersion['VersionId'] <= $version) {
                 continue;
             }
             $res->setVersion((int) $serviceVersion['VersionId']);
-            $res->setUrl($serviceVersion['FiasDeltaXmlUrl']);
+            $res->setUrl($url);
             break;
         }
 

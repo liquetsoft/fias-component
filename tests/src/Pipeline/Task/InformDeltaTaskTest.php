@@ -23,6 +23,7 @@ class InformDeltaTaskTest extends BaseCase
     public function testRun()
     {
         $version = 123;
+        $type = 'dbf';
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->will($this->returnValue(true));
@@ -30,12 +31,20 @@ class InformDeltaTaskTest extends BaseCase
         $informerResult->method('getUrl')->will($this->returnValue('http://test.test/test'));
 
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
+        $informer->method('getDeltaInfo')->with($this->equalTo($version), $type)->will($this->returnValue($informerResult));
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($version) {
-            return $name === Task::FIAS_VERSION_PARAM ? $version : null;
+        
+        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($version, $type) {
+            if ($name === Task::FIAS_VERSION_PARAM) {
+                return $version;
+            }
+            if ($name === Task::DOWNLOAD_FILE_TYPE) {
+                return $type;
+            }
+            return null;
         }));
+
         $state->expects($this->once())->method('setAndLockParameter')->with(
             $this->equalTo(Task::FIAS_INFO_PARAM),
             $this->equalTo($informerResult)
@@ -50,6 +59,8 @@ class InformDeltaTaskTest extends BaseCase
      */
     public function testRunNoVersionException()
     {
+        $type = 'xml';
+
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->expects($this->never())->method('getDeltaInfo');
 
@@ -67,23 +78,30 @@ class InformDeltaTaskTest extends BaseCase
     public function testRunNoResponseComplete()
     {
         $version = 123;
+        $type = 'dbf';
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->will($this->returnValue(false));
 
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
+        $informer->method('getDeltaInfo')->with($this->equalTo($version), $type)->will($this->returnValue($informerResult));
 
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($version) {
-            return $name === Task::FIAS_VERSION_PARAM ? $version : null;
+        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($version, $type) {
+            if ($name === Task::FIAS_VERSION_PARAM) {
+                return $version;
+            }
+            if ($name === Task::DOWNLOAD_FILE_TYPE) {
+                return $type;
+            }
+            return null;
         }));
+        
         $state->expects($this->once())->method('complete');
         $state->expects($this->once())->method('setAndLockParameter')->with(
             $this->equalTo(Task::FIAS_INFO_PARAM),
             $this->equalTo($informerResult)
         );
-
         $task = new InformDeltaTask($informer);
         $task->run($state);
     }

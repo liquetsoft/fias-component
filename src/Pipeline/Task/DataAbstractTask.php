@@ -50,7 +50,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
     }
 
     /**
-     * Получает список дескрипторов для фпйлов, которые нужно обработать.
+     * Получает список дескрипторов для файлов, которые нужно обработать.
      *
      * @param State $state
      *

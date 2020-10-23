@@ -29,6 +29,15 @@ interface InformerResponse
     public function getVersion(): int;
 
     /**
+     * Проверяет корректность ссылки.
+     *
+     * @param string $url
+     *
+     * @return bool
+     */
+    public function validateUrl(string $url);
+
+    /**
      * Задает ссылку, по которой можно скачать файл.
      *
      * @param string $url
