@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use SplFileInfo;
 
 /**
@@ -25,17 +26,27 @@ class CurlDownloaderTest extends BaseCase
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
 
-        $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->onlyMethods(['curlDownload'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $curl->expects($this->once())->method('curlDownload')
-            ->with($this->callback(function ($requestOptions) use ($source) {
-                return in_array($source, $requestOptions)
-                    && isset($requestOptions[CURLOPT_FILE])
-                    && is_resource($requestOptions[CURLOPT_FILE]);
-            }))
-            ->will($this->returnValue([true, 200, null]));
+        $curl = $this->getCurlMock();
+        $curl->expects($this->once())
+            ->method('curlDownload')
+            ->with(
+                $this->callback(
+                    function ($requestOptions) use ($source) {
+                        return in_array($source, $requestOptions)
+                            && isset($requestOptions[CURLOPT_FILE])
+                            && is_resource($requestOptions[CURLOPT_FILE]);
+                    }
+                )
+            )
+            ->will(
+                $this->returnValue(
+                    [
+                        true,
+                        200,
+                        null,
+                    ]
+                )
+            );
 
         $curl->download($source, $destination);
     }
@@ -50,11 +61,9 @@ class CurlDownloaderTest extends BaseCase
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
 
-        $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->onlyMethods(['curlDownload'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $curl->expects($this->never())->method('curlDownload');
+        $curl = $this->getCurlMock();
+        $curl->expects($this->never())
+            ->method('curlDownload');
 
         $this->expectException(InvalidArgumentException::class);
         $curl->download($source, $destination);
@@ -71,12 +80,18 @@ class CurlDownloaderTest extends BaseCase
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
 
-        $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->onlyMethods(['curlDownload'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $curl->expects($this->once())->method('curlDownload')
-            ->will($this->returnValue([false, 0, 'error']));
+        $curl = $this->getCurlMock();
+        $curl->expects($this->once())
+            ->method('curlDownload')
+            ->will(
+                $this->returnValue(
+                    [
+                        false,
+                        0,
+                        'error'
+                    ]
+                )
+            );
 
         $this->expectException(DownloaderException::class);
         $curl->download($source, $destination);
@@ -93,12 +108,18 @@ class CurlDownloaderTest extends BaseCase
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
 
-        $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->onlyMethods(['curlDownload'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $curl->expects($this->once())->method('curlDownload')
-            ->will($this->returnValue([true, 413, null]));
+        $curl = $this->getCurlMock();
+        $curl->expects($this->once())
+            ->method('curlDownload')
+            ->will(
+                $this->returnValue(
+                    [
+                        true,
+                        413,
+                        null,
+                    ]
+                )
+            );
 
         $this->expectException(DownloaderException::class);
         $curl->download($source, $destination);
@@ -115,13 +136,28 @@ class CurlDownloaderTest extends BaseCase
         $destinationPath = '/wrong/path/to/file.rar';
         $destination = new SplFileInfo($destinationPath);
 
-        $curl = $this->getMockBuilder(CurlDownloader::class)
-            ->onlyMethods(['curlDownload'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $curl->expects($this->never())->method('curlDownload');
+        $curl = $this->getCurlMock();
+        $curl->expects($this->never())
+            ->method('curlDownload');
 
         $this->expectException(DownloaderException::class);
         $curl->download($source, $destination);
+    }
+
+    /**
+     * Создает базовый мок для curl загрузчика.
+     *
+     * @return MockObject
+     */
+    private function getCurlMock(): MockObject
+    {
+        return $this->getMockBuilder(CurlDownloader::class)
+            ->onlyMethods(
+                [
+                    'curlDownload',
+                ]
+            )
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 }
