@@ -15,25 +15,25 @@ use RuntimeException;
  * Объект, который генерирует файл с описаниями сущностей из xsd файлов,
  * поставляемых с ФИАС.
  */
-class EntitesArrayFromXSDGenerator
+class EntitiesArrayFromXSDGenerator
 {
     /**
-     * Создает файл с описаниемя сущностей ФИАС на основании данных собранных
+     * Создает файл с описаниями сущностей ФИАС на основании данных собранных
      * из XSD файлов.
      *
      * @param string $xsdDir
      * @param string $resultFile
-     * @param string $defaultEntitesFile
+     * @param string $defaultEntitiesFile
      */
-    public function generate(string $xsdDir, string $resultFile, string $defaultEntitesFile): void
+    public function generate(string $xsdDir, string $resultFile, string $defaultEntitiesFile): void
     {
         $files = $this->getXSDFilesFromDir($xsdDir);
-        $entites = $this->parseEntitesFromFiles($files);
-        $defaultEntites = $this->loadDefaultEntites($defaultEntitesFile);
-        $resultEntites = $this->mergeEntites($entites, $defaultEntites);
+        $entities = $this->parseEntitiesFromFiles($files);
+        $defaultEntities = $this->loadDefaultEntities($defaultEntitiesFile);
+        $resultEntities = $this->mergeEntities($entities, $defaultEntities);
 
         $fileText = "<?php\n\n";
-        $fileText .= 'return ' . var_export($resultEntites, true) . ';';
+        $fileText .= 'return ' . var_export($resultEntities, true) . ';';
 
         file_put_contents($resultFile, $fileText);
     }
@@ -71,23 +71,23 @@ class EntitesArrayFromXSDGenerator
      *
      * @return array
      */
-    private function parseEntitesFromFiles(array $files): array
+    private function parseEntitiesFromFiles(array $files): array
     {
-        $xsdEntites = [];
+        $xsdEntities = [];
 
         foreach ($files as $file) {
-            $entites = $this->parseEntitiesFormFile($file);
-            foreach ($entites as $entity) {
+            $entities = $this->parseEntitiesFormFile($file);
+            foreach ($entities as $entity) {
                 $entityName = $entity['entity_name'] ?? null;
                 if ($entityName === null) {
                     throw new RuntimeException("Can't find entity name.");
                 }
                 unset($entity['entity_name']);
-                $xsdEntites[$entityName] = $entity;
+                $xsdEntities[$entityName] = $entity;
             }
         }
 
-        return $xsdEntites;
+        return $xsdEntities;
     }
 
     /**
@@ -101,7 +101,7 @@ class EntitesArrayFromXSDGenerator
      */
     private function parseEntitiesFormFile(string $filePath): array
     {
-        $entites = [];
+        $entities = [];
 
         $schema = new DOMDocument();
         $schema->loadXML(file_get_contents($filePath));
@@ -117,13 +117,13 @@ class EntitesArrayFromXSDGenerator
                 'entity_name' => $innerElementName === 'Object' ? 'AddressObject' : $innerElementName,
                 'description' => $xpath->query('.//xs:annotation/xs:documentation', $innerElement)->item(0)->nodeValue,
                 'xmlPath' => '/' . $element->getAttribute('name') . '/' . $innerElementName,
-                'fields' => $this->extractFieldsDecription($innerElement, $xpath),
+                'fields' => $this->extractFieldsDescription($innerElement, $xpath),
             ];
 
-            $entites[] = $entity;
+            $entities[] = $entity;
         }
 
-        return $entites;
+        return $entities;
     }
 
     /**
@@ -136,7 +136,7 @@ class EntitesArrayFromXSDGenerator
      *
      * @psalm-suppress UndefinedMethod
      */
-    private function extractFieldsDecription(DOMNode $innerElement, DOMXpath $xpath): array
+    private function extractFieldsDescription(DOMNode $innerElement, DOMXpath $xpath): array
     {
         $fieldsList = [];
 
@@ -235,31 +235,31 @@ class EntitesArrayFromXSDGenerator
     /**
      * Загружает массив с описанием сущностей по умолчанию.
      *
-     * @param string $defaultEntitesFile
+     * @param string $defaultEntitiesFile
      *
      * @return array
      *
      * @psalm-suppress UnresolvableInclude
      */
-    private function loadDefaultEntites(string $defaultEntitesFile): array
+    private function loadDefaultEntities(string $defaultEntitiesFile): array
     {
-        return include $defaultEntitesFile;
+        return include $defaultEntitiesFile;
     }
 
     /**
-     * Мержит массив с описанием текущих сущностей и сущностей по умолчанию.
+     * Объединяет массив с описанием текущих сущностей и сущностей по умолчанию.
      *
-     * @param array $entites
-     * @param array $defaultEntites
+     * @param array $entities
+     * @param array $defaultEntities
      *
      * @return array
      */
-    private function mergeEntites(array $entites, array $defaultEntites): array
+    private function mergeEntities(array $entities, array $defaultEntities): array
     {
         $resultEntities = [];
 
-        foreach ($entites as $entityName => $entityDescription) {
-            $defaultData = $defaultEntites[$entityName] ?? null;
+        foreach ($entities as $entityName => $entityDescription) {
+            $defaultData = $defaultEntities[$entityName] ?? null;
             if ($defaultData !== null) {
                 $entityDescription = array_replace_recursive($defaultData, $entityDescription);
             }
