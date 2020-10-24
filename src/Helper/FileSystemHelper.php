@@ -10,7 +10,7 @@ use RuntimeException;
 use SplFileInfo;
 
 /**
- * Хэлпер, который содержит функции для работы с файловой системой.
+ * Класс, который содержит функции для работы с файловой системой.
  */
 class FileSystemHelper
 {
@@ -46,10 +46,8 @@ class FileSystemHelper
     /**
      * Переносит файлы или папки по указанному пути.
      *
-     * @param SplFileInfo $fileInfo
+     * @param SplFileInfo $source
      * @param SplFileInfo $destination
-     *
-     * @throws RuntimeException
      */
     public static function move(SplFileInfo $source, SplFileInfo $destination): void
     {

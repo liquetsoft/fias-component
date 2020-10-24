@@ -215,11 +215,13 @@ class BaseXmlReader implements XmlReaderInterface
             && $this->reader->depth === $nodeDepth
             && $nodeName !== $this->reader->name
             && $this->reader->next()
-        );
+        ) {
+            continue;
+        }
     }
 
     /**
-     * Ищет узел заданный в маппере, прежде, чем начать перебор
+     * Ищет узел заданный в описании сущности, прежде, чем начать перебор
      * элементов.
      *
      * Если собранный путь лежит в начале строки, которую мы ищем,
@@ -285,7 +287,7 @@ class BaseXmlReader implements XmlReaderInterface
     }
 
     /**
-     * Закрывает открытые ресурсы и ресетит все внутренние счетчики.
+     * Закрывает открытые ресурсы и сбрасывает все внутренние счетчики.
      *
      * @return void
      */

@@ -73,7 +73,7 @@ interface Storage
     public function upsert(object $entity): void;
 
     /**
-     * Очищает хранилище для объектов с указаным в параметре классом.
+     * Очищает хранилище для объектов с указанным в параметре классом.
      *
      * @param string $entityClassName
      *

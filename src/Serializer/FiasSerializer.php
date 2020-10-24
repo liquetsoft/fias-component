@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * Преднастроенный объект сериализатора для ФИАС.
+ * Объект для преобразования xml-строк из ФИАС в объекты.
  */
 class FiasSerializer extends Serializer
 {

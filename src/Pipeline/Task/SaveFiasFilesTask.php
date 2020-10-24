@@ -20,7 +20,7 @@ class SaveFiasFilesTask implements Task, LoggableTask
     /**
      * @var array<string, string>
      */
-    protected $movePathes;
+    protected $movePaths;
 
     /**
      * @param string|null $moveArchiveTo
@@ -28,14 +28,14 @@ class SaveFiasFilesTask implements Task, LoggableTask
      */
     public function __construct(?string $moveArchiveTo, ?string $moveExtractedTo)
     {
-        $this->movePathes = [];
+        $this->movePaths = [];
 
         if ($moveArchiveTo !== null) {
-            $this->movePathes[Task::DOWNLOAD_TO_FILE_PARAM] = $moveArchiveTo;
+            $this->movePaths[Task::DOWNLOAD_TO_FILE_PARAM] = $moveArchiveTo;
         }
 
         if ($moveExtractedTo !== null) {
-            $this->movePathes[Task::EXTRACT_TO_FOLDER_PARAM] = $moveExtractedTo;
+            $this->movePaths[Task::EXTRACT_TO_FOLDER_PARAM] = $moveExtractedTo;
         }
     }
 
@@ -44,7 +44,7 @@ class SaveFiasFilesTask implements Task, LoggableTask
      */
     public function run(State $state): void
     {
-        foreach ($this->movePathes as $paramName => $movePath) {
+        foreach ($this->movePaths as $paramName => $movePath) {
             $fileInfo = $state->getParameter($paramName);
 
             if (!($fileInfo instanceof SplFileInfo)) {
