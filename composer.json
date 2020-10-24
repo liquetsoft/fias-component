@@ -10,6 +10,7 @@
         "ext-xmlreader": "*",
         "ext-zip": "*",
         "ext-json": "*",
+        "ext-curl": "*",
         "php": ">=7.2",
         "symfony/serializer": "^4.0|^5.0",
         "symfony/property-access": "^4.0|^5.0",
