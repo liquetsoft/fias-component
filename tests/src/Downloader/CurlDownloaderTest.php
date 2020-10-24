@@ -88,7 +88,7 @@ class CurlDownloaderTest extends BaseCase
                     [
                         false,
                         0,
-                        'error'
+                        'error',
                     ]
                 )
             );
