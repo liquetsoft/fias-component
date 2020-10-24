@@ -20,7 +20,7 @@ use stdClass;
 class SelectFilesToProceedTaskTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение, если не найдет параметр с папкой, в которую распаковыны файлы.
+     * Проверяет, что объект выбросит исключение, если не найдет параметр с папкой, в которую распакованные файлы.
      */
     public function testRunEmptyUnpackToException()
     {

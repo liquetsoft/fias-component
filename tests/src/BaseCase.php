@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests;
 
+use Faker\Factory;
+use Faker\Generator;
 use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -15,7 +17,7 @@ use RuntimeException;
 abstract class BaseCase extends TestCase
 {
     /**
-     * @var \Faker\Generator|null
+     * @var Generator|null
      */
     private $faker;
 
@@ -28,15 +30,15 @@ abstract class BaseCase extends TestCase
      * Возвращает объект php faker для генерации случайных данных.
      *
      * Использует ленивую инициализацию и создает объект faker только при первом
-     * запросе, для всех последующих запросов возвращает тот же самый инстанс,
+     * запросе, для всех последующих запросов возвращает тот же самый объект,
      * который был создан в первый раз.
      *
-     * @return \Faker\Generator
+     * @return Generator
      */
-    public function createFakeData(): \Faker\Generator
+    public function createFakeData(): Generator
     {
         if ($this->faker === null) {
-            $this->faker = \Faker\Factory::create();
+            $this->faker = Factory::create();
         }
 
         return $this->faker;

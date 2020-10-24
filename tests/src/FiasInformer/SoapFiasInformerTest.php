@@ -16,7 +16,7 @@ use stdClass;
 class SoapFiasInformerTest extends BaseCase
 {
     /**
-     * Проверяет, что информер возвращает ссылку на полный файл ФИАС.
+     * Проверяет, что сервис информирования возвращает ссылку на полный файл ФИАС.
      */
     public function testGetCompleteInfo()
     {
@@ -46,7 +46,7 @@ class SoapFiasInformerTest extends BaseCase
     }
 
     /**
-     * Проверяет, что информер возвращает ссылку на дельту для указанной версии.
+     * Проверяет, что сервис информирования возвращает ссылку на дельту для указанной версии.
      */
     public function testGetDeltaInfo()
     {

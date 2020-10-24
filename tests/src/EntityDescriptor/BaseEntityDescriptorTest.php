@@ -34,9 +34,11 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testEmptyNameException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $descriptor = $this->createDescriptor([
-            'name' => null,
-        ]);
+        $this->createDescriptor(
+            [
+                'name' => null,
+            ]
+        );
     }
 
     /**
@@ -59,9 +61,11 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testEmptyXmlPathException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $descriptor = $this->createDescriptor([
-            'xmlPath' => null,
-        ]);
+        $this->createDescriptor(
+            [
+                'xmlPath' => null,
+            ]
+        );
     }
 
     /**
@@ -225,7 +229,7 @@ class BaseEntityDescriptorTest extends BaseCase
         ]);
 
         $this->expectException(InvalidArgumentException::class);
-        $field = $descriptor->getField('test2');
+        $descriptor->getField('test2');
     }
 
     /**
@@ -234,9 +238,11 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testEmptyFieldsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $descriptor = $this->createDescriptor([
-            'fields' => null,
-        ]);
+        $this->createDescriptor(
+            [
+                'fields' => null,
+            ]
+        );
     }
 
     /**
@@ -249,9 +255,11 @@ class BaseEntityDescriptorTest extends BaseCase
         $fields = [$field1, $field2];
 
         $this->expectException(InvalidArgumentException::class);
-        $descriptor = $this->createDescriptor([
-            'fields' => $fields,
-        ]);
+        $this->createDescriptor(
+            [
+                'fields' => $fields,
+            ]
+        );
     }
 
     /**
@@ -266,9 +274,14 @@ class BaseEntityDescriptorTest extends BaseCase
         $field2->method('getName')->will($this->returnValue('test'));
 
         $this->expectException(InvalidArgumentException::class);
-        $descriptor = $this->createDescriptor([
-            'fields' => [$field1, $field2],
-        ]);
+        $this->createDescriptor(
+            [
+                'fields' => [
+                    $field1,
+                    $field2,
+                ],
+            ]
+        );
     }
 
     /**

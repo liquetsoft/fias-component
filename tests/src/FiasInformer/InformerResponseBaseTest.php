@@ -15,7 +15,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 class InformerResponseBaseTest extends BaseCase
 {
     /**
-     * Проверяет ацессоры для версии.
+     * Проверяет асессоры для версии.
      */
     public function testGetSetVersion()
     {
@@ -28,7 +28,7 @@ class InformerResponseBaseTest extends BaseCase
     }
 
     /**
-     * Проверяет ацессоры для ссылки.
+     * Проверяет асессоры для ссылки.
      */
     public function testGetSetUrl()
     {

@@ -20,9 +20,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $name = $this->createFakeData()->word;
 
-        $field = $this->createField([
-            'name' => $name,
-        ]);
+        $field = $this->createField(
+            [
+                'name' => $name,
+            ]
+        );
 
         $this->assertSame($name, $field->getName());
     }
@@ -34,9 +36,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $description = $this->createFakeData()->word;
 
-        $field = $this->createField([
-            'description' => $description,
-        ]);
+        $field = $this->createField(
+            [
+                'description' => $description,
+            ]
+        );
 
         $this->assertSame($description, $field->getDescription());
     }
@@ -47,9 +51,11 @@ class BaseEntityFieldTest extends BaseCase
     public function testEmptyNameException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->createField([
-            'name' => null,
-        ]);
+        $this->createField(
+            [
+                'name' => null,
+            ]
+        );
     }
 
     /**
@@ -59,9 +65,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $type = $this->createFakeData()->word;
 
-        $field = $this->createField([
-            'type' => $type,
-        ]);
+        $field = $this->createField(
+            [
+                'type' => $type,
+            ]
+        );
 
         $this->assertSame($type, $field->getType());
     }
@@ -72,9 +80,11 @@ class BaseEntityFieldTest extends BaseCase
     public function testEmptyTypeException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $field = $this->createField([
-            'type' => null,
-        ]);
+        $this->createField(
+            [
+                'type' => null,
+            ]
+        );
     }
 
     /**
@@ -84,9 +94,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $subType = $this->createFakeData()->word;
 
-        $field = $this->createField([
-            'subType' => $subType,
-        ]);
+        $field = $this->createField(
+            [
+                'subType' => $subType,
+            ]
+        );
 
         $this->assertSame($subType, $field->getSubType());
     }
@@ -108,9 +120,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $length = $this->createFakeData()->numberBetween(1, 255);
 
-        $field = $this->createField([
-            'length' => $length,
-        ]);
+        $field = $this->createField(
+            [
+                'length' => $length,
+            ]
+        );
 
         $this->assertSame($length, $field->getLength());
     }
@@ -132,9 +146,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $isNullable = true;
 
-        $field = $this->createField([
-            'isNullable' => $isNullable,
-        ]);
+        $field = $this->createField(
+            [
+                'isNullable' => $isNullable,
+            ]
+        );
 
         $this->assertSame($isNullable, $field->isNullable());
     }
@@ -156,15 +172,17 @@ class BaseEntityFieldTest extends BaseCase
     {
         $isPrimary = true;
 
-        $field = $this->createField([
-            'isPrimary' => $isPrimary,
-        ]);
+        $field = $this->createField(
+            [
+                'isPrimary' => $isPrimary,
+            ]
+        );
 
         $this->assertSame($isPrimary, $field->isPrimary());
     }
 
     /**
-     * Проверяет, что объект вернет false, еслифлаг первичного ключа не задан.
+     * Проверяет, что объект вернет false, если флаг первичного ключа не задан.
      */
     public function testIsPrimaryDefault()
     {
@@ -180,9 +198,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $isIndex = true;
 
-        $field = $this->createField([
-            'isIndex' => $isIndex,
-        ]);
+        $field = $this->createField(
+            [
+                'isIndex' => $isIndex,
+            ]
+        );
 
         $this->assertSame($isIndex, $field->isIndex());
     }
@@ -203,10 +223,12 @@ class BaseEntityFieldTest extends BaseCase
     public function testIsIndexDoublingException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $field = $this->createField([
-            'isPrimary' => true,
-            'isIndex' => true,
-        ]);
+        $this->createField(
+            [
+                'isPrimary' => true,
+                'isIndex' => true,
+            ]
+        );
     }
 
     /**
@@ -216,9 +238,11 @@ class BaseEntityFieldTest extends BaseCase
     {
         $isPartition = true;
 
-        $field = $this->createField([
-            'isPartition' => $isPartition,
-        ]);
+        $field = $this->createField(
+            [
+                'isPartition' => $isPartition,
+            ]
+        );
 
         $this->assertSame($isPartition, $field->isPartition());
     }
@@ -242,10 +266,13 @@ class BaseEntityFieldTest extends BaseCase
      */
     protected function createField(array $options = []): BaseEntityField
     {
-        $resultOptions = array_merge([
-            'name' => 'Test',
-            'type' => 'string',
-        ], $options);
+        $resultOptions = array_merge(
+            [
+                'name' => 'Test',
+                'type' => 'string',
+            ],
+            $options
+        );
 
         return new BaseEntityField($resultOptions);
     }

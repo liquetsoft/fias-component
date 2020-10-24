@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Pipe;
 
+use Exception;
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use Liquetsoft\Fias\Component\Pipeline\Pipe\ArrayPipe;
@@ -19,7 +20,9 @@ use Psr\Log\LoggerInterface;
 class ArrayPipeTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение при попытке передть неверный параметр.
+     * Проверяет, что объект выбросит исключение при попытке передать неверный параметр.
+     *
+     * @throws Exception
      */
     public function testConstructNoTaskInstanceException()
     {
@@ -28,11 +31,13 @@ class ArrayPipeTest extends BaseCase
         $task2 = 'test';
 
         $this->expectException(InvalidArgumentException::class);
-        $pipe = new ArrayPipe([$task1, $task2], $cleanUp);
+        new ArrayPipe([$task1, $task2], $cleanUp);
     }
 
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются.
+     *
+     * @throws Exception
      */
     public function testRun()
     {
@@ -51,6 +56,8 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются, а после задач запускается задача очистки.
+     *
+     * @throws Exception
      */
     public function testRunWithCleanup()
     {
@@ -73,6 +80,8 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что задачи могут остановить выполнения цепочки
      * с помощью объекта состояния.
+     *
+     * @throws PipeException
      */
     public function testRunWithCompleted()
     {
@@ -99,6 +108,8 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что объект приложения перехватит любое исключение и выбросит
      * унифицированный тип.
+     *
+     * @throws Exception
      */
     public function testRunException()
     {
@@ -121,6 +132,8 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что очередь пишет данные в лог.
+     *
+     * @throws Exception
      */
     public function testLogger()
     {
@@ -146,6 +159,8 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что очередь передаст объект лога в задачу, если требуется.
+     *
+     * @throws Exception
      */
     public function testLoggableTaskLoggerInjected()
     {

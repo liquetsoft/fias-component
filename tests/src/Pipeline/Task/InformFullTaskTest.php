@@ -41,7 +41,7 @@ class InformFullTaskTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект выбросит исключение, если информер не вернет ответ.
+     * Проверяет, что объект выбросит исключение, если сервис информирования не вернет ответ.
      */
     public function testRunNoResponseException()
     {

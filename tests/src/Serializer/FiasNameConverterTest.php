@@ -8,12 +8,12 @@ use Liquetsoft\Fias\Component\Serializer\FiasNameConverter;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
- * Тест для объекта, который преобразует имена их xml для сериализатора.
+ * Тест для объекта, который преобразует имена их xml.
  */
 class FiasNameConverterTest extends BaseCase
 {
     /**
-     * Проверяет, что объект верно преобразует имя для сериализации.
+     * Проверяет, что объект верно преобразует имя.
      */
     public function testNormalize()
     {

@@ -42,7 +42,7 @@ EOT;
 }
 
 /**
- * Мок для проверки сериализатора.
+ * Мок.
  */
 class FiasSerializerObject
 {

@@ -59,7 +59,7 @@ class DataInsertTaskTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект обработает исключение от сериализатора.
+     * Проверяет, что объект обработает исключение от объекта, который преобразует строку.
      */
     public function testRunDeserializeException()
     {

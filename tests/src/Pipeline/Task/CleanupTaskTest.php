@@ -24,7 +24,7 @@ class CleanupTaskTest extends BaseCase
         $downloadTo = new SplFileInfo($downloadToPath);
 
         $extractToDir = $this->getPathToTestDir('extractTo');
-        $extractToSubDir = $this->getPathToTestDir('extractTo/subDir');
+        $this->getPathToTestDir('extractTo/subDir');
         $extractToPath = $this->getPathToTestFile('extractTo/subDir/downloadTo.rar');
         $extractTo = new SplFileInfo($extractToDir);
 
