@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\TruncateTask;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -17,6 +16,8 @@ class TruncateTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект читает и записывает данные.
+     *
+     * @throws \Exception
      */
     public function testRun()
     {
@@ -39,11 +40,16 @@ class TruncateTaskTest extends BaseCase
             $truncated[] = $className;
         }));
 
-        $state = $this->getMockBuilder(State::class)->getMock();
+        $state = $this->createDefaultStateMock();
 
         $task = new TruncateTask($entityManager, $storage);
         $task->run($state);
 
-        $this->assertSame(['Test\Class2'], $truncated);
+        $this->assertSame(
+            [
+                'Test\Class2',
+            ],
+            $truncated
+        );
     }
 }

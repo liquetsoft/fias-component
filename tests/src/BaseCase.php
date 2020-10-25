@@ -179,6 +179,39 @@ abstract class BaseCase extends TestCase
     }
 
     /**
+     * Создает мок для объекта состояния.
+     *
+     * @param array     $params
+     * @param bool|null $needCompleting
+     *
+     * @return State
+     */
+    protected function createDefaultStateMock(array $params = [], ?bool $needCompleting = null): State
+    {
+        $state = $this->getMockBuilder(State::class)->getMock();
+
+        $state->method('getParameter')
+            ->will(
+                $this->returnCallback(
+                    function ($name) use ($params) {
+                        return $params[$name] ?? null;
+                    }
+                )
+            );
+
+        if ($needCompleting !== null) {
+            $expects = $needCompleting ? $this->once() : $this->never();
+            $state->expects($expects)->method('complete');
+        }
+
+        if (!($state instanceof State)) {
+            throw new RuntimeException('Wrong state mock.');
+        }
+
+        return $state;
+    }
+
+    /**
      * Проверяет, что мок реализует интерфейс объекта состояния.
      *
      * @param mixed $state
