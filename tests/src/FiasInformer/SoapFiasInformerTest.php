@@ -23,7 +23,7 @@ class SoapFiasInformerTest extends BaseCase
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url;
-        $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber;
+        $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber();
 
         $soapClient = $this->getMockBuilder(SoapClient::class)
             ->disableOriginalConstructor()
