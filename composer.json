@@ -34,6 +34,7 @@
     "autoload-dev": {
         "psr-4": {
             "Liquetsoft\\Fias\\Component\\Tests\\": "tests/src",
+            "Liquetsoft\\Fias\\Component\\Tests\\Mock\\": "tests/mock",
             "Liquetsoft\\Fias\\Component\\Generator\\": "generator"
         }
     },
