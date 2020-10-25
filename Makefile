@@ -30,6 +30,9 @@ linter: ## Run code checks
 shell: ## Run shell environment in container
 	$(php_bin) /bin/bash
 
+downloadXsd: ## Download xsd file from FIAS
+	$(php_bin) php -f generator/download_entites.php
+
 buildEntities: ## Build entities
 	$(php_bin) php -f generator/generate_entities.php
 	$(php_bin) vendor/bin/php-cs-fixer fix -q

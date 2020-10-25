@@ -26,7 +26,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @param SoapClient|string $soapClient
      */
-    public function __construct($soapClient)
+    public function __construct($soapClient = 'http://fias.nalog.ru/WebServices/Public/DownloadService.asmx?WSDL')
     {
         if ($soapClient instanceof SoapClient) {
             $this->soapClient = $soapClient;
