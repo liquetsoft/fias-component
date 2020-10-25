@@ -44,6 +44,7 @@ class PrepareFolderTaskTest extends BaseCase
                     }
                 )
             );
+        $state = $this->checkAndReturnState($state);
 
         $task = new PrepareFolderTask($pathToPrepare);
         $task->run($state);

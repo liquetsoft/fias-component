@@ -6,12 +6,10 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
-use RuntimeException;
 use SplFileInfo;
 
 /**
@@ -48,17 +46,11 @@ class UnpackTaskTest extends BaseCase
             );
         $unpack = $this->checkAndReturnUnpack($unpack);
 
-        $state = $this->createTestState(
-            function ($name) use ($source, $destination) {
-                $return = null;
-                if ($name === Task::DOWNLOAD_TO_FILE_PARAM) {
-                    $return = $source;
-                } elseif ($name === Task::EXTRACT_TO_FOLDER_PARAM) {
-                    $return = $destination;
-                }
-
-                return $return;
-            }
+        $state = $this->createDefaultStateMock(
+            [
+                Task::DOWNLOAD_TO_FILE_PARAM => $source,
+                Task::EXTRACT_TO_FOLDER_PARAM => $destination,
+            ]
         );
 
         $task = new UnpackTask($unpack);
@@ -78,10 +70,10 @@ class UnpackTaskTest extends BaseCase
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
         $unpack = $this->checkAndReturnUnpack($unpack);
 
-        $state = $this->createTestState(
-            function ($name) use ($destination) {
-                return $name === Task::EXTRACT_TO_FOLDER_PARAM ? $destination : null;
-            }
+        $state = $this->createDefaultStateMock(
+            [
+                Task::EXTRACT_TO_FOLDER_PARAM => $destination,
+            ]
         );
 
         $task = new UnpackTask($unpack);
@@ -102,39 +94,15 @@ class UnpackTaskTest extends BaseCase
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
         $unpack = $this->checkAndReturnUnpack($unpack);
 
-        $state = $this->createTestState(
-            function ($name) use ($source) {
-                return $name === Task::DOWNLOAD_TO_FILE_PARAM ? $source : null;
-            }
+        $state = $this->createDefaultStateMock(
+            [
+                Task::DOWNLOAD_TO_FILE_PARAM => $source,
+            ]
         );
 
         $task = new UnpackTask($unpack);
 
         $this->expectException(TaskException::class);
         $task->run($state);
-    }
-
-    /**
-     * Создает мок объекта состояния для тестов.
-     *
-     * @param callable|null $parameter
-     *
-     * @return State
-     */
-    private function createTestState(?callable $parameter): State
-    {
-        $state = $this->getMockBuilder(State::class)->getMock();
-        if ($parameter) {
-            $state->method('getParameter')
-                ->will(
-                    $this->returnCallback($parameter)
-                );
-        }
-
-        if (!($state instanceof State)) {
-            throw new RuntimeException('Wrong test state mock.');
-        }
-
-        return $state;
     }
 }

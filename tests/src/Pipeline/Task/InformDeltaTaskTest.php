@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
+use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformDeltaTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -19,6 +19,8 @@ class InformDeltaTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно получает ссылку.
+     *
+     * @throws Exception
      */
     public function testRun()
     {
@@ -32,28 +34,31 @@ class InformDeltaTaskTest extends BaseCase
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
 
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($version) {
-            return $name === Task::FIAS_VERSION_PARAM ? $version : null;
-        }));
-        $state->expects($this->once())->method('setAndLockParameter')->with(
-            $this->equalTo(Task::FIAS_INFO_PARAM),
-            $this->equalTo($informerResult)
+        $state = $this->createDefaultStateMock(
+            [
+                Task::FIAS_VERSION_PARAM => $version,
+            ],
+            [
+                Task::FIAS_INFO_PARAM => $informerResult,
+            ]
         );
 
         $task = new InformDeltaTask($informer);
+
         $task->run($state);
     }
 
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указана текущая версия ФИАС.
+     *
+     * @throws Exception
      */
     public function testRunNoVersionException()
     {
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->expects($this->never())->method('getDeltaInfo');
 
-        $state = $this->getMockBuilder(State::class)->getMock();
+        $state = $this->createDefaultStateMock();
 
         $task = new InformDeltaTask($informer);
 
@@ -63,6 +68,8 @@ class InformDeltaTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект прервет цепочку задач, если не найдется обновлений.
+     *
+     * @throws Exception
      */
     public function testRunNoResponseComplete()
     {
@@ -74,17 +81,17 @@ class InformDeltaTaskTest extends BaseCase
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
 
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($version) {
-            return $name === Task::FIAS_VERSION_PARAM ? $version : null;
-        }));
-        $state->expects($this->once())->method('complete');
-        $state->expects($this->once())->method('setAndLockParameter')->with(
-            $this->equalTo(Task::FIAS_INFO_PARAM),
-            $this->equalTo($informerResult)
+        $state = $this->createDefaultStateMock(
+            [
+                Task::FIAS_VERSION_PARAM => $version,
+            ],
+            [
+                Task::FIAS_INFO_PARAM => $informerResult,
+            ]
         );
 
         $task = new InformDeltaTask($informer);
+
         $task->run($state);
     }
 }

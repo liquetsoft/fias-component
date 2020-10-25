@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
+use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformFullTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -19,6 +19,8 @@ class InformFullTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно получает ссылку.
+     *
+     * @throws Exception
      */
     public function testRun()
     {
@@ -30,10 +32,11 @@ class InformFullTaskTest extends BaseCase
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getCompleteInfo')->will($this->returnValue($informerResult));
 
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->once())->method('setAndLockParameter')->with(
-            $this->equalTo(Task::FIAS_INFO_PARAM),
-            $this->equalTo($informerResult)
+        $state = $this->createDefaultStateMock(
+            [],
+            [
+                Task::FIAS_INFO_PARAM => $informerResult,
+            ]
         );
 
         $task = new InformFullTask($informer);
@@ -42,6 +45,8 @@ class InformFullTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект выбросит исключение, если сервис информирования не вернет ответ.
+     *
+     * @throws Exception
      */
     public function testRunNoResponseException()
     {
@@ -51,8 +56,7 @@ class InformFullTaskTest extends BaseCase
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getCompleteInfo')->will($this->returnValue($informerResult));
 
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->never())->method('setAndLockParameter');
+        $state = $this->createDefaultStateMock();
 
         $task = new InformFullTask($informer);
 
