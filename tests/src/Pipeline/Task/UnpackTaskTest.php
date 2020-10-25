@@ -46,6 +46,7 @@ class UnpackTaskTest extends BaseCase
                     }
                 )
             );
+        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createTestState(
             function ($name) use ($source, $destination) {
@@ -61,6 +62,7 @@ class UnpackTaskTest extends BaseCase
         );
 
         $task = new UnpackTask($unpack);
+
         $task->run($state);
     }
 
@@ -74,6 +76,7 @@ class UnpackTaskTest extends BaseCase
         $destination = new SplFileInfo(__DIR__);
 
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
+        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createTestState(
             function ($name) use ($destination) {
@@ -97,6 +100,7 @@ class UnpackTaskTest extends BaseCase
         $source = new SplFileInfo(__DIR__ . '/test.file');
 
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
+        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createTestState(
             function ($name) use ($source) {

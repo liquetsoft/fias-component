@@ -8,6 +8,7 @@ use Faker\Factory;
 use Faker\Generator;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
+use Liquetsoft\Fias\Component\Unpacker\Unpacker;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -223,5 +224,21 @@ abstract class BaseCase extends TestCase
         }
 
         return $versionManager;
+    }
+
+    /**
+     * Проверяет, что мок реализует интерфейс объекта для распаковки архива.
+     *
+     * @param mixed $unpack
+     *
+     * @return Unpacker
+     */
+    protected function checkAndReturnUnpack($unpack): Unpacker
+    {
+        if (!($unpack instanceof Unpacker)) {
+            throw new RuntimeException('Wrong unpack mock.');
+        }
+
+        return $unpack;
     }
 }
