@@ -20,7 +20,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     protected $registry;
 
     /**
-     * Возвращает полностюи подготовленный массив с описаниями сущностей.
+     * Возвращает полностью подготовленный массив с описаниями сущностей.
      *
      * @return EntityDescriptor[]
      */

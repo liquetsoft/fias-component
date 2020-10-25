@@ -28,7 +28,7 @@ class TemplateProcess
     }
 
     /**
-     * Создает новый процесс из раблона с помощью подстановок.
+     * Создает новый процесс из шаблона с помощью подстановок.
      *
      * @param array $replaces
      *
@@ -54,7 +54,7 @@ class TemplateProcess
         $commandArray = [];
 
         $splitTemplate = preg_split(
-            '/(\{\{[a-zA-Z0-9_\-]+\}\})/',
+            '/({{[a-zA-Z0-9_\-]+}})/',
             $template,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
@@ -62,7 +62,7 @@ class TemplateProcess
 
         foreach ($splitTemplate as $commandPart) {
             $commandPart = trim($commandPart);
-            if (preg_match('/^\{\{([a-zA-Z0-9_\-]+)\}\}$/', $commandPart, $matches)) {
+            if (preg_match('/^{{([a-zA-Z0-9_\-]+)}}$/', $commandPart, $matches)) {
                 $commandArray[] = $replaces[$matches[1]] ?? '';
             } elseif ($commandPart !== '') {
                 $commandArray = array_merge($commandArray, explode(' ', $commandPart));

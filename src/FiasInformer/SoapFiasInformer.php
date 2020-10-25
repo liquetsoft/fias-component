@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
 use SoapClient;
+use SoapFault;
 
 /**
  * Объект, который получает ссылку на файл с архивом ФИАС
@@ -25,7 +26,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * @param SoapClient|string $soapClient
      */
-    public function __construct($soapClient)
+    public function __construct($soapClient = 'http://fias.nalog.ru/WebServices/Public/DownloadService.asmx?WSDL')
     {
         if ($soapClient instanceof SoapClient) {
             $this->soapClient = $soapClient;
@@ -35,7 +36,9 @@ class SoapFiasInformer implements FiasInformer
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
+     * @throws SoapFault
      */
     public function getCompleteInfo(): InformerResponse
     {
@@ -54,7 +57,9 @@ class SoapFiasInformer implements FiasInformer
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
+     * @throws SoapFault
      */
     public function getDeltaInfo(int $currentVersion): InformerResponse
     {
@@ -72,7 +77,9 @@ class SoapFiasInformer implements FiasInformer
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
+     * @throws SoapFault
      */
     public function getDeltaList(): array
     {
@@ -113,6 +120,8 @@ class SoapFiasInformer implements FiasInformer
      * Возвращает объект SOAP-клиента для запросов.
      *
      * @return SoapClient
+     *
+     * @throws SoapFault
      */
     private function getSoapClient(): SoapClient
     {

@@ -59,7 +59,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
     }
 
     /**
-     * Получает список дескрипторов для фпйлов, которые нужно обработать.
+     * Получает список дескрипторов для файлов, которые нужно обработать.
      *
      * @param State $state
      *
@@ -166,7 +166,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
     }
 
     /**
-     * Десериализует xml строку в объект указанного класса.
+     * Преобразует xml строку в объект указанного класса.
      *
      * @param string $xml
      * @param string $entityClass

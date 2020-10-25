@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
+use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -20,12 +20,14 @@ use stdClass;
 class SelectFilesToProceedTaskTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение, если не найдет параметр с папкой, в которую распаковыны файлы.
+     * Проверяет, что объект выбросит исключение, если не найдет параметр с папкой, в которую распакованные файлы.
+     *
+     * @throws Exception
      */
     public function testRunEmptyUnpackToException()
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $state = new ArrayState();
+        $state = $this->createDefaultStateMock();
 
         $task = new SelectFilesToProceedTask($entityManager);
 
@@ -35,15 +37,17 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект выбросит исключение, если апка, в которую должны быть распакованы файлы не существует.
+     *
+     * @throws Exception
      */
     public function testRunNonExitedUnpackToException()
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
-        $state = new ArrayState();
-        $state->setParameter(
-            Task::EXTRACT_TO_FOLDER_PARAM,
-            new SplFileInfo(__DIR__ . '/test')
+        $state = $this->createDefaultStateMock(
+            [
+                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo(__DIR__ . '/test'),
+            ]
         );
 
         $task = new SelectFilesToProceedTask($entityManager);
@@ -54,6 +58,8 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект правильно получит список файлов для обработки.
+     *
+     * @throws Exception
      */
     public function testRun()
     {
@@ -97,25 +103,24 @@ class SelectFilesToProceedTaskTest extends BaseCase
                 )
             );
 
-        $state = new ArrayState();
-        $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo($fixturesFolder));
+        $state = $this->createDefaultStateMock(
+            [
+                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo($fixturesFolder),
+            ],
+            [
+                Task::FILES_TO_INSERT_PARAM => [
+                    $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
+                    $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
+                ],
+                Task::FILES_TO_DELETE_PARAM => [
+                    $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
+                    $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
+                ],
+            ]
+        );
 
         $task = new SelectFilesToProceedTask($entityManager);
-        $task->run($state);
 
-        $this->assertSame(
-            [
-                $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
-                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
-            ],
-            $state->getParameter(Task::FILES_TO_INSERT_PARAM)
-        );
-        $this->assertSame(
-            [
-                $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
-                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
-            ],
-            $state->getParameter(Task::FILES_TO_DELETE_PARAM)
-        );
+        $task->run($state);
     }
 }

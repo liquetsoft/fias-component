@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
+use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataUpsertTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Tests\Mock\DataUpsertTaskMock;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
 
 /**
@@ -21,66 +22,67 @@ class DataUpsertTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект читает и записывает данные.
+     *
+     * @throws Exception
      */
     public function testRun()
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getXmlPath')->will($this->returnValue('/ActualStatuses/ActualStatus'));
+        $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $entityManager->method('getDescriptorByInsertFile')->will($this->returnCallback(function ($file) use ($descriptor) {
-            return $file === 'data.xml' ? $descriptor : null;
-        }));
-        $entityManager->method('getClassByDescriptor')->will($this->returnCallback(function ($testDescriptor) use ($descriptor) {
-            return $testDescriptor === $descriptor ? DataInsertTaskObject::class : null;
-        }));
+        $entityManager->method('getDescriptorByInsertFile')
+            ->will(
+                $this->returnCallback(
+                    function ($file) use ($descriptor) {
+                        return $file === 'data.xml' ? $descriptor : null;
+                    }
+                )
+            );
+        $entityManager->method('getClassByDescriptor')
+            ->will(
+                $this->returnCallback(
+                    function ($testDescriptor) use ($descriptor) {
+                        return $testDescriptor === $descriptor ? DataUpsertTaskMock::class : null;
+                    }
+                )
+            );
 
         $insertedData = [];
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
-        $storage->method('supports')->will($this->returnCallback(function ($object) use (&$insertedData) {
-            return $object->getActstatid() === 321;
-        }));
-        $storage->method('upsert')->will($this->returnCallback(function ($object) use (&$insertedData) {
-            $insertedData[] = $object->getActstatid();
-        }));
+        $storage->method('supports')
+            ->will(
+                $this->returnCallback(
+                    function ($object) use (&$insertedData) {
+                        return $object->getActstatid() === 321;
+                    }
+                )
+            );
+        $storage->method('upsert')
+            ->will(
+                $this->returnCallback(
+                    function ($object) use (&$insertedData) {
+                        $insertedData[] = $object->getActstatid();
+                    }
+                )
+            );
 
-        $state = new ArrayState();
-        $state->setParameter(Task::FILES_TO_INSERT_PARAM, [__DIR__ . '/_fixtures/data.xml']);
+        $state = $this->createDefaultStateMock(
+            [
+                Task::FILES_TO_INSERT_PARAM => [__DIR__ . '/_fixtures/data.xml'],
+            ]
+        );
 
-        $task = new DataUpsertTask($entityManager, new BaseXmlReader(), $storage, new FiasSerializer());
+        $task = new DataUpsertTask(
+            $entityManager,
+            new BaseXmlReader(),
+            $storage,
+            new FiasSerializer()
+        );
         $task->run($state);
 
         $this->assertSame([321], $insertedData);
-    }
-}
-
-/**
- * Мок для проверки задачи об обновлении данных в БД.
- */
-class DataUpsertTaskObject
-{
-    private $actstatid;
-    private $name;
-
-    public function setActstatid(int $actstatid)
-    {
-        $this->actstatid = $actstatid;
-    }
-
-    public function getActstatid()
-    {
-        return $this->actstatid;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
     }
 }

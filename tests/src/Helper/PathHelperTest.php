@@ -8,12 +8,12 @@ use Liquetsoft\Fias\Component\Helper\PathHelper;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
- * Тест для хэлпера, который возвращает пути до частей библиотеки.
+ * Тест для класса, который возвращает пути до частей библиотеки.
  */
 class PathHelperTest extends BaseCase
 {
     /**
-     * Тест, который проверяет, что хэлпер вернет правильный путь до папки с ресурсами.
+     * Тест, который проверяет, что класс вернет правильный путь до папки с ресурсами.
      */
     public function testResources()
     {
@@ -25,7 +25,7 @@ class PathHelperTest extends BaseCase
     }
 
     /**
-     * Тест, который проверяет, что хэлпер вернет правильный путь до ресурса.
+     * Тест, который проверяет, что класс вернет правильный путь до ресурса.
      */
     public function testResource()
     {

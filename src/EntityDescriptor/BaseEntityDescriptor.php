@@ -238,7 +238,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * Сопоставлет маску имени файла с именем.
+     * Сравнивает маску имени файла с именем.
      *
      * @param string $fileName
      * @param string $mask

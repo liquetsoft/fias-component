@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SoapClient;
+use SoapFault;
 use stdClass;
 
 /**
@@ -16,21 +17,25 @@ use stdClass;
 class SoapFiasInformerTest extends BaseCase
 {
     /**
-     * Проверяет, что информер возвращает ссылку на полный файл ФИАС.
+     * Проверяет, что сервис информирования возвращает ссылку на полный файл ФИАС.
+     *
+     * @throws SoapFault
      */
     public function testGetCompleteInfo()
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url;
-        $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber;
+        $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber();
 
         $soapClient = $this->getMockBuilder(SoapClient::class)
             ->disableOriginalConstructor()
             ->getMock();
         $soapClient->method('__call')
-            ->with($this->identicalTo('GetLastDownloadFileInfo'))
-            ->will($this->returnValue($soapResponse));
+            ->with(
+                $this->identicalTo('GetLastDownloadFileInfo')
+            )
+            ->willReturn($soapResponse);
 
         $service = new SoapFiasInformer($soapClient);
         $result = $service->getCompleteInfo();
@@ -46,7 +51,9 @@ class SoapFiasInformerTest extends BaseCase
     }
 
     /**
-     * Проверяет, что информер возвращает ссылку на дельту для указанной версии.
+     * Проверяет, что сервис информирования возвращает ссылку на дельту для указанной версии.
+     *
+     * @throws SoapFault
      */
     public function testGetDeltaInfo()
     {
@@ -73,8 +80,10 @@ class SoapFiasInformerTest extends BaseCase
             ->disableOriginalConstructor()
             ->getMock();
         $soapClient->method('__call')
-            ->with($this->identicalTo('GetAllDownloadFileInfo'))
-            ->will($this->returnValue($soapResponse));
+            ->with(
+                $this->identicalTo('GetAllDownloadFileInfo')
+            )
+            ->willReturn($soapResponse);
 
         $service = new SoapFiasInformer($soapClient);
         $result = $service->getDeltaInfo($currentDelta);

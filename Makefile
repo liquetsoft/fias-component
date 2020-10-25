@@ -1,14 +1,8 @@
 #!/usr/bin/make
-# Makefile readme (ru): <http://linux.yaroslavl.ru/docs/prog/gnu_make_3-79_russian_manual.html>
-# Makefile readme (en): <https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents>
 
-SHELL = /bin/sh
-
-php_container_name := php
-docker_bin := $(shell command -v docker 2> /dev/null)
-docker_compose_bin := $(shell command -v docker-compose 2> /dev/null)
-docker_compose_yml := docker/docker-compose.yml
 user_id := $(shell id -u)
+docker_compose_bin := $(shell command -v docker-compose 2> /dev/null) --file docker/docker-compose.yml
+php_bin := $(docker_compose_bin) run --rm -u $(user_id) php
 
 .PHONY : build test fixer linter shell buildEntities
 .DEFAULT_GOAL := build
@@ -16,24 +10,29 @@ user_id := $(shell id -u)
 # --- [ Development tasks ] -------------------------------------------------------------------------------------------
 
 build: ## Build container and install composer libs
-	$(docker_compose_bin) --file "$(docker_compose_yml)" build
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" composer install
+	$(docker_compose_bin) build
+	$(php_bin) composer install
 
 test: ## Execute library tests
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-html=tests/coverage
+	$(php_bin) vendor/bin/phpunit --configuration phpunit.xml.dist
+
+coverage: ## Execute library tests with code coverage option
+	$(php_bin) vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-html=tests/coverage
 
 fixer: ## Run fixes for code style
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/php-cs-fixer fix -v
+	$(php_bin) vendor/bin/php-cs-fixer fix -v
 
 linter: ## Run code checks
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/phpcpd ./src
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/psalm --show-info=true
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/phpunit --configuration phpunit.xml.dist
+	$(php_bin) vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation
+	$(php_bin) vendor/bin/phpcpd ./src
+	$(php_bin) vendor/bin/psalm --show-info=true
 
 shell: ## Run shell environment in container
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" /bin/bash
+	$(php_bin) /bin/bash
+
+downloadXsd: ## Download xsd file from FIAS
+	$(php_bin) php -f generator/download_entites.php
 
 buildEntities: ## Build entities
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" php -f generator/generate_entities.php
-	$(docker_compose_bin) --file "$(docker_compose_yml)" run --rm -u $(user_id) "$(php_container_name)" vendor/bin/php-cs-fixer fix -q
+	$(php_bin) php -f generator/generate_entities.php
+	$(php_bin) vendor/bin/php-cs-fixer fix -q

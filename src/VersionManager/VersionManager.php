@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 interface VersionManager
 {
     /**
-     * Задает версию ФИАС из ответа от информера.
+     * Задает версию ФИАС из ответа от сервиса информирования ФИАС.
      *
      * @param InformerResponse $info
      *

@@ -9,12 +9,12 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
 
 /**
- * Тест для хэлпера, который содержит операции с файловой системой.
+ * Тест для класса, который содержит операции с файловой системой.
  */
 class FileSystemHelperTest extends BaseCase
 {
     /**
-     * Тест, который проверяет, что хэлпер удалит файл.
+     * Тест, который проверяет, что класс удалит файл.
      */
     public function testRemoveFile()
     {
@@ -26,7 +26,7 @@ class FileSystemHelperTest extends BaseCase
     }
 
     /**
-     * Тест, который проверяет, что хэлпер рекурсивно удалит каталог.
+     * Тест, который проверяет, что класс рекурсивно удалит каталог.
      */
     public function testRemoveDir()
     {
@@ -42,7 +42,7 @@ class FileSystemHelperTest extends BaseCase
     }
 
     /**
-     * Тест, который проверяет, что хэлпер перенесет файл.
+     * Тест, который проверяет, что класс перенесет файл.
      */
     public function testMoveFile()
     {
@@ -61,7 +61,7 @@ class FileSystemHelperTest extends BaseCase
     }
 
     /**
-     * Тест, который проверяет, что хэлпер перенесет директорию.
+     * Тест, который проверяет, что класс перенесет директорию.
      */
     public function testMoveDir()
     {

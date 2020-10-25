@@ -7,8 +7,7 @@ namespace Liquetsoft\Fias\Component\Serializer;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
- * Объект, который преобразует имена полей ФИАС для того, чтобы их можно было бы
- * передать в объект сериализатора.
+ * Объект, который преобразует имена полей ФИАС при трансформации xml строки в объект.
  */
 class FiasNameConverter implements NameConverterInterface
 {
@@ -17,7 +16,7 @@ class FiasNameConverter implements NameConverterInterface
      *
      * @return string
      */
-    public function normalize($propertyName): string
+    public function normalize(string $propertyName): string
     {
         $propertyName = trim((string) $propertyName);
         $return = $propertyName;
@@ -34,7 +33,7 @@ class FiasNameConverter implements NameConverterInterface
      *
      * @return string
      */
-    public function denormalize($propertyName): string
+    public function denormalize(string $propertyName): string
     {
         $propertyName = trim((string) $propertyName);
         $return = $propertyName;

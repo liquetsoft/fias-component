@@ -17,8 +17,10 @@ class BaseXmlReaderTest extends BaseCase
 {
     /**
      * Проверяет, что объект читает данные из xml.
+     *
+     * @throws XmlException
      */
-    public function testOpenUnexistedFileException()
+    public function testOpenNonExistedFileException()
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/empty.xml');
 
@@ -36,9 +38,8 @@ class BaseXmlReaderTest extends BaseCase
         $reader = new BaseXmlReader();
 
         $this->expectException(XmlException::class);
-        $result = [];
         foreach ($reader as $key => $item) {
-            $result[$key] = $item;
+            continue;
         }
     }
 
@@ -55,6 +56,8 @@ class BaseXmlReaderTest extends BaseCase
 
     /**
      * Проверяет, что объект читает данные из xml.
+     *
+     * @throws XmlException
      */
     public function testRead()
     {
@@ -63,17 +66,21 @@ class BaseXmlReaderTest extends BaseCase
         $reader = new BaseXmlReader();
         $reader->open($file, '/ActualStatuses/ActualStatus');
         foreach ($reader as $key => $item) {
+            continue;
         }
 
         foreach ($reader as $key => $item) {
             $this->assertStringContainsString('ActualStatus', $item);
             $this->assertStringContainsString('ACTSTATID="' . $key . '', $item);
         }
+
         $reader->close();
     }
 
     /**
      * Проверяет, что объект правильно читает данные из xml, в котором нет нужных данных.
+     *
+     * @throws XmlException
      */
     public function testReadEmpty()
     {
@@ -91,8 +98,10 @@ class BaseXmlReaderTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект правильно читает данные из xml, в котором много отхождений
+     * Проверяет, что объект правильно читает данные из xml, в котором много отличий
      * от ожидаемого формата.
+     *
+     * @throws XmlException
      */
     public function testReadMessyFile()
     {
@@ -106,15 +115,20 @@ class BaseXmlReaderTest extends BaseCase
         }
         $reader->close();
 
-        $this->assertSame([
-            '<realItem firstParam="real item 1 first param" secondParam="real item 1 second param" thirdParam="real item 1 third param" fake="real item 1 fake attr"/>',
-            '<realItem firstParam="real item 2 first param" secondParam="real item 2 second param"/>',
-            '<realItem fake="real item 3 fake attr"/>',
-        ], $result);
+        $this->assertSame(
+            [
+                '<realItem firstParam="real item 1 first param" secondParam="real item 1 second param" thirdParam="real item 1 third param" fake="real item 1 fake attr"/>',
+                '<realItem firstParam="real item 2 first param" secondParam="real item 2 second param"/>',
+                '<realItem fake="real item 3 fake attr"/>',
+            ],
+            $result
+        );
     }
 
     /**
      * Проверяет, что объект выбросит исключение, при попытке прочитать битый файл.
+     *
+     * @throws XmlException
      */
     public function testReadException()
     {
@@ -124,9 +138,8 @@ class BaseXmlReaderTest extends BaseCase
         $reader->open($file, '/root/qwe');
 
         $this->expectException(XmlException::class);
-        $result = [];
         foreach ($reader as $key => $item) {
-            $result[$key] = $item;
+            continue;
         }
     }
 }

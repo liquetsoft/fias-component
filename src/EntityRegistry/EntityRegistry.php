@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 
 /**
- * Интерфейс для объекта, который содержит описание сушностей ФИАС.
+ * Интерфейс для объекта, который содержит описание объектов ФИАС.
  */
 interface EntityRegistry
 {

@@ -19,6 +19,8 @@ class ProcessUnpackerTest extends BaseCase
 {
     /**
      * Проверяет, что объект создаст процесс и запустит его на исполнение.
+     *
+     * @throws UnpackerException
      */
     public function testUnpack()
     {
@@ -42,8 +44,8 @@ class ProcessUnpackerTest extends BaseCase
                 $this->returnValue($process)
             );
 
-        $processUnpacker = new ProcessUnpacker($commandTemplate);
-        $processUnpacker->unpack(
+        $processUnpack = new ProcessUnpacker($commandTemplate);
+        $processUnpack->unpack(
             new SplFileInfo($testArchive),
             new SplFileInfo($testDestination)
         );
@@ -61,8 +63,8 @@ class ProcessUnpackerTest extends BaseCase
 
         $this->expectException(UnpackerException::class);
 
-        $processUnpacker = new ProcessUnpacker($commandTemplate);
-        $processUnpacker->unpack(
+        $processUnpack = new ProcessUnpacker($commandTemplate);
+        $processUnpack->unpack(
             new SplFileInfo(__DIR__ . '/_fixtures/testUnpack.rar'),
             new SplFileInfo($this->getPathToTestDir('testUnpack'))
         );

@@ -9,7 +9,9 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\BaseEntityManager;
 use Liquetsoft\Fias\Component\EntityRegistry\ArrayEntityRegistry;
 use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
+use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use stdClass;
 
 /**
  * Тест для объекта, содержит соответствия между сущностями ФИАС и их реализациями.
@@ -24,14 +26,19 @@ class BaseEntityManagerTest extends BaseCase
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 
         $this->expectException(InvalidArgumentException::class);
-        $manager = new BaseEntityManager($registry, [
-            'TestEntity' => 'TestClass',
-            'TestEntity1' => '\\',
-        ]);
+        new BaseEntityManager(
+            $registry,
+            [
+                'TestEntity' => 'TestClass',
+                'TestEntity1' => '\\',
+            ]
+        );
     }
 
     /**
      * Проверяет, что объект возвращает дескриптор по имени сущности.
+     *
+     * @throws EntityRegistryException
      */
     public function testGetDescriptorByEntityName()
     {
@@ -62,8 +69,8 @@ class BaseEntityManagerTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->will($this->returnValue($entityName));
 
-        $descriptorNotBinded = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptorNotBinded->method('getName')->will($this->returnValue('not_binded'));
+        $descriptorNotBound = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptorNotBound->method('getName')->will($this->returnValue('not_bound'));
 
         $registry = new ArrayEntityRegistry([$descriptor]);
 
@@ -73,12 +80,14 @@ class BaseEntityManagerTest extends BaseCase
         ]);
 
         $this->assertSame($class, $manager->getClassByDescriptor($descriptor));
-        $this->assertNull($manager->getClassByDescriptor($descriptorNotBinded));
+        $this->assertNull($manager->getClassByDescriptor($descriptorNotBound));
     }
 
     /**
      * Проверят, что объект правильно возвращает дескриптор для сущности,
      * к которой относится файл для импорта.
+     *
+     * @throws EntityRegistryException
      */
     public function testGetDescriptorByInsertFile()
     {
@@ -110,6 +119,8 @@ class BaseEntityManagerTest extends BaseCase
     /**
      * Проверят, что объект правильно возвращает дескриптор для сущности,
      * к которой относится файл для удаления.
+     *
+     * @throws EntityRegistryException
      */
     public function testGetDescriptorByDeleteFile()
     {
@@ -142,6 +153,8 @@ class BaseEntityManagerTest extends BaseCase
 
     /**
      * Проверят, что объект правильно возвращает дескриптор по классу сущности.
+     *
+     * @throws EntityRegistryException
      */
     public function testGetDescriptorByClass()
     {
@@ -168,10 +181,12 @@ class BaseEntityManagerTest extends BaseCase
 
     /**
      * Проверят, что объект правильно возвращает дескриптор по объекту.
+     *
+     * @throws EntityRegistryException
      */
     public function testGetDescriptorByObject()
     {
-        $class = \stdClass::class;
+        $class = stdClass::class;
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->will($this->returnValue($entityName));
@@ -188,23 +203,32 @@ class BaseEntityManagerTest extends BaseCase
             $entityName1 => $class1,
         ]);
 
-        $this->assertSame($descriptor, $manager->getDescriptorByObject(new \stdClass()));
+        $this->assertSame($descriptor, $manager->getDescriptorByObject(new stdClass()));
         $this->assertNull($manager->getDescriptorByObject('TestEmpty'));
     }
 
     /**
-     * Проверяет, что объект вернет список всехх лкассов, которые имеют отношения
+     * Проверяет, что объект вернет список всех классов, которые имеют отношения
      * к сущностям ФИАС.
      */
-    public function testGetBindedClasses()
+    public function testGetBoundClasses()
     {
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 
-        $manager = new BaseEntityManager($registry, [
-            'TestEntity1' => '\Test\Class1',
-            'TestEntity2' => 'Test\Class2',
-        ]);
+        $manager = new BaseEntityManager(
+            $registry,
+            [
+                'TestEntity1' => '\Test\Class1',
+                'TestEntity2' => 'Test\Class2',
+            ]
+        );
 
-        $this->assertSame(['Test\Class1', 'Test\Class2'], $manager->getBindedClasses());
+        $this->assertSame(
+            [
+                'Test\Class1',
+                'Test\Class2',
+            ],
+            $manager->getBindedClasses()
+        );
     }
 }

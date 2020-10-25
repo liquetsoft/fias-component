@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Psr\Log\LoggerInterface;
 
 /**
- * Трейт в пару к LoggableTask интерфейсу.
+ * Реализация LoggableTask интерфейса.
  */
 trait LoggableTaskTrait
 {
@@ -22,7 +22,7 @@ trait LoggableTaskTrait
     protected $defaultContext = [];
 
     /**
-     * Добавляет ссылку на объект логгера в объект операции.
+     * Добавляет ссылку на объект для записи логов в объект операции.
      *
      * @param LoggerInterface $logger
      * @param array           $defaultContext
@@ -34,7 +34,7 @@ trait LoggableTaskTrait
     }
 
     /**
-     * Логгирует сообщение.
+     * Записывает сообщение в лог.
      *
      * @param string $logLevel
      * @param string $message

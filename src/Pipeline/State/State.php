@@ -24,7 +24,7 @@ interface State
     public function setParameter(string $parameterName, $parameterValue): State;
 
     /**
-     * Задает константу состояния по его имени и запрешает изменение.
+     * Задает константу состояния по его имени и запрещает изменение.
      *
      * @param string $parameterName
      * @param mixed  $parameterValue
@@ -52,7 +52,7 @@ interface State
     public function complete(): State;
 
     /**
-     * Метод, который указывает, что цепочка должна быть прервана после текушей
+     * Метод, который указывает, что цепочка должна быть прервана после текущей
      * операции.
      *
      * @return bool

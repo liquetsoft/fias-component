@@ -43,7 +43,7 @@ class ArrayPipe implements Pipe
     /**
      * @param iterable             $tasks       Список задач, которые должны быть исполнены данной очередью
      * @param Task|null            $cleanupTask Задача, которая будет выполнена после исключения или по успешному завершению очереди
-     * @param LoggerInterface|null $logger      PSR-3 совместимый логгер
+     * @param LoggerInterface|null $logger      PSR-3 совместимый объект для записи логов
      *
      * @throws InvalidArgumentException
      * @throws Exception
@@ -89,7 +89,8 @@ class ArrayPipe implements Pipe
      */
     protected function proceedStart(State $state): void
     {
-        $this->log(LogLevel::INFO, "Start '" . get_class($this) . "' pipeline.");
+        $message = sprintf("Start '%s' pipeline with '%s' state.", get_class($this), get_class($state));
+        $this->log(LogLevel::INFO, $message);
     }
 
     /**
@@ -185,7 +186,7 @@ class ArrayPipe implements Pipe
     }
 
     /**
-     * Добавляет логгер в операцию, если операция поддерживает логгирование.
+     * Добавляет объект для записи логов в операцию, если операция это поддерживает.
      *
      * @param Task $task
      */
@@ -200,7 +201,7 @@ class ArrayPipe implements Pipe
     }
 
     /**
-     * Возвращает дефолтный контекст логгирования.
+     * Возвращает контекст для записи логов по умолчанию.
      *
      * @param array $currentContext
      *
@@ -217,7 +218,7 @@ class ArrayPipe implements Pipe
     }
 
     /**
-     * Проверяет все объекты массива, чтобы они были валидными задачами и возвращает его.
+     * Проверяет все объекты массива на типы и возвращает его.
      *
      * @param iterable $tasks
      *

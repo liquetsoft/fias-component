@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Pipe;
 
+use Exception;
 use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use Liquetsoft\Fias\Component\Pipeline\Pipe\ArrayPipe;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Tests\Mock\ArrayPipeTestLoggableMock;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * Тест для объекта, который запускает на исполнение задачи из внутреннего массива.
@@ -19,101 +21,119 @@ use Psr\Log\LoggerInterface;
 class ArrayPipeTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение при попытке передть неверный параметр.
+     * Проверяет, что объект выбросит исключение при попытке передать неверный параметр.
+     *
+     * @throws Exception
      */
     public function testConstructNoTaskInstanceException()
     {
-        $cleanUp = $this->getMockBuilder(Task::class)->getMock();
-        $task1 = $this->getMockBuilder(Task::class)->getMock();
+        $task1 = $this->createTaskMock();
         $task2 = 'test';
 
         $this->expectException(InvalidArgumentException::class);
-        $pipe = new ArrayPipe([$task1, $task2], $cleanUp);
+        new ArrayPipe(
+            [
+                $task1,
+                $task2,
+            ]
+        );
     }
 
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются.
+     *
+     * @throws Exception
      */
     public function testRun()
     {
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->once())->method('complete');
+        $state = $this->createDefaultStateMock([], [], true);
+        $task1 = $this->createTaskMock($state);
+        $task2 = $this->createTaskMock($state);
 
-        $task1 = $this->getMockBuilder(Task::class)->getMock();
-        $task1->expects($this->once())->method('run')->with($this->equalTo($state));
+        $pipe = new ArrayPipe(
+            [
+                $task1,
+                $task2,
+            ]
+        );
 
-        $task2 = $this->getMockBuilder(Task::class)->getMock();
-        $task2->expects($this->once())->method('run')->with($this->equalTo($state));
-
-        $pipe = new ArrayPipe([$task1, $task2]);
         $pipe->run($state);
     }
 
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются, а после задач запускается задача очистки.
+     *
+     * @throws Exception
      */
     public function testRunWithCleanup()
     {
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->once())->method('complete');
+        $state = $this->createDefaultStateMock([], [], true);
+        $cleanUp = $this->createTaskMock($state);
+        $task1 = $this->createTaskMock($state);
+        $task2 = $this->createTaskMock($state);
 
-        $cleanUp = $this->getMockBuilder(Task::class)->getMock();
-        $cleanUp->expects($this->once())->method('run')->with($this->equalTo($state));
+        $pipe = new ArrayPipe(
+            [
+                $task1,
+                $task2,
+            ],
+            $cleanUp
+        );
 
-        $task1 = $this->getMockBuilder(Task::class)->getMock();
-        $task1->expects($this->once())->method('run')->with($this->equalTo($state));
-
-        $task2 = $this->getMockBuilder(Task::class)->getMock();
-        $task2->expects($this->once())->method('run')->with($this->equalTo($state));
-
-        $pipe = new ArrayPipe([$task1, $task2], $cleanUp);
         $pipe->run($state);
     }
 
     /**
      * Проверяет, что задачи могут остановить выполнения цепочки
      * с помощью объекта состояния.
+     *
+     * @throws PipeException
+     * @throws Exception
      */
     public function testRunWithCompleted()
     {
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->expects($this->at(0))->method('isCompleted')->will($this->returnValue(false));
         $state->expects($this->at(1))->method('isCompleted')->will($this->returnValue(true));
+        $state = $this->checkAndReturnState($state);
 
-        $cleanUp = $this->getMockBuilder(Task::class)->getMock();
-        $cleanUp->expects($this->once())->method('run')->with($this->equalTo($state));
+        $cleanUp = $this->createTaskMock($state);
+        $task1 = $this->createTaskMock($state);
+        $task2 = $this->createTaskMock($state);
+        $task3 = $this->createTaskMock(false);
 
-        $task1 = $this->getMockBuilder(Task::class)->getMock();
-        $task1->expects($this->once())->method('run')->with($this->equalTo($state));
+        $pipe = new ArrayPipe(
+            [
+                $task1,
+                $task2,
+                $task3,
+            ],
+            $cleanUp
+        );
 
-        $task2 = $this->getMockBuilder(Task::class)->getMock();
-        $task2->expects($this->once())->method('run')->with($this->equalTo($state));
-
-        $task3 = $this->getMockBuilder(Task::class)->getMock();
-        $task3->expects($this->never())->method('run');
-
-        $pipe = new ArrayPipe([$task1, $task2, $task3], $cleanUp);
         $pipe->run($state);
     }
 
     /**
      * Проверяет, что объект приложения перехватит любое исключение и выбросит
      * унифицированный тип.
+     *
+     * @throws Exception
      */
     public function testRunException()
     {
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->never())->method('complete');
+        $state = $this->createDefaultStateMock([], [], false);
+        $cleanUp = $this->createTaskMock($state);
+        $task1 = $this->createTaskMock($state);
+        $task2 = $this->createTaskMock($state, new InvalidArgumentException());
 
-        $cleanUp = $this->getMockBuilder(Task::class)->getMock();
-        $cleanUp->expects($this->once())->method('run')->with($this->equalTo($state));
-
-        $task1 = $this->getMockBuilder(Task::class)->getMock();
-
-        $task2 = $this->getMockBuilder(Task::class)->getMock();
-        $task2->method('run')->will($this->throwException(new InvalidArgumentException()));
-
-        $pipe = new ArrayPipe([$task1, $task2], $cleanUp);
+        $pipe = new ArrayPipe(
+            [
+                $task1,
+                $task2,
+            ],
+            $cleanUp
+        );
 
         $this->expectException(PipeException::class);
         $pipe->run($state);
@@ -121,11 +141,13 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что очередь пишет данные в лог.
+     *
+     * @throws Exception
      */
     public function testLogger()
     {
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $task = $this->getMockBuilder(Task::class)->getMock();
+        $state = $this->createDefaultStateMock([], [], true);
+        $task = $this->createTaskMock($state);
 
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
         $logger->expects($this->atLeastOnce())
@@ -137,20 +159,31 @@ class ArrayPipeTest extends BaseCase
                     $this->arrayHasKey('pipeline_class'),
                     $this->arrayHasKey('pipeline_id')
                 )
-            )
-        ;
+            );
+        $logger = $this->checkAndReturnLogger($logger);
 
-        $pipe = new ArrayPipe([$task], null, $logger);
+        $pipe = new ArrayPipe(
+            [
+                $task,
+            ],
+            null,
+            $logger
+        );
+
         $pipe->run($state);
     }
 
     /**
      * Проверяет, что очередь передаст объект лога в задачу, если требуется.
+     *
+     * @throws Exception
      */
     public function testLoggableTaskLoggerInjected()
     {
-        $state = $this->getMockBuilder(State::class)->getMock();
+        $state = $this->createDefaultStateMock([], [], true);
+
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+        $logger = $this->checkAndReturnLogger($logger);
 
         $task = $this->getMockBuilder(ArrayPipeTestLoggableMock::class)->getMock();
         $task->expects($this->once())
@@ -162,17 +195,42 @@ class ArrayPipeTest extends BaseCase
                     $this->arrayHasKey('pipeline_id'),
                     $this->arrayHasKey('task')
                 )
-            )
-        ;
+            );
 
-        $pipe = new ArrayPipe([$task], null, $logger);
+        $pipe = new ArrayPipe(
+            [
+                $task,
+            ],
+            null,
+            $logger
+        );
+
         $pipe->run($state);
     }
-}
 
-/**
- * Abstract mock class to test task with loggable task interface.
- */
-abstract class ArrayPipeTestLoggableMock implements Task, LoggableTask
-{
+    /**
+     * Создает мок для новой задачи.
+     *
+     * @param mixed          $with
+     * @param Throwable|null $exception
+     *
+     * @return Task
+     */
+    private function createTaskMock($with = null, ?Throwable $exception = null): Task
+    {
+        $task = $this->getMockBuilder(Task::class)->getMock();
+
+        if ($with !== null || $exception !== null) {
+            $expects = $with === false ? $this->never() : $this->once();
+            $method = $task->expects($expects)->method('run');
+            if ($with !== null) {
+                $method->with($this->equalTo($with));
+            }
+            if ($exception !== null) {
+                $method->will($this->throwException($exception));
+            }
+        }
+
+        return $this->checkAndReturnTask($task);
+    }
 }

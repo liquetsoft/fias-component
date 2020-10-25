@@ -22,11 +22,11 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
     private $pathToSource;
 
     /**
-     * @param string $pathToSource Путь к файлу с описанием сущностей
+     * @param string|null $pathToSource Путь к файлу с описанием сущностей
      */
     public function __construct(?string $pathToSource = null)
     {
-        $this->pathToSource = !is_null($pathToSource) ? $pathToSource : PathHelper::resource('fias_entities.php');
+        $this->pathToSource = $pathToSource ?: PathHelper::resource('fias_entities.php');
     }
 
     /**

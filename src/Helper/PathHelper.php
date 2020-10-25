@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Helper;
 
 /**
- * Хэлпер, который содержит пути до различных частей библиотеки.
+ * Класс, который содержит функции, возвращающие пути до различных частей библиотеки.
  */
 class PathHelper
 {
