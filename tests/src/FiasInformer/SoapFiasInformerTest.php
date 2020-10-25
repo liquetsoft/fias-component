@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SoapClient;
+use SoapFault;
 use stdClass;
 
 /**
@@ -17,6 +18,8 @@ class SoapFiasInformerTest extends BaseCase
 {
     /**
      * Проверяет, что сервис информирования возвращает ссылку на полный файл ФИАС.
+     *
+     * @throws SoapFault
      */
     public function testGetCompleteInfo()
     {
@@ -29,8 +32,10 @@ class SoapFiasInformerTest extends BaseCase
             ->disableOriginalConstructor()
             ->getMock();
         $soapClient->method('__call')
-            ->with($this->identicalTo('GetLastDownloadFileInfo'))
-            ->will($this->returnValue($soapResponse));
+            ->with(
+                $this->identicalTo('GetLastDownloadFileInfo')
+            )
+            ->willReturn($soapResponse);
 
         $service = new SoapFiasInformer($soapClient);
         $result = $service->getCompleteInfo();
@@ -47,6 +52,8 @@ class SoapFiasInformerTest extends BaseCase
 
     /**
      * Проверяет, что сервис информирования возвращает ссылку на дельту для указанной версии.
+     *
+     * @throws SoapFault
      */
     public function testGetDeltaInfo()
     {
@@ -73,8 +80,10 @@ class SoapFiasInformerTest extends BaseCase
             ->disableOriginalConstructor()
             ->getMock();
         $soapClient->method('__call')
-            ->with($this->identicalTo('GetAllDownloadFileInfo'))
-            ->will($this->returnValue($soapResponse));
+            ->with(
+                $this->identicalTo('GetAllDownloadFileInfo')
+            )
+            ->willReturn($soapResponse);
 
         $service = new SoapFiasInformer($soapClient);
         $result = $service->getDeltaInfo($currentDelta);
