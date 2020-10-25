@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
+use Exception;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Pipeline\Task\TruncateTask;
 use Liquetsoft\Fias\Component\Storage\Storage;
@@ -17,7 +18,7 @@ class TruncateTaskTest extends BaseCase
     /**
      * Проверяет, что объект читает и записывает данные.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testRun()
     {

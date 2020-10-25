@@ -10,7 +10,7 @@ use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
- * Тест для объекта, который сереализует данные из ФИАС.
+ * Тест для объекта, который преобразует данные из xml ФИАС в объекты.
  */
 class FiasSerializerTest extends BaseCase
 {

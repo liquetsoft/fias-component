@@ -206,7 +206,7 @@ abstract class BaseCase extends TestCase
             $state->expects($expects)->method('complete');
         }
 
-        $atCounter = 0;
+        $atCounter = count($params);
         foreach ($setAndLock as $name => $value) {
             $expects = count($setAndLock) === 1 ? $this->once() : $this->at($atCounter);
             $state->expects($expects)
@@ -299,7 +299,7 @@ abstract class BaseCase extends TestCase
     protected function checkAndReturnDownloader($downloader): Downloader
     {
         if (!($downloader instanceof Downloader)) {
-            throw new RuntimeException('Wrong dwonloader mock.');
+            throw new RuntimeException('Wrong downloader mock.');
         }
 
         return $downloader;

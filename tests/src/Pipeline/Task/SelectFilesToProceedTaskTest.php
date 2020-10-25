@@ -8,7 +8,6 @@ use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -28,7 +27,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     public function testRunEmptyUnpackToException()
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $state = new ArrayState();
+        $state = $this->createDefaultStateMock();
 
         $task = new SelectFilesToProceedTask($entityManager);
 
@@ -45,10 +44,10 @@ class SelectFilesToProceedTaskTest extends BaseCase
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
-        $state = new ArrayState();
-        $state->setParameter(
-            Task::EXTRACT_TO_FOLDER_PARAM,
-            new SplFileInfo(__DIR__ . '/test')
+        $state = $this->createDefaultStateMock(
+            [
+                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo(__DIR__ . '/test'),
+            ]
         );
 
         $task = new SelectFilesToProceedTask($entityManager);
@@ -104,25 +103,24 @@ class SelectFilesToProceedTaskTest extends BaseCase
                 )
             );
 
-        $state = new ArrayState();
-        $state->setParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo($fixturesFolder));
+        $state = $this->createDefaultStateMock(
+            [
+                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo($fixturesFolder),
+            ],
+            [
+                Task::FILES_TO_INSERT_PARAM => [
+                    $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
+                    $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
+                ],
+                Task::FILES_TO_DELETE_PARAM => [
+                    $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
+                    $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
+                ],
+            ]
+        );
 
         $task = new SelectFilesToProceedTask($entityManager);
-        $task->run($state);
 
-        $this->assertSame(
-            [
-                $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
-                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
-            ],
-            $state->getParameter(Task::FILES_TO_INSERT_PARAM)
-        );
-        $this->assertSame(
-            [
-                $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
-                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
-            ],
-            $state->getParameter(Task::FILES_TO_DELETE_PARAM)
-        );
+        $task->run($state);
     }
 }
