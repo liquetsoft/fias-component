@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
+use Exception;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
@@ -17,6 +18,7 @@ class CleanupTaskTest extends BaseCase
 {
     /**
      * Проверяет, что задача очищает все папки и файлы.
+     * @throws Exception
      */
     public function testRun()
     {
@@ -28,17 +30,12 @@ class CleanupTaskTest extends BaseCase
         $extractToPath = $this->getPathToTestFile('extractTo/subDir/downloadTo.rar');
         $extractTo = new SplFileInfo($extractToDir);
 
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($downloadTo, $extractTo) {
-            $return = null;
-            if ($name === Task::DOWNLOAD_TO_FILE_PARAM) {
-                $return = $downloadTo;
-            } elseif ($name === Task::EXTRACT_TO_FOLDER_PARAM) {
-                $return = $extractTo;
-            }
-
-            return $return;
-        }));
+        $state = $this->createDefaultStateMock(
+            [
+                Task::DOWNLOAD_TO_FILE_PARAM => $downloadTo,
+                Task::EXTRACT_TO_FOLDER_PARAM => $extractTo,
+            ]
+        );
 
         $task = new CleanupTask();
         $task->run($state);
@@ -49,16 +46,18 @@ class CleanupTaskTest extends BaseCase
 
     /**
      * Проверяет, что задача очищает все папки и файлы.
+     * @throws Exception
      */
     public function testRunEmptyFiles()
     {
         $downloadToPath = __DIR__ . '/test.rar';
         $downloadTo = new SplFileInfo($downloadToPath);
 
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')->will($this->returnCallback(function ($name) use ($downloadTo) {
-            return $name === Task::DOWNLOAD_TO_FILE_PARAM ? $downloadTo : null;
-        }));
+        $state = $this->createDefaultStateMock(
+            [
+                Task::DOWNLOAD_TO_FILE_PARAM => $downloadTo,
+            ]
+        );
 
         $task = new CleanupTask();
         $task->run($state);
