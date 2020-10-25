@@ -11,7 +11,6 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionSetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
-use RuntimeException;
 
 /**
  * Тест для задачи, которая сохраняет текущую версию ФИАС.
@@ -106,21 +105,5 @@ class VersionSetTaskTest extends BaseCase
         $task = new VersionSetTask($versionManager);
 
         $task->run($state);
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта для управления версиями.
-     *
-     * @param mixed $versionManager
-     *
-     * @return VersionManager
-     */
-    protected function checkAndReturnVersionManager($versionManager): VersionManager
-    {
-        if (!($versionManager instanceof VersionManager)) {
-            throw new RuntimeException('Wrong version manager mock.');
-        }
-
-        return $versionManager;
     }
 }

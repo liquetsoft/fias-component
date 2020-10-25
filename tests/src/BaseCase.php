@@ -8,6 +8,7 @@ use Faker\Factory;
 use Faker\Generator;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
+use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use RecursiveDirectoryIterator;
@@ -206,5 +207,21 @@ abstract class BaseCase extends TestCase
         }
 
         return $task;
+    }
+
+    /**
+     * Проверяет, что мок реализует интерфейс объекта для управления версиями.
+     *
+     * @param mixed $versionManager
+     *
+     * @return VersionManager
+     */
+    protected function checkAndReturnVersionManager($versionManager): VersionManager
+    {
+        if (!($versionManager instanceof VersionManager)) {
+            throw new RuntimeException('Wrong version manager mock.');
+        }
+
+        return $versionManager;
     }
 }
