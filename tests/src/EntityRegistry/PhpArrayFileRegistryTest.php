@@ -77,6 +77,8 @@ class PhpArrayFileRegistryTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет описание сущности по ее имени.
+     *
+     * @throws EntityRegistryException
      */
     public function testGetDescriptor()
     {

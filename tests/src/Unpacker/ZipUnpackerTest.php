@@ -16,14 +16,16 @@ class ZipUnpackerTest extends BaseCase
 {
     /**
      * Проверяет, что объект распакует zip архив.
+     *
+     * @throws UnpackerException
      */
     public function testUnpack()
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');
 
-        $zipUnpacker = new ZipUnpacker();
-        $zipUnpacker->unpack(
+        $zipUnpack = new ZipUnpacker();
+        $zipUnpack->unpack(
             new SplFileInfo($testArchive),
             new SplFileInfo($testDestination)
         );
@@ -42,8 +44,8 @@ class ZipUnpackerTest extends BaseCase
 
         $this->expectException(UnpackerException::class);
 
-        $zipUnpacker = new ZipUnpacker();
-        $zipUnpacker->unpack(
+        $zipUnpack = new ZipUnpacker();
+        $zipUnpack->unpack(
             new SplFileInfo($testArchive),
             new SplFileInfo($testDestination)
         );

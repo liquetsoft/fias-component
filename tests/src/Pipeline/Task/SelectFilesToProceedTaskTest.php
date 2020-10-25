@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
+use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
@@ -21,6 +22,8 @@ class SelectFilesToProceedTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если не найдет параметр с папкой, в которую распакованные файлы.
+     *
+     * @throws Exception
      */
     public function testRunEmptyUnpackToException()
     {
@@ -35,6 +38,8 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект выбросит исключение, если апка, в которую должны быть распакованы файлы не существует.
+     *
+     * @throws Exception
      */
     public function testRunNonExitedUnpackToException()
     {
@@ -54,6 +59,8 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект правильно получит список файлов для обработки.
+     *
+     * @throws Exception
      */
     public function testRun()
     {

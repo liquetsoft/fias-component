@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Storage;
 
 use InvalidArgumentException;
+use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Storage\CompositeStorage;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -29,6 +30,8 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов start всем вложенным хранилищам.
+     *
+     * @throws StorageException
      */
     public function testStart()
     {
@@ -44,6 +47,8 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов stop всем вложенным хранилищам.
+     *
+     * @throws StorageException
      */
     public function testStop()
     {
@@ -111,6 +116,8 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов insert всем вложенным хранилищам.
+     *
+     * @throws StorageException
      */
     public function testInsert()
     {
@@ -136,6 +143,8 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов delete всем вложенным хранилищам.
+     *
+     * @throws StorageException
      */
     public function testDelete()
     {
@@ -163,6 +172,8 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов upsert всем вложенным хранилищам.
+     *
+     * @throws StorageException
      */
     public function testUpsert()
     {
@@ -190,6 +201,8 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов truncate всем вложенным хранилищам.
+     *
+     * @throws StorageException
      */
     public function testTruncate()
     {
