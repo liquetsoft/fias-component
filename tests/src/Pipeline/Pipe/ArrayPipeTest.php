@@ -13,7 +13,6 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\ArrayPipeTestLoggableMock;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 use Throwable;
 
 /**
@@ -96,6 +95,7 @@ class ArrayPipeTest extends BaseCase
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->expects($this->at(0))->method('isCompleted')->will($this->returnValue(false));
         $state->expects($this->at(1))->method('isCompleted')->will($this->returnValue(true));
+        $state = $this->checkAndReturnState($state);
 
         $cleanUp = $this->createTaskMock($state);
         $task1 = $this->createTaskMock($state);
@@ -159,8 +159,8 @@ class ArrayPipeTest extends BaseCase
                     $this->arrayHasKey('pipeline_class'),
                     $this->arrayHasKey('pipeline_id')
                 )
-            )
-        ;
+            );
+        $logger = $this->checkAndReturnLogger($logger);
 
         $pipe = new ArrayPipe(
             [
@@ -181,7 +181,9 @@ class ArrayPipeTest extends BaseCase
     public function testLoggableTaskLoggerInjected()
     {
         $state = $this->createStateMock();
+
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+        $logger = $this->checkAndReturnLogger($logger);
 
         $task = $this->getMockBuilder(ArrayPipeTestLoggableMock::class)->getMock();
         $task->expects($this->once())
@@ -193,8 +195,7 @@ class ArrayPipeTest extends BaseCase
                     $this->arrayHasKey('pipeline_id'),
                     $this->arrayHasKey('task')
                 )
-            )
-        ;
+            );
 
         $pipe = new ArrayPipe(
             [
@@ -221,11 +222,7 @@ class ArrayPipeTest extends BaseCase
         $expects = $isCompleted ? $this->once() : $this->never();
         $state->expects($expects)->method('complete');
 
-        if (!($state instanceof State)) {
-            throw new RuntimeException('Wrong state mock.');
-        }
-
-        return $state;
+        return $this->checkAndReturnState($state);
     }
 
     /**
@@ -251,10 +248,6 @@ class ArrayPipeTest extends BaseCase
             }
         }
 
-        if (!($task instanceof Task)) {
-            throw new RuntimeException('Wrong task mock.');
-        }
-
-        return $task;
+        return $this->checkAndReturnTask($task);
     }
 }
