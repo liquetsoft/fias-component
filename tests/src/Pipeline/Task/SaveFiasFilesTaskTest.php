@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Exception;
 use Liquetsoft\Fias\Component\Pipeline\Task\SaveFiasFilesTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -17,6 +17,8 @@ class SaveFiasFilesTaskTest extends BaseCase
 {
     /**
      * Проверяет, что задача создает все папки и передает в состояние.
+     *
+     * @throws Exception
      */
     public function testRun()
     {
@@ -28,20 +30,12 @@ class SaveFiasFilesTaskTest extends BaseCase
 
         file_put_contents("{$sourceDir}/extracted_file.txt", 'test');
 
-        $sources = [
-            Task::DOWNLOAD_TO_FILE_PARAM => $sourceFile,
-            Task::EXTRACT_TO_FOLDER_PARAM => $sourceDir,
-        ];
-
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->method('getParameter')
-            ->will(
-                $this->returnCallback(
-                    function ($paramName) use ($sources) {
-                        return $sources[$paramName] ? new SplFileInfo($sources[$paramName]) : null;
-                    }
-                )
-            );
+        $state = $this->createDefaultStateMock(
+            [
+                Task::DOWNLOAD_TO_FILE_PARAM => new SplFileInfo($sourceFile),
+                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo($sourceDir),
+            ]
+        );
 
         $task = new SaveFiasFilesTask($destinationFile, $destinationDir);
         $task->run($state);
