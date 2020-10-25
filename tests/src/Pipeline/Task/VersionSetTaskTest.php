@@ -20,6 +20,7 @@ class VersionSetTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект получает версию ФИАС и передает в менеджер версий.
+     *
      * @throws Exception
      */
     public function testRun()
@@ -28,9 +29,9 @@ class VersionSetTaskTest extends BaseCase
         $url = $this->createFakeData()->url;
 
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $response->method('getVersion')->will($this->returnValue($version));
-        $response->method('getUrl')->will($this->returnValue($url));
-        $response->method('hasResult')->will($this->returnValue(true));
+        $response->method('getVersion')->willReturn($version);
+        $response->method('getUrl')->willReturn($url);
+        $response->method('hasResult')->willReturn(true);
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->expects($this->once())
@@ -59,13 +60,13 @@ class VersionSetTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект ничего не запишет, если результата в ответе нет.
+     *
      * @throws Exception
      */
     public function testRunNoResult()
     {
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $response->method('hasResult')
-            ->willReturn(false);
+        $response->method('hasResult')->willReturn(false);
 
         $state = $this->getMockBuilder(State::class)->getMock();
         $state->expects($this->once())
@@ -90,6 +91,7 @@ class VersionSetTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект ничего не запишет, если параметра с результатом нет.
+     *
      * @throws Exception
      */
     public function testRunNoResultParameter()
