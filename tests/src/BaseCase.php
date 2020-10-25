@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests;
 
 use Faker\Factory;
 use Faker\Generator;
+use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
@@ -273,5 +274,21 @@ abstract class BaseCase extends TestCase
         }
 
         return $unpack;
+    }
+
+    /**
+     * Проверяет, что мок реализует интерфейс объекта для загрузки файлов.
+     *
+     * @param mixed $downloader
+     *
+     * @return Downloader
+     */
+    protected function checkAndReturnDownloader($downloader): Downloader
+    {
+        if (!($downloader instanceof Downloader)) {
+            throw new RuntimeException('Wrong dwonloader mock.');
+        }
+
+        return $downloader;
     }
 }

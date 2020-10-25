@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Exception;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -18,6 +17,7 @@ class CleanupTaskTest extends BaseCase
 {
     /**
      * Проверяет, что задача очищает все папки и файлы.
+     *
      * @throws Exception
      */
     public function testRun()
@@ -46,6 +46,7 @@ class CleanupTaskTest extends BaseCase
 
     /**
      * Проверяет, что задача очищает все папки и файлы.
+     *
      * @throws Exception
      */
     public function testRunEmptyFiles()

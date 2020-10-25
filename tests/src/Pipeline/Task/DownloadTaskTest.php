@@ -8,7 +8,6 @@ use Exception;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -21,11 +20,12 @@ class DownloadTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно загружает ссылку.
+     *
      * @throws Exception
      */
     public function testRun()
     {
-        $url = 'http://test.test/test';
+        $url = $this->createFakeData()->url;
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->willReturn(true);
@@ -44,6 +44,7 @@ class DownloadTaskTest extends BaseCase
                     }
                 )
             );
+        $downloader = $this->checkAndReturnDownloader($downloader);
 
         $state = $this->createDefaultStateMock(
             [
@@ -59,11 +60,13 @@ class DownloadTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указана ссылка на ФИАС.
+     *
      * @throws Exception
      */
     public function testRunNoFiasInfoException()
     {
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
+        $downloader = $this->checkAndReturnDownloader($downloader);
 
         $state = $this->createDefaultStateMock(
             [
@@ -79,16 +82,17 @@ class DownloadTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указан путь к локальному файлу.
+     *
      * @throws Exception
      */
     public function testRunNoDownloadToInfoException()
     {
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
+        $downloader = $this->checkAndReturnDownloader($downloader);
 
-        $url = 'http://test.test/test';
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->willReturn(true);
-        $informerResult->method('getUrl')->willReturn($url);
+        $informerResult->method('getUrl')->willReturn($this->createFakeData()->url);
 
         $state = $this->createDefaultStateMock(
             [
