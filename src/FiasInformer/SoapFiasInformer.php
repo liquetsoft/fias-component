@@ -40,7 +40,7 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getCompleteInfo(string $type): InformerResponse
     {
-        $response = $this->getSoapClient()->__call('GetLastDownloadFileInfo', []);
+        $response = $this->retryConnect($this->getSoapClient(), ['GetLastDownloadFileInfo', []]);
         $res = new InformerResponseBase;
 
         switch ($type) {
@@ -66,7 +66,7 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getDeltaInfo(int $version, string $type): InformerResponse
     {
-        $response = $this->getSoapClient()->__call('GetAllDownloadFileInfo', []);
+        $response = $this->retryConnect($this->getSoapClient(), ['GetAllDownloadFileInfo', []]);
         $versions = $this->sortResponseByVersion($response->GetAllDownloadFileInfoResult->DownloadFileInfo);
 
         $res = new InformerResponseBase;
@@ -128,5 +128,39 @@ class SoapFiasInformer implements FiasInformer
         }
 
         return $this->soapClient;
+    }
+
+    /**
+     * Осуществляет несколько попыток подключения Soap компонента
+     *
+     * @param SoapClient $soap_client
+     * @param array      $args
+     * @param int        $interval
+     * @param int        $max_attempts
+     *
+     * @return mixed
+     * @throws \RuntimeExeption
+     */
+    protected static function retryConnect(
+        $soap_client,
+        array $args,
+        $interval = 1,
+        $max_attempts = 3
+    ) {
+        for ($attempts = 0; $attempts < $max_attempts; $attempts++) {
+            try {
+                if ($attempts > 0) {
+                    sleep($interval);
+                }
+                return $soap_client->__call($args[0], $args[1]);
+            } catch (\Throwable $th) {
+                $previous = $th;
+            }
+        }
+        throw new \RuntimeException(
+            "Could not connect to host SoapFiasInformer {$max_attempts} times",
+            1,
+            $previous
+        );
     }
 }
