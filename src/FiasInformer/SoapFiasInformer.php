@@ -139,18 +139,16 @@ class SoapFiasInformer implements FiasInformer
      * @param int        $max_attempts
      *
      * @return mixed
-     * @throws \RuntimeExeption
      */
     protected function makeSoapRequestWithRetry(
         array $args,
         $interval = 1,
         $max_attempts = 3
     ) {
-        $reflectionMethod = new \ReflectionMethod('SoapClient', '__call');
-        
+        $previous = null;
         for ($attempts = 0; $attempts < $max_attempts; $attempts++) {
             try {
-                return $reflectionMethod->invokeArgs($this->getSoapClient(), $args);
+                return call_user_func_array([$this->getSoapClient(), '__call'], $args);
             } catch (\Throwable $th) {
                 $previous = $th;
             }
