@@ -66,15 +66,15 @@ class UnpackTask implements Task, LoggableTask
         );
 
         $classes = $this->entityManager->getBindedClasses();
-        $files_to_extract = [];
+        $filesToExtract = [];
         foreach ($classes as $class) {
             $descriptor = $this->entityManager->getDescriptorByClass($class);
             if ($descriptor !== null) {
-                $files_to_extract[] = $descriptor->getInsertFileMask();
-                $files_to_extract[] = $descriptor->getDeleteFileMask();
+                $filesToExtract[] = $descriptor->getInsertFileMask();
+                $filesToExtract[] = $descriptor->getDeleteFileMask();
             }
         }
         
-        $this->unpacker->unpack($source, $destination, $files_to_extract);
+        $this->unpacker->unpack($source, $destination, $filesToExtract);
     }
 }

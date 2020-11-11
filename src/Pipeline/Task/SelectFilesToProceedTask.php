@@ -116,11 +116,11 @@ class SelectFilesToProceedTask implements Task, LoggableTask
      * Сортирует имена файлов для обработки.
      *
      * @param array $files
-     * @param bool $inverse_sort
+     * @param bool  $inverseSort
      *
      * @return array
      */
-    protected function sortFilesInfo(array $files, bool $inverse_sort = false)
+    protected function sortFilesInfo(array $files, bool $inverseSort = false)
     {
         $order = array_map(function ($filepath): int {
             $patterns = ['ADDROB', 'HOUSE', 'ROOM', 'STEAD'];
@@ -131,7 +131,7 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             }
             return 0;
         }, $files);
-        array_multisort($files, $order, $inverse_sort ? SORT_DESC : SORT_ASC);
+        array_multisort($files, $order, $inverseSort ? SORT_DESC : SORT_ASC);
 
         return $files;
     }

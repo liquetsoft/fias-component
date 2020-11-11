@@ -33,7 +33,7 @@ class DbfReader implements Reader
     /**
      * @inheritdoc
      */
-    public function open(SplFileInfo $file, EntityDescriptor $entity_descriptor): bool
+    public function open(SplFileInfo $file, EntityDescriptor $entityDescriptor): bool
     {
         if (!$file->isFile() || !$file->isReadable()) {
             throw new InvalidArgumentException(
@@ -43,11 +43,11 @@ class DbfReader implements Reader
 
         // Массив используемых столбцов. При значении null выбираются все столбцы по умолчанию.
         $dbfColumns = [];
-        foreach ($entity_descriptor->getFields() as $field) {
+        foreach ($entityDescriptor->getFields() as $field) {
             $dbfColumns[] = $field->getName();
         }
         // Исходная кодировка таблицы. При значении null выбирается кодировка UTF-8 по умолчанию.
-        $dbfEncoding = $entity_descriptor->getReaderParams($this->getType());
+        $dbfEncoding = $entityDescriptor->getReaderParams($this->getType());
 
         try {
             $this->table = new Table($file->getPathname(), $dbfColumns, $dbfEncoding);

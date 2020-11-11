@@ -45,17 +45,17 @@ class SoapFiasInformer implements FiasInformer
 
         switch ($type) {
             case 'xml':
-                $type_format = 'FiasCompleteXmlUrl';
+                $typeFormat = 'FiasCompleteXmlUrl';
                 break;
             case 'dbf':
-                $type_format = 'FiasCompleteDbfUrl';
+                $typeFormat = 'FiasCompleteDbfUrl';
                 break;
             default:
                 throw new InvalidArgumentException("Unsupported type: \"{$type}\"");
         }
         $res->setVersion((int) $response->GetLastDownloadFileInfoResult->VersionId);
 
-        $url = $response->GetLastDownloadFileInfoResult->$type_format;
+        $url = $response->GetLastDownloadFileInfoResult->$typeFormat;
         $res->setUrl($url);
 
         return $res;
@@ -73,16 +73,16 @@ class SoapFiasInformer implements FiasInformer
 
         switch ($type) {
             case 'xml':
-                $type_format = 'FiasDeltaXmlUrl';
+                $typeFormat = 'FiasDeltaXmlUrl';
                 break;
             case 'dbf':
-                $type_format = 'FiasDeltaDbfUrl';
+                $typeFormat = 'FiasDeltaDbfUrl';
                 break;
             default:
                 throw new InvalidArgumentException("Unsupported type: \"{$type}\"");
         }
         foreach ($versions as $serviceVersion) {
-            $url = $serviceVersion[$type_format];
+            $url = $serviceVersion[$typeFormat];
             if ((int) $serviceVersion['VersionId'] <= $version) {
                 continue;
             }
@@ -133,20 +133,19 @@ class SoapFiasInformer implements FiasInformer
     /**
      * Осуществляет несколько попыток подключения Soap компонента
      *
-     * @param SoapClient $soap_client
      * @param array      $args
      * @param int        $interval
-     * @param int        $max_attempts
+     * @param int        $maxAttempts
      *
      * @return mixed
      */
     protected function makeSoapRequestWithRetry(
         array $args,
         $interval = 1,
-        $max_attempts = 3
+        $maxAttempts = 3
     ) {
         $previous = null;
-        for ($attempts = 0; $attempts < $max_attempts; $attempts++) {
+        for ($attempts = 0; $attempts < $maxAttempts; $attempts++) {
             try {
                 return call_user_func_array([$this->getSoapClient(), '__call'], $args);
             } catch (\Throwable $th) {
@@ -155,7 +154,7 @@ class SoapFiasInformer implements FiasInformer
             sleep($interval);
         }
         throw new \RuntimeException(
-            "Could not connect to host SoapFiasInformer {$max_attempts} times",
+            "Could not connect to host SoapFiasInformer {$maxAttempts} times",
             1,
             $previous
         );

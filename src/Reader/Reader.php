@@ -21,14 +21,14 @@ interface Reader extends Iterator
      * возвращает ложь.
      *
      * @param SplFileInfo      $file
-     * @param EntityDescriptor $entity_descriptor
+     * @param EntityDescriptor $entityDescriptor
      *
      * @return bool
      *
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function open(SplFileInfo $file, EntityDescriptor $entity_descriptor): bool;
+    public function open(SplFileInfo $file, EntityDescriptor $entityDescriptor): bool;
 
     /**
      * Закрывает открытый файл, если такой был.

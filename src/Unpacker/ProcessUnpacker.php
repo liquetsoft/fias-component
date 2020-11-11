@@ -34,7 +34,7 @@ class ProcessUnpacker implements Unpacker
     /**
      * @inheritdoc
      */
-    public function unpack(SplFileInfo $source, SplFileInfo $destination, array $files_to_extract = []): void
+    public function unpack(SplFileInfo $source, SplFileInfo $destination, array $filesToExtract = []): void
     {
         try {
             $process = $this->commandTemplate->createProcess([

@@ -138,7 +138,7 @@ class ArrayPipe implements Pipe
 
         $this->proceedCleanup($state);
 
-        throw new PipeException($message, 0, $e);
+        throw new PipeException($task, $message, 0, $e);
     }
 
     /**
