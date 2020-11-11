@@ -70,7 +70,7 @@ class XmlReader implements Reader
     /**
      * @inheritdoc
      */
-    public function open(SplFileInfo $file, EntityDescriptor $entity_descriptor): bool
+    public function open(SplFileInfo $file, EntityDescriptor $entityDescriptor): bool
     {
         if (!$file->isFile() || !$file->isReadable()) {
             throw new InvalidArgumentException(
@@ -79,7 +79,7 @@ class XmlReader implements Reader
         }
 
         $this->file = $file;
-        $this->xpath = $entity_descriptor->getReaderParams($this->getType());
+        $this->xpath = $entityDescriptor->getReaderParams($this->getType());
 
         return $this->seekXmlPath();
     }

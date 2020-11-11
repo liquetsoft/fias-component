@@ -18,17 +18,17 @@ class PipeException extends Exception
     protected $interruptedTask;
 
     /**
-     * @param Task   $interrupted_task
+     * @param Task   $interruptedTask
      *
      * @inheritdoc
      */
     public function __construct(
-        $interrupted_task,
+        $interruptedTask,
         $message = "",
         $code = 0,
         Throwable $previous = null
     ) {
-        $this->interruptedTask = $interrupted_task;
+        $this->interruptedTask = $interruptedTask;
         parent::__construct($message, $code, $previous);
     }
 

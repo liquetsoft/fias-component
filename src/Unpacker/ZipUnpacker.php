@@ -18,10 +18,10 @@ class ZipUnpacker implements Unpacker
     /**
      * @inheritDoc
      */
-    public function unpack(SplFileInfo $source, SplFileInfo $destination, $files_to_extract = []): void
+    public function unpack(SplFileInfo $source, SplFileInfo $destination, $filesToExtract = []): void
     {
         try {
-            $this->runUnZip($source, $destination, $files_to_extract);
+            $this->runUnZip($source, $destination, $filesToExtract);
         } catch (Throwable $e) {
             $message = "Can't extract zip archive '{$source->getPathname()}' to '{$destination->getPathname()}'.";
             throw new UnpackerException($message, 0, $e);
@@ -33,11 +33,11 @@ class ZipUnpacker implements Unpacker
      *
      * @param SplFileInfo $source
      * @param SplFileInfo $destination
-     * @param array $files_to_extract
+     * @param array $filesToExtract
      *
      * @throws RuntimeException
      */
-    private function runUnZip(SplFileInfo $source, SplFileInfo $destination, array $files_to_extract = []): void
+    private function runUnZip(SplFileInfo $source, SplFileInfo $destination, array $filesToExtract = []): void
     {
         $filePath = $source->getPathName();
         $zip = new ZipArchive;
@@ -45,7 +45,7 @@ class ZipUnpacker implements Unpacker
             $entries = [];
             for ($i = 0; $i < $zip->count(); $i++) {
                 $fileName = $zip->getNameIndex($i);
-                if (in_array($fileName, $files_to_extract)) {
+                if (in_array($fileName, $filesToExtract)) {
                     $entries[] = $fileName;
                 }
             }
