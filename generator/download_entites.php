@@ -16,6 +16,8 @@ $tmpFile = new SplFileInfo("{$sysTmp}/archive");
 $tmpDir = new SplFileInfo("{$sysTmp}/extracted");
 $xsdFolder = new SplFileInfo(PathHelper::resource('xsd'));
 
+FileSystemHelper::remove($tmpFile);
+FileSystemHelper::remove($tmpDir);
 if (!mkdir($tmpDir->getPathname(), 0777, true)) {
     throw new RuntimeException("Can't create temp dir.");
 }

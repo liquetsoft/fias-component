@@ -93,6 +93,11 @@ class SoapFiasInformer implements FiasInformer
         foreach ($response as $responseObject) {
             $versionId = $responseObject->VersionId ?? 0;
             $url = $responseObject->FiasDeltaXmlUrl ?? '';
+            if ($url === '') {
+                // похоже только так это работает, дельта появляется не сразу
+                // поэтому просто пропускаем объекты без дельты
+                continue;
+            }
             $list[] = $this->createResponseObject((int) $versionId, (string) $url);
         }
 
