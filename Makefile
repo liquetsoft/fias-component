@@ -1,38 +1,37 @@
 #!/usr/bin/make
 
 user_id := $(shell id -u)
-docker_compose_bin := $(shell command -v docker-compose 2> /dev/null) --file docker/docker-compose.yml
-php_bin := $(docker_compose_bin) run --rm -u $(user_id) php
+docker_compose_bin := $(shell command -v docker-compose 2> /dev/null) --file "docker/docker-compose.yml"
+php_container_bin := $(docker_compose_bin) run --rm -u "$(user_id)" "php"
 
-.PHONY : build test fixer linter shell buildEntities
+.PHONY : help build install shell fixer test coverage xsd entites
 .DEFAULT_GOAL := build
 
 # --- [ Development tasks ] -------------------------------------------------------------------------------------------
 
 build: ## Build container and install composer libs
-	$(docker_compose_bin) build
-	$(php_bin) composer install
+	$(docker_compose_bin) build --force-rm
 
-test: ## Execute library tests
-	$(php_bin) vendor/bin/phpunit --configuration phpunit.xml.dist
+install: ## Install all data
+	$(php_container_bin) composer update
 
-coverage: ## Execute library tests with code coverage option
-	$(php_bin) vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-html=tests/coverage
+shell: ## Runs shell in container
+	$(php_container_bin) bash
 
-fixer: ## Run fixes for code style
-	$(php_bin) vendor/bin/php-cs-fixer fix -v
+fixer: ## Run fixer to fix code style
+	$(php_container_bin) composer run-script fixer
 
-linter: ## Run code checks
-	$(php_bin) vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation
-	$(php_bin) vendor/bin/phpcpd ./src
-	$(php_bin) vendor/bin/psalm --show-info=true
+linter: ## Run linter to check project
+	$(php_container_bin) composer run-script linter
 
-shell: ## Run shell environment in container
-	$(php_bin) /bin/bash
+test: ## Run tests
+	$(php_container_bin) composer run-script test
 
-downloadXsd: ## Download xsd file from FIAS
-	$(php_bin) php -f generator/download_entites.php
+coverage: ## Run tests with coverage
+	$(php_container_bin) composer run-script coverage
 
-buildEntities: ## Build entities
-	$(php_bin) php -f generator/generate_entities.php
-	$(php_bin) vendor/bin/php-cs-fixer fix -q
+xsd: ## Build entities from yaml file with description
+	$(php_container_bin) composer run-script xsd
+
+entites: ## Build entities from yaml file with description
+	$(php_container_bin) composer run-script entites

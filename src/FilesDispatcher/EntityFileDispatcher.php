@@ -38,7 +38,7 @@ class EntityFileDispatcher implements FilesDispatcher
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function dispatchInsert(array $filesToInsert, int $processesCount = 6): array
     {
@@ -48,7 +48,7 @@ class EntityFileDispatcher implements FilesDispatcher
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function dispatchDelete(array $filesToDelete, int $processesCount = 6): array
     {

@@ -66,7 +66,7 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getClassByDescriptor(EntityDescriptor $descriptor): ?string
     {
@@ -152,7 +152,7 @@ class BaseEntityManager implements EntityManager
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBindedClasses(): array
     {

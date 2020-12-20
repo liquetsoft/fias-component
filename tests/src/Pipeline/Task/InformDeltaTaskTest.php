@@ -8,6 +8,7 @@ use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformDeltaTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -34,18 +35,13 @@ class InformDeltaTaskTest extends BaseCase
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
 
-        $state = $this->createDefaultStateMock(
-            [
-                Task::FIAS_VERSION_PARAM => $version,
-            ],
-            [
-                Task::FIAS_INFO_PARAM => $informerResult,
-            ]
-        );
+        $state = new ArrayState();
+        $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version);
 
         $task = new InformDeltaTask($informer);
-
         $task->run($state);
+
+        $this->assertSame($informerResult, $state->getParameter(Task::FIAS_INFO_PARAM));
     }
 
     /**
@@ -81,17 +77,12 @@ class InformDeltaTaskTest extends BaseCase
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
 
-        $state = $this->createDefaultStateMock(
-            [
-                Task::FIAS_VERSION_PARAM => $version,
-            ],
-            [
-                Task::FIAS_INFO_PARAM => $informerResult,
-            ]
-        );
+        $state = new ArrayState();
+        $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version);
 
         $task = new InformDeltaTask($informer);
-
         $task->run($state);
+
+        $this->assertSame($informerResult, $state->getParameter(Task::FIAS_INFO_PARAM));
     }
 }

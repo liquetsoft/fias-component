@@ -183,12 +183,11 @@ abstract class BaseCase extends TestCase
      * Создает мок для объекта состояния.
      *
      * @param array     $params
-     * @param array     $setAndLock
      * @param bool|null $needCompleting
      *
      * @return State
      */
-    protected function createDefaultStateMock(array $params = [], array $setAndLock = [], ?bool $needCompleting = null): State
+    protected function createDefaultStateMock(array $params = [], ?bool $needCompleting = null): State
     {
         $state = $this->getMockBuilder(State::class)->getMock();
 
@@ -204,18 +203,6 @@ abstract class BaseCase extends TestCase
         if ($needCompleting !== null) {
             $expects = $needCompleting ? $this->once() : $this->never();
             $state->expects($expects)->method('complete');
-        }
-
-        $atCounter = count($params);
-        foreach ($setAndLock as $name => $value) {
-            $expects = count($setAndLock) === 1 ? $this->once() : $this->at($atCounter);
-            $state->expects($expects)
-                ->method('setAndLockParameter')
-                ->with(
-                    $this->equalTo($name),
-                    $this->equalTo($value)
-                );
-            ++$atCounter;
         }
 
         if (!($state instanceof State)) {

@@ -32,7 +32,7 @@ class ProcessUnpacker implements Unpacker
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function unpack(SplFileInfo $source, SplFileInfo $destination): void
     {

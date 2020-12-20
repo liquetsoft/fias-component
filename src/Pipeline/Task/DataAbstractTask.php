@@ -84,7 +84,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
     abstract protected function processItem(object $item): void;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function run(State $state): void
     {

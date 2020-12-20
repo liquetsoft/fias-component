@@ -30,7 +30,7 @@ class CurlStatusChecker implements FiasStatusChecker
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function check(): StatusCheckerResult
     {

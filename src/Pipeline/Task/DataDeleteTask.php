@@ -15,7 +15,7 @@ use SplFileInfo;
 class DataDeleteTask extends DataAbstractTask
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getFileNamesFromState(State $state): array
     {
@@ -25,7 +25,7 @@ class DataDeleteTask extends DataAbstractTask
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getDescriptorForFile(SplFileInfo $fileInfo): ?EntityDescriptor
     {

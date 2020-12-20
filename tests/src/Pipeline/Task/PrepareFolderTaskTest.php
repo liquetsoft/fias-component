@@ -6,7 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Exception;
 use InvalidArgumentException;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\PrepareFolderTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -27,27 +27,14 @@ class PrepareFolderTaskTest extends BaseCase
         $pathToPrepare = $this->getPathToTestDir('prepare');
         $this->getPathToTestFile('prepare/test.txt');
 
-        $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->at(0))
-            ->method('setAndLockParameter')
-            ->with(
-                $this->equalTo(Task::DOWNLOAD_TO_FILE_PARAM),
-                $this->isInstanceOf(SplFileInfo::class)
-            );
-        $state->expects($this->at(1))
-            ->method('setAndLockParameter')
-            ->with(
-                $this->equalTo(Task::EXTRACT_TO_FOLDER_PARAM),
-                $this->callback(
-                    function ($folder) {
-                        return $folder instanceof SplFileInfo && $folder->isDir();
-                    }
-                )
-            );
-        $state = $this->checkAndReturnState($state);
+        $state = new ArrayState();
 
         $task = new PrepareFolderTask($pathToPrepare);
         $task->run($state);
+
+        $this->assertInstanceOf(SplFileInfo::class, $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM));
+        $this->assertInstanceOf(SplFileInfo::class, $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM));
+        $this->assertTrue($state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM)->isDir());
     }
 
     /**

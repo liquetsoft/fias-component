@@ -64,7 +64,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName(): string
     {
@@ -72,7 +72,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDescription(): string
     {
@@ -80,7 +80,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPartitionsCount(): int
     {
@@ -88,7 +88,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getXmlPath(): string
     {
@@ -96,7 +96,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getXmlInsertFileMask(): string
     {
@@ -104,7 +104,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getXmlDeleteFileMask(): string
     {
@@ -112,7 +112,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFields(): array
     {
@@ -120,7 +120,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasField(string $name): bool
     {
@@ -137,7 +137,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getField(string $name): EntityField
     {
@@ -160,7 +160,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isFileNameFitsXmlInsertFileMask(string $fileName): bool
     {
@@ -168,7 +168,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isFileNameFitsXmlDeleteFileMask(string $fileName): bool
     {

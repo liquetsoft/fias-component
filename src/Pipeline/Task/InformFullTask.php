@@ -30,7 +30,7 @@ class InformFullTask implements Task, LoggableTask
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function run(State $state): void
     {

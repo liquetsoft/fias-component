@@ -46,7 +46,7 @@ class ArrayPipeTest extends BaseCase
      */
     public function testRun()
     {
-        $state = $this->createDefaultStateMock([], [], true);
+        $state = $this->createDefaultStateMock([], true);
         $task1 = $this->createTaskMock($state);
         $task2 = $this->createTaskMock($state);
 
@@ -67,7 +67,7 @@ class ArrayPipeTest extends BaseCase
      */
     public function testRunWithCleanup()
     {
-        $state = $this->createDefaultStateMock([], [], true);
+        $state = $this->createDefaultStateMock([], true);
         $cleanUp = $this->createTaskMock($state);
         $task1 = $this->createTaskMock($state);
         $task2 = $this->createTaskMock($state);
@@ -93,8 +93,14 @@ class ArrayPipeTest extends BaseCase
     public function testRunWithCompleted()
     {
         $state = $this->getMockBuilder(State::class)->getMock();
-        $state->expects($this->at(0))->method('isCompleted')->will($this->returnValue(false));
-        $state->expects($this->at(1))->method('isCompleted')->will($this->returnValue(true));
+        $stateCounter = 0;
+        $state->method('isCompleted')->willReturnCallback(
+            function () use (&$stateCounter) {
+                ++$stateCounter;
+
+                return $stateCounter > 1;
+            }
+        );
         $state = $this->checkAndReturnState($state);
 
         $cleanUp = $this->createTaskMock($state);
@@ -122,7 +128,7 @@ class ArrayPipeTest extends BaseCase
      */
     public function testRunException()
     {
-        $state = $this->createDefaultStateMock([], [], false);
+        $state = $this->createDefaultStateMock([], false);
         $cleanUp = $this->createTaskMock($state);
         $task1 = $this->createTaskMock($state);
         $task2 = $this->createTaskMock($state, new InvalidArgumentException());
@@ -146,7 +152,7 @@ class ArrayPipeTest extends BaseCase
      */
     public function testLogger()
     {
-        $state = $this->createDefaultStateMock([], [], true);
+        $state = $this->createDefaultStateMock([], true);
         $task = $this->createTaskMock($state);
 
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
@@ -180,7 +186,7 @@ class ArrayPipeTest extends BaseCase
      */
     public function testLoggableTaskLoggerInjected()
     {
-        $state = $this->createDefaultStateMock([], [], true);
+        $state = $this->createDefaultStateMock([], true);
 
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
         $logger = $this->checkAndReturnLogger($logger);

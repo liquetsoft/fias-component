@@ -27,7 +27,7 @@ class CurlDownloader implements Downloader
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function download(string $url, SplFileInfo $localFile): void
     {

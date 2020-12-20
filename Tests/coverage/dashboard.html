@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /var/app/src</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/style.css" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/var/app/src</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="FiasStatusChecker/CurlStatusChecker.php.html#14">Liquetsoft\Fias\Component\FiasStatusChecker\CurlStatusChecker</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasStatusChecker/StatusCheckerResult.php.html#10">Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/CheckStatusTask.php.html#15">Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#16">Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/LoggableTaskTrait.php.html#12">Liquetsoft\Fias\Component\Pipeline\Task\LoggableTaskTrait</a></td><td class="text-right">28%</td></tr>
+       <tr><td><a href="Downloader/CurlDownloader.php.html#14">Liquetsoft\Fias\Component\Downloader\CurlDownloader</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Helper/FileSystemHelper.php.html#15">Liquetsoft\Fias\Component\Helper\FileSystemHelper</a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="EntityRegistry/PhpArrayFileRegistry.php.html#17">Liquetsoft\Fias\Component\EntityRegistry\PhpArrayFileRegistry</a></td><td class="text-right">88%</td></tr>
+       <tr><td><a href="FiasInformer/SoapFiasInformer.php.html#14">Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer</a></td><td class="text-right">89%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#16">Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask</a></td><td class="text-right">342</td></tr>
+       <tr><td><a href="FiasStatusChecker/CurlStatusChecker.php.html#14">Liquetsoft\Fias\Component\FiasStatusChecker\CurlStatusChecker</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Downloader/CurlDownloader.php.html#14">Liquetsoft\Fias\Component\Downloader\CurlDownloader</a></td><td class="text-right">15</td></tr>
+       <tr><td><a href="EntityRegistry/PhpArrayFileRegistry.php.html#17">Liquetsoft\Fias\Component\EntityRegistry\PhpArrayFileRegistry</a></td><td class="text-right">14</td></tr>
+       <tr><td><a href="FiasInformer/SoapFiasInformer.php.html#14">Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer</a></td><td class="text-right">13</td></tr>
+       <tr><td><a href="Pipeline/Task/CheckStatusTask.php.html#15">Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Helper/FileSystemHelper.php.html#15">Liquetsoft\Fias\Component\Helper\FileSystemHelper</a></td><td class="text-right">10</td></tr>
+       <tr><td><a href="Pipeline/Task/LoggableTaskTrait.php.html#12">Liquetsoft\Fias\Component\Pipeline\Task\LoggableTaskTrait</a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Downloader/CurlDownloader.php.html#24"><abbr title="Liquetsoft\Fias\Component\Downloader\CurlDownloader::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#147"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::createProcessesList">createProcessesList</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#80"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::runProcesses">runProcesses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#61"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::run">run</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#46"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#127"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::handleProcessesResults">handleProcessesResults</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Downloader/CurlDownloader.php.html#60"><abbr title="Liquetsoft\Fias\Component\Downloader\CurlDownloader::curlDownload">curlDownload</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/CheckStatusTask.php.html#35"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask::run">run</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/CheckStatusTask.php.html#27"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasStatusChecker/StatusCheckerResult.php.html#47"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult::getPerServiceStatuses">getPerServiceStatuses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#108"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::waitTillProcessesComplete">waitTillProcessesComplete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasStatusChecker/StatusCheckerResult.php.html#37"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult::getResultStatus">getResultStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasStatusChecker/StatusCheckerResult.php.html#26"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasStatusChecker/CurlStatusChecker.php.html#117"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\CurlStatusChecker::sendHeadRequest">sendHeadRequest</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasStatusChecker/CurlStatusChecker.php.html#35"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\CurlStatusChecker::check">check</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasStatusChecker/CurlStatusChecker.php.html#26"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\CurlStatusChecker::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#170"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::createProcess">createProcess</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/LoggableTaskTrait.php.html#30"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\LoggableTaskTrait::injectLogger">injectLogger</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#94"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::startProcesses">startProcesses</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FiasInformer/SoapFiasInformer.php.html#126"><abbr title="Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer::getSoapClient">getSoapClient</abbr></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="Pipeline/Task/LoggableTaskTrait.php.html#43"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\LoggableTaskTrait::log">log</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Helper/FileSystemHelper.php.html#52"><abbr title="Liquetsoft\Fias\Component\Helper\FileSystemHelper::move">move</abbr></a></td><td class="text-right">55%</td></tr>
+       <tr><td><a href="FiasInformer/SoapFiasInformer.php.html#29"><abbr title="Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer::__construct">__construct</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="XmlReader/BaseXmlReader.php.html#271"><abbr title="Liquetsoft\Fias\Component\XmlReader\BaseXmlReader::resetReader">resetReader</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="EntityRegistry/PhpArrayFileRegistry.php.html#94"><abbr title="Liquetsoft\Fias\Component\EntityRegistry\PhpArrayFileRegistry::checkAndReturnPath">checkAndReturnPath</abbr></a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="Pipeline/Task/PrepareFolderTask.php.html#49"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\PrepareFolderTask::run">run</abbr></a></td><td class="text-right">84%</td></tr>
+       <tr><td><a href="Pipeline/Task/DataAbstractTask.php.html#178"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\DataAbstractTask::deserializeXmlStringToObject">deserializeXmlStringToObject</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Pipeline/Task/SaveFiasFilesTask.php.html#45"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\SaveFiasFilesTask::run">run</abbr></a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#147"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::createProcessesList">createProcessesList</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="FiasStatusChecker/CurlStatusChecker.php.html#35"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\CurlStatusChecker::check">check</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#108"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::waitTillProcessesComplete">waitTillProcessesComplete</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="FiasStatusChecker/CurlStatusChecker.php.html#117"><abbr title="Liquetsoft\Fias\Component\FiasStatusChecker\CurlStatusChecker::sendHeadRequest">sendHeadRequest</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#127"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::handleProcessesResults">handleProcessesResults</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#61"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::run">run</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Downloader/CurlDownloader.php.html#60"><abbr title="Liquetsoft\Fias\Component\Downloader\CurlDownloader::curlDownload">curlDownload</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Pipeline/Task/CheckStatusTask.php.html#35"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask::run">run</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Pipeline/Task/ProcessSwitchTask.php.html#94"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\ProcessSwitchTask::startProcesses">startProcesses</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Helper/FileSystemHelper.php.html#52"><abbr title="Liquetsoft\Fias\Component\Helper\FileSystemHelper::move">move</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="XmlReader/BaseXmlReader.php.html#271"><abbr title="Liquetsoft\Fias\Component\XmlReader\BaseXmlReader::resetReader">resetReader</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="EntityRegistry/PhpArrayFileRegistry.php.html#94"><abbr title="Liquetsoft\Fias\Component\EntityRegistry\PhpArrayFileRegistry::checkAndReturnPath">checkAndReturnPath</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Pipeline/Task/PrepareFolderTask.php.html#49"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\PrepareFolderTask::run">run</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Pipeline/Task/DataAbstractTask.php.html#178"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\DataAbstractTask::deserializeXmlStringToObject">deserializeXmlStringToObject</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Pipeline/Task/SaveFiasFilesTask.php.html#45"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\SaveFiasFilesTask::run">run</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="FiasInformer/SoapFiasInformer.php.html#126"><abbr title="Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer::getSoapClient">getSoapClient</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Pipeline/Task/LoggableTaskTrait.php.html#43"><abbr title="Liquetsoft\Fias\Component\Pipeline\Task\LoggableTaskTrait::log">log</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="FiasInformer/SoapFiasInformer.php.html#29"><abbr title="Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer::__construct">__construct</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.5</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.12</a> with <a href="https://xdebug.org/">Xdebug 3.0.1</a> and <a href="https://phpunit.de/">PHPUnit 9.5.0</a> at Sun Dec 20 20:01:46 GMT 2020.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js" type="text/javascript"></script>
+  <script src="_js/d3.min.js" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([4,0,0,1,0,0,0,1,0,3,5,36], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([19,0,0,0,0,1,2,0,3,3,1,157], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[66.66666666666666,11,"<a href=\"Downloader\/CurlDownloader.php.html#14\">Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader<\/a>"],[100,29,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#13\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor<\/a>"],[100,17,"<a href=\"EntityField\/BaseEntityField.php.html#12\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField<\/a>"],[100,24,"<a href=\"EntityManager\/BaseEntityManager.php.html#16\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager<\/a>"],[100,11,"<a href=\"EntityRegistry\/AbstractEntityRegistry.php.html#15\">Liquetsoft\\Fias\\Component\\EntityRegistry\\AbstractEntityRegistry<\/a>"],[100,4,"<a href=\"EntityRegistry\/ArrayEntityRegistry.php.html#13\">Liquetsoft\\Fias\\Component\\EntityRegistry\\ArrayEntityRegistry<\/a>"],[88.57142857142857,14,"<a href=\"EntityRegistry\/PhpArrayFileRegistry.php.html#17\">Liquetsoft\\Fias\\Component\\EntityRegistry\\PhpArrayFileRegistry<\/a>"],[100,0,"<a href=\"Exception\/DownloaderException.php.html#10\">Liquetsoft\\Fias\\Component\\Exception\\DownloaderException<\/a>"],[100,0,"<a href=\"Exception\/EntityRegistryException.php.html#11\">Liquetsoft\\Fias\\Component\\Exception\\EntityRegistryException<\/a>"],[100,0,"<a href=\"Exception\/Exception.php.html#10\">Liquetsoft\\Fias\\Component\\Exception\\Exception<\/a>"],[100,0,"<a href=\"Exception\/PipeException.php.html#11\">Liquetsoft\\Fias\\Component\\Exception\\PipeException<\/a>"],[100,0,"<a href=\"Exception\/StatusCheckerException.php.html#10\">Liquetsoft\\Fias\\Component\\Exception\\StatusCheckerException<\/a>"],[100,0,"<a href=\"Exception\/StorageException.php.html#10\">Liquetsoft\\Fias\\Component\\Exception\\StorageException<\/a>"],[100,0,"<a href=\"Exception\/TaskException.php.html#10\">Liquetsoft\\Fias\\Component\\Exception\\TaskException<\/a>"],[100,0,"<a href=\"Exception\/UnpackerException.php.html#11\">Liquetsoft\\Fias\\Component\\Exception\\UnpackerException<\/a>"],[100,0,"<a href=\"Exception\/XmlException.php.html#11\">Liquetsoft\\Fias\\Component\\Exception\\XmlException<\/a>"],[100,7,"<a href=\"FiasInformer\/InformerResponseBase.php.html#13\">Liquetsoft\\Fias\\Component\\FiasInformer\\InformerResponseBase<\/a>"],[89.47368421052632,13,"<a href=\"FiasInformer\/SoapFiasInformer.php.html#14\">Liquetsoft\\Fias\\Component\\FiasInformer\\SoapFiasInformer<\/a>"],[0,8,"<a href=\"FiasStatusChecker\/CurlStatusChecker.php.html#14\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\CurlStatusChecker<\/a>"],[0,3,"<a href=\"FiasStatusChecker\/StatusCheckerResult.php.html#10\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\StatusCheckerResult<\/a>"],[97.2972972972973,15,"<a href=\"FilesDispatcher\/EntityFileDispatcher.php.html#18\">Liquetsoft\\Fias\\Component\\FilesDispatcher\\EntityFileDispatcher<\/a>"],[84,10,"<a href=\"Helper\/FileSystemHelper.php.html#15\">Liquetsoft\\Fias\\Component\\Helper\\FileSystemHelper<\/a>"],[100,2,"<a href=\"Helper\/PathHelper.php.html#10\">Liquetsoft\\Fias\\Component\\Helper\\PathHelper<\/a>"],[100,21,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#21\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe<\/a>"],[100,8,"<a href=\"Pipeline\/State\/ArrayState.php.html#12\">Liquetsoft\\Fias\\Component\\Pipeline\\State\\ArrayState<\/a>"],[0,3,"<a href=\"Pipeline\/Task\/CheckStatusTask.php.html#15\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\CheckStatusTask<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/CleanupTask.php.html#15\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\CleanupTask<\/a>"],[97.87234042553192,12,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#23\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/DataDeleteTask.php.html#15\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataDeleteTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/DataInsertTask.php.html#15\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataInsertTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/DataUpsertTask.php.html#16\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataUpsertTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/DownloadTask.php.html#18\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DownloadTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/InformDeltaTask.php.html#16\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\InformDeltaTask<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/InformFullTask.php.html#15\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\InformFullTask<\/a>"],[90,8,"<a href=\"Pipeline\/Task\/PrepareFolderTask.php.html#18\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\PrepareFolderTask<\/a>"],[0,18,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#16\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask<\/a>"],[92.85714285714286,6,"<a href=\"Pipeline\/Task\/SaveFiasFilesTask.php.html#16\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SaveFiasFilesTask<\/a>"],[100,13,"<a href=\"Pipeline\/Task\/SelectFilesToProceedTask.php.html#15\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SelectFilesToProceedTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/TruncateTask.php.html#16\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\TruncateTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/UnpackTask.php.html#16\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\UnpackTask<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/VersionGetTask.php.html#14\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\VersionGetTask<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/VersionSetTask.php.html#14\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\VersionSetTask<\/a>"],[100,6,"<a href=\"Process\/TemplateProcess.php.html#15\">Liquetsoft\\Fias\\Component\\Process\\TemplateProcess<\/a>"],[100,4,"<a href=\"Serializer\/FiasNameConverter.php.html#12\">Liquetsoft\\Fias\\Component\\Serializer\\FiasNameConverter<\/a>"],[100,9,"<a href=\"Serializer\/FiasSerializer.php.html#16\">Liquetsoft\\Fias\\Component\\Serializer\\FiasSerializer<\/a>"],[100,25,"<a href=\"Storage\/CompositeStorage.php.html#12\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage<\/a>"],[100,3,"<a href=\"Unpacker\/ProcessUnpacker.php.html#19\">Liquetsoft\\Fias\\Component\\Unpacker\\ProcessUnpacker<\/a>"],[100,4,"<a href=\"Unpacker\/ZipUnpacker.php.html#16\">Liquetsoft\\Fias\\Component\\Unpacker\\ZipUnpacker<\/a>"],[97.46835443037975,32,"<a href=\"XmlReader\/BaseXmlReader.php.html#18\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader<\/a>"],[28.57142857142857,3,"<a href=\"Pipeline\/Task\/LoggableTaskTrait.php.html#12\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\LoggableTaskTrait<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"Downloader\/CurlDownloader.php.html#24\">Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::__construct<\/a>"],[100,4,"<a href=\"Downloader\/CurlDownloader.php.html#32\">Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::download<\/a>"],[0,2,"<a href=\"Downloader\/CurlDownloader.php.html#60\">Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::curlDownload<\/a>"],[100,2,"<a href=\"Downloader\/CurlDownloader.php.html#87\">Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::openLocalFile<\/a>"],[100,2,"<a href=\"Downloader\/CurlDownloader.php.html#108\">Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::createRequestOptions<\/a>"],[100,2,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#55\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::__construct<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#69\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getName<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#77\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getDescription<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#85\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getPartitionsCount<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#93\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getXmlPath<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#101\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getXmlInsertFileMask<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#109\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getXmlDeleteFileMask<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#117\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getFields<\/a>"],[100,3,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#125\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::hasField<\/a>"],[100,4,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#142\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::getField<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#165\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::isFileNameFitsXmlInsertFileMask<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#173\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::isFileNameFitsXmlDeleteFileMask<\/a>"],[100,4,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#189\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::extractStringFromOptions<\/a>"],[100,6,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#213\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::extractFieldsFromOptions<\/a>"],[100,1,"<a href=\"EntityDescriptor\/BaseEntityDescriptor.php.html#248\">Liquetsoft\\Fias\\Component\\EntityDescriptor\\BaseEntityDescriptor::isFileNameFitsMask<\/a>"],[100,4,"<a href=\"EntityField\/BaseEntityField.php.html#64\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::__construct<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#86\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::getName<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#94\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::getDescription<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#102\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::getType<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#110\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::getSubType<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#118\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::getLength<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#126\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::isNullable<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#134\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::isPrimary<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#142\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::isIndex<\/a>"],[100,1,"<a href=\"EntityField\/BaseEntityField.php.html#150\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::isPartition<\/a>"],[100,4,"<a href=\"EntityField\/BaseEntityField.php.html#166\">Liquetsoft\\Fias\\Component\\EntityField\\BaseEntityField::extractStringFromOptions<\/a>"],[100,3,"<a href=\"EntityManager\/BaseEntityManager.php.html#34\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::__construct<\/a>"],[100,3,"<a href=\"EntityManager\/BaseEntityManager.php.html#56\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::getDescriptorByEntityName<\/a>"],[100,1,"<a href=\"EntityManager\/BaseEntityManager.php.html#71\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::getClassByDescriptor<\/a>"],[100,4,"<a href=\"EntityManager\/BaseEntityManager.php.html#83\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::getDescriptorByInsertFile<\/a>"],[100,4,"<a href=\"EntityManager\/BaseEntityManager.php.html#103\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::getDescriptorByDeleteFile<\/a>"],[100,4,"<a href=\"EntityManager\/BaseEntityManager.php.html#123\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::getDescriptorByClass<\/a>"],[100,2,"<a href=\"EntityManager\/BaseEntityManager.php.html#143\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::getDescriptorByObject<\/a>"],[100,1,"<a href=\"EntityManager\/BaseEntityManager.php.html#157\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::getBindedClasses<\/a>"],[100,1,"<a href=\"EntityManager\/BaseEntityManager.php.html#169\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::normalizeEntityName<\/a>"],[100,1,"<a href=\"EntityManager\/BaseEntityManager.php.html#181\">Liquetsoft\\Fias\\Component\\EntityManager\\BaseEntityManager::normalizeClassName<\/a>"],[100,0,"<a href=\"EntityRegistry\/AbstractEntityRegistry.php.html#27\">Liquetsoft\\Fias\\Component\\EntityRegistry\\AbstractEntityRegistry::createRegistry<\/a>"],[100,3,"<a href=\"EntityRegistry\/AbstractEntityRegistry.php.html#32\">Liquetsoft\\Fias\\Component\\EntityRegistry\\AbstractEntityRegistry::hasDescriptor<\/a>"],[100,4,"<a href=\"EntityRegistry\/AbstractEntityRegistry.php.html#51\">Liquetsoft\\Fias\\Component\\EntityRegistry\\AbstractEntityRegistry::getDescriptor<\/a>"],[100,3,"<a href=\"EntityRegistry\/AbstractEntityRegistry.php.html#76\">Liquetsoft\\Fias\\Component\\EntityRegistry\\AbstractEntityRegistry::getDescriptors<\/a>"],[100,1,"<a href=\"EntityRegistry\/AbstractEntityRegistry.php.html#96\">Liquetsoft\\Fias\\Component\\EntityRegistry\\AbstractEntityRegistry::normalizeEntityName<\/a>"],[100,3,"<a href=\"EntityRegistry\/ArrayEntityRegistry.php.html#25\">Liquetsoft\\Fias\\Component\\EntityRegistry\\ArrayEntityRegistry::__construct<\/a>"],[100,1,"<a href=\"EntityRegistry\/ArrayEntityRegistry.php.html#42\">Liquetsoft\\Fias\\Component\\EntityRegistry\\ArrayEntityRegistry::createRegistry<\/a>"],[100,2,"<a href=\"EntityRegistry\/PhpArrayFileRegistry.php.html#27\">Liquetsoft\\Fias\\Component\\EntityRegistry\\PhpArrayFileRegistry::__construct<\/a>"],[100,3,"<a href=\"EntityRegistry\/PhpArrayFileRegistry.php.html#37\">Liquetsoft\\Fias\\Component\\EntityRegistry\\PhpArrayFileRegistry::createRegistry<\/a>"],[100,4,"<a href=\"EntityRegistry\/PhpArrayFileRegistry.php.html#61\">Liquetsoft\\Fias\\Component\\EntityRegistry\\PhpArrayFileRegistry::createEntityDescriptor<\/a>"],[100,1,"<a href=\"EntityRegistry\/PhpArrayFileRegistry.php.html#84\">Liquetsoft\\Fias\\Component\\EntityRegistry\\PhpArrayFileRegistry::createEntityField<\/a>"],[77.77777777777779,4,"<a href=\"EntityRegistry\/PhpArrayFileRegistry.php.html#94\">Liquetsoft\\Fias\\Component\\EntityRegistry\\PhpArrayFileRegistry::checkAndReturnPath<\/a>"],[100,1,"<a href=\"FiasInformer\/InformerResponseBase.php.html#28\">Liquetsoft\\Fias\\Component\\FiasInformer\\InformerResponseBase::setVersion<\/a>"],[100,1,"<a href=\"FiasInformer\/InformerResponseBase.php.html#38\">Liquetsoft\\Fias\\Component\\FiasInformer\\InformerResponseBase::getVersion<\/a>"],[100,2,"<a href=\"FiasInformer\/InformerResponseBase.php.html#46\">Liquetsoft\\Fias\\Component\\FiasInformer\\InformerResponseBase::setUrl<\/a>"],[100,1,"<a href=\"FiasInformer\/InformerResponseBase.php.html#60\">Liquetsoft\\Fias\\Component\\FiasInformer\\InformerResponseBase::getUrl<\/a>"],[100,2,"<a href=\"FiasInformer\/InformerResponseBase.php.html#68\">Liquetsoft\\Fias\\Component\\FiasInformer\\InformerResponseBase::hasResult<\/a>"],[75,2,"<a href=\"FiasInformer\/SoapFiasInformer.php.html#29\">Liquetsoft\\Fias\\Component\\FiasInformer\\SoapFiasInformer::__construct<\/a>"],[100,1,"<a href=\"FiasInformer\/SoapFiasInformer.php.html#43\">Liquetsoft\\Fias\\Component\\FiasInformer\\SoapFiasInformer::getCompleteInfo<\/a>"],[100,5,"<a href=\"FiasInformer\/SoapFiasInformer.php.html#64\">Liquetsoft\\Fias\\Component\\FiasInformer\\SoapFiasInformer::getDeltaInfo<\/a>"],[100,2,"<a href=\"FiasInformer\/SoapFiasInformer.php.html#84\">Liquetsoft\\Fias\\Component\\FiasInformer\\SoapFiasInformer::getDeltaList<\/a>"],[100,1,"<a href=\"FiasInformer\/SoapFiasInformer.php.html#110\">Liquetsoft\\Fias\\Component\\FiasInformer\\SoapFiasInformer::createResponseObject<\/a>"],[40,2,"<a href=\"FiasInformer\/SoapFiasInformer.php.html#126\">Liquetsoft\\Fias\\Component\\FiasInformer\\SoapFiasInformer::getSoapClient<\/a>"],[0,1,"<a href=\"FiasStatusChecker\/CurlStatusChecker.php.html#26\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\CurlStatusChecker::__construct<\/a>"],[0,4,"<a href=\"FiasStatusChecker\/CurlStatusChecker.php.html#35\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\CurlStatusChecker::check<\/a>"],[0,3,"<a href=\"FiasStatusChecker\/CurlStatusChecker.php.html#117\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\CurlStatusChecker::sendHeadRequest<\/a>"],[0,1,"<a href=\"FiasStatusChecker\/StatusCheckerResult.php.html#26\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\StatusCheckerResult::__construct<\/a>"],[0,1,"<a href=\"FiasStatusChecker\/StatusCheckerResult.php.html#37\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\StatusCheckerResult::getResultStatus<\/a>"],[0,1,"<a href=\"FiasStatusChecker\/StatusCheckerResult.php.html#47\">Liquetsoft\\Fias\\Component\\FiasStatusChecker\\StatusCheckerResult::getPerServiceStatuses<\/a>"],[100,1,"<a href=\"FilesDispatcher\/EntityFileDispatcher.php.html#34\">Liquetsoft\\Fias\\Component\\FilesDispatcher\\EntityFileDispatcher::__construct<\/a>"],[100,1,"<a href=\"FilesDispatcher\/EntityFileDispatcher.php.html#43\">Liquetsoft\\Fias\\Component\\FilesDispatcher\\EntityFileDispatcher::dispatchInsert<\/a>"],[100,1,"<a href=\"FilesDispatcher\/EntityFileDispatcher.php.html#53\">Liquetsoft\\Fias\\Component\\FilesDispatcher\\EntityFileDispatcher::dispatchDelete<\/a>"],[100,3,"<a href=\"FilesDispatcher\/EntityFileDispatcher.php.html#67\">Liquetsoft\\Fias\\Component\\FilesDispatcher\\EntityFileDispatcher::getInsertFilesByEntities<\/a>"],[100,3,"<a href=\"FilesDispatcher\/EntityFileDispatcher.php.html#89\">Liquetsoft\\Fias\\Component\\FilesDispatcher\\EntityFileDispatcher::getDeleteFilesByEntities<\/a>"],[93.75,6,"<a href=\"FilesDispatcher\/EntityFileDispatcher.php.html#112\">Liquetsoft\\Fias\\Component\\FilesDispatcher\\EntityFileDispatcher::dispatch<\/a>"],[100,6,"<a href=\"Helper\/FileSystemHelper.php.html#22\">Liquetsoft\\Fias\\Component\\Helper\\FileSystemHelper::remove<\/a>"],[55.55555555555556,4,"<a href=\"Helper\/FileSystemHelper.php.html#52\">Liquetsoft\\Fias\\Component\\Helper\\FileSystemHelper::move<\/a>"],[100,1,"<a href=\"Helper\/PathHelper.php.html#17\">Liquetsoft\\Fias\\Component\\Helper\\PathHelper::resources<\/a>"],[100,1,"<a href=\"Helper\/PathHelper.php.html#29\">Liquetsoft\\Fias\\Component\\Helper\\PathHelper::resource<\/a>"],[100,1,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#51\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::__construct<\/a>"],[100,4,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#64\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::run<\/a>"],[100,1,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#90\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::proceedStart<\/a>"],[100,1,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#104\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::proceedTask<\/a>"],[100,1,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#130\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::proceedException<\/a>"],[100,2,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#152\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::proceedCleanup<\/a>"],[100,1,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#167\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::proceedComplete<\/a>"],[100,2,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#180\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::log<\/a>"],[100,3,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#193\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::injectLoggerToTask<\/a>"],[100,1,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#210\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::createLoggerContext<\/a>"],[100,3,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#229\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::checkAndReturnTaskArray<\/a>"],[100,1,"<a href=\"Pipeline\/Pipe\/ArrayPipe.php.html#252\">Liquetsoft\\Fias\\Component\\Pipeline\\Pipe\\ArrayPipe::getTaskId<\/a>"],[100,2,"<a href=\"Pipeline\/State\/ArrayState.php.html#32\">Liquetsoft\\Fias\\Component\\Pipeline\\State\\ArrayState::setParameter<\/a>"],[100,1,"<a href=\"Pipeline\/State\/ArrayState.php.html#50\">Liquetsoft\\Fias\\Component\\Pipeline\\State\\ArrayState::setAndLockParameter<\/a>"],[100,2,"<a href=\"Pipeline\/State\/ArrayState.php.html#61\">Liquetsoft\\Fias\\Component\\Pipeline\\State\\ArrayState::getParameter<\/a>"],[100,1,"<a href=\"Pipeline\/State\/ArrayState.php.html#73\">Liquetsoft\\Fias\\Component\\Pipeline\\State\\ArrayState::complete<\/a>"],[100,1,"<a href=\"Pipeline\/State\/ArrayState.php.html#83\">Liquetsoft\\Fias\\Component\\Pipeline\\State\\ArrayState::isCompleted<\/a>"],[100,1,"<a href=\"Pipeline\/State\/ArrayState.php.html#95\">Liquetsoft\\Fias\\Component\\Pipeline\\State\\ArrayState::unifyParameterName<\/a>"],[0,1,"<a href=\"Pipeline\/Task\/CheckStatusTask.php.html#27\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\CheckStatusTask::__construct<\/a>"],[0,2,"<a href=\"Pipeline\/Task\/CheckStatusTask.php.html#35\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\CheckStatusTask::run<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/CleanupTask.php.html#22\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\CleanupTask::run<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#53\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::__construct<\/a>"],[100,0,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#68\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::getFileNamesFromState<\/a>"],[100,0,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#77\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::getDescriptorForFile<\/a>"],[100,0,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#84\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::processItem<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#89\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::run<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#106\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::processFile<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#129\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::processDataFromFile<\/a>"],[85.71428571428571,3,"<a href=\"Pipeline\/Task\/DataAbstractTask.php.html#178\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataAbstractTask::deserializeXmlStringToObject<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/DataDeleteTask.php.html#20\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataDeleteTask::getFileNamesFromState<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DataDeleteTask.php.html#30\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataDeleteTask::getDescriptorForFile<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DataDeleteTask.php.html#40\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataDeleteTask::processItem<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/DataInsertTask.php.html#20\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataInsertTask::getFileNamesFromState<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DataInsertTask.php.html#30\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataInsertTask::getDescriptorForFile<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DataInsertTask.php.html#40\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataInsertTask::processItem<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/DataUpsertTask.php.html#21\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataUpsertTask::getFileNamesFromState<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DataUpsertTask.php.html#31\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataUpsertTask::getDescriptorForFile<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DataUpsertTask.php.html#41\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DataUpsertTask::processItem<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/DownloadTask.php.html#30\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DownloadTask::__construct<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/DownloadTask.php.html#38\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\DownloadTask::run<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/InformDeltaTask.php.html#28\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\InformDeltaTask::__construct<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/InformDeltaTask.php.html#36\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\InformDeltaTask::run<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/InformFullTask.php.html#27\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\InformFullTask::__construct<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/InformFullTask.php.html#35\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\InformFullTask::run<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/PrepareFolderTask.php.html#32\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\PrepareFolderTask::__construct<\/a>"],[84.61538461538461,4,"<a href=\"Pipeline\/Task\/PrepareFolderTask.php.html#49\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\PrepareFolderTask::run<\/a>"],[0,1,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#46\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::__construct<\/a>"],[0,3,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#61\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::run<\/a>"],[0,1,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#80\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::runProcesses<\/a>"],[0,2,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#94\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::startProcesses<\/a>"],[0,3,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#108\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::waitTillProcessesComplete<\/a>"],[0,3,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#127\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::handleProcessesResults<\/a>"],[0,4,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#147\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::createProcessesList<\/a>"],[0,1,"<a href=\"Pipeline\/Task\/ProcessSwitchTask.php.html#170\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\ProcessSwitchTask::createProcess<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/SaveFiasFilesTask.php.html#29\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SaveFiasFilesTask::__construct<\/a>"],[87.5,3,"<a href=\"Pipeline\/Task\/SaveFiasFilesTask.php.html#45\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SaveFiasFilesTask::run<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/SelectFilesToProceedTask.php.html#27\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SelectFilesToProceedTask::__construct<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/SelectFilesToProceedTask.php.html#35\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SelectFilesToProceedTask::run<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/SelectFilesToProceedTask.php.html#71\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SelectFilesToProceedTask::checkDirectory<\/a>"],[100,4,"<a href=\"Pipeline\/Task\/SelectFilesToProceedTask.php.html#95\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SelectFilesToProceedTask::getFilesForProceedFromFolder<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/SelectFilesToProceedTask.php.html#127\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SelectFilesToProceedTask::isFileAllowedToInsert<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/SelectFilesToProceedTask.php.html#141\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\SelectFilesToProceedTask::isFileAllowedToDelete<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/TruncateTask.php.html#34\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\TruncateTask::__construct<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/TruncateTask.php.html#43\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\TruncateTask::run<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/UnpackTask.php.html#28\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\UnpackTask::__construct<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/UnpackTask.php.html#36\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\UnpackTask::run<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/VersionGetTask.php.html#24\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\VersionGetTask::__construct<\/a>"],[100,2,"<a href=\"Pipeline\/Task\/VersionGetTask.php.html#32\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\VersionGetTask::run<\/a>"],[100,1,"<a href=\"Pipeline\/Task\/VersionSetTask.php.html#24\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\VersionSetTask::__construct<\/a>"],[100,3,"<a href=\"Pipeline\/Task\/VersionSetTask.php.html#32\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\VersionSetTask::run<\/a>"],[100,1,"<a href=\"Process\/TemplateProcess.php.html#25\">Liquetsoft\\Fias\\Component\\Process\\TemplateProcess::__construct<\/a>"],[100,1,"<a href=\"Process\/TemplateProcess.php.html#37\">Liquetsoft\\Fias\\Component\\Process\\TemplateProcess::createProcess<\/a>"],[100,4,"<a href=\"Process\/TemplateProcess.php.html#52\">Liquetsoft\\Fias\\Component\\Process\\TemplateProcess::hydrateCommandTemplate<\/a>"],[100,2,"<a href=\"Serializer\/FiasNameConverter.php.html#19\">Liquetsoft\\Fias\\Component\\Serializer\\FiasNameConverter::normalize<\/a>"],[100,2,"<a href=\"Serializer\/FiasNameConverter.php.html#36\">Liquetsoft\\Fias\\Component\\Serializer\\FiasNameConverter::denormalize<\/a>"],[100,3,"<a href=\"Serializer\/FiasSerializer.php.html#22\">Liquetsoft\\Fias\\Component\\Serializer\\FiasSerializer::__construct<\/a>"],[100,1,"<a href=\"Serializer\/FiasSerializer.php.html#53\">Liquetsoft\\Fias\\Component\\Serializer\\FiasSerializer::denormalize<\/a>"],[100,5,"<a href=\"Serializer\/FiasSerializer.php.html#67\">Liquetsoft\\Fias\\Component\\Serializer\\FiasSerializer::filterData<\/a>"],[100,3,"<a href=\"Storage\/CompositeStorage.php.html#22\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::__construct<\/a>"],[100,2,"<a href=\"Storage\/CompositeStorage.php.html#37\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::start<\/a>"],[100,2,"<a href=\"Storage\/CompositeStorage.php.html#47\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::stop<\/a>"],[100,3,"<a href=\"Storage\/CompositeStorage.php.html#57\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::supports<\/a>"],[100,3,"<a href=\"Storage\/CompositeStorage.php.html#73\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::supportsClass<\/a>"],[100,3,"<a href=\"Storage\/CompositeStorage.php.html#89\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::insert<\/a>"],[100,3,"<a href=\"Storage\/CompositeStorage.php.html#102\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::delete<\/a>"],[100,3,"<a href=\"Storage\/CompositeStorage.php.html#115\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::upsert<\/a>"],[100,3,"<a href=\"Storage\/CompositeStorage.php.html#128\">Liquetsoft\\Fias\\Component\\Storage\\CompositeStorage::truncate<\/a>"],[100,1,"<a href=\"Unpacker\/ProcessUnpacker.php.html#29\">Liquetsoft\\Fias\\Component\\Unpacker\\ProcessUnpacker::__construct<\/a>"],[100,2,"<a href=\"Unpacker\/ProcessUnpacker.php.html#37\">Liquetsoft\\Fias\\Component\\Unpacker\\ProcessUnpacker::unpack<\/a>"],[100,2,"<a href=\"Unpacker\/ZipUnpacker.php.html#21\">Liquetsoft\\Fias\\Component\\Unpacker\\ZipUnpacker::unpack<\/a>"],[100,2,"<a href=\"Unpacker\/ZipUnpacker.php.html#39\">Liquetsoft\\Fias\\Component\\Unpacker\\ZipUnpacker::runUnZip<\/a>"],[100,3,"<a href=\"XmlReader\/BaseXmlReader.php.html#65\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::open<\/a>"],[100,1,"<a href=\"XmlReader\/BaseXmlReader.php.html#82\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::close<\/a>"],[100,1,"<a href=\"XmlReader\/BaseXmlReader.php.html#94\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::rewind<\/a>"],[100,2,"<a href=\"XmlReader\/BaseXmlReader.php.html#109\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::current<\/a>"],[100,1,"<a href=\"XmlReader\/BaseXmlReader.php.html#122\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::key<\/a>"],[100,1,"<a href=\"XmlReader\/BaseXmlReader.php.html#132\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::next<\/a>"],[100,2,"<a href=\"XmlReader\/BaseXmlReader.php.html#144\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::valid<\/a>"],[100,1,"<a href=\"XmlReader\/BaseXmlReader.php.html#159\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::__destruct<\/a>"],[100,5,"<a href=\"XmlReader\/BaseXmlReader.php.html#172\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::getLine<\/a>"],[100,5,"<a href=\"XmlReader\/BaseXmlReader.php.html#211\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::skipUselessXml<\/a>"],[100,4,"<a href=\"XmlReader\/BaseXmlReader.php.html#238\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::seekXmlPath<\/a>"],[75,4,"<a href=\"XmlReader\/BaseXmlReader.php.html#271\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::resetReader<\/a>"],[100,2,"<a href=\"XmlReader\/BaseXmlReader.php.html#294\">Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::unsetReader<\/a>"],[0,1,"<a href=\"Pipeline\/Task\/LoggableTaskTrait.php.html#30\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\LoggableTaskTrait::injectLogger<\/a>"],[50,2,"<a href=\"Pipeline\/Task\/LoggableTaskTrait.php.html#43\">Liquetsoft\\Fias\\Component\\Pipeline\\Task\\LoggableTaskTrait::log<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
