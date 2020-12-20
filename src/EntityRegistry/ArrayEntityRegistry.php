@@ -37,7 +37,7 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function createRegistry(): array
     {

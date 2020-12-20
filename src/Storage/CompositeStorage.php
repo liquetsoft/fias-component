@@ -32,7 +32,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function start(): void
     {
@@ -42,7 +42,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function stop(): void
     {
@@ -52,7 +52,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function supports(object $entity): bool
     {
@@ -68,7 +68,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function supportsClass(string $class): bool
     {
@@ -84,7 +84,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function insert(object $entity): void
     {
@@ -97,7 +97,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function delete(object $entity): void
     {
@@ -110,7 +110,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function upsert(object $entity): void
     {
@@ -123,7 +123,7 @@ class CompositeStorage implements Storage
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function truncate(string $entityClassName): void
     {

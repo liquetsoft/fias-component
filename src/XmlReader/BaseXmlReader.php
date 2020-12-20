@@ -60,7 +60,7 @@ class BaseXmlReader implements XmlReaderInterface
     protected $buffer;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function open(SplFileInfo $file, string $xpath): bool
     {
@@ -77,7 +77,7 @@ class BaseXmlReader implements XmlReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function close(): void
     {
@@ -117,7 +117,7 @@ class BaseXmlReader implements XmlReaderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function key()
     {

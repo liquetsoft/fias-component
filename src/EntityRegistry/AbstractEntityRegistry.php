@@ -27,7 +27,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     abstract protected function createRegistry(): array;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasDescriptor(string $entityName): bool
     {
@@ -46,7 +46,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDescriptor(string $entityName): EntityDescriptor
     {
@@ -71,7 +71,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDescriptors(): array
     {

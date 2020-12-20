@@ -23,7 +23,7 @@ class InformerResponseBase implements InformerResponse
     protected $url = '';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setVersion(int $version): InformerResponse
     {
@@ -33,7 +33,7 @@ class InformerResponseBase implements InformerResponse
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getVersion(): int
     {
@@ -41,7 +41,7 @@ class InformerResponseBase implements InformerResponse
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUrl(string $url): InformerResponse
     {
@@ -55,7 +55,7 @@ class InformerResponseBase implements InformerResponse
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getUrl(): string
     {
@@ -63,7 +63,7 @@ class InformerResponseBase implements InformerResponse
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hasResult(): bool
     {

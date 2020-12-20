@@ -81,7 +81,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName(): string
     {
@@ -89,7 +89,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDescription(): string
     {
@@ -97,7 +97,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getType(): string
     {
@@ -105,7 +105,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSubType(): string
     {
@@ -113,7 +113,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getLength(): ?int
     {
@@ -121,7 +121,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isNullable(): bool
     {
@@ -129,7 +129,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isPrimary(): bool
     {
@@ -137,7 +137,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isIndex(): bool
     {
@@ -145,7 +145,7 @@ class BaseEntityField implements EntityField
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isPartition(): bool
     {

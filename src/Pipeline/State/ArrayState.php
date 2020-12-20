@@ -27,7 +27,7 @@ class ArrayState implements State
     private $lockedParams = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setParameter(string $parameterName, $parameterValue): State
     {
@@ -45,7 +45,7 @@ class ArrayState implements State
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setAndLockParameter(string $parameterName, $parameterValue): State
     {
@@ -56,7 +56,7 @@ class ArrayState implements State
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getParameter(string $parameterName)
     {
@@ -68,7 +68,7 @@ class ArrayState implements State
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function complete(): State
     {
@@ -78,7 +78,7 @@ class ArrayState implements State
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isCompleted(): bool
     {

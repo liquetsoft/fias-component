@@ -16,7 +16,7 @@ use ZipArchive;
 class ZipUnpacker implements Unpacker
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function unpack(SplFileInfo $source, SplFileInfo $destination): void
     {
