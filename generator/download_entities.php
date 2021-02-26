@@ -2,12 +2,13 @@
 
 use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer;
-use Liquetsoft\Fias\Component\Helper\FileSystemHelper;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
 use Liquetsoft\Fias\Component\Unpacker\ZipUnpacker;
+use Marvin255\FileSystemHelper\FileSystemFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+$fs = FileSystemFactory::create();
 $informer = new SoapFiasInformer();
 $downloader = new CurlDownloader();
 $unpack = new ZipUnpacker();
@@ -16,11 +17,9 @@ $tmpFile = new SplFileInfo("{$sysTmp}/archive");
 $tmpDir = new SplFileInfo("{$sysTmp}/extracted");
 $xsdFolder = new SplFileInfo(PathHelper::resource('xsd'));
 
-FileSystemHelper::remove($tmpFile);
-FileSystemHelper::remove($tmpDir);
-if (!mkdir($tmpDir->getPathname(), 0777, true)) {
-    throw new RuntimeException("Can't create temp dir.");
-}
+$fs->removeIfExists($tmpFile);
+$fs->mkdirIfNotExist($tmpDir);
+$fs->emptyDir($tmpDir);
 
 $deltas = $informer->getDeltaList();
 $version = reset($deltas);
@@ -31,7 +30,7 @@ if (empty($version) || !$version->hasResult()) {
 $downloader->download($version->getUrl(), $tmpFile);
 $unpack->unpack($tmpFile, $tmpDir);
 
-FileSystemHelper::remove($xsdFolder);
-FileSystemHelper::move(new SplFileInfo($tmpDir->getPathname() . '/Schemas'), $xsdFolder);
-FileSystemHelper::remove($tmpDir);
-FileSystemHelper::remove($tmpFile);
+$fs->removeIfExists($xsdFolder);
+$fs->rename($tmpDir->getPathname() . '/Schemas', $xsdFolder);
+$fs->removeIfExists($tmpDir);
+$fs->removeIfExists($tmpFile);

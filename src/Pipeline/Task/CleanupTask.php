@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Helper\FileSystemHelper;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Marvin255\FileSystemHelper\FileSystemFactory;
+use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
 use SplFileInfo;
 
@@ -15,6 +16,16 @@ use SplFileInfo;
 class CleanupTask implements Task, LoggableTask
 {
     use LoggableTaskTrait;
+
+    /**
+     * @var FileSystemHelperInterface
+     */
+    private $fs;
+
+    public function __construct()
+    {
+        $this->fs = FileSystemFactory::create();
+    }
 
     /**
      * {@inheritDoc}
@@ -31,7 +42,7 @@ class CleanupTask implements Task, LoggableTask
         foreach ($toRemove as $fileInfo) {
             if ($fileInfo instanceof SplFileInfo) {
                 $this->log(LogLevel::INFO, "Cleaning up '{$fileInfo->getRealPath()}' folder.");
-                FileSystemHelper::remove($fileInfo);
+                $this->fs->removeIfExists($fileInfo);
             }
         }
     }

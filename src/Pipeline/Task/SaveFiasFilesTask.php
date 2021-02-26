@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Helper\FileSystemHelper;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Marvin255\FileSystemHelper\FileSystemFactory;
+use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
 use SplFileInfo;
 
@@ -23,6 +24,11 @@ class SaveFiasFilesTask implements Task, LoggableTask
     protected $movePaths;
 
     /**
+     * @var FileSystemHelperInterface
+     */
+    private $fs;
+
+    /**
      * @param string|null $moveArchiveTo
      * @param string|null $moveExtractedTo
      */
@@ -37,6 +43,8 @@ class SaveFiasFilesTask implements Task, LoggableTask
         if ($moveExtractedTo !== null) {
             $this->movePaths[Task::EXTRACT_TO_FOLDER_PARAM] = $moveExtractedTo;
         }
+
+        $this->fs = FileSystemFactory::create();
     }
 
     /**
@@ -54,7 +62,7 @@ class SaveFiasFilesTask implements Task, LoggableTask
             $message = sprintf("Moving '%s' to '%s'.", $fileInfo->getRealPath(), $movePath);
             $this->log(LogLevel::INFO, $message);
 
-            FileSystemHelper::move($fileInfo, new SplFileInfo($movePath));
+            $this->fs->rename($fileInfo, $movePath);
         }
     }
 }
