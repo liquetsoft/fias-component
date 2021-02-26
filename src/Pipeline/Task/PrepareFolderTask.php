@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use InvalidArgumentException;
-use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Helper\FileSystemHelper;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Marvin255\FileSystemHelper\FileSystemFactory;
+use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
 use SplFileInfo;
 
@@ -23,6 +23,11 @@ class PrepareFolderTask implements Task, LoggableTask
      * @var SplFileInfo
      */
     protected $folder;
+
+    /**
+     * @var FileSystemHelperInterface
+     */
+    private $fs;
 
     /**
      * @param string $folder
@@ -41,6 +46,7 @@ class PrepareFolderTask implements Task, LoggableTask
         }
 
         $this->folder = new SplFileInfo($trimmedFolder);
+        $this->fs = FileSystemFactory::create();
     }
 
     /**
@@ -48,22 +54,15 @@ class PrepareFolderTask implements Task, LoggableTask
      */
     public function run(State $state): void
     {
-        if ($this->folder->isDir()) {
-            $this->log(LogLevel::INFO, "Emptying '{$this->folder->getRealPath()}' folder.");
-            FileSystemHelper::remove($this->folder);
-        }
-
-        if (!mkdir($this->folder->getPathname())) {
-            throw new TaskException("Can't create '" . $this->folder->getPathname() . "' folder.");
-        }
+        $this->log(LogLevel::INFO, "Emptying '{$this->folder->getRealPath()}' folder.");
+        $this->fs->mkdirIfNotExist($this->folder);
+        $this->fs->emptyDir($this->folder);
 
         $downloadToFile = new SplFileInfo($this->folder->getRealPath() . '/archive');
         $extractToFolder = new SplFileInfo($this->folder->getRealPath() . '/extracted');
 
         $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder.");
-        if (!mkdir($extractToFolder->getPathname())) {
-            throw new TaskException("Can't create '" . $extractToFolder->getPathname() . "' folder.");
-        }
+        $this->fs->mkdir($extractToFolder);
 
         $state->setAndLockParameter(Task::DOWNLOAD_TO_FILE_PARAM, $downloadToFile);
         $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, $extractToFolder);
