@@ -17,7 +17,7 @@ $tmpFile = new SplFileInfo("{$sysTmp}/archive");
 $tmpDir = new SplFileInfo("{$sysTmp}/extracted");
 $xsdFolder = new SplFileInfo(PathHelper::resource('xsd'));
 
-$fs->remove($tmpFile);
+$fs->removeIfExists($tmpFile);
 $fs->mkdirIfNotExist($tmpDir);
 $fs->emptyDir($tmpDir);
 
@@ -30,7 +30,7 @@ if (empty($version) || !$version->hasResult()) {
 $downloader->download($version->getUrl(), $tmpFile);
 $unpack->unpack($tmpFile, $tmpDir);
 
-$fs->remove($xsdFolder);
+$fs->removeIfExists($xsdFolder);
 $fs->rename($tmpDir->getPathname() . '/Schemas', $xsdFolder);
-$fs->remove($tmpDir);
-$fs->remove($tmpFile);
+$fs->removeIfExists($tmpDir);
+$fs->removeIfExists($tmpFile);

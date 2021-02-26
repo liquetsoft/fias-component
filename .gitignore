@@ -7,5 +7,7 @@ composer.lock
 tests/coverage
 docker/.env
 test.php
+generator/extracted
+generator/archive
 
 .~lock.*
