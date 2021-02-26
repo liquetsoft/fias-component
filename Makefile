@@ -33,5 +33,5 @@ coverage: ## Run tests with coverage
 xsd: ## Build entities from yaml file with description
 	$(php_container_bin) composer run-script xsd
 
-entites: ## Build entities from yaml file with description
-	$(php_container_bin) composer run-script entites
+entities: ## Build entities from yaml file with description
+	$(php_container_bin) composer run-script entities

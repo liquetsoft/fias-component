@@ -60,7 +60,7 @@ class CurlDownloader implements Downloader
     protected function curlDownload(array $requestOptions): array
     {
         $ch = curl_init();
-        if (!is_resource($ch)) {
+        if ($ch === false) {
             throw new DownloaderException("Can't init curl resource.");
         }
 
