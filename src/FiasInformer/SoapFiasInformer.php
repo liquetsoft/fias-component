@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
+use Liquetsoft\Fias\Component\Exception\FiasInformerException;
 use SoapClient;
 use SoapFault;
+use Throwable;
 
 /**
  * Объект, который получает ссылку на файл с архивом ФИАС
@@ -42,13 +44,26 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getCompleteInfo(): InformerResponse
     {
-        $response = $this->getSoapClient()->__call(
-            'GetLastDownloadFileInfo',
-            []
-        );
+        try {
+            $response = $this->getSoapClient()->__call(
+                'GetLastDownloadFileInfo',
+                []
+            );
+        } catch (Throwable $e) {
+            throw new FiasInformerException($e->getMessage(), 0, $e);
+        }
 
         $versionId = $response->GetLastDownloadFileInfoResult->VersionId ?? 0;
         $url = $response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl ?? '';
+
+        if ($versionId === 0) {
+            $message = "Informer can't find complete version in SOAP response.";
+            throw new FiasInformerException($message);
+        } elseif ($url === '') {
+            // иногда версия появляется без ссылки на xml архив
+            $message = "There is no xml archive set for {$versionId} complete version.";
+            throw new FiasInformerException($message);
+        }
 
         return $this->createResponseObject(
             (int) $versionId,
@@ -83,22 +98,26 @@ class SoapFiasInformer implements FiasInformer
      */
     public function getDeltaList(): array
     {
-        $response = $this->getSoapClient()->__call(
-            'GetAllDownloadFileInfo',
-            []
-        );
+        try {
+            $response = $this->getSoapClient()->__call(
+                'GetAllDownloadFileInfo',
+                []
+            );
+        } catch (Throwable $e) {
+            throw new FiasInformerException($e->getMessage(), 0, $e);
+        }
+
         $response = $response->GetAllDownloadFileInfoResult->DownloadFileInfo ?? [];
 
         $list = [];
         foreach ($response as $responseObject) {
             $versionId = $responseObject->VersionId ?? 0;
             $url = $responseObject->FiasDeltaXmlUrl ?? '';
-            if ($url === '') {
+            if ($url !== '') {
                 // похоже только так это работает, дельта появляется не сразу
                 // поэтому просто пропускаем объекты без дельты
-                continue;
+                $list[] = $this->createResponseObject((int) $versionId, (string) $url);
             }
-            $list[] = $this->createResponseObject((int) $versionId, (string) $url);
         }
 
         return $list;

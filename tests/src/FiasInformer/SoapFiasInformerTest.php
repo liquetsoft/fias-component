@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 
+use Liquetsoft\Fias\Component\Exception\FiasInformerException;
 use Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use RuntimeException;
 use SoapClient;
 use SoapFault;
 use stdClass;
@@ -51,6 +53,87 @@ class SoapFiasInformerTest extends BaseCase
     }
 
     /**
+     * Проверяет, что сервис информирования перхватит исключение от SOAP.
+     *
+     * @throws SoapFault
+     */
+    public function testGetCompleteInfoSoapException()
+    {
+        $soapResponse = new stdClass();
+        $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
+        $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url;
+
+        $soapClient = $this->getMockBuilder(SoapClient::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $soapClient->method('__call')
+            ->with(
+                $this->identicalTo('GetLastDownloadFileInfo')
+            )
+            ->will(
+                $this->throwException(new RuntimeException())
+            );
+
+        $service = new SoapFiasInformer($soapClient);
+
+        $this->expectException(FiasInformerException::class);
+        $service->getCompleteInfo();
+    }
+
+    /**
+     * Проверяет, что сервис информирования выбросит ошибку, если не найдет полную версию.
+     *
+     * @throws SoapFault
+     */
+    public function testGetCompleteInfoNoVersionException()
+    {
+        $soapResponse = new stdClass();
+        $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
+        $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url;
+
+        $soapClient = $this->getMockBuilder(SoapClient::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $soapClient->method('__call')
+            ->with(
+                $this->identicalTo('GetLastDownloadFileInfo')
+            )
+            ->willReturn($soapResponse);
+
+        $service = new SoapFiasInformer($soapClient);
+
+        $this->expectException(FiasInformerException::class);
+        $service->getCompleteInfo();
+    }
+
+    /**
+     * Проверяет, что сервис информирования выбросит ошибку, если не найдет ссылку
+     * на полную версию.
+     *
+     * @throws SoapFault
+     */
+    public function testGetCompleteInfoNoUrlException()
+    {
+        $soapResponse = new stdClass();
+        $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
+        $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber();
+
+        $soapClient = $this->getMockBuilder(SoapClient::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $soapClient->method('__call')
+            ->with(
+                $this->identicalTo('GetLastDownloadFileInfo')
+            )
+            ->willReturn($soapResponse);
+
+        $service = new SoapFiasInformer($soapClient);
+
+        $this->expectException(FiasInformerException::class);
+        $service->getCompleteInfo();
+    }
+
+    /**
      * Проверяет, что сервис информирования возвращает ссылку на дельту для указанной версии.
      *
      * @throws SoapFault
@@ -90,5 +173,33 @@ class SoapFiasInformerTest extends BaseCase
 
         $this->assertSame($nextUrl, $result->getUrl());
         $this->assertSame($nextDelta, $result->getVersion());
+    }
+
+    /**
+     * Проверяет, что сервис информирования перехватит исключение от SOAP.
+     *
+     * @throws SoapFault
+     */
+    public function testGetDeltaInfoException()
+    {
+        $soapResponse = new stdClass();
+        $soapResponse->GetAllDownloadFileInfoResult = new stdClass();
+        $soapResponse->GetAllDownloadFileInfoResult->DownloadFileInfo = [];
+
+        $soapClient = $this->getMockBuilder(SoapClient::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $soapClient->method('__call')
+            ->with(
+                $this->identicalTo('GetAllDownloadFileInfo')
+            )
+            ->will(
+                $this->throwException(new RuntimeException())
+            );
+
+        $service = new SoapFiasInformer($soapClient);
+
+        $this->expectException(FiasInformerException::class);
+        $service->getDeltaInfo(100);
     }
 }
