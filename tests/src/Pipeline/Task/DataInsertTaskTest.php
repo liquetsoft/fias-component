@@ -153,4 +153,66 @@ class DataInsertTaskTest extends BaseCase
         $this->expectException(TaskException::class);
         $task->run($state);
     }
+
+    /**
+     * Проверяет, что объект выбросит исключение, если десериализатор вернет не объект.
+     *
+     * @throws Exception
+     */
+    public function testRunDeserializeNonObjectException()
+    {
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
+        $entityManager->method('getDescriptorByInsertFile')
+            ->will(
+                $this->returnCallback(
+                    function ($file) use ($descriptor) {
+                        return $file === 'data.xml' ? $descriptor : null;
+                    }
+                )
+            );
+        $entityManager->method('getClassByDescriptor')
+            ->will(
+                $this->returnCallback(
+                    function ($testDescriptor) use ($descriptor) {
+                        return $testDescriptor === $descriptor ? DataInsertTaskMock::class : null;
+                    }
+                )
+            );
+
+        $insertedData = [];
+        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage->expects($this->once())->method('start');
+        $storage->expects($this->once())->method('stop');
+        $storage->method('supports')->willReturn(true);
+        $storage->method('insert')
+            ->will(
+                $this->returnCallback(
+                    function ($object) use (&$insertedData) {
+                        $insertedData[] = $object->getActstatid();
+                    }
+                )
+            );
+
+        $state = $this->createDefaultStateMock(
+            [
+                Task::FILES_TO_INSERT_PARAM => [__DIR__ . '/_fixtures/data.xml'],
+            ]
+        );
+
+        $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
+        $serializer->method('deserialize')->willReturn('test');
+
+        $task = new DataInsertTask(
+            $entityManager,
+            new BaseXmlReader(),
+            $storage,
+            $serializer
+        );
+
+        $this->expectException(TaskException::class);
+        $task->run($state);
+    }
 }
