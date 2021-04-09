@@ -117,7 +117,7 @@ class CurlStatusChecker implements FiasStatusChecker
     private function sendHeadRequest(string $url): bool
     {
         $ch = curl_init();
-        if (!is_resource($ch)) {
+        if ($ch === false) {
             throw new StatusCheckerException("Can't init curl resource.");
         }
 
