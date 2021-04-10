@@ -9,13 +9,15 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для класса, который возвращает пути до частей библиотеки.
+ *
+ * @internal
  */
 class PathHelperTest extends BaseCase
 {
     /**
      * Тест, который проверяет, что класс вернет правильный путь до папки с ресурсами.
      */
-    public function testResources()
+    public function testResources(): void
     {
         $realPath = realpath(__DIR__ . '/../../../resources');
 
@@ -27,7 +29,7 @@ class PathHelperTest extends BaseCase
     /**
      * Тест, который проверяет, что класс вернет правильный путь до ресурса.
      */
-    public function testResource()
+    public function testResource(): void
     {
         $fileName = 'test.test';
         $realPath = realpath(__DIR__ . '/../../../resources') . '/' . $fileName;

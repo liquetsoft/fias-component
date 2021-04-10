@@ -12,6 +12,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для задачи, которая очищает таблицы для всех сущностей из менеджера сущностей.
+ *
+ * @internal
  */
 class TruncateTaskTest extends BaseCase
 {
@@ -20,7 +22,7 @@ class TruncateTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $classes = [
             'Test\Class1',
@@ -35,20 +37,16 @@ class TruncateTaskTest extends BaseCase
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
         $storage->method('supportsClass')
-            ->will(
-                $this->returnCallback(
-                    function ($className) use (&$insertedData) {
-                        return $className === 'Test\Class2';
-                    }
-                )
+            ->willReturnCallback(
+                function (string $className) use (&$insertedData) {
+                    return $className === 'Test\Class2';
+                }
             );
         $storage->method('truncate')
-            ->will(
-                $this->returnCallback(
-                    function ($className) use (&$truncated) {
-                        $truncated[] = $className;
-                    }
-                )
+            ->willReturnCallback(
+                function (string $className) use (&$truncated): void {
+                    $truncated[] = $className;
+                }
             );
 
         $state = $this->createDefaultStateMock();

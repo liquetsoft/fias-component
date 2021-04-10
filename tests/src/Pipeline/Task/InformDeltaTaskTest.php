@@ -15,6 +15,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для задачи, которая получает ссылку на частичную версию ФИАС.
+ *
+ * @internal
  */
 class InformDeltaTaskTest extends BaseCase
 {
@@ -23,17 +25,17 @@ class InformDeltaTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $version = 123;
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->will($this->returnValue(true));
-        $informerResult->method('getVersion')->will($this->returnValue($version));
-        $informerResult->method('getUrl')->will($this->returnValue('http://test.test/test'));
+        $informerResult->method('hasResult')->willReturn(true);
+        $informerResult->method('getVersion')->willReturn($version);
+        $informerResult->method('getUrl')->willReturn('http://test.test/test');
 
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
+        $informer->method('getDeltaInfo')->with($this->equalTo($version))->willReturn($informerResult);
 
         $state = new ArrayState();
         $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version);
@@ -49,7 +51,7 @@ class InformDeltaTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoVersionException()
+    public function testRunNoVersionException(): void
     {
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->expects($this->never())->method('getDeltaInfo');
@@ -67,15 +69,15 @@ class InformDeltaTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoResponseComplete()
+    public function testRunNoResponseComplete(): void
     {
         $version = 123;
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->will($this->returnValue(false));
+        $informerResult->method('hasResult')->willReturn(false);
 
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getDeltaInfo')->with($this->equalTo($version))->will($this->returnValue($informerResult));
+        $informer->method('getDeltaInfo')->with($this->equalTo($version))->willReturn($informerResult);
 
         $state = new ArrayState();
         $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version);

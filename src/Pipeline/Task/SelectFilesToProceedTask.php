@@ -12,7 +12,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
-class SelectFilesToProceedTask implements Task, LoggableTask
+class SelectFilesToProceedTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
@@ -49,12 +49,12 @@ class SelectFilesToProceedTask implements Task, LoggableTask
 
         $this->log(
             LogLevel::INFO,
-            'Found ' . count($toInsert) . ' file(s) to insert',
+            'Found ' . \count($toInsert) . ' file(s) to insert',
             ['files' => $toInsert]
         );
         $this->log(
             LogLevel::INFO,
-            'Found ' . count($toDelete) . ' file(s) to delete',
+            'Found ' . \count($toDelete) . ' file(s) to delete',
             ['files' => $toDelete]
         );
     }
@@ -111,8 +111,8 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             }
         }
 
-        sort($filesToInsert, SORT_STRING);
-        sort($filesToDelete, SORT_STRING);
+        sort($filesToInsert, \SORT_STRING);
+        sort($filesToDelete, \SORT_STRING);
 
         return [$filesToInsert, $filesToDelete];
     }

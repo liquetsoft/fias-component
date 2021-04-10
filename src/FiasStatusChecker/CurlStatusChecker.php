@@ -124,14 +124,14 @@ class CurlStatusChecker implements FiasStatusChecker
         curl_setopt_array(
             $ch,
             [
-                CURLOPT_URL => $url,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_NOBODY => true,
+                \CURLOPT_URL => $url,
+                \CURLOPT_FOLLOWLOCATION => true,
+                \CURLOPT_NOBODY => true,
             ]
         );
 
         $res = curl_exec($ch);
-        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpCode = (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
         curl_close($ch);
 

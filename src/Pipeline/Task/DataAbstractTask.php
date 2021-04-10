@@ -20,7 +20,7 @@ use Throwable;
 /**
  * Абстрактная задача, которая переносит данные из xml в хранилище данных.
  */
-abstract class DataAbstractTask implements Task, LoggableTask
+abstract class DataAbstractTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
@@ -184,7 +184,7 @@ abstract class DataAbstractTask implements Task, LoggableTask
             throw new TaskException($message, 0, $e);
         }
 
-        if (!is_object($entity)) {
+        if (!\is_object($entity)) {
             throw new TaskException('Serializer must returns an object instance.');
         }
 

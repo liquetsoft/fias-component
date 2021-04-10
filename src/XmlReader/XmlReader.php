@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\XmlReader;
 
-use InvalidArgumentException;
 use Iterator;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use SplFileInfo;
@@ -24,7 +23,6 @@ interface XmlReader extends Iterator
      *
      * @return bool
      *
-     * @throws InvalidArgumentException
      * @throws XmlException
      */
     public function open(SplFileInfo $file, string $xpath): bool;

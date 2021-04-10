@@ -21,7 +21,7 @@ class DataDeleteTask extends DataAbstractTask
     {
         $fileNames = $state->getParameter(Task::FILES_TO_DELETE_PARAM);
 
-        return is_array($fileNames) ? $fileNames : [];
+        return \is_array($fileNames) ? $fileNames : [];
     }
 
     /**

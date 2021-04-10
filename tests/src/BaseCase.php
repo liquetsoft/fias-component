@@ -6,16 +6,11 @@ namespace Liquetsoft\Fias\Component\Tests;
 
 use Faker\Factory;
 use Faker\Generator;
-use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
-use Liquetsoft\Fias\Component\Unpacker\Unpacker;
-use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 use Marvin255\FileSystemHelper\FileSystemException;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 /**
@@ -34,7 +29,7 @@ abstract class BaseCase extends TestCase
     private $fs;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $tempDir;
 
@@ -87,7 +82,7 @@ abstract class BaseCase extends TestCase
                     "Can't find or write temporary folder: {$this->tempDir}"
                 );
             }
-            $this->tempDir .= DIRECTORY_SEPARATOR . 'fias_component';
+            $this->tempDir .= \DIRECTORY_SEPARATOR . 'fias_component';
             $this->fs()->mkdirIfNotExist($this->tempDir);
             $this->fs()->emptyDir($this->tempDir);
         }
@@ -111,7 +106,7 @@ abstract class BaseCase extends TestCase
             $name = $this->createFakeData()->word;
         }
 
-        $pathToFolder = $this->getTempDir() . DIRECTORY_SEPARATOR . $name;
+        $pathToFolder = $this->getTempDir() . \DIRECTORY_SEPARATOR . $name;
 
         $this->fs()->mkdir($pathToFolder);
 
@@ -132,7 +127,7 @@ abstract class BaseCase extends TestCase
             $name = $this->createFakeData()->word . '.txt';
         }
 
-        $pathToFile = $this->getTempDir() . DIRECTORY_SEPARATOR . $name;
+        $pathToFile = $this->getTempDir() . \DIRECTORY_SEPARATOR . $name;
         $content = $content === null ? $this->createFakeData()->word : $content;
         if (file_put_contents($pathToFile, $content) === false) {
             throw new RuntimeException("Can't create file {$pathToFile}");
@@ -154,22 +149,6 @@ abstract class BaseCase extends TestCase
     }
 
     /**
-     * Проверяет, что мок реализует интерфейс объекта для записи в лог.
-     *
-     * @param mixed $logger
-     *
-     * @return LoggerInterface
-     */
-    protected function checkAndReturnLogger($logger): LoggerInterface
-    {
-        if (!($logger instanceof LoggerInterface)) {
-            throw new RuntimeException('Wrong logger mock.');
-        }
-
-        return $logger;
-    }
-
-    /**
      * Создает мок для объекта состояния.
      *
      * @param array     $params
@@ -182,12 +161,10 @@ abstract class BaseCase extends TestCase
         $state = $this->getMockBuilder(State::class)->getMock();
 
         $state->method('getParameter')
-            ->will(
-                $this->returnCallback(
-                    function ($name) use ($params) {
-                        return $params[$name] ?? null;
-                    }
-                )
+            ->willReturnCallback(
+                function (string $name) use ($params) {
+                    return $params[$name] ?? null;
+                }
             );
 
         if ($needCompleting !== null) {
@@ -195,90 +172,6 @@ abstract class BaseCase extends TestCase
             $state->expects($expects)->method('complete');
         }
 
-        if (!($state instanceof State)) {
-            throw new RuntimeException('Wrong state mock.');
-        }
-
         return $state;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта состояния.
-     *
-     * @param mixed $state
-     *
-     * @return State
-     */
-    protected function checkAndReturnState($state): State
-    {
-        if (!($state instanceof State)) {
-            throw new RuntimeException('Wrong state mock.');
-        }
-
-        return $state;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта задачи.
-     *
-     * @param mixed $task
-     *
-     * @return Task
-     */
-    protected function checkAndReturnTask($task): Task
-    {
-        if (!($task instanceof Task)) {
-            throw new RuntimeException('Wrong task mock.');
-        }
-
-        return $task;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта для управления версиями.
-     *
-     * @param mixed $versionManager
-     *
-     * @return VersionManager
-     */
-    protected function checkAndReturnVersionManager($versionManager): VersionManager
-    {
-        if (!($versionManager instanceof VersionManager)) {
-            throw new RuntimeException('Wrong version manager mock.');
-        }
-
-        return $versionManager;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта для распаковки архива.
-     *
-     * @param mixed $unpack
-     *
-     * @return Unpacker
-     */
-    protected function checkAndReturnUnpack($unpack): Unpacker
-    {
-        if (!($unpack instanceof Unpacker)) {
-            throw new RuntimeException('Wrong unpack mock.');
-        }
-
-        return $unpack;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта для загрузки файлов.
-     *
-     * @param mixed $downloader
-     *
-     * @return Downloader
-     */
-    protected function checkAndReturnDownloader($downloader): Downloader
-    {
-        if (!($downloader instanceof Downloader)) {
-            throw new RuntimeException('Wrong downloader mock.');
-        }
-
-        return $downloader;
     }
 }

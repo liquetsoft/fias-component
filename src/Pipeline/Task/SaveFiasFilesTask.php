@@ -14,7 +14,7 @@ use SplFileInfo;
  * Задача, которая перемещает загруженные и распакованные файлы ФИАС
  * по указанному адресу.
  */
-class SaveFiasFilesTask implements Task, LoggableTask
+class SaveFiasFilesTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
@@ -54,15 +54,11 @@ class SaveFiasFilesTask implements Task, LoggableTask
     {
         foreach ($this->movePaths as $paramName => $movePath) {
             $fileInfo = $state->getParameter($paramName);
-
-            if (!($fileInfo instanceof SplFileInfo)) {
-                continue;
+            if ($fileInfo instanceof SplFileInfo) {
+                $message = sprintf("Moving '%s' to '%s'.", $fileInfo->getRealPath(), $movePath);
+                $this->log(LogLevel::INFO, $message);
+                $this->fs->rename($fileInfo, $movePath);
             }
-
-            $message = sprintf("Moving '%s' to '%s'.", $fileInfo->getRealPath(), $movePath);
-            $this->log(LogLevel::INFO, $message);
-
-            $this->fs->rename($fileInfo, $movePath);
         }
     }
 }

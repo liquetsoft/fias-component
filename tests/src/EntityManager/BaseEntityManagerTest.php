@@ -15,13 +15,15 @@ use stdClass;
 
 /**
  * Тест для объекта, содержит соответствия между сущностями ФИАС и их реализациями.
+ *
+ * @internal
  */
 class BaseEntityManagerTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если реализация не указана.
      */
-    public function testConstructNoClassException()
+    public function testConstructNoClassException(): void
     {
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 
@@ -40,12 +42,12 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByEntityName()
+    public function testGetDescriptorByEntityName(): void
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($entityName));
+        $descriptor->method('getName')->willReturn($entityName);
 
         $registry = new ArrayEntityRegistry([$descriptor]);
 
@@ -62,15 +64,15 @@ class BaseEntityManagerTest extends BaseCase
     /**
      * Проверяет, что объект возвращает класс реализации для указанного дескриптора.
      */
-    public function testGetClassByDescriptor()
+    public function testGetClassByDescriptor(): void
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($entityName));
+        $descriptor->method('getName')->willReturn($entityName);
 
         $descriptorNotBound = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptorNotBound->method('getName')->will($this->returnValue('not_bound'));
+        $descriptorNotBound->method('getName')->willReturn('not_bound');
 
         $registry = new ArrayEntityRegistry([$descriptor]);
 
@@ -89,21 +91,21 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByInsertFile()
+    public function testGetDescriptorByInsertFile(): void
     {
         $file = 'insert_xml.xml';
 
         $class = 'TestClass';
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($entityName));
-        $descriptor->method('isFileNameFitsXmlInsertFileMask')->will($this->returnValue(false));
+        $descriptor->method('getName')->willReturn($entityName);
+        $descriptor->method('isFileNameFitsXmlInsertFileMask')->willReturn(false);
 
         $class1 = 'TestClass1';
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor1->method('getName')->will($this->returnValue($entityName1));
-        $descriptor1->method('isFileNameFitsXmlInsertFileMask')->with($this->equalTo($file))->will($this->returnValue(true));
+        $descriptor1->method('getName')->willReturn($entityName1);
+        $descriptor1->method('isFileNameFitsXmlInsertFileMask')->with($this->equalTo($file))->willReturn(true);
 
         $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
 
@@ -122,23 +124,25 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByDeleteFile()
+    public function testGetDescriptorByDeleteFile(): void
     {
         $file = 'insert_xml.xml';
 
         $class = 'TestClass';
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($entityName));
-        $descriptor->method('isFileNameFitsXmlDeleteFileMask')->will($this->returnValue(false));
+        $descriptor->method('getName')->willReturn($entityName);
+        $descriptor->method('isFileNameFitsXmlDeleteFileMask')->willReturn(false);
 
         $class1 = 'TestClass1';
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor1->method('getName')->will($this->returnValue($entityName1));
-        $descriptor1->method('isFileNameFitsXmlDeleteFileMask')->will($this->returnCallback(function ($testFile) use ($file) {
-            return $testFile === $file;
-        }));
+        $descriptor1->method('getName')->willReturn($entityName1);
+        $descriptor1->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
+            function (string $testFile) use ($file) {
+                return $testFile === $file;
+            }
+        );
 
         $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
 
@@ -156,17 +160,17 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByClass()
+    public function testGetDescriptorByClass(): void
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($entityName));
+        $descriptor->method('getName')->willReturn($entityName);
 
         $class1 = 'TestClass1';
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor1->method('getName')->will($this->returnValue($entityName1));
+        $descriptor1->method('getName')->willReturn($entityName1);
 
         $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
 
@@ -184,17 +188,17 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByObject()
+    public function testGetDescriptorByObject(): void
     {
         $class = stdClass::class;
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($entityName));
+        $descriptor->method('getName')->willReturn($entityName);
 
         $class1 = 'TestClass1';
         $entityName1 = 'TestEntity1';
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor1->method('getName')->will($this->returnValue($entityName1));
+        $descriptor1->method('getName')->willReturn($entityName1);
 
         $registry = new ArrayEntityRegistry([$descriptor, $descriptor1]);
 
@@ -211,7 +215,7 @@ class BaseEntityManagerTest extends BaseCase
      * Проверяет, что объект вернет список всех классов, которые имеют отношения
      * к сущностям ФИАС.
      */
-    public function testGetBoundClasses()
+    public function testGetBoundClasses(): void
     {
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 

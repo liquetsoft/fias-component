@@ -214,7 +214,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     {
         $return = [];
 
-        if (empty($options['fields']) || !is_array($options['fields'])) {
+        if (empty($options['fields']) || !\is_array($options['fields'])) {
             throw new InvalidArgumentException(
                 'Fields is required option for EntityDescriptor.'
             );

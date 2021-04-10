@@ -13,7 +13,7 @@ use Psr\Log\LogLevel;
  * Задача, которая очищает хранилища, для всех сущностей, которые привязаны к
  * сущностям ФИАС.
  */
-class TruncateTask implements Task, LoggableTask
+class TruncateTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

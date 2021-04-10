@@ -17,6 +17,8 @@ use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
 
 /**
  * Тест для задачи, которая обновляет данные данные из файла в БД.
+ *
+ * @internal
  */
 class DataUpsertTaskTest extends BaseCase
 {
@@ -25,27 +27,23 @@ class DataUpsertTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
-            ->will(
-                $this->returnCallback(
-                    function ($file) use ($descriptor) {
-                        return $file === 'data.xml' ? $descriptor : null;
-                    }
-                )
+            ->willReturnCallback(
+                function (string $file) use ($descriptor) {
+                    return $file === 'data.xml' ? $descriptor : null;
+                }
             );
         $entityManager->method('getClassByDescriptor')
-            ->will(
-                $this->returnCallback(
-                    function ($testDescriptor) use ($descriptor) {
-                        return $testDescriptor === $descriptor ? DataUpsertTaskMock::class : null;
-                    }
-                )
+            ->willReturnCallback(
+                function (EntityDescriptor $testDescriptor) use ($descriptor) {
+                    return $testDescriptor === $descriptor ? DataUpsertTaskMock::class : null;
+                }
             );
 
         $insertedData = [];
@@ -53,20 +51,16 @@ class DataUpsertTaskTest extends BaseCase
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData) {
-                        return $object->getActstatid() === 321;
-                    }
-                )
+            ->willReturnCallback(
+                function (DataUpsertTaskMock $object) use (&$insertedData) {
+                    return $object->getActstatid() === 321;
+                }
             );
         $storage->method('upsert')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData) {
-                        $insertedData[] = $object->getActstatid();
-                    }
-                )
+            ->willReturnCallback(
+                function (DataUpsertTaskMock $object) use (&$insertedData): void {
+                    $insertedData[] = $object->getActstatid();
+                }
             );
 
         $state = $this->createDefaultStateMock(

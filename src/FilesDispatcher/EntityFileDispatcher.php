@@ -69,7 +69,7 @@ class EntityFileDispatcher implements FilesDispatcher
         $filesByEntities = [];
 
         foreach ($filesToInsert as $fileToInsert) {
-            $fileName = pathinfo($fileToInsert, PATHINFO_BASENAME);
+            $fileName = pathinfo($fileToInsert, \PATHINFO_BASENAME);
             $descriptor = $this->entityManager->getDescriptorByInsertFile($fileName);
             if ($descriptor) {
                 $filesByEntities[$descriptor->getName()] = $fileToInsert;
@@ -91,7 +91,7 @@ class EntityFileDispatcher implements FilesDispatcher
         $filesByEntities = [];
 
         foreach ($filesToDelete as $fileToDelete) {
-            $fileName = pathinfo($fileToDelete, PATHINFO_BASENAME);
+            $fileName = pathinfo($fileToDelete, \PATHINFO_BASENAME);
             $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileName);
             if ($descriptor) {
                 $filesByEntities[$descriptor->getName()] = $fileToDelete;
@@ -113,6 +113,8 @@ class EntityFileDispatcher implements FilesDispatcher
     {
         $dispatched = [];
 
+        // разбрасывает явно указанные файлы так, чтобы они точно были
+        // в разных потоках
         $currentProcess = 0;
         foreach ($this->entitiesToParallel as $entityToParallel) {
             if (isset($filesByEntities[$entityToParallel])) {
@@ -125,6 +127,7 @@ class EntityFileDispatcher implements FilesDispatcher
             }
         }
 
+        // разбрасывает оставшиеся файлы по потокам
         $currentProcess = 0;
         foreach ($filesByEntities as $files) {
             $dispatched[$currentProcess][] = $files;

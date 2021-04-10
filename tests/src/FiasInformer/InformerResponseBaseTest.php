@@ -11,13 +11,15 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 /**
  * Тест для объекта, который представляет результат со ссылкой на файлы
  * от сервиса ФИАС.
+ *
+ * @internal
  */
 class InformerResponseBaseTest extends BaseCase
 {
     /**
      * Проверяет асессоры для версии.
      */
-    public function testGetSetVersion()
+    public function testGetSetVersion(): void
     {
         $version = $this->createFakeData()->numberBetween(1, 10000);
 
@@ -30,7 +32,7 @@ class InformerResponseBaseTest extends BaseCase
     /**
      * Проверяет асессоры для ссылки.
      */
-    public function testGetSetUrl()
+    public function testGetSetUrl(): void
     {
         $url = $this->createFakeData()->url;
 
@@ -43,7 +45,7 @@ class InformerResponseBaseTest extends BaseCase
     /**
      * Проверяет метод, который возвращает наличие результата в объекте.
      */
-    public function testHasResult()
+    public function testHasResult(): void
     {
         $res = new InformerResponseBase();
 
@@ -59,7 +61,7 @@ class InformerResponseBaseTest extends BaseCase
      * Проверяет, чтобы сеттер для url выбрасывал исключение при попытке
      * ввести не url.
      */
-    public function testSetUrlWrongFormatException()
+    public function testSetUrlWrongFormatException(): void
     {
         $res = new InformerResponseBase();
 

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\XmlReader;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
-use RuntimeException;
 use SplFileInfo;
 use Throwable;
 use XmlReader as PhpXmlReader;
@@ -65,7 +63,7 @@ class BaseXmlReader implements XmlReaderInterface
     public function open(SplFileInfo $file, string $xpath): bool
     {
         if (!$file->isFile() || !$file->isReadable()) {
-            throw new InvalidArgumentException(
+            throw new XmlException(
                 "File '" . $file->getPathname() . "' isn't readable or doesn't exist"
             );
         }
@@ -91,7 +89,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
         $this->buffer = null;
@@ -102,7 +100,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      *
-     * @return mixed|null
+     * @return string|null
      *
      * @throws XmlException
      */
@@ -129,7 +127,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function next()
+    public function next(): void
     {
         ++$this->position;
         $this->isBufferFull = true;
@@ -277,8 +275,8 @@ class BaseXmlReader implements XmlReaderInterface
         $this->unsetReader();
         $this->reader = new PhpXmlReader();
 
-        if ($this->reader->open($this->file->getPathname(), 'UTF-8', LIBXML_COMPACT | LIBXML_NONET | LIBXML_NOBLANKS) === false) {
-            throw new RuntimeException(
+        if ($this->reader->open($this->file->getPathname(), 'UTF-8', \LIBXML_COMPACT | \LIBXML_NONET | \LIBXML_NOBLANKS) === false) {
+            throw new XmlException(
                 "Can't open file '" . $this->file->getPathname() . "' for reading."
             );
         }
@@ -291,7 +289,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @return void
      */
-    protected function unsetReader()
+    protected function unsetReader(): void
     {
         if ($this->reader) {
             $this->reader->close();

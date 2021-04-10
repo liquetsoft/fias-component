@@ -12,6 +12,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая сохраняет файлы ФИАС после обработки.
+ *
+ * @internal
  */
 class SaveFiasFilesTaskTest extends BaseCase
 {
@@ -20,7 +22,7 @@ class SaveFiasFilesTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $sourceFile = $this->getPathToTestFile('SaveFiasFilesTaskTest_source.txt');
         $sourceDir = $this->getPathToTestDir('SaveFiasFilesTaskTest_source');

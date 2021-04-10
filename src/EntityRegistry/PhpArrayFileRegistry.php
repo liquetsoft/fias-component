@@ -39,7 +39,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
         $registry = [];
 
         $fileData = include $this->checkAndReturnPath();
-        $fileData = is_array($fileData) ? $fileData : [];
+        $fileData = \is_array($fileData) ? $fileData : [];
 
         foreach ($fileData as $key => $entity) {
             $entity['name'] = $key;
@@ -60,7 +60,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     private function createEntityDescriptor(array $entity): EntityDescriptor
     {
-        if (!empty($entity['fields']) && is_array($entity['fields'])) {
+        if (!empty($entity['fields']) && \is_array($entity['fields'])) {
             $fields = [];
             foreach ($entity['fields'] as $key => $field) {
                 $field['name'] = $key;
@@ -95,23 +95,15 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
     {
         $path = trim($this->pathToSource);
 
-        if (!file_exists($path)) {
+        if (!file_exists($path) || !is_readable($path)) {
             $message = sprintf(
-                "File '%s' for php entity registry doesn't exist.",
+                "File '%s' for php entity registry must exists and be readable.",
                 $this->pathToSource
             );
             throw new InvalidArgumentException($message);
         }
 
-        if (!is_readable($path)) {
-            $message = sprintf(
-                "File '%s' for php entity registry isn't readable.",
-                $this->pathToSource
-            );
-            throw new InvalidArgumentException($message);
-        }
-
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $extension = pathinfo($path, \PATHINFO_EXTENSION);
         if ($extension !== 'php') {
             $message = sprintf(
                 "File '%s' must has 'php' extension, got '%s'.",

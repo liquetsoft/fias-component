@@ -10,13 +10,15 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который хранит состояние во внутреннем массиве.
+ *
+ * @internal
  */
 class ArrayStateTest extends BaseCase
 {
     /**
      * Проверяем запись и получение параметра.
      */
-    public function testSetAndGetParameter()
+    public function testSetAndGetParameter(): void
     {
         $parameterName = $this->createFakeData()->word;
         $parameterValue = $this->createFakeData()->word;
@@ -30,7 +32,7 @@ class ArrayStateTest extends BaseCase
     /**
      * Проверяет, что объект правильно задает константы.
      */
-    public function testSetAndLockParameter()
+    public function testSetAndLockParameter(): void
     {
         $parameterName = $this->createFakeData()->word;
         $parameterValue = $this->createFakeData()->word;
@@ -45,7 +47,7 @@ class ArrayStateTest extends BaseCase
      * Проверяет, что объект выбросит исключение при попытке изменить
      * заблокированный параметр.
      */
-    public function testSetParameterLockedException()
+    public function testSetParameterLockedException(): void
     {
         $parameterName = $this->createFakeData()->word;
         $parameterValue = $this->createFakeData()->word;
@@ -60,7 +62,7 @@ class ArrayStateTest extends BaseCase
     /**
      * Проверяем флаг, который мягко прерывает исполнение операций.
      */
-    public function testComplete()
+    public function testComplete(): void
     {
         $state = new ArrayState();
 

@@ -13,6 +13,8 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 
 /**
  * Тест для задачи, которая сохраняет текущую версию ФИАС.
+ *
+ * @internal
  */
 class VersionSetTaskTest extends BaseCase
 {
@@ -21,7 +23,7 @@ class VersionSetTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $version = $this->createFakeData()->numberBetween(1, 123);
         $url = $this->createFakeData()->url;
@@ -43,7 +45,6 @@ class VersionSetTaskTest extends BaseCase
             ->with(
                 $this->equalTo($response)
             );
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $task = new VersionSetTask($versionManager);
 
@@ -55,7 +56,7 @@ class VersionSetTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoResult()
+    public function testRunNoResult(): void
     {
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('hasResult')->willReturn(false);
@@ -68,7 +69,6 @@ class VersionSetTaskTest extends BaseCase
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->expects($this->never())->method('setCurrentVersion');
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $task = new VersionSetTask($versionManager);
 
@@ -80,13 +80,12 @@ class VersionSetTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoResultParameter()
+    public function testRunNoResultParameter(): void
     {
         $state = $this->createDefaultStateMock();
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->expects($this->never())->method('setCurrentVersion');
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $task = new VersionSetTask($versionManager);
 

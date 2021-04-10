@@ -9,11 +9,12 @@ use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use RuntimeException;
 use SplFileInfo;
 
 /**
  * Тест для объекта, который загружает файл с помощью curl.
+ *
+ * @internal
  */
 class CurlDownloaderTest extends BaseCase
 {
@@ -22,7 +23,7 @@ class CurlDownloaderTest extends BaseCase
      *
      * @throws DownloaderException
      */
-    public function testDownload()
+    public function testDownload(): void
     {
         $source = $this->createFakeData()->url;
 
@@ -35,11 +36,16 @@ class CurlDownloaderTest extends BaseCase
                 200,
                 null,
             ],
-            function ($requestOptions) use ($source) {
-                return in_array($source, $requestOptions)
-                    && isset($requestOptions[CURLOPT_FILE])
-                    && is_resource($requestOptions[CURLOPT_FILE]);
-            }
+            function (array $requestOptions) use ($source) {
+                return \in_array($source, $requestOptions)
+                    && isset($requestOptions[\CURLOPT_FILE])
+                    && \is_resource($requestOptions[\CURLOPT_FILE])
+                    && !empty($requestOptions[\CURLOPT_CONNECT_ONLY])
+                ;
+            },
+            [
+                \CURLOPT_CONNECT_ONLY => true,
+            ]
         );
 
         $curl->download($source, $destination);
@@ -50,7 +56,7 @@ class CurlDownloaderTest extends BaseCase
      *
      * @throws DownloaderException
      */
-    public function testDownloadBrokenUrlException()
+    public function testDownloadBrokenUrlException(): void
     {
         $source = 'test';
 
@@ -67,7 +73,7 @@ class CurlDownloaderTest extends BaseCase
      * Проверяет, что объект выбрасывает исключение, если произошла ошибка
      * во время загрузки файла.
      */
-    public function testDownloadCurlErrorException()
+    public function testDownloadCurlErrorException(): void
     {
         $source = $this->createFakeData()->url;
 
@@ -90,7 +96,7 @@ class CurlDownloaderTest extends BaseCase
      * Проверяет, что объект выбрасывает исключение, если в ответ по ссылке возвращается
      * любой статус кроме 200.
      */
-    public function testDownloadWrongResponseCodeException()
+    public function testDownloadWrongResponseCodeException(): void
     {
         $source = $this->createFakeData()->url;
 
@@ -113,7 +119,7 @@ class CurlDownloaderTest extends BaseCase
      * Проверяет, что объект выбрасывает исключение, если не удалось открыть
      * целевой файл для записи в локальную файловую систему.
      */
-    public function testDownloadCantOpenFileException()
+    public function testDownloadCantOpenFileException(): void
     {
         $source = $this->createFakeData()->url;
 
@@ -131,18 +137,26 @@ class CurlDownloaderTest extends BaseCase
      *
      * @param mixed         $return
      * @param callable|null $with
+     * @param array         $additionalCurlOptions
      *
      * @return Downloader
      */
-    private function createDownloaderMock($return = null, ?callable $with = null): Downloader
-    {
+    private function createDownloaderMock(
+        $return = null,
+        ?callable $with = null,
+        array $additionalCurlOptions = []
+    ): Downloader {
         $downloader = $this->getMockBuilder(CurlDownloader::class)
             ->onlyMethods(
                 [
                     'curlDownload',
                 ]
             )
-            ->disableOriginalConstructor()
+            ->setConstructorArgs(
+                [
+                    $additionalCurlOptions,
+                ]
+            )
             ->getMock();
 
         $expects = $return === null ? $this->never() : $this->once();
@@ -152,12 +166,8 @@ class CurlDownloaderTest extends BaseCase
             $method->with($this->callback($with));
         }
 
-        if (is_array($return)) {
+        if (\is_array($return)) {
             $method->willReturn($return);
-        }
-
-        if (!($downloader instanceof Downloader)) {
-            throw new RuntimeException('Wrong downloader mock.');
         }
 
         return $downloader;

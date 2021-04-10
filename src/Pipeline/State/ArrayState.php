@@ -33,7 +33,7 @@ class ArrayState implements State
     {
         $unifiedName = $this->unifyParameterName($parameterName);
 
-        if (in_array($unifiedName, $this->lockedParams)) {
+        if (\in_array($unifiedName, $this->lockedParams)) {
             throw new InvalidArgumentException(
                 "Parameter with name '{$parameterName}' is locked."
             );

@@ -15,7 +15,7 @@ use SplFileInfo;
  * Задача, которая подготавливает все необходимые каталоги и файлы для процесса
  * установки/обновления.
  */
-class PrepareFolderTask implements Task, LoggableTask
+class PrepareFolderTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
@@ -37,7 +37,7 @@ class PrepareFolderTask implements Task, LoggableTask
     public function __construct(string $folder)
     {
         $trimmedFolder = rtrim(trim($folder, " \t\n\r\0\x0B"), '/');
-        $parent = realpath(dirname($trimmedFolder));
+        $parent = realpath(\dirname($trimmedFolder));
 
         if (!$parent || !is_dir($parent) || !is_writable($parent)) {
             throw new InvalidArgumentException(

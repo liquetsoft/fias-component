@@ -12,6 +12,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая очищает все временные данные после завершения импорта.
+ *
+ * @internal
  */
 class CleanupTaskTest extends BaseCase
 {
@@ -20,7 +22,7 @@ class CleanupTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $downloadToPath = $this->getPathToTestFile('downloadTo.rar');
         $downloadTo = new SplFileInfo($downloadToPath);
@@ -40,8 +42,8 @@ class CleanupTaskTest extends BaseCase
         $task = new CleanupTask();
         $task->run($state);
 
-        $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');
-        $this->assertFalse(file_exists($extractToPath), 'Extracted files removed');
+        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
+        $this->assertFileDoesNotExist($extractToPath, 'Extracted files removed');
     }
 
     /**
@@ -49,7 +51,7 @@ class CleanupTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunEmptyFiles()
+    public function testRunEmptyFiles(): void
     {
         $downloadToPath = __DIR__ . '/test.rar';
         $downloadTo = new SplFileInfo($downloadToPath);
@@ -63,6 +65,6 @@ class CleanupTaskTest extends BaseCase
         $task = new CleanupTask();
         $task->run($state);
 
-        $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');
+        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
     }
 }

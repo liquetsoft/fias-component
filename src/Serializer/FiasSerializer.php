@@ -66,7 +66,7 @@ class FiasSerializer extends Serializer
      */
     private function filterData($data)
     {
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return $data;
         }
 

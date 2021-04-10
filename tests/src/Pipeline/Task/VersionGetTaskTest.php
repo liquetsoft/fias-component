@@ -15,6 +15,8 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 
 /**
  * Тест для задачи, которая получает текущую версию ФИАС.
+ *
+ * @internal
  */
 class VersionGetTaskTest extends BaseCase
 {
@@ -23,7 +25,7 @@ class VersionGetTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $version = $this->createFakeData()->numberBetween(1, 123);
         $url = $this->createFakeData()->url;
@@ -34,8 +36,7 @@ class VersionGetTaskTest extends BaseCase
         $response->method('hasResult')->willReturn(true);
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->method('getCurrentVersion')->will($this->returnValue($response));
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
+        $versionManager->method('getCurrentVersion')->willReturn($response);
 
         $state = new ArrayState();
 
@@ -50,14 +51,13 @@ class VersionGetTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoResultException()
+    public function testRunNoResultException(): void
     {
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('hasResult')->willReturn(false);
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->method('getCurrentVersion')->willReturn($response);
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $state = $this->createDefaultStateMock();
 

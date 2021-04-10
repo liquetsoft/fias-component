@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'IntervalStatus' => [
         'description' => 'Перечень возможных значений интервалов домов (обычный, четный, нечетный)',

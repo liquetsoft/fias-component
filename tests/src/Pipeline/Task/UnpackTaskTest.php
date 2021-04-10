@@ -14,6 +14,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая распаковывает архив из параметра в состоянии.
+ *
+ * @internal
  */
 class UnpackTaskTest extends BaseCase
 {
@@ -22,7 +24,7 @@ class UnpackTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $sourcePath = __DIR__ . '/test.file';
         $source = new SplFileInfo($sourcePath);
@@ -34,17 +36,16 @@ class UnpackTaskTest extends BaseCase
             ->method('unpack')
             ->with(
                 $this->callback(
-                    function ($source) use ($sourcePath) {
+                    function (SplFileInfo $source) use ($sourcePath) {
                         return $source->getPathname() === $sourcePath;
                     }
                 ),
                 $this->callback(
-                    function ($destination) use ($destinationPath) {
+                    function (SplFileInfo $destination) use ($destinationPath) {
                         return $destination->getPathname() === $destinationPath;
                     }
                 )
             );
-        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createDefaultStateMock(
             [
@@ -63,12 +64,11 @@ class UnpackTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoSourceException()
+    public function testRunNoSourceException(): void
     {
         $destination = new SplFileInfo(__DIR__);
 
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
-        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createDefaultStateMock(
             [
@@ -87,12 +87,11 @@ class UnpackTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoDestinationException()
+    public function testRunNoDestinationException(): void
     {
         $source = new SplFileInfo(__DIR__ . '/test.file');
 
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
-        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createDefaultStateMock(
             [

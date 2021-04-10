@@ -11,13 +11,15 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который получает описания сущностей из php файла с массивом.
+ *
+ * @internal
  */
 class PhpArrayFileRegistryTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если файл не существует.
      */
-    public function testConstructorNonExistedException()
+    public function testConstructorNonExistedException(): void
     {
         $registry = $this->createRegistry(__DIR__ . '/_fixtures/notExist.php');
 
@@ -28,7 +30,7 @@ class PhpArrayFileRegistryTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если файл имеет неправильное расширение.
      */
-    public function testConstructorBadExtensionException()
+    public function testConstructorBadExtensionException(): void
     {
         $registry = $this->createRegistry(__DIR__ . '/_fixtures/badExtension.yaml');
 
@@ -39,7 +41,7 @@ class PhpArrayFileRegistryTest extends BaseCase
     /**
      * Проверяет, что объект верно обработает исключение при создании дескриптора.
      */
-    public function testBuildingException()
+    public function testBuildingException(): void
     {
         $registry = $this->createRegistry(__DIR__ . '/_fixtures/testBuildingException.php');
 
@@ -52,7 +54,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptors()
+    public function testGetDescriptors(): void
     {
         $registry = $this->createRegistry();
         $descriptors = $registry->getDescriptors();
@@ -67,7 +69,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testHasDescriptor()
+    public function testHasDescriptor(): void
     {
         $registry = $this->createRegistry();
 
@@ -80,7 +82,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptor()
+    public function testGetDescriptor(): void
     {
         $name = 'NormativeDocumentType';
         $rawName = '   NormativeDocumentTYpe ';
@@ -98,7 +100,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorException()
+    public function testGetDescriptorException(): void
     {
         $registry = $this->createRegistry();
 

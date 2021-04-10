@@ -15,6 +15,8 @@ use stdClass;
 /**
  * Тест для объекта, который получает ссылку на файл с архивом ФИАС
  * от soap сервиса информирования ФИАС.
+ *
+ * @internal
  */
 class SoapFiasInformerTest extends BaseCase
 {
@@ -23,7 +25,7 @@ class SoapFiasInformerTest extends BaseCase
      *
      * @throws SoapFault
      */
-    public function testGetCompleteInfo()
+    public function testGetCompleteInfo(): void
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
@@ -57,7 +59,7 @@ class SoapFiasInformerTest extends BaseCase
      *
      * @throws SoapFault
      */
-    public function testGetCompleteInfoSoapException()
+    public function testGetCompleteInfoSoapException(): void
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
@@ -85,7 +87,7 @@ class SoapFiasInformerTest extends BaseCase
      *
      * @throws SoapFault
      */
-    public function testGetCompleteInfoNoVersionException()
+    public function testGetCompleteInfoNoVersionException(): void
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
@@ -112,7 +114,7 @@ class SoapFiasInformerTest extends BaseCase
      *
      * @throws SoapFault
      */
-    public function testGetCompleteInfoNoUrlException()
+    public function testGetCompleteInfoNoUrlException(): void
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
@@ -138,7 +140,7 @@ class SoapFiasInformerTest extends BaseCase
      *
      * @throws SoapFault
      */
-    public function testGetDeltaInfo()
+    public function testGetDeltaInfo(): void
     {
         $soapResponse = new stdClass();
         $soapResponse->GetAllDownloadFileInfoResult = new stdClass();
@@ -180,7 +182,7 @@ class SoapFiasInformerTest extends BaseCase
      *
      * @throws SoapFault
      */
-    public function testGetDeltaInfoException()
+    public function testGetDeltaInfoException(): void
     {
         $soapResponse = new stdClass();
         $soapResponse->GetAllDownloadFileInfoResult = new stdClass();

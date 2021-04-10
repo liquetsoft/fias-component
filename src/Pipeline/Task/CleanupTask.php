@@ -13,7 +13,7 @@ use SplFileInfo;
 /**
  * Задача, которая удаляет все временные файлы, полученные во время импорта.
  */
-class CleanupTask implements Task, LoggableTask
+class CleanupTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
