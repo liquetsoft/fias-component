@@ -22,6 +22,9 @@ $rules = [
     'native_constant_invocation' => true,
     'combine_nested_dirname' => true,
     'native_function_invocation' => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => true],
+    'php_unit_construct' => true,
+    'php_unit_dedicate_assert' => true,
+    'php_unit_expectation' => true,
 ];
 
 return PhpCsFixer\Config::create()->setRules($rules)->setFinder($finder);

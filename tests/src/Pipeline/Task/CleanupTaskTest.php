@@ -40,8 +40,8 @@ class CleanupTaskTest extends BaseCase
         $task = new CleanupTask();
         $task->run($state);
 
-        $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');
-        $this->assertFalse(file_exists($extractToPath), 'Extracted files removed');
+        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
+        $this->assertFileDoesNotExist($extractToPath, 'Extracted files removed');
     }
 
     /**
@@ -63,6 +63,6 @@ class CleanupTaskTest extends BaseCase
         $task = new CleanupTask();
         $task->run($state);
 
-        $this->assertFalse(file_exists($downloadToPath), 'Downloaded file removed');
+        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
     }
 }

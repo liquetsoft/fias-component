@@ -162,7 +162,7 @@ class BaseEntityFieldTest extends BaseCase
     {
         $field = $this->createField();
 
-        $this->assertSame(false, $field->isNullable());
+        $this->assertFalse($field->isNullable());
     }
 
     /**
@@ -188,7 +188,7 @@ class BaseEntityFieldTest extends BaseCase
     {
         $field = $this->createField();
 
-        $this->assertSame(false, $field->isPrimary());
+        $this->assertFalse($field->isPrimary());
     }
 
     /**
@@ -214,7 +214,7 @@ class BaseEntityFieldTest extends BaseCase
     {
         $field = $this->createField();
 
-        $this->assertSame(false, $field->isIndex());
+        $this->assertFalse($field->isIndex());
     }
 
     /**
@@ -254,7 +254,7 @@ class BaseEntityFieldTest extends BaseCase
     {
         $field = $this->createField();
 
-        $this->assertSame(false, $field->isPartition());
+        $this->assertFalse($field->isPartition());
     }
 
     /**
