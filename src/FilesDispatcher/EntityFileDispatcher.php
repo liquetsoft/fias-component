@@ -113,6 +113,8 @@ class EntityFileDispatcher implements FilesDispatcher
     {
         $dispatched = [];
 
+        // разбрасывает явно указанные файлы так, чтобы они точно были
+        // в разных потоках
         $currentProcess = 0;
         foreach ($this->entitiesToParallel as $entityToParallel) {
             if (isset($filesByEntities[$entityToParallel])) {
@@ -125,6 +127,7 @@ class EntityFileDispatcher implements FilesDispatcher
             }
         }
 
+        // разбрасывает оставшиеся файлы по потокам
         $currentProcess = 0;
         foreach ($filesByEntities as $files) {
             $dispatched[$currentProcess][] = $files;
