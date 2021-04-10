@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
-use DateTimeImmutable;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
@@ -38,7 +37,7 @@ EOT;
         $this->assertSame(2, $object->getActstatid());
         $this->assertSame('Не актуальный', $object->getName());
         $this->assertSame('10', $object->getKodtst());
-        $this->assertEquals(new DateTimeImmutable('2019-10-10T10:10:10.02'), $object->getTestDate());
+        $this->assertSame('2019-10-10 10:10:10', $object->getTestDate()->format('Y-m-d H:i:s'));
         $this->assertSame(0, $object->getEmptyStringInt());
     }
 }

@@ -33,7 +33,7 @@ class ZipUnpackerTest extends BaseCase
         );
 
         $this->assertFileExists($testDestination . '/test.txt');
-        $this->assertEquals('test', trim(file_get_contents($testDestination . '/test.txt')));
+        $this->assertSame('test', trim(file_get_contents($testDestination . '/test.txt')));
     }
 
     /**
