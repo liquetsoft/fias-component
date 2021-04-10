@@ -95,17 +95,9 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
     {
         $path = trim($this->pathToSource);
 
-        if (!file_exists($path)) {
+        if (!file_exists($path) || !is_readable($path)) {
             $message = sprintf(
-                "File '%s' for php entity registry doesn't exist.",
-                $this->pathToSource
-            );
-            throw new InvalidArgumentException($message);
-        }
-
-        if (!is_readable($path)) {
-            $message = sprintf(
-                "File '%s' for php entity registry isn't readable.",
+                "File '%s' for php entity registry must exists and be readable.",
                 $this->pathToSource
             );
             throw new InvalidArgumentException($message);

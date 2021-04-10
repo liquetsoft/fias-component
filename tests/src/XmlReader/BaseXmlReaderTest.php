@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\XmlReader;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
@@ -26,7 +25,7 @@ class BaseXmlReaderTest extends BaseCase
 
         $reader = new BaseXmlReader();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(XmlException::class);
         $reader->open($file, '/ActualStatuses/ActualStatus');
     }
 
