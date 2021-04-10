@@ -15,7 +15,7 @@ use SplFileInfo;
  * Задача, которая подготавливает все необходимые каталоги и файлы для процесса
  * установки/обновления.
  */
-class PrepareFolderTask implements Task, LoggableTask
+class PrepareFolderTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

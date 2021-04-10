@@ -12,7 +12,7 @@ use Psr\Log\LogLevel;
 /**
  * Задача, которая получает ссылку на архив с полной версией ФИАС.
  */
-class InformFullTask implements Task, LoggableTask
+class InformFullTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

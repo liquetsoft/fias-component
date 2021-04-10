@@ -12,7 +12,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
-class SelectFilesToProceedTask implements Task, LoggableTask
+class SelectFilesToProceedTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
@@ -111,8 +111,8 @@ class SelectFilesToProceedTask implements Task, LoggableTask
             }
         }
 
-        sort($filesToInsert, SORT_STRING);
-        sort($filesToDelete, SORT_STRING);
+        sort($filesToInsert, \SORT_STRING);
+        sort($filesToDelete, \SORT_STRING);
 
         return [$filesToInsert, $filesToDelete];
     }

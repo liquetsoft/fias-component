@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
-use DateTime;
-use DateTimeInterface;
+use DateTimeImmutable;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
 
 /**
  * Тест для объекта, который преобразует данные из xml ФИАС в объекты.
@@ -30,75 +30,13 @@ class FiasSerializerTest extends BaseCase
 EOT;
         $serializer = new FiasSerializer();
 
-        $object = $serializer->deserialize($data, FiasSerializerObject::class, 'xml');
+        $object = $serializer->deserialize($data, FiasSerializerMock::class, 'xml');
 
-        $this->assertInstanceOf(FiasSerializerObject::class, $object);
+        $this->assertInstanceOf(FiasSerializerMock::class, $object);
         $this->assertSame(2, $object->getActstatid());
         $this->assertSame('Не актуальный', $object->getName());
         $this->assertSame('10', $object->getKodtst());
-        $this->assertEquals(new DateTime('2019-10-10T10:10:10.02'), $object->getTestDate());
+        $this->assertEquals(new DateTimeImmutable('2019-10-10T10:10:10.02'), $object->getTestDate());
         $this->assertSame(0, $object->getEmptyStringInt());
-    }
-}
-
-/**
- * Мок.
- */
-class FiasSerializerObject
-{
-    private $ACTSTATID = 0;
-    private $name = '';
-    private $testDate;
-    private $kodtst = '';
-    private $emptyStringInt = 0;
-
-    public function setActstatid(int $ACTSTATID): void
-    {
-        $this->ACTSTATID = $ACTSTATID;
-    }
-
-    public function getActstatid()
-    {
-        return $this->ACTSTATID;
-    }
-
-    public function setName($NAME): void
-    {
-        $this->name = $NAME;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setTestDate(DateTimeInterface $testDate): void
-    {
-        $this->testDate = $testDate;
-    }
-
-    public function getTestDate()
-    {
-        return $this->testDate;
-    }
-
-    public function setKodtst(string $kodtst): void
-    {
-        $this->kodtst = $kodtst;
-    }
-
-    public function getKodtst()
-    {
-        return $this->kodtst;
-    }
-
-    public function setEmptyStringInt(int $emptyStringInt): void
-    {
-        $this->emptyStringInt = $emptyStringInt;
-    }
-
-    public function getEmptyStringInt()
-    {
-        return $this->emptyStringInt;
     }
 }

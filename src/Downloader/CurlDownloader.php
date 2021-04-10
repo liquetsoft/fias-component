@@ -67,7 +67,7 @@ class CurlDownloader implements Downloader
         curl_setopt_array($ch, $requestOptions);
 
         $res = curl_exec($ch);
-        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpCode = (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
         curl_close($ch);
 
@@ -109,10 +109,10 @@ class CurlDownloader implements Downloader
     {
         $requestOptions = $this->additionalCurlOptions ?: [];
 
-        $requestOptions[CURLOPT_URL] = $url;
-        $requestOptions[CURLOPT_FILE] = $fh;
-        $requestOptions[CURLOPT_FOLLOWLOCATION] = true;
-        $requestOptions[CURLOPT_FRESH_CONNECT] = true;
+        $requestOptions[\CURLOPT_URL] = $url;
+        $requestOptions[\CURLOPT_FILE] = $fh;
+        $requestOptions[\CURLOPT_FOLLOWLOCATION] = true;
+        $requestOptions[\CURLOPT_FRESH_CONNECT] = true;
 
         return $requestOptions;
     }

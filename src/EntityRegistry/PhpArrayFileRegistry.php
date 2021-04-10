@@ -103,7 +103,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
             throw new InvalidArgumentException($message);
         }
 
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $extension = pathinfo($path, \PATHINFO_EXTENSION);
         if ($extension !== 'php') {
             $message = sprintf(
                 "File '%s' must has 'php' extension, got '%s'.",

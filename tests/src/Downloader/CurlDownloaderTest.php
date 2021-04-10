@@ -37,13 +37,13 @@ class CurlDownloaderTest extends BaseCase
             ],
             function ($requestOptions) use ($source) {
                 return in_array($source, $requestOptions)
-                    && isset($requestOptions[CURLOPT_FILE])
-                    && is_resource($requestOptions[CURLOPT_FILE])
-                    && !empty($requestOptions[CURLOPT_CONNECT_ONLY])
+                    && isset($requestOptions[\CURLOPT_FILE])
+                    && is_resource($requestOptions[\CURLOPT_FILE])
+                    && !empty($requestOptions[\CURLOPT_CONNECT_ONLY])
                 ;
             },
             [
-                CURLOPT_CONNECT_ONLY => true,
+                \CURLOPT_CONNECT_ONLY => true,
             ]
         );
 

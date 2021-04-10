@@ -20,7 +20,7 @@ use Throwable;
 /**
  * Абстрактная задача, которая переносит данные из xml в хранилище данных.
  */
-abstract class DataAbstractTask implements Task, LoggableTask
+abstract class DataAbstractTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

@@ -13,7 +13,7 @@ use SplFileInfo;
 /**
  * Задача, которая распаковывает архив из файла в папку, указанные в состоянии.
  */
-class UnpackTask implements Task, LoggableTask
+class UnpackTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

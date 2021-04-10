@@ -15,6 +15,11 @@ $rules = [
     'array_indentation' => true,
     'declare_strict_types' => true,
     'void_return' => true,
+    'non_printable_character' => true,
+    'modernize_types_casting' => true,
+    'ordered_interfaces' => ['order' => 'alpha', 'direction' => 'ascend'],
+    'date_time_immutable' => true,
+    'native_constant_invocation' => true,
 ];
 
 return PhpCsFixer\Config::create()->setRules($rules)->setFinder($finder);

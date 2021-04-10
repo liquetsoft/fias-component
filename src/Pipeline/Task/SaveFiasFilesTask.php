@@ -14,7 +14,7 @@ use SplFileInfo;
  * Задача, которая перемещает загруженные и распакованные файлы ФИАС
  * по указанному адресу.
  */
-class SaveFiasFilesTask implements Task, LoggableTask
+class SaveFiasFilesTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

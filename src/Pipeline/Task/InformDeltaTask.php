@@ -13,7 +13,7 @@ use Psr\Log\LogLevel;
  * Задача, которая получает ссылку на архив с обновлениями ФИАС
  * относительно указанной в состоянии версии.
  */
-class InformDeltaTask implements Task, LoggableTask
+class InformDeltaTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

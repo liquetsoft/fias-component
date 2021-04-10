@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 /**
  * Задача, которая распределяет файлы в обработку для symfony/process.
  */
-class ProcessSwitchTask implements Task, LoggableTask
+class ProcessSwitchTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

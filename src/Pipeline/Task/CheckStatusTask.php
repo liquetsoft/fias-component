@@ -12,7 +12,7 @@ use Psr\Log\LogLevel;
 /**
  * Задача, которая проверяет статус ФИАС.
  */
-class CheckStatusTask implements Task, LoggableTask
+class CheckStatusTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

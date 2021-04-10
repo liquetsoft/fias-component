@@ -10,6 +10,6 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 /**
  * Abstract mock class to test task with loggable task interface.
  */
-abstract class ArrayPipeTestLoggableMock implements Task, LoggableTask
+abstract class ArrayPipeTestLoggableMock implements LoggableTask, Task
 {
 }
