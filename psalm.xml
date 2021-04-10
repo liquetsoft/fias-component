@@ -11,7 +11,6 @@
         <ignoreFiles>
             <directory name="docker"/>
             <directory name="resources"/>
-            <directory name="tests/coverage"/>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
