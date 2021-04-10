@@ -61,11 +61,11 @@ class ProcessSwitchTask implements LoggableTask, Task
     public function run(State $state): void
     {
         $filesToInsert = $state->getParameter(Task::FILES_TO_INSERT_PARAM);
-        $filesToInsert = is_array($filesToInsert) ? $filesToInsert : [];
+        $filesToInsert = \is_array($filesToInsert) ? $filesToInsert : [];
         $dispatchedInsert = $this->filesDispatcher->dispatchInsert($filesToInsert, $this->numberOfParallel);
 
         $filesToDelete = $state->getParameter(Task::FILES_TO_DELETE_PARAM);
-        $filesToDelete = is_array($filesToDelete) ? $filesToDelete : [];
+        $filesToDelete = \is_array($filesToDelete) ? $filesToDelete : [];
         $dispatchedDelete = $this->filesDispatcher->dispatchDelete($filesToDelete, $this->numberOfParallel);
 
         $processes = $this->createProcessesList($dispatchedInsert, $dispatchedDelete);

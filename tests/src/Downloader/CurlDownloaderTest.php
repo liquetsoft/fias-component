@@ -36,9 +36,9 @@ class CurlDownloaderTest extends BaseCase
                 null,
             ],
             function ($requestOptions) use ($source) {
-                return in_array($source, $requestOptions)
+                return \in_array($source, $requestOptions)
                     && isset($requestOptions[\CURLOPT_FILE])
-                    && is_resource($requestOptions[\CURLOPT_FILE])
+                    && \is_resource($requestOptions[\CURLOPT_FILE])
                     && !empty($requestOptions[\CURLOPT_CONNECT_ONLY])
                 ;
             },
@@ -165,7 +165,7 @@ class CurlDownloaderTest extends BaseCase
             $method->with($this->callback($with));
         }
 
-        if (is_array($return)) {
+        if (\is_array($return)) {
             $method->willReturn($return);
         }
 

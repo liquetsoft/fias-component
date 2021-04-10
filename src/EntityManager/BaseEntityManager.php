@@ -144,8 +144,8 @@ class BaseEntityManager implements EntityManager
     {
         $return = null;
 
-        if (is_object($object)) {
-            $return = $this->getDescriptorByClass(get_class($object));
+        if (\is_object($object)) {
+            $return = $this->getDescriptorByClass(\get_class($object));
         }
 
         return $return;

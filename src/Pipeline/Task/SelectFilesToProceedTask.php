@@ -49,12 +49,12 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
         $this->log(
             LogLevel::INFO,
-            'Found ' . count($toInsert) . ' file(s) to insert',
+            'Found ' . \count($toInsert) . ' file(s) to insert',
             ['files' => $toInsert]
         );
         $this->log(
             LogLevel::INFO,
-            'Found ' . count($toDelete) . ' file(s) to delete',
+            'Found ' . \count($toDelete) . ' file(s) to delete',
             ['files' => $toDelete]
         );
     }

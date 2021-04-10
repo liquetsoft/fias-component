@@ -184,7 +184,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
             throw new TaskException($message, 0, $e);
         }
 
-        if (!is_object($entity)) {
+        if (!\is_object($entity)) {
             throw new TaskException('Serializer must returns an object instance.');
         }
 

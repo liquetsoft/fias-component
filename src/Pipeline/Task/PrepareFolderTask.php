@@ -37,7 +37,7 @@ class PrepareFolderTask implements LoggableTask, Task
     public function __construct(string $folder)
     {
         $trimmedFolder = rtrim(trim($folder, " \t\n\r\0\x0B"), '/');
-        $parent = realpath(dirname($trimmedFolder));
+        $parent = realpath(\dirname($trimmedFolder));
 
         if (!$parent || !is_dir($parent) || !is_writable($parent)) {
             throw new InvalidArgumentException(

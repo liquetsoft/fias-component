@@ -78,7 +78,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
                             'SelectFilesToProceedTaskTest_nested_insert.xml',
                         ];
 
-                        return in_array($file, $files, true) ? $descriptor : null;
+                        return \in_array($file, $files, true) ? $descriptor : null;
                     }
                 )
             );
@@ -91,7 +91,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
                             'SelectFilesToProceedTaskTest_nested_delete.xml',
                         ];
 
-                        return in_array($file, $files, true) ? $descriptor : null;
+                        return \in_array($file, $files, true) ? $descriptor : null;
                     }
                 )
             );

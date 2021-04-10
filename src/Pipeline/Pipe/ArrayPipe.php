@@ -89,7 +89,7 @@ class ArrayPipe implements Pipe
      */
     protected function proceedStart(State $state): void
     {
-        $message = sprintf("Start '%s' pipeline with '%s' state.", get_class($this), get_class($state));
+        $message = sprintf("Start '%s' pipeline with '%s' state.", \get_class($this), \get_class($state));
         $this->log(LogLevel::INFO, $message);
     }
 
@@ -167,7 +167,7 @@ class ArrayPipe implements Pipe
     protected function proceedComplete(State $state): void
     {
         $state->complete();
-        $this->log(LogLevel::INFO, "Complete '" . get_class($this) . "' pipeline.");
+        $this->log(LogLevel::INFO, "Complete '" . \get_class($this) . "' pipeline.");
     }
 
     /**
@@ -210,7 +210,7 @@ class ArrayPipe implements Pipe
     protected function createLoggerContext(array $currentContext = []): array
     {
         $defaultContext = [
-            'pipeline_class' => get_class($this),
+            'pipeline_class' => \get_class($this),
             'pipeline_id' => $this->id,
         ];
 
@@ -251,6 +251,6 @@ class ArrayPipe implements Pipe
      */
     protected function getTaskId(Task $task): string
     {
-        return get_class($task);
+        return \get_class($task);
     }
 }

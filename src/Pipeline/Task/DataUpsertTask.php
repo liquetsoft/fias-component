@@ -22,7 +22,7 @@ class DataUpsertTask extends DataAbstractTask
     {
         $fileNames = $state->getParameter(Task::FILES_TO_INSERT_PARAM);
 
-        return is_array($fileNames) ? $fileNames : [];
+        return \is_array($fileNames) ? $fileNames : [];
     }
 
     /**

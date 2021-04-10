@@ -20,6 +20,8 @@ $rules = [
     'ordered_interfaces' => ['order' => 'alpha', 'direction' => 'ascend'],
     'date_time_immutable' => true,
     'native_constant_invocation' => true,
+    'combine_nested_dirname' => true,
+    'native_function_invocation' => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => true],
 ];
 
 return PhpCsFixer\Config::create()->setRules($rules)->setFinder($finder);

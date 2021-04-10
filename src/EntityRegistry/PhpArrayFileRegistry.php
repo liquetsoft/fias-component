@@ -39,7 +39,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
         $registry = [];
 
         $fileData = include $this->checkAndReturnPath();
-        $fileData = is_array($fileData) ? $fileData : [];
+        $fileData = \is_array($fileData) ? $fileData : [];
 
         foreach ($fileData as $key => $entity) {
             $entity['name'] = $key;
@@ -60,7 +60,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     private function createEntityDescriptor(array $entity): EntityDescriptor
     {
-        if (!empty($entity['fields']) && is_array($entity['fields'])) {
+        if (!empty($entity['fields']) && \is_array($entity['fields'])) {
             $fields = [];
             foreach ($entity['fields'] as $key => $field) {
                 $field['name'] = $key;
