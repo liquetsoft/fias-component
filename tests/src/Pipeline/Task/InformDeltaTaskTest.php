@@ -23,7 +23,7 @@ class InformDeltaTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $version = 123;
 
@@ -49,7 +49,7 @@ class InformDeltaTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoVersionException()
+    public function testRunNoVersionException(): void
     {
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->expects($this->never())->method('getDeltaInfo');
@@ -67,7 +67,7 @@ class InformDeltaTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoResponseComplete()
+    public function testRunNoResponseComplete(): void
     {
         $version = 123;
 

@@ -28,7 +28,7 @@ class DataInsertTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
@@ -66,7 +66,7 @@ class DataInsertTaskTest extends BaseCase
         $storage->method('insert')
             ->will(
                 $this->returnCallback(
-                    function ($object) use (&$insertedData) {
+                    function ($object) use (&$insertedData): void {
                         $insertedData[] = $object->getActstatid();
                     }
                 )
@@ -94,7 +94,7 @@ class DataInsertTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunDeserializeException()
+    public function testRunDeserializeException(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
@@ -125,7 +125,7 @@ class DataInsertTaskTest extends BaseCase
         $storage->method('insert')
             ->will(
                 $this->returnCallback(
-                    function ($object) use (&$insertedData) {
+                    function ($object) use (&$insertedData): void {
                         $insertedData[] = $object->getActstatid();
                     }
                 )
@@ -159,7 +159,7 @@ class DataInsertTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunDeserializeNonObjectException()
+    public function testRunDeserializeNonObjectException(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
@@ -190,7 +190,7 @@ class DataInsertTaskTest extends BaseCase
         $storage->method('insert')
             ->will(
                 $this->returnCallback(
-                    function ($object) use (&$insertedData) {
+                    function ($object) use (&$insertedData): void {
                         $insertedData[] = $object->getActstatid();
                     }
                 )

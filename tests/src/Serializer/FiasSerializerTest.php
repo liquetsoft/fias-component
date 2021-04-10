@@ -17,7 +17,7 @@ class FiasSerializerTest extends BaseCase
     /**
      * Проверяет, что объект правильно разберет данные их xml в объект.
      */
-    public function testDenormalize()
+    public function testDenormalize(): void
     {
         $data = <<<EOT
 <ActualStatus
@@ -52,7 +52,7 @@ class FiasSerializerObject
     private $kodtst = '';
     private $emptyStringInt = 0;
 
-    public function setActstatid(int $ACTSTATID)
+    public function setActstatid(int $ACTSTATID): void
     {
         $this->ACTSTATID = $ACTSTATID;
     }
@@ -62,7 +62,7 @@ class FiasSerializerObject
         return $this->ACTSTATID;
     }
 
-    public function setName($NAME)
+    public function setName($NAME): void
     {
         $this->name = $NAME;
     }
@@ -72,7 +72,7 @@ class FiasSerializerObject
         return $this->name;
     }
 
-    public function setTestDate(DateTimeInterface $testDate)
+    public function setTestDate(DateTimeInterface $testDate): void
     {
         $this->testDate = $testDate;
     }
@@ -82,7 +82,7 @@ class FiasSerializerObject
         return $this->testDate;
     }
 
-    public function setKodtst(string $kodtst)
+    public function setKodtst(string $kodtst): void
     {
         $this->kodtst = $kodtst;
     }
@@ -92,7 +92,7 @@ class FiasSerializerObject
         return $this->kodtst;
     }
 
-    public function setEmptyStringInt(int $emptyStringInt)
+    public function setEmptyStringInt(int $emptyStringInt): void
     {
         $this->emptyStringInt = $emptyStringInt;
     }

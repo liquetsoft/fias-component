@@ -23,7 +23,7 @@ class VersionGetTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $version = $this->createFakeData()->numberBetween(1, 123);
         $url = $this->createFakeData()->url;
@@ -50,7 +50,7 @@ class VersionGetTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoResultException()
+    public function testRunNoResultException(): void
     {
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('hasResult')->willReturn(false);

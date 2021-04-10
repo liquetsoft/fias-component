@@ -42,10 +42,14 @@
     "scripts": {
         "test": "vendor/bin/phpunit --configuration phpunit.xml.dist",
         "coverage": "vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-html=tests/coverage",
-        "fixer": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v",
-        "linter": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation && vendor/bin/phpcpd ./ --exclude vendor --exclude resources --exclude tests && vendor/bin/psalm --show-info=true",
+        "fixer": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist --allow-risky=yes -v",
+        "linter": [
+            "vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation --allow-risky=yes",
+            "vendor/bin/phpcpd ./ --exclude vendor --exclude resources --exclude tests",
+            "vendor/bin/psalm --show-info=true"
+        ],
         "xsd": "php -f generator/download_entities.php",
-        "entities": "php -f generator/generate_entities.php && vendor/bin/php-cs-fixer fix --config=.php_cs.dist -q"
+        "entities": "php -f generator/generate_entities.php && vendor/bin/php-cs-fixer fix --config=.php_cs.dist --allow-risky=yes -q"
     },
     "repositories": [
         {

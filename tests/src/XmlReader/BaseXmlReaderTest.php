@@ -20,7 +20,7 @@ class BaseXmlReaderTest extends BaseCase
      *
      * @throws XmlException
      */
-    public function testOpenNonExistedFileException()
+    public function testOpenNonExistedFileException(): void
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/empty.xml');
 
@@ -33,7 +33,7 @@ class BaseXmlReaderTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, при попытке начать чтение без открытого файла.
      */
-    public function testReadNotOpenException()
+    public function testReadNotOpenException(): void
     {
         $reader = new BaseXmlReader();
 
@@ -46,7 +46,7 @@ class BaseXmlReaderTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, при попытке начать чтение без открытого файла.
      */
-    public function testReadNotOpenExceptionIterator()
+    public function testReadNotOpenExceptionIterator(): void
     {
         $reader = new BaseXmlReader();
 
@@ -59,7 +59,7 @@ class BaseXmlReaderTest extends BaseCase
      *
      * @throws XmlException
      */
-    public function testRead()
+    public function testRead(): void
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
 
@@ -82,7 +82,7 @@ class BaseXmlReaderTest extends BaseCase
      *
      * @throws XmlException
      */
-    public function testReadEmpty()
+    public function testReadEmpty(): void
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadEmpty.xml');
 
@@ -103,7 +103,7 @@ class BaseXmlReaderTest extends BaseCase
      *
      * @throws XmlException
      */
-    public function testReadMessyFile()
+    public function testReadMessyFile(): void
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadMessyFile.xml');
 
@@ -130,7 +130,7 @@ class BaseXmlReaderTest extends BaseCase
      *
      * @throws XmlException
      */
-    public function testReadException()
+    public function testReadException(): void
     {
         $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadException.xml');
 

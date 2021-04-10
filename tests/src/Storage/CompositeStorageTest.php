@@ -20,7 +20,7 @@ class CompositeStorageTest extends BaseCase
      * Проверяет, что объект выбросит исключение, если в массив конструктора передан объект,
      * который не реализует интерфейс хранилища.
      */
-    public function testConstructWrongArgumentException()
+    public function testConstructWrongArgumentException(): void
     {
         $storage = $this->getMockBuilder(Storage::class)->getMock();
 
@@ -33,7 +33,7 @@ class CompositeStorageTest extends BaseCase
      *
      * @throws StorageException
      */
-    public function testStart()
+    public function testStart(): void
     {
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
@@ -50,7 +50,7 @@ class CompositeStorageTest extends BaseCase
      *
      * @throws StorageException
      */
-    public function testStop()
+    public function testStop(): void
     {
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('stop');
@@ -66,7 +66,7 @@ class CompositeStorageTest extends BaseCase
      * Проверяет, что объект проверит все вложенные хранилища поддерживают ли
      * они данный объект.
      */
-    public function testSupports()
+    public function testSupports(): void
     {
         $object = new stdClass();
 
@@ -92,7 +92,7 @@ class CompositeStorageTest extends BaseCase
      * Проверяет, что объект проверит все вложенные хранилища поддерживают ли
      * они данный тип объектов.
      */
-    public function testSupportsClass()
+    public function testSupportsClass(): void
     {
         $class = $this->createFakeData()->word;
 
@@ -119,7 +119,7 @@ class CompositeStorageTest extends BaseCase
      *
      * @throws StorageException
      */
-    public function testInsert()
+    public function testInsert(): void
     {
         $object = new stdClass();
 
@@ -146,7 +146,7 @@ class CompositeStorageTest extends BaseCase
      *
      * @throws StorageException
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $object = new stdClass();
 
@@ -175,7 +175,7 @@ class CompositeStorageTest extends BaseCase
      *
      * @throws StorageException
      */
-    public function testUpsert()
+    public function testUpsert(): void
     {
         $object = new stdClass();
 
@@ -204,7 +204,7 @@ class CompositeStorageTest extends BaseCase
      *
      * @throws StorageException
      */
-    public function testTruncate()
+    public function testTruncate(): void
     {
         $object = 'className';
 

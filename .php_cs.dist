@@ -13,6 +13,8 @@ $rules = [
     'no_superfluous_phpdoc_tags' => false,
     'single_line_throw' => false,
     'array_indentation' => true,
+    'declare_strict_types' => true,
+    'void_return' => true,
 ];
 
 return PhpCsFixer\Config::create()->setRules($rules)->setFinder($finder);

@@ -22,7 +22,7 @@ class UnpackTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $sourcePath = __DIR__ . '/test.file';
         $source = new SplFileInfo($sourcePath);
@@ -63,7 +63,7 @@ class UnpackTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoSourceException()
+    public function testRunNoSourceException(): void
     {
         $destination = new SplFileInfo(__DIR__);
 
@@ -87,7 +87,7 @@ class UnpackTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoDestinationException()
+    public function testRunNoDestinationException(): void
     {
         $source = new SplFileInfo(__DIR__ . '/test.file');
 

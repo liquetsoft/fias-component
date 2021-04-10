@@ -19,7 +19,7 @@ class ZipUnpackerTest extends BaseCase
      *
      * @throws UnpackerException
      */
-    public function testUnpack()
+    public function testUnpack(): void
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');
@@ -37,7 +37,7 @@ class ZipUnpackerTest extends BaseCase
     /**
      * Проверяет, что объект перехватит исключение при распаковке.
      */
-    public function testUnpackException()
+    public function testUnpackException(): void
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpackException.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');

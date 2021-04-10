@@ -91,7 +91,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
         $this->buffer = null;
@@ -129,7 +129,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function next()
+    public function next(): void
     {
         ++$this->position;
         $this->isBufferFull = true;
@@ -291,7 +291,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @return void
      */
-    protected function unsetReader()
+    protected function unsetReader(): void
     {
         if ($this->reader) {
             $this->reader->close();

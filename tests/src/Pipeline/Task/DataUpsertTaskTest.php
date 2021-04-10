@@ -25,7 +25,7 @@ class DataUpsertTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
@@ -63,7 +63,7 @@ class DataUpsertTaskTest extends BaseCase
         $storage->method('upsert')
             ->will(
                 $this->returnCallback(
-                    function ($object) use (&$insertedData) {
+                    function ($object) use (&$insertedData): void {
                         $insertedData[] = $object->getActstatid();
                     }
                 )

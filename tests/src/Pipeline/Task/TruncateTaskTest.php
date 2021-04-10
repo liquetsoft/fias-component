@@ -20,7 +20,7 @@ class TruncateTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $classes = [
             'Test\Class1',
@@ -45,7 +45,7 @@ class TruncateTaskTest extends BaseCase
         $storage->method('truncate')
             ->will(
                 $this->returnCallback(
-                    function ($className) use (&$truncated) {
+                    function ($className) use (&$truncated): void {
                         $truncated[] = $className;
                     }
                 )

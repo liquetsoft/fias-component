@@ -19,7 +19,7 @@ class LoggableTaskTraitTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testLog()
+    public function testLog(): void
     {
         $logLevel = 'ERROR';
         $message = 'test';

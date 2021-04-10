@@ -21,7 +21,7 @@ class CheckStatusTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $checkerResult = $this->getMockBuilder(StatusCheckerResult::class)
             ->disableOriginalConstructor()
@@ -44,7 +44,7 @@ class CheckStatusTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunException()
+    public function testRunException(): void
     {
         $checkerResult = $this->getMockBuilder(StatusCheckerResult::class)
             ->disableOriginalConstructor()

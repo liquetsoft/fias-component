@@ -16,7 +16,7 @@ class StatusCheckerResultTest extends BaseCase
     /**
      * Проверяет, что объект передает правильный статус.
      */
-    public function testGetResultStatus()
+    public function testGetResultStatus(): void
     {
         $status = FiasStatusChecker::STATUS_NOT_AVAILABLE;
         $perService = [
@@ -35,7 +35,7 @@ class StatusCheckerResultTest extends BaseCase
     /**
      * Проверяет, что объект передает правильный по каждому сервису.
      */
-    public function testGetPerServiceStatuses()
+    public function testGetPerServiceStatuses(): void
     {
         $status = FiasStatusChecker::STATUS_NOT_AVAILABLE;
         $perService = [

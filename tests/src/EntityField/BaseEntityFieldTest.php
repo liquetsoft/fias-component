@@ -16,7 +16,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет имя поля.
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         $name = $this->createFakeData()->word;
 
@@ -32,7 +32,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет описание поля.
      */
-    public function testGetDescription()
+    public function testGetDescription(): void
     {
         $description = $this->createFakeData()->word;
 
@@ -48,7 +48,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно выбросит исключение, если имя не задано.
      */
-    public function testEmptyNameException()
+    public function testEmptyNameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->createField(
@@ -61,7 +61,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет тип поля.
      */
-    public function testGetType()
+    public function testGetType(): void
     {
         $type = $this->createFakeData()->word;
 
@@ -77,7 +77,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно выбросит исключение, если тип не задан.
      */
-    public function testEmptyTypeException()
+    public function testEmptyTypeException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->createField(
@@ -90,7 +90,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет дополнительный тип поля.
      */
-    public function testGetSubType()
+    public function testGetSubType(): void
     {
         $subType = $this->createFakeData()->word;
 
@@ -106,7 +106,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект вернет пустую строку, если дополнительный тип не задан.
      */
-    public function testGetSubTypeDefault()
+    public function testGetSubTypeDefault(): void
     {
         $field = $this->createField();
 
@@ -116,7 +116,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет длину поля.
      */
-    public function testGetLength()
+    public function testGetLength(): void
     {
         $length = $this->createFakeData()->numberBetween(1, 255);
 
@@ -132,7 +132,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект вернет пустую строку, если дополнительный тип не задан.
      */
-    public function testGetLengthDefault()
+    public function testGetLengthDefault(): void
     {
         $field = $this->createField();
 
@@ -142,7 +142,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет флаг для null.
      */
-    public function testIsNullable()
+    public function testIsNullable(): void
     {
         $isNullable = true;
 
@@ -158,7 +158,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект вернет false, если флаг для null не задан.
      */
-    public function testIsNullableDefault()
+    public function testIsNullableDefault(): void
     {
         $field = $this->createField();
 
@@ -168,7 +168,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет флаг первичного ключа.
      */
-    public function testIsPrimary()
+    public function testIsPrimary(): void
     {
         $isPrimary = true;
 
@@ -184,7 +184,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект вернет false, если флаг первичного ключа не задан.
      */
-    public function testIsPrimaryDefault()
+    public function testIsPrimaryDefault(): void
     {
         $field = $this->createField();
 
@@ -194,7 +194,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет флаг ключа.
      */
-    public function testIsIndex()
+    public function testIsIndex(): void
     {
         $isIndex = true;
 
@@ -210,7 +210,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект вернет false, если флаг ключа не задан.
      */
-    public function testIsIndexDefault()
+    public function testIsIndexDefault(): void
     {
         $field = $this->createField();
 
@@ -220,7 +220,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект вернет исключение, если поле и primary и index.
      */
-    public function testIsIndexDoublingException()
+    public function testIsIndexDoublingException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->createField(
@@ -234,7 +234,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет флаг секционирования.
      */
-    public function testIsPartition()
+    public function testIsPartition(): void
     {
         $isPartition = true;
 
@@ -250,7 +250,7 @@ class BaseEntityFieldTest extends BaseCase
     /**
      * Проверяет, что объект вернет false, если флаг секционирования не задан.
      */
-    public function testIsPartitionDefault()
+    public function testIsPartitionDefault(): void
     {
         $field = $this->createField();
 

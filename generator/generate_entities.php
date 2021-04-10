@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Liquetsoft\Fias\Component\Generator\EntitiesArrayFromXSDGenerator;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
 

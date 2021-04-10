@@ -12,7 +12,7 @@ class DataUpsertTaskMock
     private $actstatid;
     private $name;
 
-    public function setActstatid(int $actstatid)
+    public function setActstatid(int $actstatid): void
     {
         $this->actstatid = $actstatid;
     }
@@ -22,7 +22,7 @@ class DataUpsertTaskMock
         return $this->actstatid;
     }
 
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }

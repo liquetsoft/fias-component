@@ -19,7 +19,7 @@ class ArrayEntityRegistryTest extends BaseCase
      * Проверяет, что объект выбросит исключение, если задан объект,
      * который не реализует EntityDescriptor.
      */
-    public function testConstructorWrongInstanceException()
+    public function testConstructorWrongInstanceException(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
 
@@ -37,7 +37,7 @@ class ArrayEntityRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptors()
+    public function testGetDescriptors(): void
     {
         $descriptors = [
             'test' => $this->getMockBuilder(EntityDescriptor::class)->getMock(),
@@ -55,7 +55,7 @@ class ArrayEntityRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testHasDescriptor()
+    public function testHasDescriptor(): void
     {
         $name = 'Test';
 
@@ -73,7 +73,7 @@ class ArrayEntityRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptor()
+    public function testGetDescriptor(): void
     {
         $name = 'Test';
 
@@ -90,7 +90,7 @@ class ArrayEntityRegistryTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorException()
+    public function testGetDescriptorException(): void
     {
         $registry = new ArrayEntityRegistry([]);
 

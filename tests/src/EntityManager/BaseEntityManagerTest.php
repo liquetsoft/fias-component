@@ -21,7 +21,7 @@ class BaseEntityManagerTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если реализация не указана.
      */
-    public function testConstructNoClassException()
+    public function testConstructNoClassException(): void
     {
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 
@@ -40,7 +40,7 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByEntityName()
+    public function testGetDescriptorByEntityName(): void
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
@@ -62,7 +62,7 @@ class BaseEntityManagerTest extends BaseCase
     /**
      * Проверяет, что объект возвращает класс реализации для указанного дескриптора.
      */
-    public function testGetClassByDescriptor()
+    public function testGetClassByDescriptor(): void
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
@@ -89,7 +89,7 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByInsertFile()
+    public function testGetDescriptorByInsertFile(): void
     {
         $file = 'insert_xml.xml';
 
@@ -122,7 +122,7 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByDeleteFile()
+    public function testGetDescriptorByDeleteFile(): void
     {
         $file = 'insert_xml.xml';
 
@@ -156,7 +156,7 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByClass()
+    public function testGetDescriptorByClass(): void
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
@@ -184,7 +184,7 @@ class BaseEntityManagerTest extends BaseCase
      *
      * @throws EntityRegistryException
      */
-    public function testGetDescriptorByObject()
+    public function testGetDescriptorByObject(): void
     {
         $class = stdClass::class;
         $entityName = 'TestEntity';
@@ -211,7 +211,7 @@ class BaseEntityManagerTest extends BaseCase
      * Проверяет, что объект вернет список всех классов, которые имеют отношения
      * к сущностям ФИАС.
      */
-    public function testGetBoundClasses()
+    public function testGetBoundClasses(): void
     {
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 

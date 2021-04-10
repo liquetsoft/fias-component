@@ -25,7 +25,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunEmptyUnpackToException()
+    public function testRunEmptyUnpackToException(): void
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $state = $this->createDefaultStateMock();
@@ -41,7 +41,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNonExitedUnpackToException()
+    public function testRunNonExitedUnpackToException(): void
     {
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
@@ -62,7 +62,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $fixturesFolder = __DIR__ . '/_fixtures';
 

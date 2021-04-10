@@ -23,7 +23,7 @@ class DownloadTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $url = $this->createFakeData()->url;
 
@@ -63,7 +63,7 @@ class DownloadTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoFiasInfoException()
+    public function testRunNoFiasInfoException(): void
     {
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
         $downloader = $this->checkAndReturnDownloader($downloader);
@@ -85,7 +85,7 @@ class DownloadTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoDownloadToInfoException()
+    public function testRunNoDownloadToInfoException(): void
     {
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
         $downloader = $this->checkAndReturnDownloader($downloader);

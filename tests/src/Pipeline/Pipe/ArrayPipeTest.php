@@ -25,7 +25,7 @@ class ArrayPipeTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testConstructNoTaskInstanceException()
+    public function testConstructNoTaskInstanceException(): void
     {
         $task1 = $this->createTaskMock();
         $task2 = 'test';
@@ -44,7 +44,7 @@ class ArrayPipeTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $state = $this->createDefaultStateMock([], true);
         $task1 = $this->createTaskMock($state);
@@ -65,7 +65,7 @@ class ArrayPipeTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunWithCleanup()
+    public function testRunWithCleanup(): void
     {
         $state = $this->createDefaultStateMock([], true);
         $cleanUp = $this->createTaskMock($state);
@@ -90,7 +90,7 @@ class ArrayPipeTest extends BaseCase
      * @throws PipeException
      * @throws Exception
      */
-    public function testRunWithCompleted()
+    public function testRunWithCompleted(): void
     {
         $state = $this->getMockBuilder(State::class)->getMock();
         $stateCounter = 0;
@@ -126,7 +126,7 @@ class ArrayPipeTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunException()
+    public function testRunException(): void
     {
         $state = $this->createDefaultStateMock([], false);
         $cleanUp = $this->createTaskMock($state);
@@ -150,7 +150,7 @@ class ArrayPipeTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testLogger()
+    public function testLogger(): void
     {
         $state = $this->createDefaultStateMock([], true);
         $task = $this->createTaskMock($state);
@@ -184,7 +184,7 @@ class ArrayPipeTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testLoggableTaskLoggerInjected()
+    public function testLoggableTaskLoggerInjected(): void
     {
         $state = $this->createDefaultStateMock([], true);
 

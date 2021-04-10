@@ -23,7 +23,7 @@ class InformFullTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->will($this->returnValue(true));
@@ -46,7 +46,7 @@ class InformFullTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunNoResponseException()
+    public function testRunNoResponseException(): void
     {
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->will($this->returnValue(false));

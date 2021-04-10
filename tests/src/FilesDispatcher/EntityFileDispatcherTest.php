@@ -17,7 +17,7 @@ class EntityFileDispatcherTest extends BaseCase
     /**
      * Проверяет, что объект правильно разбивает на потоки файлы для вставки.
      */
-    public function testDispatchInsert()
+    public function testDispatchInsert(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->will($this->returnValue('entity'));
@@ -55,7 +55,7 @@ class EntityFileDispatcherTest extends BaseCase
     /**
      * Проверяет, что объект правильно разбивает на потоки файлы для удаления.
      */
-    public function testDispatchDelete()
+    public function testDispatchDelete(): void
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->will($this->returnValue('entity'));

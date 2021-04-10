@@ -22,7 +22,7 @@ class PrepareFolderTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $pathToPrepare = $this->getPathToTestDir('prepare');
         $this->getPathToTestFile('prepare/test.txt');
@@ -41,7 +41,7 @@ class PrepareFolderTaskTest extends BaseCase
      * Проверяет, что задача выбросит исключение, если задана папка, которая
      * не доступна на запись или родительская папка для которой не существует..
      */
-    public function testConstructBadFolderException()
+    public function testConstructBadFolderException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new PrepareFolderTask(__DIR__ . '/empty/empty');

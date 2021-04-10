@@ -20,7 +20,7 @@ class CleanupTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRun()
+    public function testRun(): void
     {
         $downloadToPath = $this->getPathToTestFile('downloadTo.rar');
         $downloadTo = new SplFileInfo($downloadToPath);
@@ -49,7 +49,7 @@ class CleanupTaskTest extends BaseCase
      *
      * @throws Exception
      */
-    public function testRunEmptyFiles()
+    public function testRunEmptyFiles(): void
     {
         $downloadToPath = __DIR__ . '/test.rar';
         $downloadTo = new SplFileInfo($downloadToPath);

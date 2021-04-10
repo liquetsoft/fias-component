@@ -17,7 +17,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет имя сущности.
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         $name = $this->createFakeData()->word;
 
@@ -31,7 +31,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно выбросит исключение, если имя не задано.
      */
-    public function testEmptyNameException()
+    public function testEmptyNameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->createDescriptor(
@@ -44,7 +44,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет xpath сущности в файле.
      */
-    public function testGetXmlPath()
+    public function testGetXmlPath(): void
     {
         $xpath = '/root/' . $this->createFakeData()->word;
 
@@ -58,7 +58,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно выбросит исключение, если xpath не задан.
      */
-    public function testEmptyXmlPathException()
+    public function testEmptyXmlPathException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->createDescriptor(
@@ -71,7 +71,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет описание сущности.
      */
-    public function testGetDescription()
+    public function testGetDescription(): void
     {
         $description = $this->createFakeData()->text;
 
@@ -85,7 +85,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект по умолчанию вернет пустое описание.
      */
-    public function testGetDescriptionDefault()
+    public function testGetDescriptionDefault(): void
     {
         $descriptor = $this->createDescriptor();
 
@@ -95,7 +95,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет маску файла для загрузки данных.
      */
-    public function testGetXmlInsertFileMask()
+    public function testGetXmlInsertFileMask(): void
     {
         $file = $this->createFakeData()->word . '_*.xml';
 
@@ -109,7 +109,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект по умолчанию вернет пустую маску файла для загрузки данных.
      */
-    public function testGetXmlInsertFileMaskDefault()
+    public function testGetXmlInsertFileMaskDefault(): void
     {
         $descriptor = $this->createDescriptor();
 
@@ -119,7 +119,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно вернет маску файла для удаления данных.
      */
-    public function testGetXmlDeleteFileMask()
+    public function testGetXmlDeleteFileMask(): void
     {
         $file = $this->createFakeData()->word . '_*.xml';
 
@@ -133,7 +133,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект по умолчанию вернет пустую маску файла для удаления данных.
      */
-    public function testGetXmlDeleteFileMaskDefault()
+    public function testGetXmlDeleteFileMaskDefault(): void
     {
         $descriptor = $this->createDescriptor();
 
@@ -144,7 +144,7 @@ class BaseEntityDescriptorTest extends BaseCase
      * Проверяет, что объект правильно вернет количество частей, на которые
      * нужно разбить таблицу с данной сущностью.
      */
-    public function testGetPartitionsCount()
+    public function testGetPartitionsCount(): void
     {
         $count = (string) $this->createFakeData()->numberBetween(1, 10);
 
@@ -158,7 +158,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект по умолчанию вернет одну часть для таблицы.
      */
-    public function testGetPartitionsCountDefault()
+    public function testGetPartitionsCountDefault(): void
     {
         $descriptor = $this->createDescriptor();
 
@@ -168,7 +168,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект вернет список своих полей.
      */
-    public function testGetFields()
+    public function testGetFields(): void
     {
         $field1 = $this->getMockBuilder(EntityField::class)->getMock();
         $field1->method('getName')->will($this->returnValue('test1'));
@@ -188,7 +188,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект проверяет наличие поля с указанным именем.
      */
-    public function testHasField()
+    public function testHasField(): void
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
         $field->method('getName')->will($this->returnValue('test1'));
@@ -204,7 +204,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект вернет поле по указанному имени.
      */
-    public function testGetField()
+    public function testGetField(): void
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
         $field->method('getName')->will($this->returnValue('test1'));
@@ -219,7 +219,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если не найдет поле по имени.
      */
-    public function testGetFieldException()
+    public function testGetFieldException(): void
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
         $field->method('getName')->will($this->returnValue('test1'));
@@ -235,7 +235,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если поля не были заданы.
      */
-    public function testEmptyFieldsException()
+    public function testEmptyFieldsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->createDescriptor(
@@ -248,7 +248,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если указано неверное поле.
      */
-    public function testWrongFieldTypeException()
+    public function testWrongFieldTypeException(): void
     {
         $field1 = $this->getMockBuilder(EntityField::class)->getMock();
         $field2 = 123;
@@ -265,7 +265,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если имена полей дублируются.
      */
-    public function testDoublingFieldsNamesException()
+    public function testDoublingFieldsNamesException(): void
     {
         $field1 = $this->getMockBuilder(EntityField::class)->getMock();
         $field1->method('getName')->will($this->returnValue('test'));
@@ -287,7 +287,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно сопоставляет имена файлов для вставки с шаблоном.
      */
-    public function testIsFileNameFitsXmlInsertFileMask()
+    public function testIsFileNameFitsXmlInsertFileMask(): void
     {
         $fileMask = '*_test_*.xml';
 
@@ -302,7 +302,7 @@ class BaseEntityDescriptorTest extends BaseCase
     /**
      * Проверяет, что объект правильно сопоставляет имена файлов для удаления с шаблоном.
      */
-    public function testIsFileNameFitsXmlDeleteFileMask()
+    public function testIsFileNameFitsXmlDeleteFileMask(): void
     {
         $fileMask = '*_test_*.xml';
 

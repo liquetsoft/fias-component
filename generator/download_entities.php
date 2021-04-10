@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer;
 use Liquetsoft\Fias\Component\Helper\PathHelper;

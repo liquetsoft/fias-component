@@ -15,7 +15,7 @@ class FiasNameConverterTest extends BaseCase
     /**
      * Проверяет, что объект верно преобразует имя.
      */
-    public function testNormalize()
+    public function testNormalize(): void
     {
         $name = ' @TEST';
         $name1 = 'tEst1 ';
@@ -29,7 +29,7 @@ class FiasNameConverterTest extends BaseCase
     /**
      * Проверяет, что объект верно преобразует имя из XML.
      */
-    public function testDenormalize()
+    public function testDenormalize(): void
     {
         $name = ' @TEST';
         $name1 = 'tEst1 ';
