@@ -11,6 +11,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 /**
  * Тест для объекта, который представляет результат со ссылкой на файлы
  * от сервиса ФИАС.
+ *
+ * @internal
  */
 class InformerResponseBaseTest extends BaseCase
 {

@@ -17,6 +17,8 @@ use Throwable;
 
 /**
  * Тест для объекта, который запускает на исполнение задачи из внутреннего массива.
+ *
+ * @internal
  */
 class ArrayPipeTest extends BaseCase
 {

@@ -15,6 +15,8 @@ use stdClass;
 /**
  * Тест для объекта, который получает ссылку на файл с архивом ФИАС
  * от soap сервиса информирования ФИАС.
+ *
+ * @internal
  */
 class SoapFiasInformerTest extends BaseCase
 {

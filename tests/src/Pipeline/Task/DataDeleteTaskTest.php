@@ -17,6 +17,8 @@ use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
 
 /**
  * Тест для задачи, которая удаляет данные из файла из БД.
+ *
+ * @internal
  */
 class DataDeleteTaskTest extends BaseCase
 {
@@ -32,20 +34,16 @@ class DataDeleteTaskTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByDeleteFile')
-            ->will(
-                $this->returnCallback(
-                    function ($file) use ($descriptor) {
-                        return $file === 'data.xml' ? $descriptor : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($file) use ($descriptor) {
+                    return $file === 'data.xml' ? $descriptor : null;
+                }
             );
         $entityManager->method('getClassByDescriptor')
-            ->will(
-                $this->returnCallback(
-                    function ($testDescriptor) use ($descriptor) {
-                        return $testDescriptor === $descriptor ? DataDeleteTaskMock::class : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($testDescriptor) use ($descriptor) {
+                    return $testDescriptor === $descriptor ? DataDeleteTaskMock::class : null;
+                }
             );
 
         $insertedData = [];
@@ -53,20 +51,16 @@ class DataDeleteTaskTest extends BaseCase
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData) {
-                        return $object->getActstatid() === 321;
-                    }
-                )
+            ->willReturnCallback(
+                function ($object) use (&$insertedData) {
+                    return $object->getActstatid() === 321;
+                }
             );
         $storage->method('delete')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData): void {
-                        $insertedData[] = $object->getActstatid();
-                    }
-                )
+            ->willReturnCallback(
+                function ($object) use (&$insertedData): void {
+                    $insertedData[] = $object->getActstatid();
+                }
             );
 
         $state = $this->createDefaultStateMock(

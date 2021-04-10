@@ -12,6 +12,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая сохраняет файлы ФИАС после обработки.
+ *
+ * @internal
  */
 class SaveFiasFilesTaskTest extends BaseCase
 {

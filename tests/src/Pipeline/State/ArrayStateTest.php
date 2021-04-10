@@ -10,6 +10,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который хранит состояние во внутреннем массиве.
+ *
+ * @internal
  */
 class ArrayStateTest extends BaseCase
 {

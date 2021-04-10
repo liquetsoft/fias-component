@@ -182,12 +182,10 @@ abstract class BaseCase extends TestCase
         $state = $this->getMockBuilder(State::class)->getMock();
 
         $state->method('getParameter')
-            ->will(
-                $this->returnCallback(
-                    function ($name) use ($params) {
-                        return $params[$name] ?? null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($name) use ($params) {
+                    return $params[$name] ?? null;
+                }
             );
 
         if ($needCompleting !== null) {

@@ -14,6 +14,8 @@ use SplFileInfo;
 
 /**
  * Тест для объекта, который загружает файл с помощью curl.
+ *
+ * @internal
  */
 class CurlDownloaderTest extends BaseCase
 {

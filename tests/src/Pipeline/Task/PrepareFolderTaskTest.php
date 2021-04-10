@@ -14,6 +14,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая подготавливает папки и файлы для импорта.
+ *
+ * @internal
  */
 class PrepareFolderTaskTest extends BaseCase
 {

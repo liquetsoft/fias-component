@@ -15,6 +15,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для задачи, которая получает ссылку на полную версию ФИАС.
+ *
+ * @internal
  */
 class InformFullTaskTest extends BaseCase
 {
@@ -26,12 +28,12 @@ class InformFullTaskTest extends BaseCase
     public function testRun(): void
     {
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->will($this->returnValue(true));
-        $informerResult->method('getVersion')->will($this->returnValue(1));
-        $informerResult->method('getUrl')->will($this->returnValue('http://test.test/test'));
+        $informerResult->method('hasResult')->willReturn(true);
+        $informerResult->method('getVersion')->willReturn(1);
+        $informerResult->method('getUrl')->willReturn('http://test.test/test');
 
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getCompleteInfo')->will($this->returnValue($informerResult));
+        $informer->method('getCompleteInfo')->willReturn($informerResult);
 
         $state = new ArrayState();
 
@@ -49,10 +51,10 @@ class InformFullTaskTest extends BaseCase
     public function testRunNoResponseException(): void
     {
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->will($this->returnValue(false));
+        $informerResult->method('hasResult')->willReturn(false);
 
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getCompleteInfo')->will($this->returnValue($informerResult));
+        $informer->method('getCompleteInfo')->willReturn($informerResult);
 
         $state = $this->createDefaultStateMock();
 

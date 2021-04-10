@@ -11,6 +11,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который хранит описание сущности во внутреннем массиве.
+ *
+ * @internal
  */
 class BaseEntityDescriptorTest extends BaseCase
 {
@@ -171,10 +173,10 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testGetFields(): void
     {
         $field1 = $this->getMockBuilder(EntityField::class)->getMock();
-        $field1->method('getName')->will($this->returnValue('test1'));
+        $field1->method('getName')->willReturn('test1');
 
         $field2 = $this->getMockBuilder(EntityField::class)->getMock();
-        $field2->method('getName')->will($this->returnValue('test2'));
+        $field2->method('getName')->willReturn('test2');
 
         $fields = [$field1, $field2];
 
@@ -191,7 +193,7 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testHasField(): void
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
-        $field->method('getName')->will($this->returnValue('test1'));
+        $field->method('getName')->willReturn('test1');
 
         $descriptor = $this->createDescriptor([
             'fields' => ['test' => $field],
@@ -207,7 +209,7 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testGetField(): void
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
-        $field->method('getName')->will($this->returnValue('test1'));
+        $field->method('getName')->willReturn('test1');
 
         $descriptor = $this->createDescriptor([
             'fields' => ['test' => $field],
@@ -222,7 +224,7 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testGetFieldException(): void
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
-        $field->method('getName')->will($this->returnValue('test1'));
+        $field->method('getName')->willReturn('test1');
 
         $descriptor = $this->createDescriptor([
             'fields' => ['test' => $field],
@@ -268,10 +270,10 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testDoublingFieldsNamesException(): void
     {
         $field1 = $this->getMockBuilder(EntityField::class)->getMock();
-        $field1->method('getName')->will($this->returnValue('test'));
+        $field1->method('getName')->willReturn('test');
 
         $field2 = $this->getMockBuilder(EntityField::class)->getMock();
-        $field2->method('getName')->will($this->returnValue('test'));
+        $field2->method('getName')->willReturn('test');
 
         $this->expectException(InvalidArgumentException::class);
         $this->createDescriptor(
@@ -324,7 +326,7 @@ class BaseEntityDescriptorTest extends BaseCase
     protected function createDescriptor(array $options = []): BaseEntityDescriptor
     {
         $field = $this->getMockBuilder(EntityField::class)->getMock();
-        $field->method('getName')->will($this->returnValue('test'));
+        $field->method('getName')->willReturn('test');
 
         $resultOptions = array_merge([
             'name' => 'Test',

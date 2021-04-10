@@ -25,6 +25,8 @@ $rules = [
     'php_unit_construct' => true,
     'php_unit_dedicate_assert' => true,
     'php_unit_expectation' => true,
+    'php_unit_internal_class' => true,
+    'php_unit_mock_short_will_return' => true,
 ];
 
 return PhpCsFixer\Config::create()->setRules($rules)->setFinder($finder);

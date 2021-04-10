@@ -11,6 +11,8 @@ use SplFileInfo;
 
 /**
  * Тест для объекта, который читает данные из xml файла.
+ *
+ * @internal
  */
 class BaseXmlReaderTest extends BaseCase
 {

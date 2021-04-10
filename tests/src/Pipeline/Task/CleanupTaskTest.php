@@ -12,6 +12,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая очищает все временные данные после завершения импорта.
+ *
+ * @internal
  */
 class CleanupTaskTest extends BaseCase
 {

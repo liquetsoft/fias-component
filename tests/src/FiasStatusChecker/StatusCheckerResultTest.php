@@ -10,6 +10,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта с результатми проверки статуса ФИАС.
+ *
+ * @internal
  */
 class StatusCheckerResultTest extends BaseCase
 {

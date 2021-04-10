@@ -11,6 +11,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который получает описания сущностей из php файла с массивом.
+ *
+ * @internal
  */
 class PhpArrayFileRegistryTest extends BaseCase
 {

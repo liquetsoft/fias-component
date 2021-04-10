@@ -13,6 +13,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для задачи, которая проверяет текущий статус ФИАС.
+ *
+ * @internal
  */
 class CheckStatusTaskTest extends BaseCase
 {

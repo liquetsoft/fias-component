@@ -12,6 +12,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который получает описания сущностей из yaml.
+ *
+ * @internal
  */
 class ArrayEntityRegistryTest extends BaseCase
 {
@@ -60,7 +62,7 @@ class ArrayEntityRegistryTest extends BaseCase
         $name = 'Test';
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($name));
+        $descriptor->method('getName')->willReturn($name);
 
         $registry = new ArrayEntityRegistry([$descriptor]);
 
@@ -78,7 +80,7 @@ class ArrayEntityRegistryTest extends BaseCase
         $name = 'Test';
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->will($this->returnValue($name));
+        $descriptor->method('getName')->willReturn($name);
 
         $registry = new ArrayEntityRegistry([$descriptor]);
 

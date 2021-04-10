@@ -13,6 +13,8 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 
 /**
  * Тест для задачи, которая сохраняет текущую версию ФИАС.
+ *
+ * @internal
  */
 class VersionSetTaskTest extends BaseCase
 {

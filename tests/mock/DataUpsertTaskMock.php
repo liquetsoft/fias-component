@@ -6,6 +6,8 @@ namespace Liquetsoft\Fias\Component\Tests\Mock;
 
 /**
  * Мок для проверки задачи об обновлении данных в БД.
+ *
+ * @internal
  */
 class DataUpsertTaskMock
 {

@@ -15,6 +15,8 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 
 /**
  * Тест для задачи, которая получает текущую версию ФИАС.
+ *
+ * @internal
  */
 class VersionGetTaskTest extends BaseCase
 {
@@ -34,7 +36,7 @@ class VersionGetTaskTest extends BaseCase
         $response->method('hasResult')->willReturn(true);
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->method('getCurrentVersion')->will($this->returnValue($response));
+        $versionManager->method('getCurrentVersion')->willReturn($response);
         $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $state = new ArrayState();

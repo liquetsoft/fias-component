@@ -10,6 +10,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который хранит описание поля сущности во внутреннем массиве.
+ *
+ * @internal
  */
 class BaseEntityFieldTest extends BaseCase
 {

@@ -14,6 +14,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая распаковывает архив из параметра в состоянии.
+ *
+ * @internal
  */
 class UnpackTaskTest extends BaseCase
 {

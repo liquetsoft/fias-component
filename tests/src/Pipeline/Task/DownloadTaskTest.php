@@ -15,6 +15,8 @@ use SplFileInfo;
 
 /**
  * Тест для задачи, которая загружает архив ФИАС по ссылке.
+ *
+ * @internal
  */
 class DownloadTaskTest extends BaseCase
 {

@@ -11,6 +11,8 @@ use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
 
 /**
  * Тест для объекта, который преобразует данные из xml ФИАС в объекты.
+ *
+ * @internal
  */
 class FiasSerializerTest extends BaseCase
 {

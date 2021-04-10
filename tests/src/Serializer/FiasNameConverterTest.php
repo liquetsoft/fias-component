@@ -9,6 +9,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для объекта, который преобразует имена их xml.
+ *
+ * @internal
  */
 class FiasNameConverterTest extends BaseCase
 {

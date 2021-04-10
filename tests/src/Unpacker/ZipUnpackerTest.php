@@ -11,6 +11,8 @@ use SplFileInfo;
 
 /**
  * Тест для объекта, который распаковывает zip архив.
+ *
+ * @internal
  */
 class ZipUnpackerTest extends BaseCase
 {

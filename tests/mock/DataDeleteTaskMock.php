@@ -6,6 +6,8 @@ namespace Liquetsoft\Fias\Component\Tests\Mock;
 
 /**
  * Мок для проверки задачи об удалении данных из БД.
+ *
+ * @internal
  */
 class DataDeleteTaskMock
 {

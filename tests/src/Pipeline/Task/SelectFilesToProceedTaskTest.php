@@ -17,6 +17,8 @@ use stdClass;
 
 /**
  * Тест для задачи, которая выбирает файлы из папки для загрузки в базу на основе данных из EntityManager.
+ *
+ * @internal
  */
 class SelectFilesToProceedTaskTest extends BaseCase
 {
@@ -70,38 +72,32 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
-            ->will(
-                $this->returnCallback(
-                    function ($file) use ($descriptor) {
-                        $files = [
-                            'SelectFilesToProceedTaskTest_insert.xml',
-                            'SelectFilesToProceedTaskTest_nested_insert.xml',
-                        ];
+            ->willReturnCallback(
+                function ($file) use ($descriptor) {
+                    $files = [
+                        'SelectFilesToProceedTaskTest_insert.xml',
+                        'SelectFilesToProceedTaskTest_nested_insert.xml',
+                    ];
 
-                        return \in_array($file, $files, true) ? $descriptor : null;
-                    }
-                )
+                    return \in_array($file, $files, true) ? $descriptor : null;
+                }
             );
         $entityManager->method('getDescriptorByDeleteFile')
-            ->will(
-                $this->returnCallback(
-                    function ($file) use ($descriptor) {
-                        $files = [
-                            'SelectFilesToProceedTaskTest_delete.xml',
-                            'SelectFilesToProceedTaskTest_nested_delete.xml',
-                        ];
+            ->willReturnCallback(
+                function ($file) use ($descriptor) {
+                    $files = [
+                        'SelectFilesToProceedTaskTest_delete.xml',
+                        'SelectFilesToProceedTaskTest_nested_delete.xml',
+                    ];
 
-                        return \in_array($file, $files, true) ? $descriptor : null;
-                    }
-                )
+                    return \in_array($file, $files, true) ? $descriptor : null;
+                }
             );
         $entityManager->method('getClassByDescriptor')
-            ->will(
-                $this->returnCallback(
-                    function ($testDescriptor) use ($descriptor) {
-                        return $testDescriptor === $descriptor ? stdClass::class : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($testDescriptor) use ($descriptor) {
+                    return $testDescriptor === $descriptor ? stdClass::class : null;
+                }
             );
 
         $state = new ArrayState();

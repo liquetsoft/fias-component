@@ -20,6 +20,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Тест для задачи, которая загружает данные из файла в БД.
+ *
+ * @internal
  */
 class DataInsertTaskTest extends BaseCase
 {
@@ -35,20 +37,16 @@ class DataInsertTaskTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
-            ->will(
-                $this->returnCallback(
-                    function ($file) use ($descriptor) {
-                        return $file === 'data.xml' ? $descriptor : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($file) use ($descriptor) {
+                    return $file === 'data.xml' ? $descriptor : null;
+                }
             );
         $entityManager->method('getClassByDescriptor')
-            ->will(
-                $this->returnCallback(
-                    function ($testDescriptor) use ($descriptor) {
-                        return $testDescriptor === $descriptor ? DataInsertTaskMock::class : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($testDescriptor) use ($descriptor) {
+                    return $testDescriptor === $descriptor ? DataInsertTaskMock::class : null;
+                }
             );
 
         $insertedData = [];
@@ -56,20 +54,16 @@ class DataInsertTaskTest extends BaseCase
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData) {
-                        return $object->getActstatid() === 321;
-                    }
-                )
+            ->willReturnCallback(
+                function ($object) use (&$insertedData) {
+                    return $object->getActstatid() === 321;
+                }
             );
         $storage->method('insert')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData): void {
-                        $insertedData[] = $object->getActstatid();
-                    }
-                )
+            ->willReturnCallback(
+                function ($object) use (&$insertedData): void {
+                    $insertedData[] = $object->getActstatid();
+                }
             );
 
         $state = $this->createDefaultStateMock(
@@ -101,20 +95,16 @@ class DataInsertTaskTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
-            ->will(
-                $this->returnCallback(
-                    function ($file) use ($descriptor) {
-                        return $file === 'data.xml' ? $descriptor : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($file) use ($descriptor) {
+                    return $file === 'data.xml' ? $descriptor : null;
+                }
             );
         $entityManager->method('getClassByDescriptor')
-            ->will(
-                $this->returnCallback(
-                    function ($testDescriptor) use ($descriptor) {
-                        return $testDescriptor === $descriptor ? DataInsertTaskMock::class : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($testDescriptor) use ($descriptor) {
+                    return $testDescriptor === $descriptor ? DataInsertTaskMock::class : null;
+                }
             );
 
         $insertedData = [];
@@ -123,12 +113,10 @@ class DataInsertTaskTest extends BaseCase
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')->willReturn(true);
         $storage->method('insert')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData): void {
-                        $insertedData[] = $object->getActstatid();
-                    }
-                )
+            ->willReturnCallback(
+                function ($object) use (&$insertedData): void {
+                    $insertedData[] = $object->getActstatid();
+                }
             );
 
         $state = $this->createDefaultStateMock(
@@ -166,20 +154,16 @@ class DataInsertTaskTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
-            ->will(
-                $this->returnCallback(
-                    function ($file) use ($descriptor) {
-                        return $file === 'data.xml' ? $descriptor : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($file) use ($descriptor) {
+                    return $file === 'data.xml' ? $descriptor : null;
+                }
             );
         $entityManager->method('getClassByDescriptor')
-            ->will(
-                $this->returnCallback(
-                    function ($testDescriptor) use ($descriptor) {
-                        return $testDescriptor === $descriptor ? DataInsertTaskMock::class : null;
-                    }
-                )
+            ->willReturnCallback(
+                function ($testDescriptor) use ($descriptor) {
+                    return $testDescriptor === $descriptor ? DataInsertTaskMock::class : null;
+                }
             );
 
         $insertedData = [];
@@ -188,12 +172,10 @@ class DataInsertTaskTest extends BaseCase
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')->willReturn(true);
         $storage->method('insert')
-            ->will(
-                $this->returnCallback(
-                    function ($object) use (&$insertedData): void {
-                        $insertedData[] = $object->getActstatid();
-                    }
-                )
+            ->willReturnCallback(
+                function ($object) use (&$insertedData): void {
+                    $insertedData[] = $object->getActstatid();
+                }
             );
 
         $state = $this->createDefaultStateMock(

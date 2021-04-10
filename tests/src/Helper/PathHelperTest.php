@@ -9,6 +9,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
  * Тест для класса, который возвращает пути до частей библиотеки.
+ *
+ * @internal
  */
 class PathHelperTest extends BaseCase
 {

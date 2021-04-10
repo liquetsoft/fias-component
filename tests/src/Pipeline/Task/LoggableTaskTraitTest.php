@@ -11,6 +11,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Тест для трэйта, который обеспечивает логгирование.
+ *
+ * @internal
  */
 class LoggableTaskTraitTest extends BaseCase
 {

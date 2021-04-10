@@ -13,6 +13,8 @@ use stdClass;
 
 /**
  * Тест для объекта, который сохраняет данные в несколько хранилищ.
+ *
+ * @internal
  */
 class CompositeStorageTest extends BaseCase
 {
@@ -74,13 +76,13 @@ class CompositeStorageTest extends BaseCase
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $compositeStorage = new CompositeStorage([$storage, $storage1]);
         $isSupport = $compositeStorage->supports($object);
@@ -100,13 +102,13 @@ class CompositeStorageTest extends BaseCase
         $storage->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($class))
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($class))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $compositeStorage = new CompositeStorage([$storage, $storage1]);
         $isSupport = $compositeStorage->supportsClass($class);
@@ -127,14 +129,14 @@ class CompositeStorageTest extends BaseCase
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $storage->expects($this->never())->method('insert');
 
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $storage1->expects($this->once())->method('insert')->with($this->identicalTo($object));
 
         $compositeStorage = new CompositeStorage([$storage, $storage1]);
@@ -154,14 +156,14 @@ class CompositeStorageTest extends BaseCase
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $storage->expects($this->never())->method('delete');
 
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $storage1->expects($this->once())
             ->method('delete')
             ->with($this->identicalTo($object));
@@ -183,14 +185,14 @@ class CompositeStorageTest extends BaseCase
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $storage->expects($this->never())->method('upsert');
 
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $storage1->expects($this->once())
             ->method('upsert')
             ->with($this->identicalTo($object));
@@ -212,14 +214,14 @@ class CompositeStorageTest extends BaseCase
         $storage->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(false));
+            ->willReturn(false);
         $storage->expects($this->never())->method('truncate');
 
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($object))
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $storage1->expects($this->once())->method('truncate')->with($this->identicalTo($object));
 
         $compositeStorage = new CompositeStorage([$storage, $storage1]);

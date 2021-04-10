@@ -8,6 +8,8 @@ use DateTimeInterface;
 
 /**
  * Мок для тестирования сериализатора.
+ *
+ * @internal
  */
 class FiasSerializerMock
 {
