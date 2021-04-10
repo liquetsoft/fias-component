@@ -73,7 +73,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
             ->willReturnCallback(
-                function ($file) use ($descriptor) {
+                function (string $file) use ($descriptor) {
                     $files = [
                         'SelectFilesToProceedTaskTest_insert.xml',
                         'SelectFilesToProceedTaskTest_nested_insert.xml',
@@ -84,7 +84,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
             );
         $entityManager->method('getDescriptorByDeleteFile')
             ->willReturnCallback(
-                function ($file) use ($descriptor) {
+                function (string $file) use ($descriptor) {
                     $files = [
                         'SelectFilesToProceedTaskTest_delete.xml',
                         'SelectFilesToProceedTaskTest_nested_delete.xml',
@@ -95,7 +95,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
             );
         $entityManager->method('getClassByDescriptor')
             ->willReturnCallback(
-                function ($testDescriptor) use ($descriptor) {
+                function (EntityDescriptor $testDescriptor) use ($descriptor) {
                     return $testDescriptor === $descriptor ? stdClass::class : null;
                 }
             );

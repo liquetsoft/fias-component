@@ -35,13 +35,13 @@ class DataDeleteTaskTest extends BaseCase
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByDeleteFile')
             ->willReturnCallback(
-                function ($file) use ($descriptor) {
+                function (string $file) use ($descriptor) {
                     return $file === 'data.xml' ? $descriptor : null;
                 }
             );
         $entityManager->method('getClassByDescriptor')
             ->willReturnCallback(
-                function ($testDescriptor) use ($descriptor) {
+                function (EntityDescriptor $testDescriptor) use ($descriptor) {
                     return $testDescriptor === $descriptor ? DataDeleteTaskMock::class : null;
                 }
             );
@@ -52,13 +52,13 @@ class DataDeleteTaskTest extends BaseCase
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')
             ->willReturnCallback(
-                function ($object) use (&$insertedData) {
+                function (DataDeleteTaskMock $object) use (&$insertedData) {
                     return $object->getActstatid() === 321;
                 }
             );
         $storage->method('delete')
             ->willReturnCallback(
-                function ($object) use (&$insertedData): void {
+                function (DataDeleteTaskMock $object) use (&$insertedData): void {
                     $insertedData[] = $object->getActstatid();
                 }
             );

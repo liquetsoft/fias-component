@@ -103,7 +103,6 @@ class ArrayPipeTest extends BaseCase
                 return $stateCounter > 1;
             }
         );
-        $state = $this->checkAndReturnState($state);
 
         $cleanUp = $this->createTaskMock($state);
         $task1 = $this->createTaskMock($state);
@@ -168,7 +167,6 @@ class ArrayPipeTest extends BaseCase
                     $this->arrayHasKey('pipeline_id')
                 )
             );
-        $logger = $this->checkAndReturnLogger($logger);
 
         $pipe = new ArrayPipe(
             [
@@ -191,7 +189,6 @@ class ArrayPipeTest extends BaseCase
         $state = $this->createDefaultStateMock([], true);
 
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-        $logger = $this->checkAndReturnLogger($logger);
 
         $task = $this->getMockBuilder(ArrayPipeTestLoggableMock::class)->getMock();
         $task->expects($this->once())
@@ -239,6 +236,6 @@ class ArrayPipeTest extends BaseCase
             }
         }
 
-        return $this->checkAndReturnTask($task);
+        return $task;
     }
 }

@@ -36,17 +36,16 @@ class UnpackTaskTest extends BaseCase
             ->method('unpack')
             ->with(
                 $this->callback(
-                    function ($source) use ($sourcePath) {
+                    function (SplFileInfo $source) use ($sourcePath) {
                         return $source->getPathname() === $sourcePath;
                     }
                 ),
                 $this->callback(
-                    function ($destination) use ($destinationPath) {
+                    function (SplFileInfo $destination) use ($destinationPath) {
                         return $destination->getPathname() === $destinationPath;
                     }
                 )
             );
-        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createDefaultStateMock(
             [
@@ -70,7 +69,6 @@ class UnpackTaskTest extends BaseCase
         $destination = new SplFileInfo(__DIR__);
 
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
-        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createDefaultStateMock(
             [
@@ -94,7 +92,6 @@ class UnpackTaskTest extends BaseCase
         $source = new SplFileInfo(__DIR__ . '/test.file');
 
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
-        $unpack = $this->checkAndReturnUnpack($unpack);
 
         $state = $this->createDefaultStateMock(
             [

@@ -71,6 +71,7 @@ class BaseXmlReaderTest extends BaseCase
         }
 
         foreach ($reader as $key => $item) {
+            $this->assertIsString($item);
             $this->assertStringContainsString('ActualStatus', $item);
             $this->assertStringContainsString('ACTSTATID="' . $key . '', $item);
         }

@@ -41,12 +41,11 @@ class DownloadTaskTest extends BaseCase
             ->method('download')->with(
                 $this->equalTo($url),
                 $this->callback(
-                    function ($file) use ($filePath) {
+                    function (SplFileInfo $file) use ($filePath) {
                         return $file->getPathname() === $filePath;
                     }
                 )
             );
-        $downloader = $this->checkAndReturnDownloader($downloader);
 
         $state = $this->createDefaultStateMock(
             [
@@ -68,7 +67,6 @@ class DownloadTaskTest extends BaseCase
     public function testRunNoFiasInfoException(): void
     {
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
-        $downloader = $this->checkAndReturnDownloader($downloader);
 
         $state = $this->createDefaultStateMock(
             [
@@ -90,7 +88,6 @@ class DownloadTaskTest extends BaseCase
     public function testRunNoDownloadToInfoException(): void
     {
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
-        $downloader = $this->checkAndReturnDownloader($downloader);
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->willReturn(true);

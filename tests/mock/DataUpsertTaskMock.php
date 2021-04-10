@@ -11,25 +11,32 @@ namespace Liquetsoft\Fias\Component\Tests\Mock;
  */
 class DataUpsertTaskMock
 {
-    private $actstatid;
-    private $name;
+    /**
+     * @var int
+     */
+    private $actstatid = 0;
+
+    /**
+     * @var string
+     */
+    private $name = '';
 
     public function setActstatid(int $actstatid): void
     {
         $this->actstatid = $actstatid;
     }
 
-    public function getActstatid()
+    public function getActstatid(): int
     {
         return $this->actstatid;
     }
 
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

@@ -139,7 +139,7 @@ class BaseEntityManagerTest extends BaseCase
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor1->method('getName')->willReturn($entityName1);
         $descriptor1->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
-            function ($testFile) use ($file) {
+            function (string $testFile) use ($file) {
                 return $testFile === $file;
             }
         );

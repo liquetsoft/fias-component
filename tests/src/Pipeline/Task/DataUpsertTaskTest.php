@@ -35,13 +35,13 @@ class DataUpsertTaskTest extends BaseCase
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
             ->willReturnCallback(
-                function ($file) use ($descriptor) {
+                function (string $file) use ($descriptor) {
                     return $file === 'data.xml' ? $descriptor : null;
                 }
             );
         $entityManager->method('getClassByDescriptor')
             ->willReturnCallback(
-                function ($testDescriptor) use ($descriptor) {
+                function (EntityDescriptor $testDescriptor) use ($descriptor) {
                     return $testDescriptor === $descriptor ? DataUpsertTaskMock::class : null;
                 }
             );
@@ -52,13 +52,13 @@ class DataUpsertTaskTest extends BaseCase
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')
             ->willReturnCallback(
-                function ($object) use (&$insertedData) {
+                function (DataUpsertTaskMock $object) use (&$insertedData) {
                     return $object->getActstatid() === 321;
                 }
             );
         $storage->method('upsert')
             ->willReturnCallback(
-                function ($object) use (&$insertedData): void {
+                function (DataUpsertTaskMock $object) use (&$insertedData): void {
                     $insertedData[] = $object->getActstatid();
                 }
             );

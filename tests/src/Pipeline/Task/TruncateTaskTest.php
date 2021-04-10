@@ -38,13 +38,13 @@ class TruncateTaskTest extends BaseCase
         $storage->expects($this->once())->method('stop');
         $storage->method('supportsClass')
             ->willReturnCallback(
-                function ($className) use (&$insertedData) {
+                function (string $className) use (&$insertedData) {
                     return $className === 'Test\Class2';
                 }
             );
         $storage->method('truncate')
             ->willReturnCallback(
-                function ($className) use (&$truncated): void {
+                function (string $className) use (&$truncated): void {
                     $truncated[] = $className;
                 }
             );

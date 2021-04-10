@@ -6,16 +6,11 @@ namespace Liquetsoft\Fias\Component\Tests;
 
 use Faker\Factory;
 use Faker\Generator;
-use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
-use Liquetsoft\Fias\Component\Unpacker\Unpacker;
-use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 use Marvin255\FileSystemHelper\FileSystemException;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 /**
@@ -34,7 +29,7 @@ abstract class BaseCase extends TestCase
     private $fs;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $tempDir;
 
@@ -154,22 +149,6 @@ abstract class BaseCase extends TestCase
     }
 
     /**
-     * Проверяет, что мок реализует интерфейс объекта для записи в лог.
-     *
-     * @param mixed $logger
-     *
-     * @return LoggerInterface
-     */
-    protected function checkAndReturnLogger($logger): LoggerInterface
-    {
-        if (!($logger instanceof LoggerInterface)) {
-            throw new RuntimeException('Wrong logger mock.');
-        }
-
-        return $logger;
-    }
-
-    /**
      * Создает мок для объекта состояния.
      *
      * @param array     $params
@@ -183,7 +162,7 @@ abstract class BaseCase extends TestCase
 
         $state->method('getParameter')
             ->willReturnCallback(
-                function ($name) use ($params) {
+                function (string $name) use ($params) {
                     return $params[$name] ?? null;
                 }
             );
@@ -193,90 +172,6 @@ abstract class BaseCase extends TestCase
             $state->expects($expects)->method('complete');
         }
 
-        if (!($state instanceof State)) {
-            throw new RuntimeException('Wrong state mock.');
-        }
-
         return $state;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта состояния.
-     *
-     * @param mixed $state
-     *
-     * @return State
-     */
-    protected function checkAndReturnState($state): State
-    {
-        if (!($state instanceof State)) {
-            throw new RuntimeException('Wrong state mock.');
-        }
-
-        return $state;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта задачи.
-     *
-     * @param mixed $task
-     *
-     * @return Task
-     */
-    protected function checkAndReturnTask($task): Task
-    {
-        if (!($task instanceof Task)) {
-            throw new RuntimeException('Wrong task mock.');
-        }
-
-        return $task;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта для управления версиями.
-     *
-     * @param mixed $versionManager
-     *
-     * @return VersionManager
-     */
-    protected function checkAndReturnVersionManager($versionManager): VersionManager
-    {
-        if (!($versionManager instanceof VersionManager)) {
-            throw new RuntimeException('Wrong version manager mock.');
-        }
-
-        return $versionManager;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта для распаковки архива.
-     *
-     * @param mixed $unpack
-     *
-     * @return Unpacker
-     */
-    protected function checkAndReturnUnpack($unpack): Unpacker
-    {
-        if (!($unpack instanceof Unpacker)) {
-            throw new RuntimeException('Wrong unpack mock.');
-        }
-
-        return $unpack;
-    }
-
-    /**
-     * Проверяет, что мок реализует интерфейс объекта для загрузки файлов.
-     *
-     * @param mixed $downloader
-     *
-     * @return Downloader
-     */
-    protected function checkAndReturnDownloader($downloader): Downloader
-    {
-        if (!($downloader instanceof Downloader)) {
-            throw new RuntimeException('Wrong downloader mock.');
-        }
-
-        return $downloader;
     }
 }

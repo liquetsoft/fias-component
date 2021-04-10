@@ -20,6 +20,9 @@ class LoggableTaskTraitTest extends BaseCase
      * Проверяет, что объект правильно залоггирует сообщение.
      *
      * @throws Exception
+     *
+     * @psalm-suppress UndefinedInterfaceMethod
+     * @psalm-suppress InvalidScalarArgument
      */
     public function testLog(): void
     {

@@ -25,7 +25,8 @@
         "fakerphp/faker": "^1.7",
         "friendsofphp/php-cs-fixer": "^2.16",
         "sebastian/phpcpd": "^4.0|^5.0|^6.0",
-        "vimeo/psalm": "^4.0"
+        "vimeo/psalm": "^4.0",
+        "psalm/plugin-phpunit": "^0.15.1"
     },
     "autoload": {
         "psr-4": {

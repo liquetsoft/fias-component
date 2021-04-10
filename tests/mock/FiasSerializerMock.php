@@ -13,10 +13,29 @@ use DateTimeInterface;
  */
 class FiasSerializerMock
 {
+    /**
+     * @var int
+     */
     private $ACTSTATID = 0;
+
+    /**
+     * @var string
+     */
     private $name = '';
-    private $testDate;
+
+    /**
+     * @var DateTimeInterface|null
+     */
+    private $testDate = null;
+
+    /**
+     * @var string
+     */
     private $kodtst = '';
+
+    /**
+     * @var int
+     */
     private $emptyStringInt = 0;
 
     public function setActstatid(int $ACTSTATID): void
@@ -24,17 +43,17 @@ class FiasSerializerMock
         $this->ACTSTATID = $ACTSTATID;
     }
 
-    public function getActstatid()
+    public function getActstatid(): int
     {
         return $this->ACTSTATID;
     }
 
-    public function setName($NAME): void
+    public function setName(string $NAME): void
     {
         $this->name = $NAME;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -44,7 +63,7 @@ class FiasSerializerMock
         $this->testDate = $testDate;
     }
 
-    public function getTestDate()
+    public function getTestDate(): ?DateTimeInterface
     {
         return $this->testDate;
     }
@@ -54,7 +73,7 @@ class FiasSerializerMock
         $this->kodtst = $kodtst;
     }
 
-    public function getKodtst()
+    public function getKodtst(): string
     {
         return $this->kodtst;
     }
@@ -64,7 +83,7 @@ class FiasSerializerMock
         $this->emptyStringInt = $emptyStringInt;
     }
 
-    public function getEmptyStringInt()
+    public function getEmptyStringInt(): int
     {
         return $this->emptyStringInt;
     }

@@ -9,7 +9,6 @@ use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use RuntimeException;
 use SplFileInfo;
 
 /**
@@ -37,7 +36,7 @@ class CurlDownloaderTest extends BaseCase
                 200,
                 null,
             ],
-            function ($requestOptions) use ($source) {
+            function (array $requestOptions) use ($source) {
                 return \in_array($source, $requestOptions)
                     && isset($requestOptions[\CURLOPT_FILE])
                     && \is_resource($requestOptions[\CURLOPT_FILE])
@@ -169,10 +168,6 @@ class CurlDownloaderTest extends BaseCase
 
         if (\is_array($return)) {
             $method->willReturn($return);
-        }
-
-        if (!($downloader instanceof Downloader)) {
-            throw new RuntimeException('Wrong downloader mock.');
         }
 
         return $downloader;

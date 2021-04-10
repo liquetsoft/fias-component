@@ -32,7 +32,7 @@ class EntityFileDispatcherTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')->willReturnCallback(
-            function ($fileName) use ($descriptor, $descriptor1, $descriptor2, $descriptor3) {
+            function (string $fileName) use ($descriptor, $descriptor1, $descriptor2, $descriptor3) {
                 switch ($fileName) {
                     case 'test.xml':
                         $descriptorToReturn = $descriptor;
@@ -101,7 +101,7 @@ class EntityFileDispatcherTest extends BaseCase
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByDeleteFile')->willReturnCallback(
-            function ($fileName) use ($descriptor, $descriptor1, $descriptor2) {
+            function (string $fileName) use ($descriptor, $descriptor1, $descriptor2) {
                 switch ($fileName) {
                     case 'test.xml':
                         $descriptorToReturn = $descriptor;

@@ -45,7 +45,6 @@ class VersionSetTaskTest extends BaseCase
             ->with(
                 $this->equalTo($response)
             );
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $task = new VersionSetTask($versionManager);
 
@@ -70,7 +69,6 @@ class VersionSetTaskTest extends BaseCase
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->expects($this->never())->method('setCurrentVersion');
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $task = new VersionSetTask($versionManager);
 
@@ -88,7 +86,6 @@ class VersionSetTaskTest extends BaseCase
 
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->expects($this->never())->method('setCurrentVersion');
-        $versionManager = $this->checkAndReturnVersionManager($versionManager);
 
         $task = new VersionSetTask($versionManager);
 
