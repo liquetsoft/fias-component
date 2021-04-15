@@ -84,7 +84,7 @@ class CurlStatusChecker implements FiasStatusChecker
                     [
                         'service' => FiasStatusChecker::SERVICE_FILE_SERVER,
                         'status' => FiasStatusChecker::STATUS_NOT_AVAILABLE,
-                        'reason' => 'File to download in unaviable',
+                        'reason' => 'File to download is unaviable',
                     ],
                 ]
             );
