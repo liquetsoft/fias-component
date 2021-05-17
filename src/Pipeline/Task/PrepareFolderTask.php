@@ -54,7 +54,7 @@ class PrepareFolderTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $this->log(LogLevel::INFO, "Emptying '{$this->folder->getRealPath()}' folder.");
+        $this->log(LogLevel::INFO, "Emptying '{$this->folder->getPathname()}' folder.");
         $this->fs->mkdirIfNotExist($this->folder);
         $this->fs->emptyDir($this->folder);
 
