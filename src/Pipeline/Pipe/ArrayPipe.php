@@ -89,7 +89,12 @@ class ArrayPipe implements Pipe
      */
     protected function proceedStart(State $state): void
     {
-        $message = sprintf("Start '%s' pipeline with '%s' state.", \get_class($this), \get_class($state));
+        $message = sprintf(
+            "Start '%s' pipeline with '%s' state.",
+            \get_class($this),
+            \get_class($state)
+        );
+
         $this->log(LogLevel::INFO, $message);
     }
 
@@ -104,17 +109,24 @@ class ArrayPipe implements Pipe
     protected function proceedTask(State $state, Task $task): void
     {
         $taskName = $this->getTaskId($task);
+
         $this->log(
             LogLevel::INFO,
             "Start '{$taskName}' task.",
-            ['task' => $taskName]
+            [
+                'task' => $taskName,
+            ]
         );
+
         $this->injectLoggerToTask($task);
         $task->run($state);
+
         $this->log(
             LogLevel::INFO,
             "Complete '{$taskName}' task.",
-            ['task' => $taskName]
+            [
+                'task' => $taskName,
+            ]
         );
     }
 
@@ -130,12 +142,16 @@ class ArrayPipe implements Pipe
     protected function proceedException(State $state, Task $task, Throwable $e): void
     {
         $taskName = $this->getTaskId($task);
-        $message = "Error while running {$taskName} task: {$e->getMessage()}";
+        $message = "Error while running {$taskName} task.";
 
-        $this->log(LogLevel::ERROR, $message, [
-            'exception' => $e,
-            'task' => $taskName,
-        ]);
+        $this->log(
+            LogLevel::ERROR,
+            $message,
+            [
+                'exception' => $e,
+                'task' => $taskName,
+            ]
+        );
 
         $this->proceedCleanup($state);
 
@@ -195,7 +211,11 @@ class ArrayPipe implements Pipe
         if ($task instanceof LoggableTask && $this->logger) {
             $task->injectLogger(
                 $this->logger,
-                $this->createLoggerContext(['task' => $this->getTaskId($task)])
+                $this->createLoggerContext(
+                    [
+                        'task' => $this->getTaskId($task),
+                    ]
+                )
             );
         }
     }
