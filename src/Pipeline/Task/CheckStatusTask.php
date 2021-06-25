@@ -37,7 +37,7 @@ class CheckStatusTask implements LoggableTask, Task
         $status = $this->checker->check();
 
         if ($status->getResultStatus() !== FiasStatusChecker::STATUS_AVAILABLE) {
-            $message = 'FIAS is unavailable.';
+            $message = 'There are some troubles on the FIAS side. Please try again later.';
             $this->log(
                 LogLevel::ERROR,
                 $message,
