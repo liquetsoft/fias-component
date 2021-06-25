@@ -137,18 +137,17 @@ class ArrayPipe implements Pipe
      * @param State     $state
      * @param Throwable $e
      *
-     * @throws Exception
+     * @throws PipeException
      */
     protected function proceedException(State $state, Task $task, Throwable $e): void
     {
         $taskName = $this->getTaskId($task);
-        $message = "Error while running {$taskName} task.";
+        $message = "Error while running {$taskName} task. Pipeline interrupted.";
 
         $this->log(
-            LogLevel::ERROR,
+            LogLevel::INFO,
             $message,
             [
-                'exception' => $e,
                 'task' => $taskName,
             ]
         );
