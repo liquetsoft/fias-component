@@ -26,7 +26,7 @@ class VersionSetTaskTest extends BaseCase
     public function testRun(): void
     {
         $version = $this->createFakeData()->numberBetween(1, 123);
-        $url = $this->createFakeData()->url;
+        $url = $this->createFakeData()->url();
 
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('getVersion')->willReturn($version);

@@ -27,7 +27,7 @@ class DownloadTaskTest extends BaseCase
      */
     public function testRun(): void
     {
-        $url = $this->createFakeData()->url;
+        $url = $this->createFakeData()->url();
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->willReturn(true);
@@ -91,7 +91,7 @@ class DownloadTaskTest extends BaseCase
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->willReturn(true);
-        $informerResult->method('getUrl')->willReturn($this->createFakeData()->url);
+        $informerResult->method('getUrl')->willReturn($this->createFakeData()->url());
 
         $state = $this->createDefaultStateMock(
             [

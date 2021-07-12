@@ -21,7 +21,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetName(): void
     {
-        $name = $this->createFakeData()->word;
+        $name = $this->createFakeData()->word();
 
         $descriptor = $this->createDescriptor([
             'name' => $name,
@@ -48,7 +48,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlPath(): void
     {
-        $xpath = '/root/' . $this->createFakeData()->word;
+        $xpath = '/root/' . $this->createFakeData()->word();
 
         $descriptor = $this->createDescriptor([
             'xmlPath' => $xpath,
@@ -75,7 +75,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetDescription(): void
     {
-        $description = $this->createFakeData()->text;
+        $description = $this->createFakeData()->text();
 
         $descriptor = $this->createDescriptor([
             'description' => $description,
@@ -99,7 +99,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlInsertFileMask(): void
     {
-        $file = $this->createFakeData()->word . '_*.xml';
+        $file = $this->createFakeData()->word() . '_*.xml';
 
         $descriptor = $this->createDescriptor([
             'insertFileMask' => $file,
@@ -123,7 +123,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlDeleteFileMask(): void
     {
-        $file = $this->createFakeData()->word . '_*.xml';
+        $file = $this->createFakeData()->word() . '_*.xml';
 
         $descriptor = $this->createDescriptor([
             'deleteFileMask' => $file,

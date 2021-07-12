@@ -25,7 +25,7 @@ class CurlDownloaderTest extends BaseCase
      */
     public function testDownload(): void
     {
-        $source = $this->createFakeData()->url;
+        $source = $this->createFakeData()->url();
 
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
@@ -75,7 +75,7 @@ class CurlDownloaderTest extends BaseCase
      */
     public function testDownloadCurlErrorException(): void
     {
-        $source = $this->createFakeData()->url;
+        $source = $this->createFakeData()->url();
 
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
@@ -98,7 +98,7 @@ class CurlDownloaderTest extends BaseCase
      */
     public function testDownloadWrongResponseCodeException(): void
     {
-        $source = $this->createFakeData()->url;
+        $source = $this->createFakeData()->url();
 
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
@@ -121,7 +121,7 @@ class CurlDownloaderTest extends BaseCase
      */
     public function testDownloadCantOpenFileException(): void
     {
-        $source = $this->createFakeData()->url;
+        $source = $this->createFakeData()->url();
 
         $destinationPath = '/wrong/path/to/file.rar';
         $destination = new SplFileInfo($destinationPath);
