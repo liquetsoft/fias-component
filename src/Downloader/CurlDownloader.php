@@ -112,7 +112,6 @@ class CurlDownloader implements Downloader
         $requestOptions[\CURLOPT_URL] = $url;
         $requestOptions[\CURLOPT_FILE] = $fh;
         $requestOptions[\CURLOPT_FOLLOWLOCATION] = true;
-        $requestOptions[\CURLOPT_FRESH_CONNECT] = true;
 
         return $requestOptions;
     }
