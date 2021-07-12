@@ -34,7 +34,7 @@ class InformerResponseBaseTest extends BaseCase
      */
     public function testGetSetUrl(): void
     {
-        $url = $this->createFakeData()->url;
+        $url = $this->createFakeData()->url();
 
         $res = new InformerResponseBase();
         $res->setUrl($url);
@@ -52,7 +52,7 @@ class InformerResponseBaseTest extends BaseCase
         $this->assertFalse($res->hasResult());
 
         $res->setVersion($this->createFakeData()->numberBetween(1, 10000));
-        $res->setUrl($this->createFakeData()->url);
+        $res->setUrl($this->createFakeData()->url());
 
         $this->assertTrue($res->hasResult());
     }
@@ -66,6 +66,6 @@ class InformerResponseBaseTest extends BaseCase
         $res = new InformerResponseBase();
 
         $this->expectException(InvalidArgumentException::class);
-        $res->setUrl($this->createFakeData()->word);
+        $res->setUrl($this->createFakeData()->word());
     }
 }

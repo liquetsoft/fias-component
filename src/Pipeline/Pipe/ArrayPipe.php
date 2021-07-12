@@ -142,7 +142,7 @@ class ArrayPipe implements Pipe
     protected function proceedException(State $state, Task $task, Throwable $e): void
     {
         $taskName = $this->getTaskId($task);
-        $message = "Error while running {$taskName} task. Pipeline interrupted.";
+        $message = "There was an error while running '{$taskName}' task. Pipeline was interrupted.";
 
         $this->log(
             LogLevel::INFO,
@@ -182,7 +182,7 @@ class ArrayPipe implements Pipe
     protected function proceedComplete(State $state): void
     {
         $state->complete();
-        $this->log(LogLevel::INFO, "Complete '" . \get_class($this) . "' pipeline.");
+        $this->log(LogLevel::INFO, "Pipeline '" . \get_class($this) . "' was completed.");
     }
 
     /**

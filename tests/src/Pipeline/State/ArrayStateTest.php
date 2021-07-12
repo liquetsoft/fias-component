@@ -20,8 +20,8 @@ class ArrayStateTest extends BaseCase
      */
     public function testSetAndGetParameter(): void
     {
-        $parameterName = $this->createFakeData()->word;
-        $parameterValue = $this->createFakeData()->word;
+        $parameterName = $this->createFakeData()->word();
+        $parameterValue = $this->createFakeData()->word();
 
         $state = new ArrayState();
         $state->setParameter($parameterName, $parameterValue);
@@ -34,8 +34,8 @@ class ArrayStateTest extends BaseCase
      */
     public function testSetAndLockParameter(): void
     {
-        $parameterName = $this->createFakeData()->word;
-        $parameterValue = $this->createFakeData()->word;
+        $parameterName = $this->createFakeData()->word();
+        $parameterValue = $this->createFakeData()->word();
 
         $state = new ArrayState();
         $state->setAndLockParameter($parameterName, $parameterValue);
@@ -49,8 +49,8 @@ class ArrayStateTest extends BaseCase
      */
     public function testSetParameterLockedException(): void
     {
-        $parameterName = $this->createFakeData()->word;
-        $parameterValue = $this->createFakeData()->word;
+        $parameterName = $this->createFakeData()->word();
+        $parameterValue = $this->createFakeData()->word();
 
         $state = new ArrayState();
         $state->setAndLockParameter($parameterName, $parameterValue);

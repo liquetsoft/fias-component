@@ -96,7 +96,7 @@ class CompositeStorageTest extends BaseCase
      */
     public function testSupportsClass(): void
     {
-        $class = $this->createFakeData()->word;
+        $class = $this->createFakeData()->word();
 
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())

@@ -20,7 +20,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testGetName(): void
     {
-        $name = $this->createFakeData()->word;
+        $name = $this->createFakeData()->word();
 
         $field = $this->createField(
             [
@@ -36,7 +36,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testGetDescription(): void
     {
-        $description = $this->createFakeData()->word;
+        $description = $this->createFakeData()->word();
 
         $field = $this->createField(
             [
@@ -65,7 +65,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testGetType(): void
     {
-        $type = $this->createFakeData()->word;
+        $type = $this->createFakeData()->word();
 
         $field = $this->createField(
             [
@@ -94,7 +94,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testGetSubType(): void
     {
-        $subType = $this->createFakeData()->word;
+        $subType = $this->createFakeData()->word();
 
         $field = $this->createField(
             [
