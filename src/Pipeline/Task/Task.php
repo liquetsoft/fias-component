@@ -13,17 +13,17 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
  */
 interface Task
 {
-    const FIAS_VERSION_PARAM = 'fias_version';
+    public const FIAS_VERSION_PARAM = 'fias_version';
 
-    const FIAS_INFO_PARAM = 'fias_info';
+    public const FIAS_INFO_PARAM = 'fias_info';
 
-    const DOWNLOAD_TO_FILE_PARAM = 'download_to';
+    public const DOWNLOAD_TO_FILE_PARAM = 'download_to';
 
-    const EXTRACT_TO_FOLDER_PARAM = 'extract_to';
+    public const EXTRACT_TO_FOLDER_PARAM = 'extract_to';
 
-    const FILES_TO_INSERT_PARAM = 'files_to_insert';
+    public const FILES_TO_INSERT_PARAM = 'files_to_insert';
 
-    const FILES_TO_DELETE_PARAM = 'files_to_delete';
+    public const FILES_TO_DELETE_PARAM = 'files_to_delete';
 
     /**
      * Запускает задачу на исполнение.
