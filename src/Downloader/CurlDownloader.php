@@ -25,7 +25,7 @@ class CurlDownloader implements Downloader
 
     /**
      * @param array $additionalCurlOptions
-     * @param int $maxAttempts
+     * @param int   $maxAttempts
      */
     public function __construct(array $additionalCurlOptions = [], int $maxAttempts = 10)
     {
@@ -47,34 +47,34 @@ class CurlDownloader implements Downloader
         $isRangeSupported = $contentLength > 0 && ($headers['accept-ranges'] ?? '') === 'bytes';
 
         $options = [
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_FRESH_CONNECT => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT => 60 * 15,
-            CURLOPT_FILE => $this->openLocalFile($localFile, 'wb'),
+            \CURLOPT_FOLLOWLOCATION => true,
+            \CURLOPT_FRESH_CONNECT => true,
+            \CURLOPT_CONNECTTIMEOUT => 5,
+            \CURLOPT_TIMEOUT => 60 * 15,
+            \CURLOPT_FILE => $this->openLocalFile($localFile, 'wb'),
         ];
 
-        for ($i = 0; $i < $this->maxAttempts; $i++) {
+        for ($i = 0; $i < $this->maxAttempts; ++$i) {
             $response = $this->runCurlRequest($url, $options);
             if ($response['isOk'] && empty($response['error'])) {
                 break;
             }
             // в случае ошибки пробуем скачать файл еще раз,
             // но для этого нужно переоткрыть ресурс файла
-            fclose($options[CURLOPT_FILE]);
+            fclose($options[\CURLOPT_FILE]);
             // если уже скачали какие-то данные и сервер поддерживает Range,
             // пробуем продолжить с того же места
             clearstatcache(true, $localFile->getRealPath());
             $fileSize = (int) filesize($localFile->getRealPath());
             if ($fileSize > 0 && $isRangeSupported) {
-                $options[CURLOPT_FILE] = $this->openLocalFile($localFile, 'ab');
-                $options[CURLOPT_RANGE] = $fileSize . "-" . ($contentLength - 1);
+                $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'ab');
+                $options[\CURLOPT_RANGE] = $fileSize . '-' . ($contentLength - 1);
             } else {
-                $options[CURLOPT_FILE] = $this->openLocalFile($localFile, 'wb');
+                $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'wb');
             }
         }
 
-        fclose($options[CURLOPT_FILE]);
+        fclose($options[\CURLOPT_FILE]);
 
         if (!empty($response['error'])) {
             $message = sprintf(
@@ -107,9 +107,9 @@ class CurlDownloader implements Downloader
         $response = $this->runCurlRequest(
             $url,
             [
-                CURLOPT_HEADER => true,
-                CURLOPT_NOBODY => true,
-                CURLOPT_RETURNTRANSFER => true,
+                \CURLOPT_HEADER => true,
+                \CURLOPT_NOBODY => true,
+                \CURLOPT_RETURNTRANSFER => true,
             ]
         );
 
@@ -121,7 +121,7 @@ class CurlDownloader implements Downloader
      * и возвращает его ресурс.
      *
      * @param SplFileInfo $localFile
-     * @param string $mode
+     * @param string      $mode
      *
      * @return resource
      */
@@ -144,14 +144,14 @@ class CurlDownloader implements Downloader
      * Отправляет запрос с помощью curl и возвращает содержимое, статус ответа и список заголовков.
      *
      * @param string $url
-     * @param array $options
+     * @param array  $options
      *
      * @return array
      */
     private function runCurlRequest(string $url, array $options): array
     {
         $fullOptionsList = $this->additionalCurlOptions + $options;
-        $fullOptionsList[CURLOPT_URL] = $url;
+        $fullOptionsList[\CURLOPT_URL] = $url;
 
         $ch = curl_init();
         if ($ch === false) {
@@ -181,7 +181,7 @@ class CurlDownloader implements Downloader
      */
     private function extractHeadersFromContent(mixed $content): array
     {
-        if (!is_string($content)) {
+        if (!\is_string($content)) {
             return [];
         }
 
@@ -190,11 +190,11 @@ class CurlDownloader implements Downloader
         $headers = [];
         $rawHeaders = explode("\n", $explodeHeadersContent[0]);
         foreach ($rawHeaders as $rawHeader) {
-            $rawHeaderExplode = explode(":", $rawHeader, 2);
-            if (count($rawHeaderExplode) < 2) {
+            $rawHeaderExplode = explode(':', $rawHeader, 2);
+            if (\count($rawHeaderExplode) < 2) {
                 continue;
             }
-            $name = str_replace("_", "-", strtolower(trim($rawHeaderExplode[0])));
+            $name = str_replace('_', '-', strtolower(trim($rawHeaderExplode[0])));
             $value = strtolower(trim($rawHeaderExplode[1]));
             $headers[$name] = $value;
         }
