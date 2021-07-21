@@ -55,7 +55,7 @@ class CurlDownloader implements Downloader
         ];
 
         for ($i = 0; $i < $this->maxAttempts; ++$i) {
-            $response = $this->runCurlRequest($url, $options);
+            $response = $this->runRequest($url, $options);
             if ($response['isOk'] && empty($response['error'])) {
                 break;
             }
@@ -108,7 +108,7 @@ class CurlDownloader implements Downloader
      */
     private function getHeadResponseHeaders(string $url): array
     {
-        $response = $this->runCurlRequest(
+        $response = $this->runRequest(
             $url,
             [
                 \CURLOPT_HEADER => true,
@@ -117,7 +117,7 @@ class CurlDownloader implements Downloader
             ]
         );
 
-        return $response['headers'];
+        return $response['headers'] ?? [];
     }
 
     /**
@@ -152,24 +152,43 @@ class CurlDownloader implements Downloader
      *
      * @return array
      */
-    private function runCurlRequest(string $url, array $options): array
+    protected function runRequest(string $url, array $options): array
     {
         $fullOptionsList = $this->additionalCurlOptions + $options;
         $fullOptionsList[\CURLOPT_URL] = $url;
 
+        [$statusCode, $content, $error] = $this->runCurlRequest($fullOptionsList);
+
+        return [
+            'status' => $statusCode,
+            'isOk' => $statusCode >= 200 && $statusCode < 300,
+            'headers' => $this->extractHeadersFromContent($content),
+            'error' => $error,
+        ];
+    }
+
+    /**
+     * Отправляет запрос с помощью curl и возвращает содержимое, статус ответа и список заголовков.
+     *
+     * @param string $url
+     * @param array  $options
+     *
+     * @return array
+     */
+    protected function runCurlRequest(array $options): array
+    {
         $ch = curl_init();
         if ($ch === false) {
             throw new DownloaderException("Can't init curl resource.");
         }
 
-        curl_setopt_array($ch, $fullOptionsList);
+        curl_setopt_array($ch, $options);
         $content = curl_exec($ch);
         $statusCode = (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE);
         $response = [
-            'status' => $statusCode,
-            'isOk' => $statusCode >= 200 && $statusCode < 300,
-            'headers' => $this->extractHeadersFromContent($content),
-            'error' => curl_error($ch),
+            (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE),
+            $content,
+            curl_error($ch),
         ];
         curl_close($ch);
 

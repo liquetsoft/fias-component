@@ -31,17 +31,17 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->createDownloaderMock(
-            [
-                true,
-                200,
-                null,
-            ],
-            function (array $requestOptions) use ($source) {
-                return \in_array($source, $requestOptions)
-                    && isset($requestOptions[\CURLOPT_FILE])
-                    && \is_resource($requestOptions[\CURLOPT_FILE])
-                    && !empty($requestOptions[\CURLOPT_CONNECT_ONLY])
-                ;
+            function (array $options) use ($source) {
+                if (
+                    !empty($options[\CURLOPT_HEADER])
+                    || $options[\CURLOPT_URL] === $source
+                    && \is_resource($options[\CURLOPT_FILE])
+                    && !empty($options[\CURLOPT_CONNECT_ONLY])
+                ) {
+                    return [200, '', null];
+                }
+
+                return [500, '', 'error'];
             },
             [
                 \CURLOPT_CONNECT_ONLY => true,
@@ -63,7 +63,7 @@ class CurlDownloaderTest extends BaseCase
         $destinationPath = $this->getPathToTestFile('archive.rar');
         $destination = new SplFileInfo($destinationPath);
 
-        $curl = $this->createDownloaderMock();
+        $curl = new CurlDownloader();
 
         $this->expectException(InvalidArgumentException::class);
         $curl->download($source, $destination);
@@ -81,11 +81,13 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->createDownloaderMock(
-            [
-                false,
-                0,
-                'error',
-            ]
+            function (array $options) {
+                if (!empty($options[\CURLOPT_HEADER])) {
+                    return [200, '', null];
+                }
+
+                return [200, false, 'error'];
+            },
         );
 
         $this->expectException(DownloaderException::class);
@@ -104,11 +106,13 @@ class CurlDownloaderTest extends BaseCase
         $destination = new SplFileInfo($destinationPath);
 
         $curl = $this->createDownloaderMock(
-            [
-                true,
-                413,
-                null,
-            ]
+            function (array $options) {
+                if (!empty($options[\CURLOPT_HEADER])) {
+                    return [200, '', null];
+                }
+
+                return [500, '', null];
+            },
         );
 
         $this->expectException(DownloaderException::class);
@@ -126,7 +130,11 @@ class CurlDownloaderTest extends BaseCase
         $destinationPath = '/wrong/path/to/file.rar';
         $destination = new SplFileInfo($destinationPath);
 
-        $curl = $this->createDownloaderMock();
+        $curl = $this->createDownloaderMock(
+            function (array $options) {
+                return [200, '', null];
+            }
+        );
 
         $this->expectException(DownloaderException::class);
         $curl->download($source, $destination);
@@ -135,21 +143,17 @@ class CurlDownloaderTest extends BaseCase
     /**
      * Создает настроенный мок для curl загрузчика.
      *
-     * @param mixed         $return
-     * @param callable|null $with
-     * @param array         $additionalCurlOptions
+     * @param callable $with
+     * @param array    $additionalCurlOptions
      *
      * @return Downloader
      */
-    private function createDownloaderMock(
-        $return = null,
-        ?callable $with = null,
-        array $additionalCurlOptions = []
-    ): Downloader {
+    private function createDownloaderMock(callable $with, array $additionalCurlOptions = []): Downloader
+    {
         $downloader = $this->getMockBuilder(CurlDownloader::class)
             ->onlyMethods(
                 [
-                    'curlDownload',
+                    'runCurlRequest',
                 ]
             )
             ->setConstructorArgs(
@@ -159,16 +163,9 @@ class CurlDownloaderTest extends BaseCase
             )
             ->getMock();
 
-        $expects = $return === null ? $this->never() : $this->once();
-        $method = $downloader->expects($expects)->method('curlDownload');
-
-        if ($with) {
-            $method->with($this->callback($with));
-        }
-
-        if (\is_array($return)) {
-            $method->willReturn($return);
-        }
+        $downloader->expects($this->atLeastOnce())
+            ->method('runCurlRequest')
+            ->willReturnCallback($with);
 
         return $downloader;
     }
