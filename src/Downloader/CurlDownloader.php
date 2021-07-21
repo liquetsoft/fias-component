@@ -85,11 +85,15 @@ class CurlDownloader implements Downloader
             throw new DownloaderException($message);
         }
 
-        if (!$response['isOk']) {
+        if (empty($response['isOk'])) {
+            $status = 'xxx';
+            if (!empty($response['status'])) {
+                $status = $response['status'];
+            }
             $message = sprintf(
                 "Url '%s' returned status: %s.",
                 $url,
-                $response['status']
+                $status
             );
             throw new DownloaderException($message);
         }
