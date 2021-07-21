@@ -19,11 +19,18 @@ class CurlDownloader implements Downloader
     private $additionalCurlOptions;
 
     /**
-     * @param array $additionalCurlOptions
+     * @var int
      */
-    public function __construct(array $additionalCurlOptions = [])
+    private $maxAttempts;
+
+    /**
+     * @param array $additionalCurlOptions
+     * @param int $maxAttempts
+     */
+    public function __construct(array $additionalCurlOptions = [], int $maxAttempts = 10)
     {
         $this->additionalCurlOptions = $additionalCurlOptions;
+        $this->maxAttempts = $maxAttempts;
     }
 
     /**
@@ -35,85 +42,163 @@ class CurlDownloader implements Downloader
             throw new InvalidArgumentException("Wrong url format: {$url}");
         }
 
-        $fh = $this->openLocalFile($localFile);
-        $requestOptions = $this->createRequestOptions($url, $fh);
+        $headers = $this->getHeadResponseHeaders($url);
+        $contentLength = (int) ($headers['content-length'] ?? 0);
+        $isRangeSupported = $contentLength > 0 && ($headers['accept-ranges'] ?? '') === 'bytes';
 
-        [$res, $httpCode, $error] = $this->curlDownload($requestOptions);
-        fclose($fh);
+        $options = [
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_FRESH_CONNECT => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT => 60 * 15,
+            CURLOPT_FILE => $this->openLocalFile($localFile, 'wb'),
+        ];
 
-        if ($res === false) {
-            throw new DownloaderException("Error while downloading '{$url}': {$error}");
-        } elseif ($httpCode !== 200) {
-            throw new DownloaderException("Url '{$url}' returns status: {$httpCode}");
+        for ($i = 0; $i < $this->maxAttempts; $i++) {
+            $response = $this->runCurlRequest($url, $options);
+            if ($response['isOk'] && empty($response['error'])) {
+                break;
+            }
+            // в случае ошибки пробуем скачать файл еще раз,
+            // но для этого нужно переоткрыть ресурс файла
+            fclose($options[CURLOPT_FILE]);
+            // если уже скачали какие-то данные и сервер поддерживает Range,
+            // пробуем продолжить с того же места
+            clearstatcache(true, $localFile->getRealPath());
+            $fileSize = (int) filesize($localFile->getRealPath());
+            if ($fileSize > 0 && $isRangeSupported) {
+                $options[CURLOPT_FILE] = $this->openLocalFile($localFile, 'ab');
+                $options[CURLOPT_RANGE] = $fileSize . "-" . ($contentLength - 1);
+            } else {
+                $options[CURLOPT_FILE] = $this->openLocalFile($localFile, 'wb');
+            }
+        }
+
+        fclose($options[CURLOPT_FILE]);
+
+        if (!empty($response['error'])) {
+            $message = sprintf(
+                "There was an error while downloading '%s': %s.",
+                $url,
+                $response['error']
+            );
+            throw new DownloaderException($message);
+        }
+
+        if (!$response['isOk']) {
+            $message = sprintf(
+                "Url '%s' returned status: %s.",
+                $url,
+                $response['status']
+            );
+            throw new DownloaderException($message);
         }
     }
 
     /**
-     * Загружает файл по ссылке в указанный файл.
+     * Возвращает список заголовков из ответа на HEAD запрос.
      *
-     * @param array $requestOptions
+     * @param string $url
      *
      * @return array
-     *
-     * @throws DownloaderException
      */
-    protected function curlDownload(array $requestOptions): array
+    private function getHeadResponseHeaders(string $url): array
     {
-        $ch = curl_init();
-        if ($ch === false) {
-            throw new DownloaderException("Can't init curl resource.");
-        }
+        $response = $this->runCurlRequest(
+            $url,
+            [
+                CURLOPT_HEADER => true,
+                CURLOPT_NOBODY => true,
+                CURLOPT_RETURNTRANSFER => true,
+            ]
+        );
 
-        curl_setopt_array($ch, $requestOptions);
-
-        $res = curl_exec($ch);
-        $httpCode = (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
-        curl_close($ch);
-
-        return [$res, $httpCode, $error];
+        return $response['headers'];
     }
 
     /**
-     * Открывает локальный файл, в который будет вестись запись и возвращает его
-     * ресурс.
+     * Открывает локальный файл, в который будет вестись запись,
+     * и возвращает его ресурс.
      *
      * @param SplFileInfo $localFile
+     * @param string $mode
      *
      * @return resource
-     *
-     * @throws DownloaderException
      */
-    protected function openLocalFile(SplFileInfo $localFile)
+    private function openLocalFile(SplFileInfo $localFile, string $mode)
     {
-        $hLocal = @fopen($localFile->getPathname(), 'wb');
+        $hLocal = @fopen($localFile->getPathname(), $mode);
 
         if ($hLocal === false) {
-            throw new DownloaderException(
-                "Can't open local file for writing: " . $localFile->getPathname()
+            $message = sprintf(
+                "Can't open local file for writing: %s.",
+                $localFile->getPathname()
             );
+            throw new DownloaderException($message);
         }
 
         return $hLocal;
     }
 
     /**
-     * Создаем массив настроек для запроса.
+     * Отправляет запрос с помощью curl и возвращает содержимое, статус ответа и список заголовков.
      *
-     * @param string   $url
-     * @param resource $fh
+     * @param string $url
+     * @param array $options
      *
      * @return array
      */
-    protected function createRequestOptions(string $url, $fh): array
+    private function runCurlRequest(string $url, array $options): array
     {
-        $requestOptions = $this->additionalCurlOptions ?: [];
+        $fullOptionsList = $this->additionalCurlOptions + $options;
+        $fullOptionsList[CURLOPT_URL] = $url;
 
-        $requestOptions[\CURLOPT_URL] = $url;
-        $requestOptions[\CURLOPT_FILE] = $fh;
-        $requestOptions[\CURLOPT_FOLLOWLOCATION] = true;
-        $requestOptions[\CURLOPT_FRESH_CONNECT] = true;
+        $ch = curl_init();
+        if ($ch === false) {
+            throw new DownloaderException("Can't init curl resource.");
+        }
 
-        return $requestOptions;
+        curl_setopt_array($ch, $fullOptionsList);
+        $content = curl_exec($ch);
+        $statusCode = (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE);
+        $response = [
+            'status' => $statusCode,
+            'isOk' => $statusCode >= 200 && $statusCode < 300,
+            'headers' => $this->extractHeadersFromContent($content),
+            'error' => curl_error($ch),
+        ];
+        curl_close($ch);
+
+        return $response;
+    }
+
+    /**
+     * Получает список заголовков из http ответа.
+     *
+     * @param mixed $content
+     *
+     * @return array<string, string>
+     */
+    private function extractHeadersFromContent(mixed $content): array
+    {
+        if (!is_string($content)) {
+            return [];
+        }
+
+        $explodeHeadersContent = explode("\n\n", $content, 2);
+
+        $headers = [];
+        $rawHeaders = explode("\n", $explodeHeadersContent[0]);
+        foreach ($rawHeaders as $rawHeader) {
+            $rawHeaderExplode = explode(":", $rawHeader, 2);
+            if (count($rawHeaderExplode) < 2) {
+                continue;
+            }
+            $name = str_replace("_", "-", strtolower(trim($rawHeaderExplode[0])));
+            $value = strtolower(trim($rawHeaderExplode[1]));
+            $headers[$name] = $value;
+        }
+
+        return $headers;
     }
 }
