@@ -170,8 +170,7 @@ class CurlDownloader implements Downloader
     /**
      * Отправляет запрос с помощью curl и возвращает содержимое, статус ответа и список заголовков.
      *
-     * @param string $url
-     * @param array  $options
+     * @param array $options
      *
      * @return array
      */
