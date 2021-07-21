@@ -202,7 +202,7 @@ class CurlDownloader implements Downloader
      *
      * @return array<string, string>
      */
-    private function extractHeadersFromContent(mixed $content): array
+    private function extractHeadersFromContent($content): array
     {
         if (!\is_string($content)) {
             return [];
