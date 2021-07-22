@@ -50,7 +50,7 @@ class CurlDownloader implements Downloader
             \CURLOPT_FOLLOWLOCATION => true,
             \CURLOPT_FRESH_CONNECT => true,
             \CURLOPT_CONNECTTIMEOUT => 5,
-            \CURLOPT_TIMEOUT => 60 * 15,
+            \CURLOPT_TIMEOUT => 60 * 25,
             \CURLOPT_FILE => $this->openLocalFile($localFile, 'wb'),
         ];
 
