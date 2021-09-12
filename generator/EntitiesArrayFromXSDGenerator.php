@@ -106,17 +106,44 @@ class EntitiesArrayFromXSDGenerator
         $schema = new DOMDocument();
         $schema->loadXML(file_get_contents($filePath));
 
+        if (!preg_match('/AS_(\D+)_.*/', $filePath, $matches)) {
+            throw new RuntimeException("Can't recognize entity name for '{$filePath}' file.");
+        }
+        $entityName = $matches[1];
+        $insertFileMask = "AS_{$matches[1]}_*.XML";
+        $deleteFileMask = "AS_DEL_{$matches[1]}_*.XML";
+
         $xpath = new DOMXpath($schema);
 
         $elements = $xpath->query('//xs:schema/xs:element');
         foreach ($elements as $element) {
             $innerElement = $xpath->query('.//xs:complexType/xs:sequence/xs:element', $element)->item(0);
-            $innerElementName = $innerElement->getAttribute('name');
+            if ($innerElement === null) {
+                continue;
+            } elseif ($ref = $innerElement->getAttribute('ref')) {
+                $parentElementName = $element->getAttribute('name');
+                $innerElementName = $ref;
+                $description = $xpath->query('.//xs:annotation/xs:documentation', $innerElement)->item(0)->nodeValue;
+                $refType = null;
+                foreach ($elements as $refElement) {
+                    if ($refElement->getAttribute('name') === $ref) {
+                        $refType = $refElement;
+                        break;
+                    }
+                }
+                $innerElement = $refType;
+            } else {
+                $innerElementName = $innerElement->getAttribute('name');
+                $parentElementName = $element->getAttribute('name');
+                $description = $xpath->query('.//xs:annotation/xs:documentation', $innerElement)->item(0)->nodeValue;
+            }
 
             $entity = [
-                'entity_name' => $innerElementName === 'Object' ? 'AddressObject' : $innerElementName,
-                'description' => $xpath->query('.//xs:annotation/xs:documentation', $innerElement)->item(0)->nodeValue,
-                'xmlPath' => '/' . $element->getAttribute('name') . '/' . $innerElementName,
+                'entity_name' => $entityName,
+                'insertFileMask' => $insertFileMask,
+                'deleteFileMask' => $deleteFileMask,
+                'description' => $description,
+                'xmlPath' => "/{$parentElementName}/{$innerElementName}",
                 'fields' => $this->extractFieldsDescription($innerElement, $xpath),
             ];
 
@@ -226,6 +253,7 @@ class EntitiesArrayFromXSDGenerator
             'xs:date' => ['type' => 'string', 'subType' => 'date'],
             'xs:integer' => ['type' => 'int', 'subType' => ''],
             'xs:int' => ['type' => 'int', 'subType' => ''],
+            'xs:long' => ['type' => 'long', 'subType' => ''],
             'xs:byte' => ['type' => 'int', 'subType' => ''],
         ];
 

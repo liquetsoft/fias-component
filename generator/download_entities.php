@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
-use Liquetsoft\Fias\Component\FiasInformer\SoapFiasInformer;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
 use Liquetsoft\Fias\Component\Unpacker\ZipUnpacker;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-$xsdUrl = "https://fias.nalog.ru/docs/gar_schemas.zip";
+$xsdUrl = 'https://fias.nalog.ru/docs/gar_schemas.zip';
 
 $fs = FileSystemFactory::create();
 $downloader = new CurlDownloader();

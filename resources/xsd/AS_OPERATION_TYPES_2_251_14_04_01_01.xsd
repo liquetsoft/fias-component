@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by TeaM DJiNN (TeaM DJiNN) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:usch="http://www.unisoftware.ru/schematron-extensions" xmlns:sql="urn:schemas-microsoft-com:mapping-schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="OPERATIONTYPES">
+		<xs:annotation>
+			<xs:documentation>Состав и структура файла со сведениями по статусу действия</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OPERATIONTYPE" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Сведения по статусу действия</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="ID" type="xs:integer" use="required">
+							<xs:annotation>
+								<xs:documentation>Идентификатор статуса (ключ)</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="NAME" use="required">
+							<xs:annotation>
+								<xs:documentation>Наименование</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="SHORTNAME" use="optional">
+							<xs:annotation>
+								<xs:documentation>Краткое наименование</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="DESC" use="optional">
+							<xs:annotation>
+								<xs:documentation>Описание</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="250"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="UPDATEDATE" type="xs:date" use="required">
+							<xs:annotation>
+								<xs:documentation>Дата внесения (обновления) записи</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="STARTDATE" type="xs:date" use="required">
+							<xs:annotation>
+								<xs:documentation>Начало действия записи</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ENDDATE" type="xs:date" use="required">
+							<xs:annotation>
+								<xs:documentation>Окончание действия записи</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ISACTIVE" type="xs:boolean" use="required">
+							<xs:annotation>
+								<xs:documentation>Статус активности</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
