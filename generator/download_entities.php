@@ -10,8 +10,9 @@ use Marvin255\FileSystemHelper\FileSystemFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+$xsdUrl = "https://fias.nalog.ru/docs/gar_schemas.zip";
+
 $fs = FileSystemFactory::create();
-$informer = new SoapFiasInformer();
 $downloader = new CurlDownloader();
 $unpack = new ZipUnpacker();
 $sysTmp = __DIR__;
@@ -23,16 +24,10 @@ $fs->removeIfExists($tmpFile);
 $fs->mkdirIfNotExist($tmpDir);
 $fs->emptyDir($tmpDir);
 
-$deltas = $informer->getDeltaList();
-$version = reset($deltas);
-if (empty($version) || !$version->hasResult()) {
-    throw new RuntimeException("Can't find any version of FIAS.");
-}
-
-$downloader->download($version->getUrl(), $tmpFile);
+$downloader->download($xsdUrl, $tmpFile);
 $unpack->unpack($tmpFile, $tmpDir);
 
 $fs->removeIfExists($xsdFolder);
-$fs->rename($tmpDir->getPathname() . '/Schemas', $xsdFolder);
+$fs->rename($tmpDir->getPathname(), $xsdFolder);
 $fs->removeIfExists($tmpDir);
 $fs->removeIfExists($tmpFile);
