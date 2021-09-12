@@ -29,7 +29,7 @@ class SoapFiasInformerTest extends BaseCase
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
-        $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url();
+        $soapResponse->GetLastDownloadFileInfoResult->GarXMLFullURL = $this->createFakeData()->url();
         $soapResponse->GetLastDownloadFileInfoResult->VersionId = $this->createFakeData()->randomNumber();
 
         $soapClient = $this->getMockBuilder(SoapClient::class)
@@ -45,7 +45,7 @@ class SoapFiasInformerTest extends BaseCase
         $result = $service->getCompleteInfo();
 
         $this->assertSame(
-            $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl,
+            $soapResponse->GetLastDownloadFileInfoResult->GarXMLFullURL,
             $result->getUrl()
         );
         $this->assertSame(
@@ -63,7 +63,7 @@ class SoapFiasInformerTest extends BaseCase
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
-        $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url();
+        $soapResponse->GetLastDownloadFileInfoResult->GarXMLFullURL = $this->createFakeData()->url();
 
         $soapClient = $this->getMockBuilder(SoapClient::class)
             ->disableOriginalConstructor()
@@ -91,7 +91,7 @@ class SoapFiasInformerTest extends BaseCase
     {
         $soapResponse = new stdClass();
         $soapResponse->GetLastDownloadFileInfoResult = new stdClass();
-        $soapResponse->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl = $this->createFakeData()->url();
+        $soapResponse->GetLastDownloadFileInfoResult->GarXMLFullURL = $this->createFakeData()->url();
 
         $soapClient = $this->getMockBuilder(SoapClient::class)
             ->disableOriginalConstructor()
@@ -153,10 +153,10 @@ class SoapFiasInformerTest extends BaseCase
         for ($i = 1; $i <= $totalDeltas; ++$i) {
             $delta = new stdClass();
             $delta->VersionId = $i;
-            $delta->FiasDeltaXmlUrl = $this->createFakeData()->url();
+            $delta->GarXMLDeltaURL = $this->createFakeData()->url();
             $soapResponse->GetAllDownloadFileInfoResult->DownloadFileInfo[] = $delta;
             if ($i === $nextDelta) {
-                $nextUrl = $delta->FiasDeltaXmlUrl;
+                $nextUrl = $delta->GarXMLDeltaURL;
             }
         }
         shuffle($soapResponse->GetAllDownloadFileInfoResult->DownloadFileInfo);
