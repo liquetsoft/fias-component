@@ -60,15 +60,12 @@ class ProcessSwitchTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $filesToInsert = $state->getParameter(Task::FILES_TO_INSERT_PARAM);
-        $filesToInsert = \is_array($filesToInsert) ? $filesToInsert : [];
-        $dispatchedInsert = $this->filesDispatcher->dispatchInsert($filesToInsert, $this->numberOfParallel);
+        $files = $state->getParameter(Task::FILES_TO_PROCEED);
+        $files = \is_array($files) ? $files : [];
 
-        $filesToDelete = $state->getParameter(Task::FILES_TO_DELETE_PARAM);
-        $filesToDelete = \is_array($filesToDelete) ? $filesToDelete : [];
-        $dispatchedDelete = $this->filesDispatcher->dispatchDelete($filesToDelete, $this->numberOfParallel);
+        $dispatchedFiles = $this->filesDispatcher->dispatch($files, $this->numberOfParallel);
 
-        $processes = $this->createProcessesList($dispatchedInsert, $dispatchedDelete);
+        $processes = $this->createProcessesList($dispatchedFiles);
         $this->runProcesses($processes);
     }
 
@@ -139,20 +136,18 @@ class ProcessSwitchTask implements LoggableTask, Task
     /**
      * Создает список процессов для параллельного запуска.
      *
-     * @param string[][] $dispatchedInsert
-     * @param string[][] $dispatchedDelete
+     * @param string[][] $dispatchedFiles
      *
      * @return Process[]
      */
-    protected function createProcessesList(array $dispatchedInsert, array $dispatchedDelete): array
+    protected function createProcessesList(array $dispatchedFiles): array
     {
         $processes = [];
 
         for ($i = 0; $i < $this->numberOfParallel; ++$i) {
-            $dispatchedInsertForProcess = $dispatchedInsert[$i] ?? [];
-            $dispatchedDeleteForProcess = $dispatchedDelete[$i] ?? [];
-            if ($dispatchedInsertForProcess || $dispatchedDeleteForProcess) {
-                $processes[] = $this->createProcess($dispatchedInsertForProcess, $dispatchedDeleteForProcess);
+            $dispatchedFilesForProcess = $dispatchedFiles[$i] ?? [];
+            if (!empty($dispatchedFilesForProcess)) {
+                $processes[] = $this->createProcess($dispatchedFilesForProcess);
             }
         }
 
@@ -162,12 +157,11 @@ class ProcessSwitchTask implements LoggableTask, Task
     /**
      * Создает новый процесс для списка файлов.
      *
-     * @param string[] $dispatchedInsert
-     * @param string[] $dispatchedDelete
+     * @param string[] $dispatchedFiles
      *
      * @return Process
      */
-    protected function createProcess(array $dispatchedInsert, array $dispatchedDelete): Process
+    protected function createProcess(array $dispatchedFiles): Process
     {
         $phpBinaryFinder = new PhpExecutableFinder();
         $phpBinaryPath = $phpBinaryFinder->find();
@@ -176,8 +170,7 @@ class ProcessSwitchTask implements LoggableTask, Task
             LogLevel::INFO,
             'Creating new process.',
             [
-                'insert_files' => $dispatchedInsert,
-                'delete_files' => $dispatchedDelete,
+                'files' => $dispatchedFiles,
                 'path_to_php' => $phpBinaryPath,
                 'path_to_bin' => $this->pathToBin,
                 'command' => $this->commandName,
@@ -188,8 +181,7 @@ class ProcessSwitchTask implements LoggableTask, Task
             $phpBinaryPath,
             $this->pathToBin,
             $this->commandName,
-            json_encode($dispatchedInsert),
-            json_encode($dispatchedDelete),
+            json_encode($dispatchedFiles),
         ]);
     }
 }

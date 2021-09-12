@@ -10,22 +10,12 @@ namespace Liquetsoft\Fias\Component\FilesDispatcher;
 interface FilesDispatcher
 {
     /**
-     * Разбивает список файлов для вставки по потокам.
+     * Разбивает список файлов по потокам.
      *
-     * @param string[] $filesToInsert
+     * @param string[] $files
      * @param int      $processesCount
      *
-     * @return array[]
+     * @return string[][]
      */
-    public function dispatchInsert(array $filesToInsert, int $processesCount = 6): array;
-
-    /**
-     * Разбивает список файлов для удаления по потокам.
-     *
-     * @param string[] $filesToDelete
-     * @param int      $processesCount
-     *
-     * @return array[]
-     */
-    public function dispatchDelete(array $filesToDelete, int $processesCount = 6): array;
+    public function dispatch(array $files, int $processesCount = 6): array;
 }

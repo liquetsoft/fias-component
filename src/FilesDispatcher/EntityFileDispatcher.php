@@ -8,135 +8,84 @@ use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 
 /**
  * Объект, который разбивает файлы на потоки по именам сущностей, к которым файлы относятся.
- *
- * В конструкторе нужно указать какие именно сущности должны быть распределены по процессам равномерно.
- * Объект постарается не хранить в одном потоке несколько таких файлов. Прежде всего нужно разбивать таким
- * образом именно самые крупные файлы.
- *
- * Остальные файлы будут равномерно распределены по потокам.
  */
 class EntityFileDispatcher implements FilesDispatcher
 {
     /**
      * @var EntityManager
      */
-    protected $entityManager;
-
-    /**
-     * @var string[]
-     */
-    protected $entitiesToParallel;
+    private $entityManager;
 
     /**
      * @param EntityManager $entityManager
-     * @param array         $entitiesToParallel
      */
-    public function __construct(EntityManager $entityManager, array $entitiesToParallel = [])
+    public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->entitiesToParallel = $entitiesToParallel;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function dispatchInsert(array $filesToInsert, int $processesCount = 6): array
+    public function dispatch(array $files, int $processesCount = 6): array
     {
-        $filesByEntities = $this->getInsertFilesByEntities($filesToInsert);
+        $filesByEntites = $this->splitFilesByEntites($files);
 
-        return $this->dispatch($filesByEntities, $processesCount);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function dispatchDelete(array $filesToDelete, int $processesCount = 6): array
-    {
-        $filesByEntities = $this->getDeleteFilesByEntities($filesToDelete);
-
-        return $this->dispatch($filesByEntities, $processesCount);
-    }
-
-    /**
-     * Преобразует массив файлов для вставки в массив вида "имя сущности => имя файла".
-     *
-     * @param string[] $filesToInsert
-     *
-     * @return array
-     */
-    protected function getInsertFilesByEntities(array $filesToInsert): array
-    {
-        $filesByEntities = [];
-
-        foreach ($filesToInsert as $fileToInsert) {
-            $fileName = pathinfo($fileToInsert, \PATHINFO_BASENAME);
-            $descriptor = $this->entityManager->getDescriptorByInsertFile($fileName);
-            if ($descriptor) {
-                $filesByEntities[$descriptor->getName()] = $fileToInsert;
-            }
+        $filesByProcesses = [];
+        for ($i = 0; $i < $processesCount; ++$i) {
+            $filesByProcesses[] = new FilesDispatcherProcess();
         }
 
-        return $filesByEntities;
-    }
-
-    /**
-     * Преобразует массив файлов для удаления в массив вида "имя сущности => имя файла".
-     *
-     * @param string[] $filesToDelete
-     *
-     * @return array
-     */
-    protected function getDeleteFilesByEntities(array $filesToDelete): array
-    {
-        $filesByEntities = [];
-
-        foreach ($filesToDelete as $fileToDelete) {
-            $fileName = pathinfo($fileToDelete, \PATHINFO_BASENAME);
-            $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileName);
-            if ($descriptor) {
-                $filesByEntities[$descriptor->getName()] = $fileToDelete;
-            }
-        }
-
-        return $filesByEntities;
-    }
-
-    /**
-     * Распределяет файлы по потокам.
-     *
-     * @param array<string, string> $filesByEntities
-     * @param int                   $processesCount
-     *
-     * @return string[][]
-     */
-    protected function dispatch(array $filesByEntities, int $processesCount): array
-    {
-        $dispatched = [];
-
-        // разбрасывает явно указанные файлы так, чтобы они точно были
-        // в разных потоках
-        $currentProcess = 0;
-        foreach ($this->entitiesToParallel as $entityToParallel) {
-            if (isset($filesByEntities[$entityToParallel])) {
-                $dispatched[$currentProcess][] = $filesByEntities[$entityToParallel];
-                unset($filesByEntities[$entityToParallel]);
-                ++$currentProcess;
-                if ($currentProcess >= $processesCount) {
-                    $currentProcess = 0;
+        foreach ($filesByEntites as $filesByEntity) {
+            $nextProcess = array_reduce(
+                $filesByProcesses,
+                function (?FilesDispatcherProcess $carry, FilesDispatcherProcess $item): FilesDispatcherProcess {
+                    if ($carry === null || $carry->getWeight() > $item->getWeight()) {
+                        return $item;
+                    } else {
+                        return $carry;
+                    }
                 }
+            );
+            foreach ($filesByEntity as $file) {
+                $nextProcess->addItem($file);
+                $nextProcess->addWeight(filesize($file));
             }
         }
 
-        // разбрасывает оставшиеся файлы по потокам
-        $currentProcess = 0;
-        foreach ($filesByEntities as $files) {
-            $dispatched[$currentProcess][] = $files;
-            ++$currentProcess;
-            if ($currentProcess >= $processesCount) {
-                $currentProcess = 0;
+        $res = [];
+        foreach ($filesByProcesses as $filesByProcess) {
+            if ($filesByProcess->getWeight() > 0) {
+                $res[] = $filesByProcess->getItems();
             }
         }
 
-        return $dispatched;
+        return $res;
+    }
+
+    /**
+     * Разбивает файлы по сущностям.
+     *
+     * @param string[] $files
+     *
+     * @return array<string, array<int, string>>
+     */
+    private function splitFilesByEntites(array $files): array
+    {
+        $filesByEntites = [];
+        foreach ($files as $file) {
+            $fileName = pathinfo($file, \PATHINFO_BASENAME);
+            if (file_exists($file) && $descriptor = $this->entityManager->getDescriptorByInsertFile($fileName)) {
+                $filesByEntites[$descriptor->getName()][] = $file;
+            }
+        }
+        foreach ($files as $file) {
+            $fileName = pathinfo($file, \PATHINFO_BASENAME);
+            if (file_exists($file) && $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileName)) {
+                $filesByEntites[$descriptor->getName()][] = $file;
+            }
+        }
+
+        return $filesByEntites;
     }
 }
