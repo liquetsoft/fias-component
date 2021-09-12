@@ -168,9 +168,23 @@ class EntitiesArrayFromXSDGenerator
         $fieldsList = [];
 
         $fields = $xpath->query('.//xs:complexType/xs:attribute', $innerElement);
+        $isPrimarySet = false;
         foreach ($fields as $field) {
             $fieldName = $field->getAttribute('name');
             $fieldsList[$fieldName] = $this->extractFieldDescription($field, $xpath);
+
+            if (
+                !$isPrimarySet
+                && $fieldsList[$fieldName]['isNullable'] === false
+                && (
+                    $fieldName === 'ID'
+                    || str_contains($fieldsList[$fieldName]['description'], 'Ключевое поле')
+                    || str_contains($fieldsList[$fieldName]['description'], 'Уникальный идентификатор')
+                )
+            ) {
+                $fieldsList[$fieldName]['isPrimary'] = true;
+                $isPrimarySet = true;
+            }
         }
 
         return $fieldsList;

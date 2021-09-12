@@ -15,6 +15,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -114,6 +115,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Идентификатор записи',
                 'length' => 10,
+                'isPrimary' => true,
             ],
             'LEVEL' => [
                 'type' => 'int',
@@ -180,6 +182,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Идентификатор записи',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -248,6 +251,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -342,6 +346,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -435,6 +440,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -515,6 +521,7 @@ return [
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Идентификатор записи',
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -549,6 +556,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Идентификатор типа (ключ)',
                 'length' => 10,
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -608,6 +616,7 @@ return [
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Идентификатор статуса (ключ)',
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -668,6 +677,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -842,6 +852,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -945,6 +956,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Идентификатор',
                 'length' => 10,
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1004,6 +1016,7 @@ return [
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Идентификатор записи',
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1026,6 +1039,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Идентификатор типа параметра (ключ)',
                 'length' => 2,
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1086,6 +1100,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Идентификатор типа (ключ)',
                 'length' => 10,
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1146,6 +1161,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор документа',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1234,6 +1250,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле. Номер уровня объекта',
                 'length' => 2,
+                'isPrimary' => true,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1287,6 +1304,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
@@ -1403,6 +1421,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'PARENTID' => [
                 'type' => 'int',
@@ -1438,6 +1457,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор объекта',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'CREATEDATE' => [
                 'type' => 'string',
@@ -1492,6 +1512,7 @@ return [
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
                 'length' => 19,
+                'isPrimary' => true,
             ],
             'OBJECTID' => [
                 'type' => 'int',
