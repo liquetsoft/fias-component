@@ -54,7 +54,7 @@ class SoapFiasInformer implements FiasInformer
         }
 
         $versionId = $response->GetLastDownloadFileInfoResult->VersionId ?? 0;
-        $url = $response->GetLastDownloadFileInfoResult->FiasCompleteXmlUrl ?? '';
+        $url = $response->GetLastDownloadFileInfoResult->GarXMLFullURL ?? '';
 
         if ($versionId === 0) {
             $message = "Informer can't find complete version in SOAP response.";
@@ -112,7 +112,7 @@ class SoapFiasInformer implements FiasInformer
         $list = [];
         foreach ($response as $responseObject) {
             $versionId = $responseObject->VersionId ?? 0;
-            $url = $responseObject->FiasDeltaXmlUrl ?? '';
+            $url = $responseObject->GarXMLDeltaURL ?? '';
             if ($url !== '') {
                 // похоже только так это работает, дельта появляется не сразу
                 // поэтому просто пропускаем объекты без дельты

@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\StorageException;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use SplFileInfo;
 
 /**
@@ -17,19 +16,9 @@ class DataInsertTask extends DataAbstractTask
     /**
      * {@inheritDoc}
      */
-    protected function getFileNamesFromState(State $state): array
+    protected function getFileDescriptor(SplFileInfo $file): ?EntityDescriptor
     {
-        $fileNames = $state->getParameter(Task::FILES_TO_INSERT_PARAM);
-
-        return \is_array($fileNames) ? $fileNames : [];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getDescriptorForFile(SplFileInfo $fileInfo): ?EntityDescriptor
-    {
-        return $this->entityManager->getDescriptorByInsertFile($fileInfo->getFilename());
+        return $this->entityManager->getDescriptorByInsertFile($file->getBasename());
     }
 
     /**

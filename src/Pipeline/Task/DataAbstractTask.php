@@ -59,22 +59,13 @@ abstract class DataAbstractTask implements LoggableTask, Task
     }
 
     /**
-     * Получает список дескрипторов для файлов, которые нужно обработать.
+     * Пробует найти дескриптор для указанного файла.
      *
-     * @param State $state
-     *
-     * @return string[]
-     */
-    abstract protected function getFileNamesFromState(State $state): array;
-
-    /**
-     * Получает дескриптор по имени файла.
-     *
-     * @param SplFileInfo $fileInfo
+     * @param SplFileInfo $file
      *
      * @return EntityDescriptor|null
      */
-    abstract protected function getDescriptorForFile(SplFileInfo $fileInfo): ?EntityDescriptor;
+    abstract protected function getFileDescriptor(SplFileInfo $file): ?EntityDescriptor;
 
     /**
      * Обрабатывает одиночную запись из файла.
@@ -88,30 +79,33 @@ abstract class DataAbstractTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $fileNames = $this->getFileNamesFromState($state);
-        foreach ($fileNames as $fileName) {
-            $this->processFile(new SplFileInfo($fileName));
+        $allFiles = $state->getParameter(Task::FILES_TO_PROCEED);
+        $allFiles = \is_array($allFiles) ? $allFiles : [];
+
+        foreach ($allFiles as $file) {
+            $fileInfo = new SplFileInfo($file);
+            if ($descriptor = $this->getFileDescriptor($fileInfo)) {
+                $this->processFile($fileInfo, $descriptor);
+            }
         }
     }
 
     /**
      * Обрабатывает указанный файл.
      *
-     * @param SplFileInfo $fileInfo
+     * @param SplFileInfo      $fileInfo
+     * @param EntityDescriptor $descriptor
      *
      * @throws TaskException
      * @throws StorageException
      * @throws XmlException
      */
-    protected function processFile(SplFileInfo $fileInfo): void
+    protected function processFile(SplFileInfo $fileInfo, EntityDescriptor $descriptor): void
     {
-        $descriptor = $this->getDescriptorForFile($fileInfo);
-        if ($descriptor) {
-            $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
-            if ($entityClass) {
-                $this->processDataFromFile($fileInfo, $descriptor->getXmlPath(), $entityClass);
-                gc_collect_cycles();
-            }
+        $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
+        if ($entityClass) {
+            $this->processDataFromFile($fileInfo, $descriptor->getXmlPath(), $entityClass);
+            gc_collect_cycles();
         }
     }
 

@@ -108,17 +108,12 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $this->assertSame(
             [
+                $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
                 $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
+                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
             ],
-            $state->getParameter(Task::FILES_TO_INSERT_PARAM)
-        );
-        $this->assertSame(
-            [
-                $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
-                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
-            ],
-            $state->getParameter(Task::FILES_TO_DELETE_PARAM)
+            $state->getParameter(Task::FILES_TO_PROCEED)
         );
     }
 }

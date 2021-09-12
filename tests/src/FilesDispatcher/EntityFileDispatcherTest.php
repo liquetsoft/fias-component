@@ -17,113 +17,104 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 class EntityFileDispatcherTest extends BaseCase
 {
     /**
-     * Проверяет, что объект правильно разбивает на потоки файлы для вставки.
+     * Проверяет, что объект правильно разбивает на потоки файлы.
+     *
+     * @dataProvider dispatchProvider
      */
-    public function testDispatchInsert(): void
+    public function testDispatch(array $files, int $processCount, array $expected): void
     {
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getName')->willReturn('entity');
-        $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor1->method('getName')->willReturn('entity_1');
-        $descriptor2 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor2->method('getName')->willReturn('entity_2');
-        $descriptor3 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor3->method('getName')->willReturn('entity_3');
+        $entityManager = $this->getEntityManagerMock();
 
-        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $entityManager->method('getDescriptorByInsertFile')->willReturnCallback(
-            function (string $fileName) use ($descriptor, $descriptor1, $descriptor2, $descriptor3) {
-                switch ($fileName) {
-                    case 'test.xml':
-                        $descriptorToReturn = $descriptor;
-                        break;
-                    case 'test_1.xml':
-                        $descriptorToReturn = $descriptor1;
-                        break;
-                    case 'test_2.xml':
-                        $descriptorToReturn = $descriptor2;
-                        break;
-                    case 'test_3.xml':
-                        $descriptorToReturn = $descriptor3;
-                        break;
-                    default:
-                        $descriptorToReturn = null;
-                        break;
-                }
+        $dispatcher = new EntityFileDispatcher($entityManager);
+        $dispatchedFiles = $dispatcher->dispatch($files, $processCount);
 
-                return $descriptorToReturn;
-            }
-        );
-
-        $dispatcher = new EntityFileDispatcher(
-            $entityManager,
-            [
-                'entity',
-                'entity_1',
-            ]
-        );
-        $dispatchedFiles = $dispatcher->dispatchInsert(
-            [
-                '/var/test.xml',
-                '/var/test/test_1.xml',
-                'test_2.xml',
-                'test_3.xml',
-            ],
-            2
-        );
-
-        $this->assertSame(
-            [
-                [
-                    '/var/test.xml',
-                    'test_2.xml',
-                ],
-                [
-                    '/var/test/test_1.xml',
-                    'test_3.xml',
-                ],
-            ],
-            $dispatchedFiles
-        );
+        $this->assertSame($expected, $dispatchedFiles);
     }
 
-    /**
-     * Проверяет, что объект правильно разбивает на потоки файлы для удаления.
-     */
-    public function testDispatchDelete(): void
+    public function dispatchProvider(): array
+    {
+        $pathToFixtures = __DIR__ . '/_fixtures';
+
+        return [
+            'regular case' => [
+                [
+                    $pathToFixtures . '/test_del.xml',
+                    $pathToFixtures . '/test.xml',
+                    $pathToFixtures . '/test_1.xml',
+                    $pathToFixtures . '/test_2.xml',
+                    $pathToFixtures . '/test_1_del.xml',
+                    $pathToFixtures . '/test_2_del.xml',
+                ],
+                2,
+                [
+                    [
+                        $pathToFixtures . '/test.xml',
+                        $pathToFixtures . '/test_del.xml',
+                    ],
+                    [
+                        $pathToFixtures . '/test_1.xml',
+                        $pathToFixtures . '/test_1_del.xml',
+                        $pathToFixtures . '/test_2.xml',
+                        $pathToFixtures . '/test_2_del.xml',
+                    ],
+                ],
+            ],
+            'empty list' => [
+                [],
+                10,
+                [],
+            ],
+            'single process' => [
+                [
+                    $pathToFixtures . '/test_del.xml',
+                    $pathToFixtures . '/test.xml',
+                    $pathToFixtures . '/test_1.xml',
+                    $pathToFixtures . '/test_2.xml',
+                    $pathToFixtures . '/test_1_del.xml',
+                    $pathToFixtures . '/test_2_del.xml',
+                ],
+                1,
+                [
+                    [
+                        $pathToFixtures . '/test.xml',
+                        $pathToFixtures . '/test_del.xml',
+                        $pathToFixtures . '/test_1.xml',
+                        $pathToFixtures . '/test_1_del.xml',
+                        $pathToFixtures . '/test_2.xml',
+                        $pathToFixtures . '/test_2_del.xml',
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    private function getEntityManagerMock(): EntityManager
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->willReturn('entity');
+
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor1->method('getName')->willReturn('entity_1');
+
         $descriptor2 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor2->method('getName')->willReturn('entity_2');
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $entityManager->method('getDescriptorByDeleteFile')->willReturnCallback(
-            function (string $fileName) use ($descriptor, $descriptor1, $descriptor2) {
-                switch ($fileName) {
-                    case 'test.xml':
-                        $descriptorToReturn = $descriptor;
-                        break;
-                    case 'test_1.xml':
-                        $descriptorToReturn = $descriptor1;
-                        break;
-                    case 'test_2.xml':
-                        $descriptorToReturn = $descriptor2;
-                        break;
-                    default:
-                        $descriptorToReturn = null;
-                        break;
-                }
-
-                return $descriptorToReturn;
-            }
+        $entityManager->method('getDescriptorByInsertFile')->willReturnMap(
+            [
+                ['test.xml', $descriptor],
+                ['test_1.xml', $descriptor1],
+                ['test_2.xml', $descriptor2],
+            ]
+        );
+        $entityManager->method('getDescriptorByDeleteFile')->willReturnMap(
+            [
+                ['test_del.xml', $descriptor],
+                ['test_1_del.xml', $descriptor1],
+                ['test_2_del.xml', $descriptor2],
+            ]
         );
 
-        $dispatcher = new EntityFileDispatcher($entityManager, ['entity', 'entity_1']);
-        $dispatchedFiles = $dispatcher->dispatchDelete(['/var/test.xml', '/var/test/test_1.xml', 'test_2.xml'], 2);
-
-        $this->assertSame([['/var/test.xml', 'test_2.xml'], ['/var/test/test_1.xml']], $dispatchedFiles);
+        return $entityManager;
     }
 }

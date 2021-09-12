@@ -65,7 +65,7 @@ class DataUpsertTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::FILES_TO_INSERT_PARAM => [__DIR__ . '/_fixtures/data.xml'],
+                Task::FILES_TO_PROCEED => [__DIR__ . '/_fixtures/data.xml'],
             ]
         );
 

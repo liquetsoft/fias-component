@@ -42,20 +42,15 @@ class SelectFilesToProceedTask implements LoggableTask, Task
             "Searching for files to proceed in '{$extractToFolder->getRealPath()}' folder."
         );
 
-        list($toInsert, $toDelete) = $this->getFilesForProceedFromFolder($extractToFolder);
-
-        $state->setAndLockParameter(Task::FILES_TO_INSERT_PARAM, $toInsert);
-        $state->setAndLockParameter(Task::FILES_TO_DELETE_PARAM, $toDelete);
+        $files = $this->getFilesForProceedFromFolder($extractToFolder);
+        $state->setAndLockParameter(Task::FILES_TO_PROCEED, $files);
 
         $this->log(
             LogLevel::INFO,
-            'Found ' . \count($toInsert) . ' file(s) to insert',
-            ['files' => $toInsert]
-        );
-        $this->log(
-            LogLevel::INFO,
-            'Found ' . \count($toDelete) . ' file(s) to delete',
-            ['files' => $toDelete]
+            'Found ' . \count($files) . ' file(s) to proceed',
+            [
+                'files' => $files,
+            ]
         );
     }
 
@@ -90,12 +85,11 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      *
      * @param SplFileInfo $filesFolder
      *
-     * @return string[][]
+     * @return string[]
      */
     protected function getFilesForProceedFromFolder(SplFileInfo $filesFolder): array
     {
-        $filesToInsert = [];
-        $filesToDelete = [];
+        $files = [];
 
         $directoryIterator = new RecursiveDirectoryIterator(
             $filesFolder->getRealPath(),
@@ -104,17 +98,14 @@ class SelectFilesToProceedTask implements LoggableTask, Task
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {
-            if ($this->isFileAllowedToInsert($fileInfo)) {
-                $filesToInsert[] = (string) $fileInfo->getRealPath();
-            } elseif ($this->isFileAllowedToDelete($fileInfo)) {
-                $filesToDelete[] = (string) $fileInfo->getRealPath();
+            if ($this->isFileAllowedToInsert($fileInfo) || $this->isFileAllowedToDelete($fileInfo)) {
+                $files[] = (string) $fileInfo->getRealPath();
             }
         }
 
-        sort($filesToInsert, \SORT_STRING);
-        sort($filesToDelete, \SORT_STRING);
+        sort($files, \SORT_STRING);
 
-        return [$filesToInsert, $filesToDelete];
+        return $files;
     }
 
     /**
