@@ -253,7 +253,7 @@ class EntitiesArrayFromXSDGenerator
             'xs:date' => ['type' => 'string', 'subType' => 'date'],
             'xs:integer' => ['type' => 'int', 'subType' => ''],
             'xs:int' => ['type' => 'int', 'subType' => ''],
-            'xs:long' => ['type' => 'long', 'subType' => ''],
+            'xs:long' => ['type' => 'int', 'subType' => ''],
             'xs:byte' => ['type' => 'int', 'subType' => ''],
         ];
 

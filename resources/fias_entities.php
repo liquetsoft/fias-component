@@ -10,16 +10,18 @@ return [
         'xmlPath' => '/ROOMS/ROOM',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор объекта типа INTEGER',
+                'length' => 19,
             ],
             'OBJECTGUID' => [
                 'type' => 'string',
@@ -29,10 +31,11 @@ return [
                 'length' => 36,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'NUMBER' => [
                 'type' => 'string',
@@ -54,16 +57,18 @@ return [
                 'description' => 'Статус действия над записью – причина появления записи',
             ],
             'PREVID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с предыдущей исторической записью',
+                'length' => 19,
             ],
             'NEXTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с последующей исторической записью',
+                'length' => 19,
             ],
             'UPDATEDATE' => [
                 'type' => 'string',
@@ -170,28 +175,32 @@ return [
         'xmlPath' => '/PARAMS/PARAM',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Идентификатор записи',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор адресного объекта ',
+                'length' => 19,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'CHANGEIDEND' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID завершившей транзакции',
+                'length' => 19,
             ],
             'TYPEID' => [
                 'type' => 'int',
@@ -328,16 +337,18 @@ return [
         'xmlPath' => '/CARPLACES/CARPLACE',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор объекта типа INTEGER',
+                'length' => 19,
             ],
             'OBJECTGUID' => [
                 'type' => 'string',
@@ -347,10 +358,11 @@ return [
                 'length' => 36,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'NUMBER' => [
                 'type' => 'string',
@@ -366,16 +378,18 @@ return [
                 'description' => 'Статус действия над записью – причина появления записи',
             ],
             'PREVID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с предыдущей исторической записью',
+                'length' => 19,
             ],
             'NEXTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с последующей исторической записью',
+                'length' => 19,
             ],
             'UPDATEDATE' => [
                 'type' => 'string',
@@ -416,28 +430,32 @@ return [
         'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор адресного объекта ',
+                'length' => 19,
             ],
             'PARENTOBJID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор родительского объекта',
+                'length' => 19,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'OKTMO' => [
                 'type' => 'string',
@@ -447,16 +465,18 @@ return [
                 'length' => 11,
             ],
             'PREVID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с предыдущей исторической записью',
+                'length' => 19,
             ],
             'NEXTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с последующей исторической записью',
+                'length' => 19,
             ],
             'UPDATEDATE' => [
                 'type' => 'string',
@@ -643,16 +663,18 @@ return [
         'xmlPath' => '/HOUSES/HOUSE',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор объекта типа INTEGER',
+                'length' => 19,
             ],
             'OBJECTGUID' => [
                 'type' => 'string',
@@ -662,10 +684,11 @@ return [
                 'length' => 36,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'HOUSENUM' => [
                 'type' => 'string',
@@ -713,16 +736,18 @@ return [
                 'description' => 'Статус действия над записью – причина появления записи',
             ],
             'PREVID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с предыдущей исторической записью',
+                'length' => 19,
             ],
             'NEXTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с последующей исторической записью',
+                'length' => 19,
             ],
             'UPDATEDATE' => [
                 'type' => 'string',
@@ -763,16 +788,18 @@ return [
         'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный ID объекта',
+                'length' => 19,
             ],
             'ADROBJECTID' => [
                 'type' => 'string',
@@ -789,10 +816,11 @@ return [
                 'length' => 10,
             ],
             'NDOCID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'ID документа',
+                'length' => 19,
             ],
             'CHANGEDATE' => [
                 'type' => 'string',
@@ -809,16 +837,18 @@ return [
         'xmlPath' => '/APARTMENTS/APARTMENT',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор объекта типа INTEGER',
+                'length' => 19,
             ],
             'OBJECTGUID' => [
                 'type' => 'string',
@@ -828,10 +858,11 @@ return [
                 'length' => 36,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'NUMBER' => [
                 'type' => 'string',
@@ -848,22 +879,25 @@ return [
                 'length' => 2,
             ],
             'OPERTYPEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Статус действия над записью – причина появления записи',
+                'length' => 2,
             ],
             'PREVID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с предыдущей исторической записью',
+                'length' => 19,
             ],
             'NEXTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с последующей исторической записью',
+                'length' => 19,
             ],
             'UPDATEDATE' => [
                 'type' => 'string',
@@ -1107,10 +1141,11 @@ return [
         'xmlPath' => '/NORMDOCS/NORMDOC',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор документа',
+                'length' => 19,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1247,28 +1282,32 @@ return [
         'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор объекта',
+                'length' => 19,
             ],
             'PARENTOBJID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор родительского объекта',
+                'length' => 19,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'REGIONCODE' => [
                 'type' => 'string',
@@ -1313,16 +1352,18 @@ return [
                 'length' => 4,
             ],
             'PREVID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с предыдущей исторической записью',
+                'length' => 19,
             ],
             'NEXTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с последующей исторической записью',
+                'length' => 19,
             ],
             'UPDATEDATE' => [
                 'type' => 'string',
@@ -1357,25 +1398,28 @@ return [
         'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'PARENTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Родительский ID',
+                'length' => 19,
             ],
             'CHILDID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Дочерний ID',
+                'length' => 19,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
@@ -1389,10 +1433,11 @@ return [
         'xmlPath' => '/REESTR_OBJECTS/OBJECT',
         'fields' => [
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор объекта',
+                'length' => 19,
             ],
             'CREATEDATE' => [
                 'type' => 'string',
@@ -1401,10 +1446,11 @@ return [
                 'description' => 'Дата создания',
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'LEVELID' => [
                 'type' => 'int',
@@ -1441,16 +1487,18 @@ return [
         'xmlPath' => '/ADDRESSOBJECTS/OBJECT',
         'fields' => [
             'ID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Уникальный идентификатор записи. Ключевое поле',
+                'length' => 19,
             ],
             'OBJECTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'Глобальный уникальный идентификатор адресного объекта типа INTEGER',
+                'length' => 19,
             ],
             'OBJECTGUID' => [
                 'type' => 'string',
@@ -1460,10 +1508,11 @@ return [
                 'length' => 36,
             ],
             'CHANGEID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
                 'description' => 'ID изменившей транзакции',
+                'length' => 19,
             ],
             'NAME' => [
                 'type' => 'string',
@@ -1493,16 +1542,18 @@ return [
                 'description' => 'Статус действия над записью – причина появления записи',
             ],
             'PREVID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с предыдущей исторической записью',
+                'length' => 19,
             ],
             'NEXTID' => [
-                'type' => 'long',
+                'type' => 'int',
                 'subType' => '',
                 'isNullable' => true,
                 'description' => 'Идентификатор записи связывания с последующей исторической записью',
+                'length' => 19,
             ],
             'UPDATEDATE' => [
                 'type' => 'string',
