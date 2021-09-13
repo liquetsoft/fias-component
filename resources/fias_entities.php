@@ -792,12 +792,9 @@ return [
         ],
     ],
     'CHANGE_HISTORY' => [
-        'insertFileMask' => 'AS_CHANGE_HISTORY_*.XML',
-        'deleteFileMask' => 'AS_DEL_CHANGE_HISTORY_*.XML',
-        'description' => 'Сведения по истории изменений',
-        'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
             'CHANGEID' => [
+                'isPrimary' => true,
                 'type' => 'int',
                 'subType' => '',
                 'isNullable' => false,
@@ -839,6 +836,10 @@ return [
                 'description' => 'Дата изменения',
             ],
         ],
+        'insertFileMask' => 'AS_CHANGE_HISTORY_*.XML',
+        'deleteFileMask' => 'AS_DEL_CHANGE_HISTORY_*.XML',
+        'description' => 'Сведения по истории изменений',
+        'xmlPath' => '/ITEMS/ITEM',
     ],
     'APARTMENTS' => [
         'insertFileMask' => 'AS_APARTMENTS_*.XML',
