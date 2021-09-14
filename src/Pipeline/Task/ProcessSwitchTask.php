@@ -177,11 +177,15 @@ class ProcessSwitchTask implements LoggableTask, Task
             ]
         );
 
-        return new Process([
-            $phpBinaryPath,
-            $this->pathToBin,
-            $this->commandName,
-            json_encode($dispatchedFiles),
-        ]);
+        $process = new Process(
+            [
+                $phpBinaryPath,
+                $this->pathToBin,
+                $this->commandName,
+            ]
+        );
+        $process->setInput(json_encode($dispatchedFiles));
+
+        return $process;
     }
 }
