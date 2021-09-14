@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Filter\Filter;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Psr\Log\LogLevel;
 use RecursiveDirectoryIterator;
@@ -19,14 +20,20 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * @var EntityManager
      */
-    protected $entityManager;
+    private $entityManager;
+
+    /**
+     * @var Filter|null
+     */
+    private $filter;
 
     /**
      * @param EntityManager $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, ?Filter $filter = null)
     {
         $this->entityManager = $entityManager;
+        $this->filter = $filter;
     }
 
     /**
@@ -63,7 +70,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      *
      * @throws TaskException
      */
-    protected function checkDirectory($parameterValue): SplFileInfo
+    private function checkDirectory($parameterValue): SplFileInfo
     {
         if (!($parameterValue instanceof SplFileInfo)) {
             throw new TaskException(
@@ -87,7 +94,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      *
      * @return string[]
      */
-    protected function getFilesForProceedFromFolder(SplFileInfo $filesFolder): array
+    private function getFilesForProceedFromFolder(SplFileInfo $filesFolder): array
     {
         $files = [];
 
@@ -98,7 +105,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {
-            if ($this->isFileAllowedToInsert($fileInfo) || $this->isFileAllowedToDelete($fileInfo)) {
+            if ($this->isFileAllowed($fileInfo)) {
                 $files[] = (string) $fileInfo->getRealPath();
             }
         }
@@ -109,13 +116,27 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     }
 
     /**
+     * Проверяет следует ли добавлять файл к списку.
+     *
+     * @param SplFileInfo $fileInfo
+     *
+     * @return bool
+     */
+    private function isFileAllowed(SplFileInfo $fileInfo): bool
+    {
+        return ($this->filter === null || $this->filter->test($fileInfo))
+            && ($this->isFileAllowedToInsert($fileInfo) || $this->isFileAllowedToDelete($fileInfo))
+        ;
+    }
+
+    /**
      * Проверяет нужно ли файл обрабатывать для создания и обновления в рамках данного процесса.
      *
      * @param SplFileInfo $fileInfo
      *
      * @return bool
      */
-    protected function isFileAllowedToInsert(SplFileInfo $fileInfo): bool
+    private function isFileAllowedToInsert(SplFileInfo $fileInfo): bool
     {
         $descriptor = $this->entityManager->getDescriptorByInsertFile($fileInfo->getFilename());
 
@@ -129,7 +150,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      *
      * @return bool
      */
-    protected function isFileAllowedToDelete(SplFileInfo $fileInfo): bool
+    private function isFileAllowedToDelete(SplFileInfo $fileInfo): bool
     {
         $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileInfo->getFilename());
 

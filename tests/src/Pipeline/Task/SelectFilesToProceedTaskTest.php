@@ -8,6 +8,7 @@ use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Filter\Filter;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
@@ -71,34 +72,25 @@ class SelectFilesToProceedTaskTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
 
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $entityManager->method('getDescriptorByInsertFile')
-            ->willReturnCallback(
-                function (string $file) use ($descriptor) {
-                    $files = [
-                        'SelectFilesToProceedTaskTest_insert.xml',
-                        'SelectFilesToProceedTaskTest_nested_insert.xml',
-                    ];
+        $entityManager->method('getDescriptorByInsertFile')->willReturnMap(
+            [
+                ['SelectFilesToProceedTaskTest_insert.xml', $descriptor],
+                ['SelectFilesToProceedTaskTest_nested_insert.xml', $descriptor],
+            ]
+        );
 
-                    return \in_array($file, $files, true) ? $descriptor : null;
-                }
-            );
-        $entityManager->method('getDescriptorByDeleteFile')
-            ->willReturnCallback(
-                function (string $file) use ($descriptor) {
-                    $files = [
-                        'SelectFilesToProceedTaskTest_delete.xml',
-                        'SelectFilesToProceedTaskTest_nested_delete.xml',
-                    ];
+        $entityManager->method('getDescriptorByDeleteFile')->willReturnMap(
+            [
+                ['SelectFilesToProceedTaskTest_delete.xml', $descriptor],
+                ['SelectFilesToProceedTaskTest_nested_delete.xml', $descriptor],
+            ]
+        );
 
-                    return \in_array($file, $files, true) ? $descriptor : null;
-                }
-            );
-        $entityManager->method('getClassByDescriptor')
-            ->willReturnCallback(
-                function (EntityDescriptor $testDescriptor) use ($descriptor) {
-                    return $testDescriptor === $descriptor ? stdClass::class : null;
-                }
-            );
+        $entityManager->method('getClassByDescriptor')->willReturnMap(
+            [
+                [$descriptor, stdClass::class],
+            ]
+        );
 
         $state = new ArrayState();
         $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo($fixturesFolder));
@@ -111,6 +103,52 @@ class SelectFilesToProceedTaskTest extends BaseCase
                 $fixturesFolder . '/SelectFilesToProceedTaskTest_delete.xml',
                 $fixturesFolder . '/SelectFilesToProceedTaskTest_insert.xml',
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
+                $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
+            ],
+            $state->getParameter(Task::FILES_TO_PROCEED)
+        );
+    }
+
+    /**
+     * Проверяет, что объект правильно получит список файлов для обработки с использованием фильтра.
+     *
+     * @throws Exception
+     */
+    public function testRunWithFilter(): void
+    {
+        $fixturesFolder = __DIR__ . '/_fixtures';
+
+        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+
+        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
+        $entityManager->method('getDescriptorByInsertFile')->willReturnMap(
+            [
+                ['SelectFilesToProceedTaskTest_insert.xml', $descriptor],
+                ['SelectFilesToProceedTaskTest_nested_insert.xml', $descriptor],
+            ]
+        );
+
+        $entityManager->method('getClassByDescriptor')->willReturnMap(
+            [
+                [$descriptor, stdClass::class],
+            ]
+        );
+
+        $filter = $this->getMockBuilder(Filter::class)->getMock();
+        $filter->method('test')->willReturnCallback(
+            function (SplFileInfo $file) use ($fixturesFolder) {
+                return ((string) $file) === $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml';
+            }
+        );
+
+        $state = new ArrayState();
+        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo($fixturesFolder));
+
+        $task = new SelectFilesToProceedTask($entityManager, $filter);
+        $task->run($state);
+
+        $this->assertSame(
+            [
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
             ],
             $state->getParameter(Task::FILES_TO_PROCEED)
