@@ -110,8 +110,13 @@ class EntitiesArrayFromXSDGenerator
             throw new RuntimeException("Can't recognize entity name for '{$filePath}' file.");
         }
         $entityName = $matches[1];
-        $insertFileMask = "AS_{$matches[1]}_*.XML";
-        $deleteFileMask = "AS_DEL_{$matches[1]}_*.XML";
+        if ($entityName === 'PARAM') {
+            $insertFileMask = 'AS_*_PARAMS_*.XML';
+            $deleteFileMask = 'AS_DEL_*_PARAMS_*.XML';
+        } else {
+            $insertFileMask = "AS_{$entityName}_*.XML";
+            $deleteFileMask = "AS_DEL_{$entityName}_*.XML";
+        }
 
         $xpath = new DOMXpath($schema);
 

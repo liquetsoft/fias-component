@@ -171,8 +171,8 @@ return [
         ],
     ],
     'PARAM' => [
-        'insertFileMask' => 'AS_PARAM_*.XML',
-        'deleteFileMask' => 'AS_DEL_PARAM_*.XML',
+        'insertFileMask' => 'AS_*_PARAMS_*.XML',
+        'deleteFileMask' => 'AS_DEL_*_PARAMS_*.XML',
         'description' => 'Сведения о классификаторе параметров адресообразующих элементов и объектов недвижимости ',
         'xmlPath' => '/PARAMS/PARAM',
         'fields' => [
