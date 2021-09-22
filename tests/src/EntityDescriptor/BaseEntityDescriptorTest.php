@@ -302,6 +302,25 @@ class BaseEntityDescriptorTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект правильно сопоставляет имена файлов для вставки с регулярным выражением.
+     */
+    public function testIsFileNameFitsXmlInsertFileMaskRegexp(): void
+    {
+        $fileMask = '/^AS_NORMATIVE_DOCS_\d+_.*\.XML$/';
+
+        $descriptor = $this->createDescriptor([
+            'insertFileMask' => $fileMask,
+        ]);
+
+        $this->assertTrue(
+            $descriptor->isFileNameFitsXmlInsertFileMask('AS_NORMATIVE_DOCS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML')
+        );
+        $this->assertFalse(
+            $descriptor->isFileNameFitsXmlInsertFileMask('AS_NORMATIVE_DOCS_PARAMS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML')
+        );
+    }
+
+    /**
      * Проверяет, что объект правильно сопоставляет имена файлов для удаления с шаблоном.
      */
     public function testIsFileNameFitsXmlDeleteFileMask(): void
@@ -314,6 +333,21 @@ class BaseEntityDescriptorTest extends BaseCase
 
         $this->assertTrue($descriptor->isFileNameFitsXmlDeleteFileMask('123_test_321.xml'));
         $this->assertFalse($descriptor->isFileNameFitsXmlDeleteFileMask('123_321_test.xml'));
+    }
+
+    /**
+     * Проверяет, что объект правильно сопоставляет имена файлов для удаления с регулярным выражением.
+     */
+    public function testIsFileNameFitsXmlDeleteFileMaskRegexp(): void
+    {
+        $fileMask = '#^\d{3}_test_.*\.xml#';
+
+        $descriptor = $this->createDescriptor([
+            'deleteFileMask' => $fileMask,
+        ]);
+
+        $this->assertTrue($descriptor->isFileNameFitsXmlDeleteFileMask('123_test_321.xml'));
+        $this->assertFalse($descriptor->isFileNameFitsXmlDeleteFileMask('test_test_321.xml'));
     }
 
     /**
