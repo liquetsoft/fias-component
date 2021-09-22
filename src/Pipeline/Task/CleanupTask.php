@@ -41,7 +41,7 @@ class CleanupTask implements LoggableTask, Task
 
         foreach ($toRemove as $fileInfo) {
             if ($fileInfo instanceof SplFileInfo) {
-                $this->log(LogLevel::INFO, "Cleaning up '{$fileInfo->getRealPath()}' folder.");
+                $this->log(LogLevel::INFO, "Cleaning up '{$fileInfo->getPathname()}' folder.");
                 $this->fs->removeIfExists($fileInfo);
             }
         }
