@@ -111,11 +111,11 @@ class EntitiesArrayFromXSDGenerator
         }
         $entityName = $matches[1];
         if ($entityName === 'PARAM') {
-            $insertFileMask = 'AS_*_PARAMS_*.XML';
-            $deleteFileMask = 'AS_DEL_*_PARAMS_*.XML';
+            $insertFileMask = 'AS_*_PARAMS_*_*.XML';
+            $deleteFileMask = 'AS_DEL_*_PARAMS_*_*.XML';
         } else {
-            $insertFileMask = "AS_{$entityName}_*.XML";
-            $deleteFileMask = "AS_DEL_{$entityName}_*.XML";
+            $insertFileMask = "AS_{$entityName}_*_*.XML";
+            $deleteFileMask = "AS_DEL_{$entityName}_*_*.XML";
         }
 
         $xpath = new DOMXpath($schema);
