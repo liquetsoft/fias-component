@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 return [
     'ROOMS' => [
-        'insertFileMask' => 'AS_ROOMS_*.XML',
-        'deleteFileMask' => 'AS_DEL_ROOMS_*.XML',
+        'insertFileMask' => 'AS_ROOMS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_ROOMS_*_*.XML',
         'description' => 'Сведения по комнатам',
         'xmlPath' => '/ROOMS/ROOM',
         'fields' => [
@@ -104,8 +104,8 @@ return [
         ],
     ],
     'ADDR_OBJ_TYPES' => [
-        'insertFileMask' => 'AS_ADDR_OBJ_TYPES_*.XML',
-        'deleteFileMask' => 'AS_DEL_ADDR_OBJ_TYPES_*.XML',
+        'insertFileMask' => 'AS_ADDR_OBJ_TYPES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_ADDR_OBJ_TYPES_*_*.XML',
         'description' => 'Сведения по типам адресных объектов',
         'xmlPath' => '/ADDRESSOBJECTTYPES/ADDRESSOBJECTTYPE',
         'fields' => [
@@ -171,8 +171,8 @@ return [
         ],
     ],
     'PARAM' => [
-        'insertFileMask' => 'AS_*_PARAMS_*.XML',
-        'deleteFileMask' => 'AS_DEL_*_PARAMS_*.XML',
+        'insertFileMask' => 'AS_*_PARAMS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_*_PARAMS_*_*.XML',
         'description' => 'Сведения о классификаторе параметров адресообразующих элементов и объектов недвижимости ',
         'xmlPath' => '/PARAMS/PARAM',
         'fields' => [
@@ -240,8 +240,8 @@ return [
         ],
     ],
     'STEADS' => [
-        'insertFileMask' => 'AS_STEADS_*.XML',
-        'deleteFileMask' => 'AS_DEL_STEADS_*.XML',
+        'insertFileMask' => 'AS_STEADS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_STEADS_*_*.XML',
         'description' => 'Сведения по земельным участкам',
         'xmlPath' => '/STEADS/STEAD',
         'fields' => [
@@ -335,8 +335,8 @@ return [
         ],
     ],
     'CARPLACES' => [
-        'insertFileMask' => 'AS_CARPLACES_*.XML',
-        'deleteFileMask' => 'AS_DEL_CARPLACES_*.XML',
+        'insertFileMask' => 'AS_CARPLACES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_CARPLACES_*_*.XML',
         'description' => 'Сведения по машино-местам',
         'xmlPath' => '/CARPLACES/CARPLACE',
         'fields' => [
@@ -429,8 +429,8 @@ return [
         ],
     ],
     'MUN_HIERARCHY' => [
-        'insertFileMask' => 'AS_MUN_HIERARCHY_*.XML',
-        'deleteFileMask' => 'AS_DEL_MUN_HIERARCHY_*.XML',
+        'insertFileMask' => 'AS_MUN_HIERARCHY_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_MUN_HIERARCHY_*_*.XML',
         'description' => 'Сведения по иерархии в муниципальном делении',
         'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
@@ -511,8 +511,8 @@ return [
         ],
     ],
     'NORMATIVE_DOCS_TYPES' => [
-        'insertFileMask' => 'AS_NORMATIVE_DOCS_TYPES_*.XML',
-        'deleteFileMask' => 'AS_DEL_NORMATIVE_DOCS_TYPES_*.XML',
+        'insertFileMask' => 'AS_NORMATIVE_DOCS_TYPES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_NORMATIVE_DOCS_TYPES_*_*.XML',
         'description' => 'Сведения по типам нормативных документов',
         'xmlPath' => '/NDOCTYPES/NDOCTYPE',
         'fields' => [
@@ -545,8 +545,8 @@ return [
         ],
     ],
     'APARTMENT_TYPES' => [
-        'insertFileMask' => 'AS_APARTMENT_TYPES_*.XML',
-        'deleteFileMask' => 'AS_DEL_APARTMENT_TYPES_*.XML',
+        'insertFileMask' => 'AS_APARTMENT_TYPES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_APARTMENT_TYPES_*_*.XML',
         'description' => 'Сведения по типам помещений',
         'xmlPath' => '/APARTMENTTYPES/APARTMENTTYPE',
         'fields' => [
@@ -606,8 +606,8 @@ return [
         ],
     ],
     'OPERATION_TYPES' => [
-        'insertFileMask' => 'AS_OPERATION_TYPES_*.XML',
-        'deleteFileMask' => 'AS_DEL_OPERATION_TYPES_*.XML',
+        'insertFileMask' => 'AS_OPERATION_TYPES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_OPERATION_TYPES_*_*.XML',
         'description' => 'Сведения по статусу действия',
         'xmlPath' => '/OPERATIONTYPES/OPERATIONTYPE',
         'fields' => [
@@ -666,8 +666,8 @@ return [
         ],
     ],
     'HOUSES' => [
-        'insertFileMask' => 'AS_HOUSES_*.XML',
-        'deleteFileMask' => 'AS_DEL_HOUSES_*.XML',
+        'insertFileMask' => 'AS_HOUSES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_HOUSES_*_*.XML',
         'description' => 'Сведения по номерам домов улиц городов и населенных пунктов',
         'xmlPath' => '/HOUSES/HOUSE',
         'fields' => [
@@ -836,14 +836,14 @@ return [
                 'description' => 'Дата изменения',
             ],
         ],
-        'insertFileMask' => 'AS_CHANGE_HISTORY_*.XML',
-        'deleteFileMask' => 'AS_DEL_CHANGE_HISTORY_*.XML',
+        'insertFileMask' => 'AS_CHANGE_HISTORY_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_CHANGE_HISTORY_*_*.XML',
         'description' => 'Сведения по истории изменений',
         'xmlPath' => '/ITEMS/ITEM',
     ],
     'APARTMENTS' => [
-        'insertFileMask' => 'AS_APARTMENTS_*.XML',
-        'deleteFileMask' => 'AS_DEL_APARTMENTS_*.XML',
+        'insertFileMask' => 'AS_APARTMENTS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_APARTMENTS_*_*.XML',
         'description' => 'Сведения по помещениям',
         'xmlPath' => '/APARTMENTS/APARTMENT',
         'fields' => [
@@ -946,8 +946,8 @@ return [
         ],
     ],
     'HOUSE_TYPES' => [
-        'insertFileMask' => 'AS_HOUSE_TYPES_*.XML',
-        'deleteFileMask' => 'AS_DEL_HOUSE_TYPES_*.XML',
+        'insertFileMask' => 'AS_HOUSE_TYPES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_HOUSE_TYPES_*_*.XML',
         'description' => 'Сведения по типам домов',
         'xmlPath' => '/HOUSETYPES/HOUSETYPE',
         'fields' => [
@@ -1007,8 +1007,8 @@ return [
         ],
     ],
     'NORMATIVE_DOCS_KINDS' => [
-        'insertFileMask' => 'AS_NORMATIVE_DOCS_KINDS_*.XML',
-        'deleteFileMask' => 'AS_DEL_NORMATIVE_DOCS_KINDS_*.XML',
+        'insertFileMask' => 'AS_NORMATIVE_DOCS_KINDS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_NORMATIVE_DOCS_KINDS_*_*.XML',
         'description' => 'Сведения по видам нормативных документов',
         'xmlPath' => '/NDOCKINDS/NDOCKIND',
         'fields' => [
@@ -1029,8 +1029,8 @@ return [
         ],
     ],
     'PARAM_TYPES' => [
-        'insertFileMask' => 'AS_PARAM_TYPES_*.XML',
-        'deleteFileMask' => 'AS_DEL_PARAM_TYPES_*.XML',
+        'insertFileMask' => 'AS_PARAM_TYPES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_PARAM_TYPES_*_*.XML',
         'description' => 'Сведения по типу параметра',
         'xmlPath' => '/PARAMTYPES/PARAMTYPE',
         'fields' => [
@@ -1090,8 +1090,8 @@ return [
         ],
     ],
     'ROOM_TYPES' => [
-        'insertFileMask' => 'AS_ROOM_TYPES_*.XML',
-        'deleteFileMask' => 'AS_DEL_ROOM_TYPES_*.XML',
+        'insertFileMask' => 'AS_ROOM_TYPES_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_ROOM_TYPES_*_*.XML',
         'description' => 'Сведения по типам комнат',
         'xmlPath' => '/ROOMTYPES/ROOMTYPE',
         'fields' => [
@@ -1151,8 +1151,8 @@ return [
         ],
     ],
     'NORMATIVE_DOCS' => [
-        'insertFileMask' => 'AS_NORMATIVE_DOCS_*.XML',
-        'deleteFileMask' => 'AS_DEL_NORMATIVE_DOCS_*.XML',
+        'insertFileMask' => 'AS_NORMATIVE_DOCS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_NORMATIVE_DOCS_*_*.XML',
         'description' => 'Сведения о нормативном документе, являющемся основанием присвоения адресному элементу наименования',
         'xmlPath' => '/NORMDOCS/NORMDOC',
         'fields' => [
@@ -1240,8 +1240,8 @@ return [
         ],
     ],
     'OBJECT_LEVELS' => [
-        'insertFileMask' => 'AS_OBJECT_LEVELS_*.XML',
-        'deleteFileMask' => 'AS_DEL_OBJECT_LEVELS_*.XML',
+        'insertFileMask' => 'AS_OBJECT_LEVELS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_OBJECT_LEVELS_*_*.XML',
         'description' => 'Сведения по уровням адресных объектов',
         'xmlPath' => '/OBJECTLEVELS/OBJECTLEVEL',
         'fields' => [
@@ -1294,8 +1294,8 @@ return [
         ],
     ],
     'ADM_HIERARCHY' => [
-        'insertFileMask' => 'AS_ADM_HIERARCHY_*.XML',
-        'deleteFileMask' => 'AS_DEL_ADM_HIERARCHY_*.XML',
+        'insertFileMask' => 'AS_ADM_HIERARCHY_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_ADM_HIERARCHY_*_*.XML',
         'description' => 'Сведения по иерархии в административном делении',
         'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
@@ -1411,8 +1411,8 @@ return [
         ],
     ],
     'ADDR_OBJ_DIVISION' => [
-        'insertFileMask' => 'AS_ADDR_OBJ_DIVISION_*.XML',
-        'deleteFileMask' => 'AS_DEL_ADDR_OBJ_DIVISION_*.XML',
+        'insertFileMask' => 'AS_ADDR_OBJ_DIVISION_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_ADDR_OBJ_DIVISION_*_*.XML',
         'description' => 'Сведения по операциям переподчинения',
         'xmlPath' => '/ITEMS/ITEM',
         'fields' => [
@@ -1447,8 +1447,8 @@ return [
         ],
     ],
     'REESTR_OBJECTS' => [
-        'insertFileMask' => 'AS_REESTR_OBJECTS_*.XML',
-        'deleteFileMask' => 'AS_DEL_REESTR_OBJECTS_*.XML',
+        'insertFileMask' => 'AS_REESTR_OBJECTS_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_REESTR_OBJECTS_*_*.XML',
         'description' => 'Сведения об адресном элементе в части его идентификаторов',
         'xmlPath' => '/REESTR_OBJECTS/OBJECT',
         'fields' => [
@@ -1502,8 +1502,8 @@ return [
         ],
     ],
     'ADDR_OBJ' => [
-        'insertFileMask' => 'AS_ADDR_OBJ_*.XML',
-        'deleteFileMask' => 'AS_DEL_ADDR_OBJ_*.XML',
+        'insertFileMask' => 'AS_ADDR_OBJ_*_*.XML',
+        'deleteFileMask' => 'AS_DEL_ADDR_OBJ_*_*.XML',
         'description' => 'Сведения классификатора адресообразующих элементов',
         'xmlPath' => '/ADDRESSOBJECTS/OBJECT',
         'fields' => [
