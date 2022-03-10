@@ -104,6 +104,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if (!$this->isBufferFull) {
@@ -117,6 +118,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -139,7 +141,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function valid()
+    public function valid(): bool
     {
         if (!$this->isBufferFull) {
             $this->isBufferFull = true;
@@ -180,12 +182,12 @@ class BaseXmlReader implements XmlReaderInterface
 
         try {
             $this->skipUselessXml($nameFilter, $currentDepth);
-            //мы можем выйти из цикла, если найдем нужный элемент
-            //или попадем на уровень выше - проверяем, что нашли нужный
+            // мы можем выйти из цикла, если найдем нужный элемент
+            // или попадем на уровень выше - проверяем, что нашли нужный
             if ($nameFilter === $this->reader->name) {
                 $return = $this->reader->readOuterXml();
-                //нужно передвинуть указатель, чтобы дважды не прочитать
-                //один и тот же элемент
+                // нужно передвинуть указатель, чтобы дважды не прочитать
+                // один и тот же элемент
                 $this->reader->next();
             }
         } catch (Throwable $e) {

@@ -8,6 +8,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\FilesDispatcher\EntityFileDispatcher;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для объекта, который разбивает файлы на потоки по именам сущностей, к которым файлы относятся.
@@ -18,6 +19,10 @@ class EntityFileDispatcherTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно разбивает на потоки файлы.
+     *
+     * @param string[]   $files
+     * @param int        $processCount
+     * @param string[][] $expected
      *
      * @dataProvider dispatchProvider
      */
@@ -31,7 +36,7 @@ class EntityFileDispatcherTest extends BaseCase
         $this->assertSame($expected, $dispatchedFiles);
     }
 
-    public function dispatchProvider(): array
+    public function dispatchProvider(): iterable
     {
         $pathToFixtures = __DIR__ . '/_fixtures';
 
@@ -99,6 +104,7 @@ class EntityFileDispatcherTest extends BaseCase
         $descriptor2 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor2->method('getName')->willReturn('entity_2');
 
+        /** @var EntityManager&MockObject */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')->willReturnMap(
             [

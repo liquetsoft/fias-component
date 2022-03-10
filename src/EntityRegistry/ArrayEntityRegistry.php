@@ -13,15 +13,10 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 class ArrayEntityRegistry extends AbstractEntityRegistry
 {
     /**
-     * @var array
+     * @var EntityDescriptor[]
      */
     protected $arrayRegistry;
 
-    /**
-     * @param array $registry
-     *
-     * @throws InvalidArgumentException
-     */
     public function __construct(array $registry)
     {
         $this->arrayRegistry = [];

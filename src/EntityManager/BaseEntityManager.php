@@ -21,15 +21,13 @@ class BaseEntityManager implements EntityManager
     protected $registry;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     protected $bindings;
 
     /**
-     * @param EntityRegistry $registry
-     * @param string[]       $bindings
-     *
-     * @throws InvalidArgumentException
+     * @param EntityRegistry        $registry
+     * @param array<string, string> $bindings
      */
     public function __construct(EntityRegistry $registry, array $bindings)
     {

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Serializer;
 
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -16,8 +19,8 @@ use Symfony\Component\Serializer\Serializer;
 class FiasSerializer extends Serializer
 {
     /**
-     * @param array|null $normalizers
-     * @param array|null $encoders
+     * @param array<NormalizerInterface|DenormalizerInterface>|null $normalizers
+     * @param EncoderInterface[]|null                               $encoders
      */
     public function __construct(?array $normalizers = null, ?array $encoders = null)
     {
@@ -50,7 +53,7 @@ class FiasSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize($data, string $type, ?string $format = null, array $context = [])
     {
         $data = $this->filterData($data);
 
@@ -72,7 +75,7 @@ class FiasSerializer extends Serializer
 
         $filteredData = [];
         foreach ($data as $name => $value) {
-            if ($value !== '' || strpos($name, '@') !== 0) {
+            if ($value !== '' || strpos((string) $name, '@') !== 0) {
                 $filteredData[$name] = $value;
             }
         }

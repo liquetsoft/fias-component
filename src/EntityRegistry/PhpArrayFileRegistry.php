@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
+use RuntimeException;
 
 /**
  * Объект, который получает описания сущностей ФИАС из php файла с массивом.
@@ -21,9 +22,6 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     private $pathToSource;
 
-    /**
-     * @param string|null $pathToSource Путь к файлу с описанием сущностей
-     */
     public function __construct(?string $pathToSource = null)
     {
         $this->pathToSource = $pathToSource ?: PathHelper::resource('fias_entities.php');
@@ -42,6 +40,9 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
         $fileData = \is_array($fileData) ? $fileData : [];
 
         foreach ($fileData as $key => $entity) {
+            if (!\is_string($key) || !\is_array($entity)) {
+                throw new RuntimeException('Wrong file format');
+            }
             $entity['name'] = $key;
             $registry[] = $this->createEntityDescriptor($entity);
         }
@@ -63,6 +64,9 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
         if (!empty($entity['fields']) && \is_array($entity['fields'])) {
             $fields = [];
             foreach ($entity['fields'] as $key => $field) {
+                if (!\is_string($key) || !\is_array($field)) {
+                    throw new RuntimeException('Wrong field format');
+                }
                 $field['name'] = $key;
                 $fields[] = $this->createEntityField($field);
             }

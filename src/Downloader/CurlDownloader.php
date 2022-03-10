@@ -80,7 +80,7 @@ class CurlDownloader implements Downloader
             $message = sprintf(
                 "There was an error while downloading '%s': %s.",
                 $url,
-                $response['error']
+                (string) $response['error']
             );
             throw new DownloaderException($message);
         }
@@ -93,7 +93,7 @@ class CurlDownloader implements Downloader
             $message = sprintf(
                 "Url '%s' returned status: %s.",
                 $url,
-                $status
+                (string) $status
             );
             throw new DownloaderException($message);
         }
@@ -104,7 +104,7 @@ class CurlDownloader implements Downloader
      *
      * @param string $url
      *
-     * @return array
+     * @return mixed[]
      */
     private function getHeadResponseHeaders(string $url): array
     {
@@ -117,7 +117,7 @@ class CurlDownloader implements Downloader
             ]
         );
 
-        return $response['headers'] ?? [];
+        return isset($response['headers']) && \is_array($response['headers']) ? $response['headers'] : [];
     }
 
     /**
@@ -183,7 +183,6 @@ class CurlDownloader implements Downloader
 
         curl_setopt_array($ch, $options);
         $content = curl_exec($ch);
-        $statusCode = (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE);
         $response = [
             (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE),
             $content,

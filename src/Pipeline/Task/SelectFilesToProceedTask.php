@@ -102,6 +102,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
             $filesFolder->getRealPath(),
             RecursiveDirectoryIterator::SKIP_DOTS
         );
+        /** @var iterable<SplFileInfo> */
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {

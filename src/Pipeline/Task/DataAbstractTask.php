@@ -83,7 +83,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
         $allFiles = \is_array($allFiles) ? $allFiles : [];
 
         foreach ($allFiles as $file) {
-            $fileInfo = new SplFileInfo($file);
+            $fileInfo = new SplFileInfo((string) $file);
             if ($descriptor = $this->getFileDescriptor($fileInfo)) {
                 $this->processFile($fileInfo, $descriptor);
             }
@@ -136,7 +136,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
         $this->storage->start();
         try {
             foreach ($this->xmlReader as $xml) {
-                $item = $this->deserializeXmlStringToObject($xml, $entityClass);
+                $item = $this->deserializeXmlStringToObject((string) $xml, $entityClass);
                 if (!$this->storage->supports($item)) {
                     continue;
                 }

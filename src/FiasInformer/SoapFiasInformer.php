@@ -40,7 +40,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      *
-     * @throws SoapFault
+     * @psalm-suppress MixedPropertyFetch
      */
     public function getCompleteInfo(): InformerResponse
     {
@@ -73,8 +73,6 @@ class SoapFiasInformer implements FiasInformer
 
     /**
      * {@inheritDoc}
-     *
-     * @throws SoapFault
      */
     public function getDeltaInfo(int $currentVersion): InformerResponse
     {
@@ -94,7 +92,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      *
-     * @throws SoapFault
+     * @psalm-suppress MixedPropertyFetch
      */
     public function getDeltaList(): array
     {

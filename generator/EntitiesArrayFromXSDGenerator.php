@@ -10,6 +10,7 @@ use DOMXpath;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
+use SplFileInfo;
 
 /**
  * Объект, который генерирует файл с описаниями сущностей из xsd файлов,
@@ -53,11 +54,13 @@ class EntitiesArrayFromXSDGenerator
             $xsdDir,
             RecursiveDirectoryIterator::SKIP_DOTS
         );
+
+        /** @var iterable<SplFileInfo> */
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {
             if (strtolower($fileInfo->getExtension()) === 'xsd') {
-                $files[] = (string) $fileInfo->getRealPath();
+                $files[] = $fileInfo->getRealPath();
             }
         }
 
@@ -69,7 +72,7 @@ class EntitiesArrayFromXSDGenerator
      *
      * @param string[] $files
      *
-     * @return array
+     * @return mixed[][]
      */
     private function parseEntitiesFromFiles(array $files): array
     {
@@ -79,7 +82,7 @@ class EntitiesArrayFromXSDGenerator
             $entities = $this->parseEntitiesFormFile($file);
             foreach ($entities as $entity) {
                 $entityName = $entity['entity_name'] ?? null;
-                if ($entityName === null) {
+                if (!\is_string($entityName)) {
                     throw new RuntimeException("Can't find entity name.");
                 }
                 unset($entity['entity_name']);
@@ -95,7 +98,7 @@ class EntitiesArrayFromXSDGenerator
      *
      * @param string $filePath
      *
-     * @return array
+     * @return mixed[][]
      *
      * @psalm-suppress UndefinedMethod
      */
@@ -103,8 +106,13 @@ class EntitiesArrayFromXSDGenerator
     {
         $entities = [];
 
+        $content = file_get_contents($filePath);
+        if (!$content) {
+            throw new RuntimeException("No data found in {$filePath}");
+        }
+
         $schema = new DOMDocument();
-        $schema->loadXML(file_get_contents($filePath));
+        $schema->loadXML($content);
 
         if (!preg_match('/AS_(\D+)_.*/', $filePath, $matches)) {
             throw new RuntimeException("Can't recognize entity name for '{$filePath}' file.");
@@ -175,7 +183,7 @@ class EntitiesArrayFromXSDGenerator
         $fields = $xpath->query('.//xs:complexType/xs:attribute', $innerElement);
         $isPrimarySet = false;
         foreach ($fields as $field) {
-            $fieldName = $field->getAttribute('name');
+            $fieldName = (string) $field->getAttribute('name');
             $fieldsList[$fieldName] = $this->extractFieldDescription($field, $xpath);
 
             if (
@@ -183,8 +191,8 @@ class EntitiesArrayFromXSDGenerator
                 && $fieldsList[$fieldName]['isNullable'] === false
                 && (
                     $fieldName === 'ID'
-                    || str_contains($fieldsList[$fieldName]['description'], 'Ключевое поле')
-                    || str_contains($fieldsList[$fieldName]['description'], 'Уникальный идентификатор')
+                    || str_contains((string) $fieldsList[$fieldName]['description'], 'Ключевое поле')
+                    || str_contains((string) $fieldsList[$fieldName]['description'], 'Уникальный идентификатор')
                 )
             ) {
                 $fieldsList[$fieldName]['isPrimary'] = true;
@@ -256,7 +264,7 @@ class EntitiesArrayFromXSDGenerator
             $type = $xpath->query('.//xs:simpleType/xs:restriction', $field)->item(0)->getAttribute('base');
         }
 
-        return $this->convertType($type);
+        return $this->convertType((string) $type);
     }
 
     /**
@@ -284,20 +292,23 @@ class EntitiesArrayFromXSDGenerator
      *
      * @param string $defaultEntitiesFile
      *
-     * @return array
+     * @return mixed[]
      *
      * @psalm-suppress UnresolvableInclude
      */
     private function loadDefaultEntities(string $defaultEntitiesFile): array
     {
-        return include $defaultEntitiesFile;
+        /** @var mixed[] */
+        $res = include $defaultEntitiesFile;
+
+        return $res;
     }
 
     /**
      * Объединяет массив с описанием текущих сущностей и сущностей по умолчанию.
      *
-     * @param array $entities
-     * @param array $defaultEntities
+     * @param mixed[][] $entities
+     * @param array     $defaultEntities
      *
      * @return array
      */
@@ -307,7 +318,7 @@ class EntitiesArrayFromXSDGenerator
 
         foreach ($entities as $entityName => $entityDescription) {
             $defaultData = $defaultEntities[$entityName] ?? null;
-            if ($defaultData !== null) {
+            if (\is_array($defaultData)) {
                 $entityDescription = array_replace_recursive($defaultData, $entityDescription);
             }
             $resultEntities[$entityName] = $entityDescription;

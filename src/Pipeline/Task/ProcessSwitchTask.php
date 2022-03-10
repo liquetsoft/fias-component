@@ -60,8 +60,11 @@ class ProcessSwitchTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $files = $state->getParameter(Task::FILES_TO_PROCEED);
-        $files = \is_array($files) ? $files : [];
+        $filesFromState = $state->getParameter(Task::FILES_TO_PROCEED);
+        $files = array_map(
+            fn ($file): string => (string) $file,
+            \is_array($filesFromState) ? $filesFromState : []
+        );
 
         $dispatchedFiles = $this->filesDispatcher->dispatch($files, $this->numberOfParallel);
 
