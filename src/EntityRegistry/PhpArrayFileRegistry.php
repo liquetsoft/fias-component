@@ -16,10 +16,7 @@ use Liquetsoft\Fias\Component\Helper\PathHelper;
  */
 class PhpArrayFileRegistry extends AbstractEntityRegistry
 {
-    /**
-     * @var string
-     */
-    private $pathToSource;
+    private string $pathToSource;
 
     /**
      * @param string|null $pathToSource Путь к файлу с описанием сущностей
@@ -42,6 +39,9 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
         $fileData = \is_array($fileData) ? $fileData : [];
 
         foreach ($fileData as $key => $entity) {
+            if (!\is_array($entity)) {
+                continue;
+            }
             $entity['name'] = $key;
             $registry[] = $this->createEntityDescriptor($entity);
         }
@@ -52,7 +52,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
     /**
      * Создает сущность из массива, который был записан в файле.
      *
-     * @param array $entity
+     * @param mixed[] $entity
      *
      * @return EntityDescriptor
      *
@@ -63,6 +63,9 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
         if (!empty($entity['fields']) && \is_array($entity['fields'])) {
             $fields = [];
             foreach ($entity['fields'] as $key => $field) {
+                if (!\is_array($field)) {
+                    continue;
+                }
                 $field['name'] = $key;
                 $fields[] = $this->createEntityField($field);
             }

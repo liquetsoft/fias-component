@@ -19,15 +19,9 @@ class PrepareFolderTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var SplFileInfo
-     */
-    protected $folder;
+    protected SplFileInfo $folder;
 
-    /**
-     * @var FileSystemHelperInterface
-     */
-    private $fs;
+    private FileSystemHelperInterface $fs;
 
     /**
      * @param string $folder

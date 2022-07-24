@@ -9,6 +9,7 @@ use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Pipeline\Task\TruncateTask;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая очищает таблицы для всех сущностей из менеджера сущностей.
@@ -29,10 +30,12 @@ class TruncateTaskTest extends BaseCase
             'Test\Class2',
         ];
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getBindedClasses')->willReturn($classes);
 
         $truncated = [];
+        /** @var MockObject&Storage */
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');

@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
+use PHPUnit\Framework\MockObject\MockObject;
 use SplFileInfo;
 
 /**
@@ -31,6 +32,7 @@ class UnpackTaskTest extends BaseCase
         $destinationPath = __DIR__;
         $destination = new SplFileInfo($destinationPath);
 
+        /** @var MockObject&Unpacker */
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
         $unpack->expects($this->once())
             ->method('unpack')
@@ -68,6 +70,7 @@ class UnpackTaskTest extends BaseCase
     {
         $destination = new SplFileInfo(__DIR__);
 
+        /** @var MockObject&Unpacker */
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
 
         $state = $this->createDefaultStateMock(
@@ -91,6 +94,7 @@ class UnpackTaskTest extends BaseCase
     {
         $source = new SplFileInfo(__DIR__ . '/test.file');
 
+        /** @var MockObject&Unpacker */
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
 
         $state = $this->createDefaultStateMock(

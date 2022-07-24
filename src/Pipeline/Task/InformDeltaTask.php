@@ -17,10 +17,7 @@ class InformDeltaTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var FiasInformer
-     */
-    protected $informer;
+    protected FiasInformer $informer;
 
     /**
      * @param FiasInformer $informer

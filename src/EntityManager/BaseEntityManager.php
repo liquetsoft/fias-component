@@ -15,19 +15,16 @@ use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
  */
 class BaseEntityManager implements EntityManager
 {
-    /**
-     * @var EntityRegistry
-     */
-    protected $registry;
+    protected EntityRegistry $registry;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
-    protected $bindings;
+    protected array $bindings;
 
     /**
-     * @param EntityRegistry $registry
-     * @param string[]       $bindings
+     * @param EntityRegistry        $registry
+     * @param array<string, string> $bindings
      *
      * @throws InvalidArgumentException
      */

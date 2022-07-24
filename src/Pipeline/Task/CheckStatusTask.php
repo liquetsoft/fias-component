@@ -16,10 +16,7 @@ class CheckStatusTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var FiasStatusChecker
-     */
-    protected $checker;
+    protected FiasStatusChecker $checker;
 
     /**
      * @param FiasStatusChecker $checker

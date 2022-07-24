@@ -1,24 +1,36 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="false"
     cacheDirectory="/tmp"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config file:///var/www/vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="./"/>
+        <directory name="./src"/>
+        <directory name="./tests"/>
         <ignoreFiles>
-            <directory name="docker"/>
-            <directory name="resources"/>
-            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
+        <MixedAssignment errorLevel="suppress"/>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="./tests" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+        <MixedOperand>
+            <errorLevel type="suppress">
+                <directory name="./tests" />
+            </errorLevel>
+        </MixedOperand>
+        <MixedArrayAssignment>
+            <errorLevel type="suppress">
+                <directory name="./tests" />
+            </errorLevel>
+        </MixedArrayAssignment>
     </issueHandlers>
 
     <plugins>
-        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
 </psalm>

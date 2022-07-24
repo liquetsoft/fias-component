@@ -13,15 +13,9 @@ use Throwable;
  */
 class CurlStatusChecker implements FiasStatusChecker
 {
-    /**
-     * @var string
-     */
-    private $wsdlUrl;
+    private string $wsdlUrl;
 
-    /**
-     * @var FiasInformer
-     */
-    private $informer;
+    private FiasInformer $informer;
 
     public function __construct(string $wsdlUrl, FiasInformer $informer)
     {

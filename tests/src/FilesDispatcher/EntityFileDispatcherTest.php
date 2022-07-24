@@ -8,6 +8,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\FilesDispatcher\EntityFileDispatcher;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для объекта, который разбивает файлы на потоки по именам сущностей, к которым файлы относятся.
@@ -18,6 +19,10 @@ class EntityFileDispatcherTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно разбивает на потоки файлы.
+     *
+     * @param string[]   $files
+     * @param int        $processCount
+     * @param string[][] $expected
      *
      * @dataProvider dispatchProvider
      */
@@ -90,15 +95,19 @@ class EntityFileDispatcherTest extends BaseCase
 
     private function getEntityManagerMock(): EntityManager
     {
+        /** @var MockObject&EntityDescriptor */
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->willReturn('entity');
 
+        /** @var MockObject&EntityDescriptor */
         $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor1->method('getName')->willReturn('entity_1');
 
+        /** @var MockObject&EntityDescriptor */
         $descriptor2 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor2->method('getName')->willReturn('entity_2');
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')->willReturnMap(
             [

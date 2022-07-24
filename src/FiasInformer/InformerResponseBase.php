@@ -12,15 +12,9 @@ use InvalidArgumentException;
  */
 class InformerResponseBase implements InformerResponse
 {
-    /**
-     * @var int
-     */
-    protected $version = 0;
+    protected int $version = 0;
 
-    /**
-     * @var string
-     */
-    protected $url = '';
+    protected string $url = '';
 
     /**
      * {@inheritdoc}

@@ -15,7 +15,7 @@ class RegexpFilter implements Filter
     /**
      * @var string[]
      */
-    private $regexps;
+    private array $regexps;
 
     /**
      * @param string[] $regexps
@@ -30,7 +30,7 @@ class RegexpFilter implements Filter
      */
     public function test($testData): bool
     {
-        if (is_scalar($testData)) {
+        if (\is_scalar($testData)) {
             $testData = (string) $testData;
         } elseif (\is_object($testData) && method_exists($testData, '__toString')) {
             $testData = (string) $testData->__toString();

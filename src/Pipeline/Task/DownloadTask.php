@@ -19,10 +19,7 @@ class DownloadTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var Downloader
-     */
-    protected $downloader;
+    protected Downloader $downloader;
 
     /**
      * @param Downloader $downloader

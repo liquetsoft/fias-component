@@ -5,19 +5,25 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Serializer;
 
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\Serializer\Encoder\DecoderInterface;
+use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
  * Объект для преобразования xml-строк из ФИАС в объекты.
+ *
+ * @psalm-suppress DeprecatedInterface
  */
 class FiasSerializer extends Serializer
 {
     /**
-     * @param array|null $normalizers
-     * @param array|null $encoders
+     * @param array<DenormalizerInterface|NormalizerInterface>|null $normalizers
+     * @param array<DecoderInterface|EncoderInterface>|null         $encoders
      */
     public function __construct(?array $normalizers = null, ?array $encoders = null)
     {
@@ -72,7 +78,7 @@ class FiasSerializer extends Serializer
 
         $filteredData = [];
         foreach ($data as $name => $value) {
-            if ($value !== '' || strpos($name, '@') !== 0) {
+            if (\is_string($name) && ($value !== '' || strpos($name, '@') !== 0)) {
                 $filteredData[$name] = $value;
             }
         }

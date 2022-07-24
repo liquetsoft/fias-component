@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusChecker;
 use Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult;
 use Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая проверяет текущий статус ФИАС.
@@ -31,6 +32,7 @@ class CheckStatusTaskTest extends BaseCase
         $checkerResult->method('getResultStatus')
             ->willReturn(FiasStatusChecker::STATUS_AVAILABLE);
 
+        /** @var MockObject&FiasStatusChecker */
         $statusChecker = $this->getMockBuilder(FiasStatusChecker::class)->getMock();
         $statusChecker->expects($this->once())->method('check')->willReturn($checkerResult);
 
@@ -54,6 +56,7 @@ class CheckStatusTaskTest extends BaseCase
         $checkerResult->method('getResultStatus')
             ->willReturn(FiasStatusChecker::STATUS_NOT_AVAILABLE);
 
+        /** @var MockObject&FiasStatusChecker */
         $statusChecker = $this->getMockBuilder(FiasStatusChecker::class)->getMock();
         $statusChecker->expects($this->once())->method('check')->willReturn($checkerResult);
 

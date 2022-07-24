@@ -24,25 +24,13 @@ abstract class DataAbstractTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
+    protected EntityManager $entityManager;
 
-    /**
-     * @var XmlReader
-     */
-    protected $xmlReader;
+    protected XmlReader $xmlReader;
 
-    /**
-     * @var Storage
-     */
-    protected $storage;
+    protected Storage $storage;
 
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
+    protected SerializerInterface $serializer;
 
     /**
      * @param EntityManager       $entityManager
@@ -83,7 +71,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
         $allFiles = \is_array($allFiles) ? $allFiles : [];
 
         foreach ($allFiles as $file) {
-            $fileInfo = new SplFileInfo($file);
+            $fileInfo = new SplFileInfo((string) $file);
             if ($descriptor = $this->getFileDescriptor($fileInfo)) {
                 $this->processFile($fileInfo, $descriptor);
             }
@@ -162,14 +150,14 @@ abstract class DataAbstractTask implements LoggableTask, Task
     /**
      * Преобразует xml строку в объект указанного класса.
      *
-     * @param string $xml
-     * @param string $entityClass
+     * @param string|null $xml
+     * @param string      $entityClass
      *
      * @return object
      *
      * @throws TaskException
      */
-    protected function deserializeXmlStringToObject(string $xml, string $entityClass): object
+    protected function deserializeXmlStringToObject(?string $xml, string $entityClass): object
     {
         try {
             $entity = $this->serializer->deserialize($xml, $entityClass, 'xml');

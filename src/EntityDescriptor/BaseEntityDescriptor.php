@@ -12,40 +12,22 @@ use Liquetsoft\Fias\Component\EntityField\EntityField;
  */
 class BaseEntityDescriptor implements EntityDescriptor
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string
-     */
-    protected $description = '';
+    protected string $description = '';
 
-    /**
-     * @var int
-     */
-    protected $partitionsCount = 1;
+    protected int $partitionsCount = 1;
 
-    /**
-     * @var string
-     */
-    protected $xmlPath = '';
+    protected string $xmlPath = '';
 
-    /**
-     * @var string
-     */
-    protected $insertFileMask = '';
+    protected string $insertFileMask = '';
 
-    /**
-     * @var string
-     */
-    protected $deleteFileMask = '';
+    protected string $deleteFileMask = '';
 
     /**
      * @var EntityField[]
      */
-    protected $fields;
+    protected array $fields;
 
     /**
      * @param array $p Массив с описанием сущности

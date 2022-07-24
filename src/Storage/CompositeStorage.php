@@ -14,7 +14,7 @@ class CompositeStorage implements Storage
     /**
      * @var Storage[]
      */
-    protected $internalStorages = [];
+    protected array $internalStorages = [];
 
     /**
      * @param iterable $internalStorages

@@ -17,10 +17,7 @@ class CleanupTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var FileSystemHelperInterface
-     */
-    private $fs;
+    private FileSystemHelperInterface $fs;
 
     public function __construct()
     {

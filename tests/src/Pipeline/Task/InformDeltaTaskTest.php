@@ -12,6 +12,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformDeltaTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая получает ссылку на частичную версию ФИАС.
@@ -34,6 +35,7 @@ class InformDeltaTaskTest extends BaseCase
         $informerResult->method('getVersion')->willReturn($version);
         $informerResult->method('getUrl')->willReturn('http://test.test/test');
 
+        /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->willReturn($informerResult);
 
@@ -53,6 +55,7 @@ class InformDeltaTaskTest extends BaseCase
      */
     public function testRunNoVersionException(): void
     {
+        /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->expects($this->never())->method('getDeltaInfo');
 
@@ -76,6 +79,7 @@ class InformDeltaTaskTest extends BaseCase
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->willReturn(false);
 
+        /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->willReturn($informerResult);
 

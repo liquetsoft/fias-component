@@ -16,6 +16,7 @@ use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\DataInsertTaskMock;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -35,6 +36,7 @@ class DataInsertTaskTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
             ->willReturnCallback(
@@ -50,6 +52,7 @@ class DataInsertTaskTest extends BaseCase
             );
 
         $insertedData = [];
+        /** @var MockObject&Storage */
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
@@ -93,6 +96,7 @@ class DataInsertTaskTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
             ->willReturnCallback(
@@ -108,6 +112,7 @@ class DataInsertTaskTest extends BaseCase
             );
 
         $insertedData = [];
+        /** @var MockObject&Storage */
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
@@ -125,6 +130,7 @@ class DataInsertTaskTest extends BaseCase
             ]
         );
 
+        /** @var MockObject&SerializerInterface */
         $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
         $serializer->method('deserialize')
             ->will(
@@ -152,6 +158,7 @@ class DataInsertTaskTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
             ->willReturnCallback(
@@ -167,6 +174,7 @@ class DataInsertTaskTest extends BaseCase
             );
 
         $insertedData = [];
+        /** @var MockObject&Storage */
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
@@ -184,6 +192,7 @@ class DataInsertTaskTest extends BaseCase
             ]
         );
 
+        /** @var MockObject&SerializerInterface */
         $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
         $serializer->method('deserialize')->willReturn('test');
 

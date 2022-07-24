@@ -13,15 +13,9 @@ use SplFileInfo;
  */
 class CurlDownloader implements Downloader
 {
-    /**
-     * @var array
-     */
-    private $additionalCurlOptions;
+    private array $additionalCurlOptions;
 
-    /**
-     * @var int
-     */
-    private $maxAttempts;
+    private int $maxAttempts;
 
     /**
      * @param array $additionalCurlOptions
@@ -54,9 +48,10 @@ class CurlDownloader implements Downloader
             \CURLOPT_FILE => $this->openLocalFile($localFile, 'wb'),
         ];
 
+        $response = new CurlDownloaderResponse();
         for ($i = 0; $i < $this->maxAttempts; ++$i) {
             $response = $this->runRequest($url, $options);
-            if ($response['isOk'] && empty($response['error'])) {
+            if ($response->isOk() && $response->getError() === null) {
                 break;
             }
             // в случае ошибки пробуем скачать файл еще раз,
@@ -76,19 +71,19 @@ class CurlDownloader implements Downloader
 
         fclose($options[\CURLOPT_FILE]);
 
-        if (!empty($response['error'])) {
+        if ($response->getError() !== null) {
             $message = sprintf(
                 "There was an error while downloading '%s': %s.",
                 $url,
-                $response['error']
+                (string) $response->getError()
             );
             throw new DownloaderException($message);
         }
 
-        if (empty($response['isOk'])) {
+        if (!$response->isOk()) {
             $status = 'xxx';
-            if (!empty($response['status'])) {
-                $status = $response['status'];
+            if ($response->getStatusCode() !== 0) {
+                $status = $response->getStatusCode();
             }
             $message = sprintf(
                 "Url '%s' returned status: %s.",
@@ -104,7 +99,7 @@ class CurlDownloader implements Downloader
      *
      * @param string $url
      *
-     * @return array
+     * @return array<string, string>
      */
     private function getHeadResponseHeaders(string $url): array
     {
@@ -117,7 +112,7 @@ class CurlDownloader implements Downloader
             ]
         );
 
-        return $response['headers'] ?? [];
+        return $response->getHeaders();
     }
 
     /**
@@ -150,21 +145,14 @@ class CurlDownloader implements Downloader
      * @param string $url
      * @param array  $options
      *
-     * @return array
+     * @return CurlDownloaderResponse
      */
-    protected function runRequest(string $url, array $options): array
+    protected function runRequest(string $url, array $options): CurlDownloaderResponse
     {
         $fullOptionsList = $this->additionalCurlOptions + $options;
         $fullOptionsList[\CURLOPT_URL] = $url;
 
-        [$statusCode, $content, $error] = $this->runCurlRequest($fullOptionsList);
-
-        return [
-            'status' => $statusCode,
-            'isOk' => $statusCode >= 200 && $statusCode < 300,
-            'headers' => $this->extractHeadersFromContent($content),
-            'error' => $error,
-        ];
+        return new CurlDownloaderResponse($this->runCurlRequest($fullOptionsList));
     }
 
     /**
@@ -183,7 +171,6 @@ class CurlDownloader implements Downloader
 
         curl_setopt_array($ch, $options);
         $content = curl_exec($ch);
-        $statusCode = (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE);
         $response = [
             (int) curl_getinfo($ch, \CURLINFO_HTTP_CODE),
             $content,
@@ -192,35 +179,5 @@ class CurlDownloader implements Downloader
         curl_close($ch);
 
         return $response;
-    }
-
-    /**
-     * Получает список заголовков из http ответа.
-     *
-     * @param mixed $content
-     *
-     * @return array<string, string>
-     */
-    private function extractHeadersFromContent($content): array
-    {
-        if (!\is_string($content)) {
-            return [];
-        }
-
-        $explodeHeadersContent = explode("\n\n", $content, 2);
-
-        $headers = [];
-        $rawHeaders = explode("\n", $explodeHeadersContent[0]);
-        foreach ($rawHeaders as $rawHeader) {
-            $rawHeaderExplode = explode(':', $rawHeader, 2);
-            if (\count($rawHeaderExplode) < 2) {
-                continue;
-            }
-            $name = str_replace('_', '-', strtolower(trim($rawHeaderExplode[0])));
-            $value = strtolower(trim($rawHeaderExplode[1]));
-            $headers[$name] = $value;
-        }
-
-        return $headers;
     }
 }

@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionSetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая сохраняет текущую версию ФИАС.
@@ -39,6 +40,7 @@ class VersionSetTaskTest extends BaseCase
             ]
         );
 
+        /** @var MockObject&VersionManager */
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->expects($this->once())
             ->method('setCurrentVersion')
@@ -67,6 +69,7 @@ class VersionSetTaskTest extends BaseCase
             ]
         );
 
+        /** @var MockObject&VersionManager */
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->expects($this->never())->method('setCurrentVersion');
 
@@ -84,6 +87,7 @@ class VersionSetTaskTest extends BaseCase
     {
         $state = $this->createDefaultStateMock();
 
+        /** @var MockObject&VersionManager */
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->expects($this->never())->method('setCurrentVersion');
 

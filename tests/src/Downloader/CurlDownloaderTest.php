@@ -9,6 +9,7 @@ use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use SplFileInfo;
 
 /**
@@ -150,6 +151,7 @@ class CurlDownloaderTest extends BaseCase
      */
     private function createDownloaderMock(callable $with, array $additionalCurlOptions = []): Downloader
     {
+        /** @var MockObject&Downloader */
         $downloader = $this->getMockBuilder(CurlDownloader::class)
             ->onlyMethods(
                 [

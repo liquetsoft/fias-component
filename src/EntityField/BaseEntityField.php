@@ -11,50 +11,23 @@ use InvalidArgumentException;
  */
 class BaseEntityField implements EntityField
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string
-     */
-    protected $description;
+    protected string $description;
 
-    /**
-     * @var string
-     */
-    protected $type;
+    protected string $type;
 
-    /**
-     * @var string
-     */
-    protected $subType;
+    protected string $subType;
 
-    /**
-     * @var int|null
-     */
-    protected $length;
+    protected ?int $length;
 
-    /**
-     * @var bool
-     */
-    protected $isNullable;
+    protected bool $isNullable;
 
-    /**
-     * @var bool
-     */
-    protected $isPrimary;
+    protected bool $isPrimary;
 
-    /**
-     * @var bool
-     */
-    protected $isIndex;
+    protected bool $isIndex;
 
-    /**
-     * @var bool
-     */
-    protected $isPartition;
+    protected bool $isPartition;
 
     /**
      * @param array $p Массив с описанием поля

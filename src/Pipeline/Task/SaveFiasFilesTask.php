@@ -21,12 +21,9 @@ class SaveFiasFilesTask implements LoggableTask, Task
     /**
      * @var array<string, string>
      */
-    protected $movePaths;
+    protected array $movePaths;
 
-    /**
-     * @var FileSystemHelperInterface
-     */
-    private $fs;
+    private FileSystemHelperInterface $fs;
 
     /**
      * @param string|null $moveArchiveTo

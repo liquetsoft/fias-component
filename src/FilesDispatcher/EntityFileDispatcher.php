@@ -11,10 +11,7 @@ use Liquetsoft\Fias\Component\EntityManager\EntityManager;
  */
 class EntityFileDispatcher implements FilesDispatcher
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * @param EntityManager $entityManager
