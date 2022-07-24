@@ -14,6 +14,7 @@ use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\DataDeleteTaskMock;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая удаляет данные из файла из БД.
@@ -32,6 +33,7 @@ class DataDeleteTaskTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByDeleteFile')
             ->willReturnCallback(
@@ -47,12 +49,13 @@ class DataDeleteTaskTest extends BaseCase
             );
 
         $insertedData = [];
+        /** @var MockObject&Storage */
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')
             ->willReturnCallback(
-                function (DataDeleteTaskMock $object) use (&$insertedData) {
+                function (DataDeleteTaskMock $object) {
                     return $object->getActstatid() === 321;
                 }
             );

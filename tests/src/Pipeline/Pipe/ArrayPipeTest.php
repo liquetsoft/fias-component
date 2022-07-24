@@ -12,6 +12,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\ArrayPipeTestLoggableMock;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -94,6 +95,7 @@ class ArrayPipeTest extends BaseCase
      */
     public function testRunWithCompleted(): void
     {
+        /** @var MockObject&State */
         $state = $this->getMockBuilder(State::class)->getMock();
         $stateCounter = 0;
         $state->method('isCompleted')->willReturnCallback(
@@ -156,6 +158,7 @@ class ArrayPipeTest extends BaseCase
         $state = $this->createDefaultStateMock([], true);
         $task = $this->createTaskMock($state);
 
+        /** @var MockObject&LoggerInterface */
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
         $logger->expects($this->atLeastOnce())
             ->method('log')
@@ -188,6 +191,7 @@ class ArrayPipeTest extends BaseCase
     {
         $state = $this->createDefaultStateMock([], true);
 
+        /** @var MockObject&LoggerInterface */
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 
         $task = $this->getMockBuilder(ArrayPipeTestLoggableMock::class)->getMock();
@@ -223,6 +227,7 @@ class ArrayPipeTest extends BaseCase
      */
     private function createTaskMock($with = null, ?Throwable $exception = null): Task
     {
+        /** @var MockObject&Task */
         $task = $this->getMockBuilder(Task::class)->getMock();
 
         if ($with !== null || $exception !== null) {

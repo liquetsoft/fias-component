@@ -10,6 +10,8 @@ use SplFileInfo;
 
 /**
  * Интерфейс для объекта, который читает данные из xml файла.
+ *
+ * @template-extends Iterator<int, string|null>
  */
 interface XmlReader extends Iterator
 {

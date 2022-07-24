@@ -11,20 +11,14 @@ use InvalidArgumentException;
  */
 class ArrayState implements State
 {
-    /**
-     * @var mixed[]
-     */
-    private $parameters = [];
+    private array $parameters = [];
 
-    /**
-     * @var bool
-     */
-    private $isCompleted = false;
+    private bool $isCompleted = false;
 
     /**
      * @var string[]
      */
-    private $lockedParams = [];
+    private array $lockedParams = [];
 
     /**
      * {@inheritdoc}

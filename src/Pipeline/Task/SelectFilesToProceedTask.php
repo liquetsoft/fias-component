@@ -17,15 +17,9 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
+    private EntityManager $entityManager;
 
-    /**
-     * @var Filter|null
-     */
-    private $filter;
+    private ?Filter $filter;
 
     /**
      * @param EntityManager $entityManager
@@ -102,6 +96,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
             $filesFolder->getRealPath(),
             RecursiveDirectoryIterator::SKIP_DOTS
         );
+        /** @var iterable<SplFileInfo> */
         $iterator = new RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {

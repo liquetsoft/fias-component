@@ -14,6 +14,7 @@ use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\DataUpsertTaskMock;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая обновляет данные данные из файла в БД.
@@ -32,6 +33,7 @@ class DataUpsertTaskTest extends BaseCase
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')
             ->willReturnCallback(
@@ -47,6 +49,7 @@ class DataUpsertTaskTest extends BaseCase
             );
 
         $insertedData = [];
+        /** @var MockObject&Storage */
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');

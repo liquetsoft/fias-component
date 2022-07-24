@@ -12,6 +12,7 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionGetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая получает текущую версию ФИАС.
@@ -35,6 +36,7 @@ class VersionGetTaskTest extends BaseCase
         $response->method('getUrl')->willReturn($url);
         $response->method('hasResult')->willReturn(true);
 
+        /** @var MockObject&VersionManager */
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->method('getCurrentVersion')->willReturn($response);
 
@@ -56,6 +58,7 @@ class VersionGetTaskTest extends BaseCase
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('hasResult')->willReturn(false);
 
+        /** @var MockObject&VersionManager */
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
         $versionManager->method('getCurrentVersion')->willReturn($response);
 

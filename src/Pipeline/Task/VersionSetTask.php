@@ -13,10 +13,7 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
  */
 class VersionSetTask implements Task
 {
-    /**
-     * @var VersionManager
-     */
-    protected $versionManager;
+    protected VersionManager $versionManager;
 
     /**
      * @param VersionManager $versionManager

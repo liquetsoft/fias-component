@@ -17,25 +17,13 @@ class ProcessSwitchTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var FilesDispatcher
-     */
-    protected $filesDispatcher;
+    protected FilesDispatcher $filesDispatcher;
 
-    /**
-     * @var string
-     */
-    protected $pathToBin;
+    protected string $pathToBin;
 
-    /**
-     * @var string
-     */
-    protected $commandName;
+    protected string $commandName;
 
-    /**
-     * @var int
-     */
-    protected $numberOfParallel;
+    protected int $numberOfParallel;
 
     /**
      * @param FilesDispatcher $filesDispatcher
@@ -60,8 +48,16 @@ class ProcessSwitchTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $files = $state->getParameter(Task::FILES_TO_PROCEED);
-        $files = \is_array($files) ? $files : [];
+        $rawFiles = $state->getParameter(Task::FILES_TO_PROCEED);
+        $files = [];
+        if (\is_array($rawFiles)) {
+            $files = array_map(
+                function ($file): string {
+                    return (string) $file;
+                },
+                $rawFiles
+            );
+        }
 
         $dispatchedFiles = $this->filesDispatcher->dispatch($files, $this->numberOfParallel);
 

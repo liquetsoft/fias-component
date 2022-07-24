@@ -13,6 +13,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use SplFileInfo;
 use stdClass;
 
@@ -30,6 +31,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
      */
     public function testRunEmptyUnpackToException(): void
     {
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $state = $this->createDefaultStateMock();
 
@@ -46,6 +48,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
      */
     public function testRunNonExitedUnpackToException(): void
     {
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
 
         $state = $this->createDefaultStateMock(
@@ -71,6 +74,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')->willReturnMap(
             [
@@ -78,7 +82,6 @@ class SelectFilesToProceedTaskTest extends BaseCase
                 ['SelectFilesToProceedTaskTest_nested_insert.xml', $descriptor],
             ]
         );
-
         $entityManager->method('getDescriptorByDeleteFile')->willReturnMap(
             [
                 ['SelectFilesToProceedTaskTest_delete.xml', $descriptor],
@@ -120,6 +123,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
 
+        /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
         $entityManager->method('getDescriptorByInsertFile')->willReturnMap(
             [
@@ -127,13 +131,13 @@ class SelectFilesToProceedTaskTest extends BaseCase
                 ['SelectFilesToProceedTaskTest_nested_insert.xml', $descriptor],
             ]
         );
-
         $entityManager->method('getClassByDescriptor')->willReturnMap(
             [
                 [$descriptor, stdClass::class],
             ]
         );
 
+        /** @var MockObject&Filter */
         $filter = $this->getMockBuilder(Filter::class)->getMock();
         $filter->method('test')->willReturnCallback(
             function (SplFileInfo $file) use ($fixturesFolder) {

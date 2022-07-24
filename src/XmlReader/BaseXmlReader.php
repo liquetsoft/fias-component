@@ -17,45 +17,33 @@ class BaseXmlReader implements XmlReaderInterface
 {
     /**
      * Файл, который открыт в данный момент.
-     *
-     * @var SplFileInfo|null
      */
-    protected $file;
+    protected ?SplFileInfo $file = null;
 
     /**
      * Xpath, по которому следует искать данные.
-     *
-     * @var string
      */
-    protected $xpath = '';
+    protected string $xpath = '';
 
     /**
      * Объект XMLReader для чтения документа.
-     *
-     * @var PhpXmlReader|null
      */
-    protected $reader;
+    protected ?PhpXmlReader $reader = null;
 
     /**
      * Текущее смещение внутри массива.
-     *
-     * @var int
      */
-    protected $position = 0;
+    protected int $position = 0;
 
     /**
      * Флаг, который указывает, что данные были прочитаны в буфер.
-     *
-     * @var bool
      */
-    protected $isBufferFull = false;
+    protected bool $isBufferFull = false;
 
     /**
      * Массив с буфером, для isValid и current.
-     *
-     * @var string|null
      */
-    protected $buffer;
+    protected ?string $buffer = null;
 
     /**
      * {@inheritdoc}
@@ -104,7 +92,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function current()
+    public function current(): ?string
     {
         if (!$this->isBufferFull) {
             $this->isBufferFull = true;
@@ -117,7 +105,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function key()
+    public function key(): int
     {
         return $this->position;
     }
@@ -139,7 +127,7 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function valid()
+    public function valid(): bool
     {
         if (!$this->isBufferFull) {
             $this->isBufferFull = true;
@@ -180,12 +168,12 @@ class BaseXmlReader implements XmlReaderInterface
 
         try {
             $this->skipUselessXml($nameFilter, $currentDepth);
-            //мы можем выйти из цикла, если найдем нужный элемент
-            //или попадем на уровень выше - проверяем, что нашли нужный
+            // мы можем выйти из цикла, если найдем нужный элемент
+            // или попадем на уровень выше - проверяем, что нашли нужный
             if ($nameFilter === $this->reader->name) {
                 $return = $this->reader->readOuterXml();
-                //нужно передвинуть указатель, чтобы дважды не прочитать
-                //один и тот же элемент
+                // нужно передвинуть указатель, чтобы дважды не прочитать
+                // один и тот же элемент
                 $this->reader->next();
             }
         } catch (Throwable $e) {

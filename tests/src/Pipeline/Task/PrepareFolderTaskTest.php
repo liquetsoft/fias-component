@@ -33,10 +33,12 @@ class PrepareFolderTaskTest extends BaseCase
 
         $task = new PrepareFolderTask($pathToPrepare);
         $task->run($state);
+        $downloadFile = $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM);
+        $extractToFolder = $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM);
 
-        $this->assertInstanceOf(SplFileInfo::class, $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM));
-        $this->assertInstanceOf(SplFileInfo::class, $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM));
-        $this->assertTrue($state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM)->isDir());
+        $this->assertInstanceOf(SplFileInfo::class, $downloadFile);
+        $this->assertInstanceOf(SplFileInfo::class, $extractToFolder);
+        $this->assertTrue($extractToFolder->isDir());
     }
 
     /**

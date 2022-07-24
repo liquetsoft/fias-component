@@ -17,7 +17,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     /**
      * @var EntityDescriptor[]|null
      */
-    protected $registry;
+    protected ?array $registry = null;
 
     /**
      * Возвращает полностью подготовленный массив с описаниями сущностей.

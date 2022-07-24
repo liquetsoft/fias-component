@@ -17,10 +17,7 @@ class UnpackTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var Unpacker
-     */
-    protected $unpacker;
+    protected Unpacker $unpacker;
 
     /**
      * @param Unpacker $unpacker

@@ -11,6 +11,7 @@ use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use SplFileInfo;
 
 /**
@@ -36,6 +37,7 @@ class DownloadTaskTest extends BaseCase
         $filePath = __DIR__ . '/test.file';
         $file = new SplFileInfo($filePath);
 
+        /** @var MockObject&Downloader */
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
         $downloader->expects($this->once())
             ->method('download')->with(
@@ -66,6 +68,7 @@ class DownloadTaskTest extends BaseCase
      */
     public function testRunNoFiasInfoException(): void
     {
+        /** @var MockObject&Downloader */
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
 
         $state = $this->createDefaultStateMock(
@@ -87,6 +90,7 @@ class DownloadTaskTest extends BaseCase
      */
     public function testRunNoDownloadToInfoException(): void
     {
+        /** @var MockObject&Downloader */
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();

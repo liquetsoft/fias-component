@@ -13,9 +13,9 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 class ArrayEntityRegistry extends AbstractEntityRegistry
 {
     /**
-     * @var array
+     * @var array<int, EntityDescriptor>
      */
-    protected $arrayRegistry;
+    protected array $arrayRegistry;
 
     /**
      * @param array $registry

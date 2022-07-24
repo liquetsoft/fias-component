@@ -11,6 +11,7 @@ use Liquetsoft\Fias\Component\EntityRegistry\ArrayEntityRegistry;
 use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 
 /**
@@ -25,6 +26,7 @@ class BaseEntityManagerTest extends BaseCase
      */
     public function testConstructNoClassException(): void
     {
+        /** @var MockObject&EntityRegistry */
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 
         $this->expectException(InvalidArgumentException::class);
@@ -68,9 +70,12 @@ class BaseEntityManagerTest extends BaseCase
     {
         $class = 'TestClass';
         $entityName = 'TestEntity';
+
+        /** @var MockObject&EntityDescriptor */
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->willReturn($entityName);
 
+        /** @var MockObject&EntityDescriptor */
         $descriptorNotBound = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptorNotBound->method('getName')->willReturn('not_bound');
 
@@ -217,6 +222,7 @@ class BaseEntityManagerTest extends BaseCase
      */
     public function testGetBoundClasses(): void
     {
+        /** @var MockObject&EntityRegistry */
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 
         $manager = new BaseEntityManager(

@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Marvin255\FileSystemHelper\FileSystemException;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -18,20 +19,11 @@ use RuntimeException;
  */
 abstract class BaseCase extends TestCase
 {
-    /**
-     * @var Generator|null
-     */
-    private $faker;
+    private ?Generator $faker = null;
 
-    /**
-     * @var FileSystemHelperInterface|null
-     */
-    private $fs;
+    private ?FileSystemHelperInterface $fs = null;
 
-    /**
-     * @var string|null
-     */
-    private $tempDir;
+    private ?string $tempDir = null;
 
     /**
      * Возвращает объект php faker для генерации случайных данных.
@@ -158,6 +150,7 @@ abstract class BaseCase extends TestCase
      */
     protected function createDefaultStateMock(array $params = [], ?bool $needCompleting = null): State
     {
+        /** @var MockObject&State */
         $state = $this->getMockBuilder(State::class)->getMock();
 
         $state->method('getParameter')

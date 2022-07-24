@@ -12,6 +12,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformFullTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая получает ссылку на полную версию ФИАС.
@@ -32,6 +33,7 @@ class InformFullTaskTest extends BaseCase
         $informerResult->method('getVersion')->willReturn(1);
         $informerResult->method('getUrl')->willReturn('http://test.test/test');
 
+        /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getCompleteInfo')->willReturn($informerResult);
 
@@ -53,6 +55,7 @@ class InformFullTaskTest extends BaseCase
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('hasResult')->willReturn(false);
 
+        /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
         $informer->method('getCompleteInfo')->willReturn($informerResult);
 

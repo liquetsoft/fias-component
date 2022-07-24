@@ -9,15 +9,12 @@ namespace Liquetsoft\Fias\Component\FiasStatusChecker;
  */
 class StatusCheckerResult
 {
-    /**
-     * @var string
-     */
-    private $resultStatus;
+    private string $resultStatus;
 
     /**
      * @var array<int, array>
      */
-    private $perServiceStatuses;
+    private array $perServiceStatuses;
 
     /**
      * @param string            $resultStatus

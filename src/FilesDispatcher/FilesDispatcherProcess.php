@@ -12,12 +12,9 @@ class FilesDispatcherProcess
     /**
      * @var string[]
      */
-    private $items = [];
+    private array $items = [];
 
-    /**
-     * @var int
-     */
-    private $weight = 0;
+    private int $weight = 0;
 
     public function addItem(string $item): void
     {

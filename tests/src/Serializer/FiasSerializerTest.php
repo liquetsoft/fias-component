@@ -32,14 +32,15 @@ EOT;
         $serializer = new FiasSerializer();
 
         $object = $serializer->deserialize($data, FiasSerializerMock::class, 'xml');
-        $date = $object->getTestDate();
-        $date = $date ? $date->format('Y-m-d H:i:s') : null;
 
         $this->assertInstanceOf(FiasSerializerMock::class, $object);
         $this->assertSame(2, $object->getActstatid());
         $this->assertSame('Не актуальный', $object->getName());
         $this->assertSame('10', $object->getKodtst());
-        $this->assertSame('2019-10-10 10:10:10', $date);
         $this->assertSame(0, $object->getEmptyStringInt());
+
+        $date = $object->getTestDate();
+        $date = $date ? $date->format('Y-m-d H:i:s') : null;
+        $this->assertSame('2019-10-10 10:10:10', $date);
     }
 }

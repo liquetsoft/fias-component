@@ -17,15 +17,9 @@ class TruncateTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
+    protected EntityManager $entityManager;
 
-    /**
-     * @var Storage
-     */
-    protected $storage;
+    protected Storage $storage;
 
     /**
      * @param EntityManager $entityManager

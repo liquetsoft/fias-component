@@ -20,25 +20,16 @@ use Throwable;
  */
 class ArrayPipe implements Pipe
 {
-    /**
-     * @var string
-     */
-    protected $id;
+    protected string $id;
 
     /**
      * @var Task[]
      */
-    protected $tasks;
+    protected array $tasks;
 
-    /**
-     * @var Task|null
-     */
-    protected $cleanupTask;
+    protected ?Task $cleanupTask;
 
-    /**
-     * @var LoggerInterface|null
-     */
-    protected $logger;
+    protected ?LoggerInterface $logger;
 
     /**
      * @param iterable             $tasks       Список задач, которые должны быть исполнены данной очередью

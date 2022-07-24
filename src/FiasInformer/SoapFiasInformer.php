@@ -15,15 +15,9 @@ use Throwable;
  */
 class SoapFiasInformer implements FiasInformer
 {
-    /**
-     * @var string
-     */
-    private $wsdl = '';
+    private string $wsdl = '';
 
-    /**
-     * @var SoapClient|null
-     */
-    private $soapClient;
+    private ?SoapClient $soapClient = null;
 
     /**
      * @param SoapClient|string $soapClient
@@ -41,6 +35,8 @@ class SoapFiasInformer implements FiasInformer
      * {@inheritDoc}
      *
      * @throws SoapFault
+     *
+     * @psalm-suppress MixedPropertyFetch
      */
     public function getCompleteInfo(): InformerResponse
     {
@@ -95,6 +91,8 @@ class SoapFiasInformer implements FiasInformer
      * {@inheritDoc}
      *
      * @throws SoapFault
+     *
+     * @psalm-suppress MixedPropertyFetch
      */
     public function getDeltaList(): array
     {
