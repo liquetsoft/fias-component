@@ -56,7 +56,7 @@ class FiasSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $data = $this->filterData($data);
 

@@ -5,7 +5,7 @@
     "keywords": ["php", "fias"],
     "license": "MIT",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-soap": "*",
         "ext-libxml": "*",
         "ext-xmlreader": "*",
