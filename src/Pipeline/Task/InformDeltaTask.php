@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
 
 /**
@@ -32,10 +33,10 @@ class InformDeltaTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $version = (int) $state->getParameter(State::FIAS_VERSION_PARAM);
+        $version = (int) $state->getParameter(StateParameter::FIAS_VERSION);
         if (!$version) {
             throw new TaskException(
-                "State parameter '" . State::FIAS_VERSION_PARAM . "' is required for '" . self::class . "'."
+                "State parameter '" . StateParameter::FIAS_VERSION . "' is required for '" . self::class . "'."
             );
         }
 
@@ -61,6 +62,6 @@ class InformDeltaTask implements LoggableTask, Task
             );
         }
 
-        $state->setAndLockParameter(State::FIAS_INFO_PARAM, $info);
+        $state->setAndLockParameter(StateParameter::FIAS_INFO, $info);
     }
 }

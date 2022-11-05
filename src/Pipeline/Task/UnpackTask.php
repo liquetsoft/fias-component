@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
 use Psr\Log\LogLevel;
 use SplFileInfo;
@@ -32,17 +33,17 @@ class UnpackTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $source = $state->getParameter(State::DOWNLOAD_TO_FILE_PARAM);
+        $source = $state->getParameter(StateParameter::DOWNLOAD_TO_FILE);
         if (!($source instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . State::DOWNLOAD_TO_FILE_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . StateParameter::DOWNLOAD_TO_FILE . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 
-        $destination = $state->getParameter(State::EXTRACT_TO_FOLDER_PARAM);
+        $destination = $state->getParameter(StateParameter::EXTRACT_TO_FOLDER);
         if (!($destination instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . State::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . StateParameter::EXTRACT_TO_FOLDER . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 

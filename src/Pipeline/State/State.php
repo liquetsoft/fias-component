@@ -11,16 +11,6 @@ use InvalidArgumentException;
  */
 interface State
 {
-    public const FILES_TO_PROCEED = 'files_to_proceed';
-
-    public const FIAS_VERSION_PARAM = 'fias_version';
-
-    public const EXTRACT_TO_FOLDER_PARAM = 'extract_to';
-
-    public const FIAS_INFO_PARAM = 'fias_info';
-
-    public const DOWNLOAD_TO_FILE_PARAM = 'download_to';
-
     /**
      * Задает параметр состояния по его имени.
      *

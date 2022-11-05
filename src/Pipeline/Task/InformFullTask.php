@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
 
 /**
@@ -48,6 +49,6 @@ class InformFullTask implements LoggableTask, Task
             ]
         );
 
-        $state->setAndLockParameter(State::FIAS_INFO_PARAM, $info);
+        $state->setAndLockParameter(StateParameter::FIAS_INFO, $info);
     }
 }

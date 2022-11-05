@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Exception;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use SplFileInfo;
 
@@ -35,8 +34,8 @@ class CleanupTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                State::DOWNLOAD_TO_FILE_PARAM => $downloadTo,
-                State::EXTRACT_TO_FOLDER_PARAM => $extractTo,
+                StateParameter::DOWNLOAD_TO_FILE => $downloadTo,
+                StateParameter::EXTRACT_TO_FOLDER => $extractTo,
             ]
         );
 
@@ -59,7 +58,7 @@ class CleanupTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                State::DOWNLOAD_TO_FILE_PARAM => $downloadTo,
+                StateParameter::DOWNLOAD_TO_FILE => $downloadTo,
             ]
         );
 

@@ -7,9 +7,8 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataDeleteTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -69,7 +68,7 @@ class DataDeleteTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                State::FILES_TO_PROCEED => [__DIR__ . '/_fixtures/data.xml'],
+                StateParameter::FILES_TO_PROCEED => [__DIR__ . '/_fixtures/data.xml'],
             ]
         );
 

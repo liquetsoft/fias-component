@@ -8,6 +8,7 @@ use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Filter\Filter;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -35,7 +36,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $folderParameter = $state->getParameter(State::EXTRACT_TO_FOLDER_PARAM);
+        $folderParameter = $state->getParameter(StateParameter::EXTRACT_TO_FOLDER);
         $extractToFolder = $this->checkDirectory($folderParameter);
 
         $this->log(
@@ -44,7 +45,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
         );
 
         $files = $this->getFilesForProceedFromFolder($extractToFolder);
-        $state->setAndLockParameter(State::FILES_TO_PROCEED, $files);
+        $state->setAndLockParameter(StateParameter::FILES_TO_PROCEED, $files);
 
         $this->log(
             LogLevel::INFO,
@@ -68,7 +69,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     {
         if (!($parameterValue instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . State::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . StateParameter::EXTRACT_TO_FOLDER . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 
