@@ -43,6 +43,11 @@ class CurlDownloaderResponse
         return $this->error;
     }
 
+    public function hasError(): bool
+    {
+        return $this->error !== null;
+    }
+
     /**
      * @return array<string, string>
      */
