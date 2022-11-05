@@ -35,9 +35,9 @@ class CurlDownloaderTest extends BaseCase
             function (array $options) use ($source) {
                 if (
                     !empty($options[\CURLOPT_HEADER])
-                    || $options[\CURLOPT_URL] === $source
-                    && \is_resource($options[\CURLOPT_FILE])
-                    && !empty($options[\CURLOPT_CONNECT_ONLY])
+                    || ($options[\CURLOPT_URL] === $source
+                        && \is_resource($options[\CURLOPT_FILE])
+                        && !empty($options[\CURLOPT_CONNECT_ONLY]))
                 ) {
                     return [200, '', null];
                 }
