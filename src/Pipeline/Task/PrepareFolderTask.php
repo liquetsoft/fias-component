@@ -58,7 +58,7 @@ class PrepareFolderTask implements LoggableTask, Task
         $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder.");
         $this->fs->mkdir($extractToFolder);
 
-        $state->setAndLockParameter(Task::DOWNLOAD_TO_FILE_PARAM, $downloadToFile);
-        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, $extractToFolder);
+        $state->setAndLockParameter(State::DOWNLOAD_TO_FILE_PARAM, $downloadToFile);
+        $state->setAndLockParameter(State::EXTRACT_TO_FOLDER_PARAM, $extractToFolder);
     }
 }

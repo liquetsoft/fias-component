@@ -34,17 +34,17 @@ class DownloadTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $info = $state->getParameter(Task::FIAS_INFO_PARAM);
+        $info = $state->getParameter(State::FIAS_INFO_PARAM);
         if (!($info instanceof InformerResponse)) {
             throw new TaskException(
-                "State parameter '" . Task::FIAS_INFO_PARAM . "' must be an '" . InformerResponse::class . "' instance for '" . self::class . "'."
+                "State parameter '" . State::FIAS_INFO_PARAM . "' must be an '" . InformerResponse::class . "' instance for '" . self::class . "'."
             );
         }
 
-        $localFile = $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM);
+        $localFile = $state->getParameter(State::DOWNLOAD_TO_FILE_PARAM);
         if (!($localFile instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . Task::DOWNLOAD_TO_FILE_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . State::DOWNLOAD_TO_FILE_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 

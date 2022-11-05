@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -51,8 +52,8 @@ class UnpackTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::DOWNLOAD_TO_FILE_PARAM => $source,
-                Task::EXTRACT_TO_FOLDER_PARAM => $destination,
+                State::DOWNLOAD_TO_FILE_PARAM => $source,
+                State::EXTRACT_TO_FOLDER_PARAM => $destination,
             ]
         );
 
@@ -75,7 +76,7 @@ class UnpackTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::EXTRACT_TO_FOLDER_PARAM => $destination,
+                State::EXTRACT_TO_FOLDER_PARAM => $destination,
             ]
         );
 
@@ -99,7 +100,7 @@ class UnpackTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::DOWNLOAD_TO_FILE_PARAM => $source,
+                State::DOWNLOAD_TO_FILE_PARAM => $source,
             ]
         );
 

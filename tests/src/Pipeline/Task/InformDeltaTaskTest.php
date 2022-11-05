@@ -9,6 +9,7 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformDeltaTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -40,12 +41,12 @@ class InformDeltaTaskTest extends BaseCase
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->willReturn($informerResult);
 
         $state = new ArrayState();
-        $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version);
+        $state->setAndLockParameter(State::FIAS_VERSION_PARAM, $version);
 
         $task = new InformDeltaTask($informer);
         $task->run($state);
 
-        $this->assertSame($informerResult, $state->getParameter(Task::FIAS_INFO_PARAM));
+        $this->assertSame($informerResult, $state->getParameter(State::FIAS_INFO_PARAM));
     }
 
     /**
@@ -84,11 +85,11 @@ class InformDeltaTaskTest extends BaseCase
         $informer->method('getDeltaInfo')->with($this->equalTo($version))->willReturn($informerResult);
 
         $state = new ArrayState();
-        $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version);
+        $state->setAndLockParameter(State::FIAS_VERSION_PARAM, $version);
 
         $task = new InformDeltaTask($informer);
         $task->run($state);
 
-        $this->assertSame($informerResult, $state->getParameter(Task::FIAS_INFO_PARAM));
+        $this->assertSame($informerResult, $state->getParameter(State::FIAS_INFO_PARAM));
     }
 }

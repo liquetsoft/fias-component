@@ -34,11 +34,11 @@ class SaveFiasFilesTask implements LoggableTask, Task
         $this->movePaths = [];
 
         if ($moveArchiveTo !== null) {
-            $this->movePaths[Task::DOWNLOAD_TO_FILE_PARAM] = $moveArchiveTo;
+            $this->movePaths[State::DOWNLOAD_TO_FILE_PARAM] = $moveArchiveTo;
         }
 
         if ($moveExtractedTo !== null) {
-            $this->movePaths[Task::EXTRACT_TO_FOLDER_PARAM] = $moveExtractedTo;
+            $this->movePaths[State::EXTRACT_TO_FOLDER_PARAM] = $moveExtractedTo;
         }
 
         $this->fs = FileSystemFactory::create();

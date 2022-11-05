@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Exception;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\SaveFiasFilesTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -34,8 +35,8 @@ class SaveFiasFilesTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::DOWNLOAD_TO_FILE_PARAM => new SplFileInfo($sourceFile),
-                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo($sourceDir),
+                State::DOWNLOAD_TO_FILE_PARAM => new SplFileInfo($sourceFile),
+                State::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo($sourceDir),
             ]
         );
 

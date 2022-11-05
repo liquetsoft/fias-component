@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Exception;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionSetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -36,7 +37,7 @@ class VersionSetTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::FIAS_INFO_PARAM => $response,
+                State::FIAS_INFO_PARAM => $response,
             ]
         );
 
@@ -65,7 +66,7 @@ class VersionSetTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::FIAS_INFO_PARAM => $response,
+                State::FIAS_INFO_PARAM => $response,
             ]
         );
 

@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
+use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataUpsertTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
@@ -68,7 +69,7 @@ class DataUpsertTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::FILES_TO_PROCEED => [__DIR__ . '/_fixtures/data.xml'],
+                State::FILES_TO_PROCEED => [__DIR__ . '/_fixtures/data.xml'],
             ]
         );
 

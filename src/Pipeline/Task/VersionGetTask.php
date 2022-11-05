@@ -34,6 +34,6 @@ class VersionGetTask implements Task
             throw new TaskException('There is no version of FIAS installed.');
         }
 
-        $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version->getVersion());
+        $state->setAndLockParameter(State::FIAS_VERSION_PARAM, $version->getVersion());
     }
 }

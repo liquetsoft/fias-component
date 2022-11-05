@@ -32,10 +32,10 @@ class InformDeltaTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $version = (int) $state->getParameter(Task::FIAS_VERSION_PARAM);
+        $version = (int) $state->getParameter(State::FIAS_VERSION_PARAM);
         if (!$version) {
             throw new TaskException(
-                "State parameter '" . Task::FIAS_VERSION_PARAM . "' is required for '" . self::class . "'."
+                "State parameter '" . State::FIAS_VERSION_PARAM . "' is required for '" . self::class . "'."
             );
         }
 
@@ -61,6 +61,6 @@ class InformDeltaTask implements LoggableTask, Task
             );
         }
 
-        $state->setAndLockParameter(Task::FIAS_INFO_PARAM, $info);
+        $state->setAndLockParameter(State::FIAS_INFO_PARAM, $info);
     }
 }

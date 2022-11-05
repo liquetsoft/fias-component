@@ -32,17 +32,17 @@ class UnpackTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $source = $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM);
+        $source = $state->getParameter(State::DOWNLOAD_TO_FILE_PARAM);
         if (!($source instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . Task::DOWNLOAD_TO_FILE_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . State::DOWNLOAD_TO_FILE_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 
-        $destination = $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM);
+        $destination = $state->getParameter(State::EXTRACT_TO_FOLDER_PARAM);
         if (!($destination instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . Task::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . State::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 

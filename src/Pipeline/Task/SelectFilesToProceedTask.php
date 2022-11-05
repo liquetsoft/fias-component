@@ -35,7 +35,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $folderParameter = $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM);
+        $folderParameter = $state->getParameter(State::EXTRACT_TO_FOLDER_PARAM);
         $extractToFolder = $this->checkDirectory($folderParameter);
 
         $this->log(
@@ -44,7 +44,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
         );
 
         $files = $this->getFilesForProceedFromFolder($extractToFolder);
-        $state->setAndLockParameter(Task::FILES_TO_PROCEED, $files);
+        $state->setAndLockParameter(State::FILES_TO_PROCEED, $files);
 
         $this->log(
             LogLevel::INFO,
@@ -68,7 +68,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     {
         if (!($parameterValue instanceof SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . Task::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . State::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 

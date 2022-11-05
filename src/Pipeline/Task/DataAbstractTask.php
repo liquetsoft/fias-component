@@ -67,7 +67,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $allFiles = $state->getParameter(Task::FILES_TO_PROCEED);
+        $allFiles = $state->getParameter(State::FILES_TO_PROCEED);
         $allFiles = \is_array($allFiles) ? $allFiles : [];
 
         foreach ($allFiles as $file) {

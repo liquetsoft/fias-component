@@ -48,6 +48,6 @@ class InformFullTask implements LoggableTask, Task
             ]
         );
 
-        $state->setAndLockParameter(Task::FIAS_INFO_PARAM, $info);
+        $state->setAndLockParameter(State::FIAS_INFO_PARAM, $info);
     }
 }

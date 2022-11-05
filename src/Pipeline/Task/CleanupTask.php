@@ -30,8 +30,8 @@ class CleanupTask implements LoggableTask, Task
     public function run(State $state): void
     {
         $toRemove = [
-            $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM),
-            $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM),
+            $state->getParameter(State::DOWNLOAD_TO_FILE_PARAM),
+            $state->getParameter(State::EXTRACT_TO_FOLDER_PARAM),
         ];
 
         $toRemove = array_diff($toRemove, [null]);
