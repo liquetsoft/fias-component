@@ -25,7 +25,7 @@ class CurlDownloaderResponse
         $this->statusCode = isset($rawCurlResponse[0]) ? (int) $rawCurlResponse[0] : 0;
         $this->isOk = $this->statusCode >= 200 && $this->statusCode < 300;
         $this->headers = isset($rawCurlResponse[1]) ? $this->extractHeadersFromContent($rawCurlResponse[1]) : [];
-        $this->error = isset($rawCurlResponse[2]) ? (string) $rawCurlResponse[2] : null;
+        $this->error = isset($rawCurlResponse[2]) && !empty($rawCurlResponse[2]) ? (string) $rawCurlResponse[2] : null;
     }
 
     public function getStatusCode(): int
