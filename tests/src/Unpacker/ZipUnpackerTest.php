@@ -7,7 +7,6 @@ namespace Liquetsoft\Fias\Component\Tests\Unpacker;
 use Liquetsoft\Fias\Component\Exception\UnpackerException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\ZipUnpacker;
-use SplFileInfo;
 
 /**
  * Тест для объекта, который распаковывает zip архив.
@@ -28,8 +27,8 @@ class ZipUnpackerTest extends BaseCase
 
         $zipUnpack = new ZipUnpacker();
         $zipUnpack->unpack(
-            new SplFileInfo($testArchive),
-            new SplFileInfo($testDestination)
+            new \SplFileInfo($testArchive),
+            new \SplFileInfo($testDestination)
         );
 
         $this->assertFileExists($testDestination . '/test.txt');
@@ -48,8 +47,8 @@ class ZipUnpackerTest extends BaseCase
 
         $zipUnpack = new ZipUnpacker();
         $zipUnpack->unpack(
-            new SplFileInfo($testArchive),
-            new SplFileInfo($testDestination)
+            new \SplFileInfo($testArchive),
+            new \SplFileInfo($testDestination)
         );
     }
 }

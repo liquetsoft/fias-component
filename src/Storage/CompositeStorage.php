@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Storage;
 
-use InvalidArgumentException;
-
 /**
  * Объект, который может сохранять данные в несколько других хранилищ.
  */
@@ -23,7 +21,7 @@ class CompositeStorage implements Storage
     {
         foreach ($internalStorages as $key => $storage) {
             if (!($storage instanceof Storage)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Item with key '{$key}' must be instance of '" . Storage::class . "'."
                 );
             }

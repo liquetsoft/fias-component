@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
@@ -14,8 +13,6 @@ use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use SplFileInfo;
-use stdClass;
 
 /**
  * Тест для задачи, которая выбирает файлы из папки для загрузки в базу на основе данных из EntityManager.
@@ -27,7 +24,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если не найдет параметр с папкой, в которую распакованные файлы.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunEmptyUnpackToException(): void
     {
@@ -44,7 +41,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если апка, в которую должны быть распакованы файлы не существует.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNonExitedUnpackToException(): void
     {
@@ -53,7 +50,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo(__DIR__ . '/test'),
+                Task::EXTRACT_TO_FOLDER_PARAM => new \SplFileInfo(__DIR__ . '/test'),
             ]
         );
 
@@ -66,7 +63,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     /**
      * Проверяет, что объект правильно получит список файлов для обработки.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -91,12 +88,12 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $entityManager->method('getClassByDescriptor')->willReturnMap(
             [
-                [$descriptor, stdClass::class],
+                [$descriptor, \stdClass::class],
             ]
         );
 
         $state = new ArrayState();
-        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo($fixturesFolder));
+        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new \SplFileInfo($fixturesFolder));
 
         $task = new SelectFilesToProceedTask($entityManager);
         $task->run($state);
@@ -115,7 +112,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     /**
      * Проверяет, что объект правильно получит список файлов для обработки с использованием фильтра.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunWithFilter(): void
     {
@@ -133,20 +130,20 @@ class SelectFilesToProceedTaskTest extends BaseCase
         );
         $entityManager->method('getClassByDescriptor')->willReturnMap(
             [
-                [$descriptor, stdClass::class],
+                [$descriptor, \stdClass::class],
             ]
         );
 
         /** @var MockObject&Filter */
         $filter = $this->getMockBuilder(Filter::class)->getMock();
         $filter->method('test')->willReturnCallback(
-            function (SplFileInfo $file) use ($fixturesFolder) {
+            function (\SplFileInfo $file) use ($fixturesFolder) {
                 return ((string) $file) === $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml';
             }
         );
 
         $state = new ArrayState();
-        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new SplFileInfo($fixturesFolder));
+        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new \SplFileInfo($fixturesFolder));
 
         $task = new SelectFilesToProceedTask($entityManager, $filter);
         $task->run($state);

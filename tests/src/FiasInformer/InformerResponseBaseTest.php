@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponseBase;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
@@ -65,7 +64,7 @@ class InformerResponseBaseTest extends BaseCase
     {
         $res = new InformerResponseBase();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $res->setUrl($this->createFakeData()->word());
     }
 }

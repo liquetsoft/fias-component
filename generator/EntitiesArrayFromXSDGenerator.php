@@ -4,13 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Generator;
 
-use DOMDocument;
-use DOMNode;
-use DOMXpath;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use RuntimeException;
-
 /**
  * Объект, который генерирует файл с описаниями сущностей из xsd файлов,
  * поставляемых с ФИАС.
@@ -49,11 +42,11 @@ class EntitiesArrayFromXSDGenerator
     {
         $files = [];
 
-        $directoryIterator = new RecursiveDirectoryIterator(
+        $directoryIterator = new \RecursiveDirectoryIterator(
             $xsdDir,
-            RecursiveDirectoryIterator::SKIP_DOTS
+            \RecursiveDirectoryIterator::SKIP_DOTS
         );
-        $iterator = new RecursiveIteratorIterator($directoryIterator);
+        $iterator = new \RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {
             if (strtolower($fileInfo->getExtension()) === 'xsd') {
@@ -80,7 +73,7 @@ class EntitiesArrayFromXSDGenerator
             foreach ($entities as $entity) {
                 $entityName = $entity['entity_name'] ?? null;
                 if ($entityName === null) {
-                    throw new RuntimeException("Can't find entity name.");
+                    throw new \RuntimeException("Can't find entity name.");
                 }
                 unset($entity['entity_name']);
                 $xsdEntities[$entityName] = $entity;
@@ -103,11 +96,11 @@ class EntitiesArrayFromXSDGenerator
     {
         $entities = [];
 
-        $schema = new DOMDocument();
+        $schema = new \DOMDocument();
         $schema->loadXML(file_get_contents($filePath));
 
         if (!preg_match('/AS_(\D+)_.*/', $filePath, $matches)) {
-            throw new RuntimeException("Can't recognize entity name for '{$filePath}' file.");
+            throw new \RuntimeException("Can't recognize entity name for '{$filePath}' file.");
         }
         $entityName = $matches[1];
         if ($entityName === 'PARAM') {
@@ -118,7 +111,7 @@ class EntitiesArrayFromXSDGenerator
             $deleteFileMask = "/^AS_DEL_{$entityName}_\d+_.*\.XML$/";
         }
 
-        $xpath = new DOMXpath($schema);
+        $xpath = new \DOMXpath($schema);
 
         $elements = $xpath->query('//xs:schema/xs:element');
         foreach ($elements as $element) {
@@ -161,14 +154,14 @@ class EntitiesArrayFromXSDGenerator
     /**
      * Создает описания полей по XSD схеме.
      *
-     * @param DOMNode  $innerElement
-     * @param DOMXpath $xpath
+     * @param \DOMNode  $innerElement
+     * @param \DOMXpath $xpath
      *
      * @return array
      *
      * @psalm-suppress UndefinedMethod
      */
-    private function extractFieldsDescription(DOMNode $innerElement, DOMXpath $xpath): array
+    private function extractFieldsDescription(\DOMNode $innerElement, \DOMXpath $xpath): array
     {
         $fieldsList = [];
 
@@ -198,14 +191,14 @@ class EntitiesArrayFromXSDGenerator
     /**
      * Получает все данные поля из описания.
      *
-     * @param DOMNode  $field
-     * @param DOMXpath $xpath
+     * @param \DOMNode  $field
+     * @param \DOMXpath $xpath
      *
      * @return array
      *
      * @psalm-suppress UndefinedMethod
      */
-    private function extractFieldDescription(DOMNode $field, DOMXpath $xpath): array
+    private function extractFieldDescription(\DOMNode $field, \DOMXpath $xpath): array
     {
         $typeArray = $this->extractTypeArray($field, $xpath);
 
@@ -242,14 +235,14 @@ class EntitiesArrayFromXSDGenerator
     /**
      * Получает тип поля из описания.
      *
-     * @param DOMNode  $field
-     * @param DOMXpath $xpath
+     * @param \DOMNode  $field
+     * @param \DOMXpath $xpath
      *
      * @return array
      *
      * @psalm-suppress UndefinedMethod
      */
-    private function extractTypeArray(DOMNode $field, DOMXpath $xpath): array
+    private function extractTypeArray(\DOMNode $field, \DOMXpath $xpath): array
     {
         $type = $field->getAttribute('type');
         if (empty($type)) {

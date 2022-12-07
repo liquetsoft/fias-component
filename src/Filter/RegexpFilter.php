@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Filter;
 
-use InvalidArgumentException;
-
 /**
  * Фильтр, который проверяет подходит ли указанная строка под одно из регулярных
  * выражения из набора.
@@ -36,7 +34,7 @@ class RegexpFilter implements Filter
             $testData = (string) $testData->__toString();
         } else {
             $message = 'This filter supports only strings or objects that can be coverted to strings.';
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException($message);
         }
 
         if (empty($this->regexps)) {

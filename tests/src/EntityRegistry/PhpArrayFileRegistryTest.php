@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityRegistry;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityRegistry\PhpArrayFileRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -104,7 +103,7 @@ class PhpArrayFileRegistryTest extends BaseCase
     {
         $registry = $this->createRegistry();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $registry->getDescriptor('empty');
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Exception\StatusCheckerException;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusChecker;
 use Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult;
@@ -22,7 +21,7 @@ class CheckStatusTaskTest extends BaseCase
     /**
      * Проверяет, что задача проверит статус ФИАС.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -46,7 +45,7 @@ class CheckStatusTaskTest extends BaseCase
      * Проверяет, что задача проверит статус ФИАС и выбросит исключение,
      * если он недоступен.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunException(): void
     {

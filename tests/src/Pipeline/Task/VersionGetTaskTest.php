@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
@@ -24,7 +23,7 @@ class VersionGetTaskTest extends BaseCase
     /**
      * Проверяет, что объект получает версию ФИАС и записывает в состояние.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -51,7 +50,7 @@ class VersionGetTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если ФИАС не установлен.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoResultException(): void
     {

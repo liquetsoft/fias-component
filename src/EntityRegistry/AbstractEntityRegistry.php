@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
-use Throwable;
 
 /**
  * Абстрактный класс для реестра сущностей ФИАС.
@@ -62,7 +60,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
         }
 
         if (!$return) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "Can't fin entity with name '{$entityName}'."
             );
         }
@@ -78,7 +76,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
         if ($this->registry === null) {
             try {
                 $this->registry = $this->createRegistry();
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 throw new EntityRegistryException($e->getMessage(), 0, $e);
             }
         }
