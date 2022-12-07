@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\XmlReader;
 
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
-use XmlReader as PhpXmlReader;
 
 /**
  * Объект, который читает данные из xml файла с помощью XmlReader.
@@ -26,7 +25,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * Объект XMLReader для чтения документа.
      */
-    protected ?PhpXmlReader $reader = null;
+    protected ?\XMLReader $reader = null;
 
     /**
      * Текущее смещение внутри массива.
@@ -85,8 +84,6 @@ class BaseXmlReader implements XmlReaderInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return string|null
      *
      * @throws XmlException
      */
@@ -149,8 +146,6 @@ class BaseXmlReader implements XmlReaderInterface
      * Возвращает строку из файла, соответствующую элементу, или null, если разбор
      * файла завершен.
      *
-     * @return string|null
-     *
      * @throws XmlException
      */
     protected function getLine(): ?string
@@ -186,11 +181,6 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * Пропускает все xml элементы в текущем ридере, у которых имя или вложенность
      * не совпадают с указанным параметром.
-     *
-     * @param string $nodeName
-     * @param int    $nodeDepth
-     *
-     * @return void
      */
     protected function skipUselessXml(string $nodeName, int $nodeDepth): void
     {
@@ -214,8 +204,6 @@ class BaseXmlReader implements XmlReaderInterface
      * то выходим из цикла.
      * Если путь не совпадает и не лежит в начале строки,
      * то пропускаем данный узел со всеми вложенными деревьями.
-     *
-     * @return bool
      *
      * @throws XmlException
      */
@@ -248,18 +236,16 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * Пересоздает объект для чтения xml.
      *
-     * @return PhpXmlReader
-     *
      * @throws XmlException
      */
-    protected function resetReader(): PhpXmlReader
+    protected function resetReader(): \XMLReader
     {
         if (!$this->file || !$this->xpath) {
             throw new XmlException("File doesn't open.");
         }
 
         $this->unsetReader();
-        $this->reader = new PhpXmlReader();
+        $this->reader = new \XMLReader();
 
         if ($this->reader->open($this->file->getPathname(), 'UTF-8', \LIBXML_COMPACT | \LIBXML_NONET | \LIBXML_NOBLANKS) === false) {
             throw new XmlException(
@@ -272,8 +258,6 @@ class BaseXmlReader implements XmlReaderInterface
 
     /**
      * Закрывает открытые ресурсы и сбрасывает все внутренние счетчики.
-     *
-     * @return void
      */
     protected function unsetReader(): void
     {
