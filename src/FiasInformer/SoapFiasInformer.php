@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
 use Liquetsoft\Fias\Component\Exception\FiasInformerException;
-use SoapClient;
-use SoapFault;
-use Throwable;
 
 /**
  * Объект, который получает ссылку на файл с архивом ФИАС
@@ -17,14 +14,14 @@ class SoapFiasInformer implements FiasInformer
 {
     private string $wsdl = '';
 
-    private ?SoapClient $soapClient = null;
+    private ?\SoapClient $soapClient = null;
 
     /**
-     * @param SoapClient|string $soapClient
+     * @param \SoapClient|string $soapClient
      */
     public function __construct($soapClient = 'http://fias.nalog.ru/WebServices/Public/DownloadService.asmx?WSDL')
     {
-        if ($soapClient instanceof SoapClient) {
+        if ($soapClient instanceof \SoapClient) {
             $this->soapClient = $soapClient;
         } else {
             $this->wsdl = $soapClient;
@@ -34,7 +31,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      *
-     * @throws SoapFault
+     * @throws \SoapFault
      *
      * @psalm-suppress MixedPropertyFetch
      */
@@ -45,7 +42,7 @@ class SoapFiasInformer implements FiasInformer
                 'GetLastDownloadFileInfo',
                 []
             );
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new FiasInformerException($e->getMessage(), 0, $e);
         }
 
@@ -70,7 +67,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      *
-     * @throws SoapFault
+     * @throws \SoapFault
      */
     public function getDeltaInfo(int $currentVersion): InformerResponse
     {
@@ -90,7 +87,7 @@ class SoapFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      *
-     * @throws SoapFault
+     * @throws \SoapFault
      *
      * @psalm-suppress MixedPropertyFetch
      */
@@ -101,7 +98,7 @@ class SoapFiasInformer implements FiasInformer
                 'GetAllDownloadFileInfo',
                 []
             );
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             throw new FiasInformerException($e->getMessage(), 0, $e);
         }
 
@@ -141,14 +138,14 @@ class SoapFiasInformer implements FiasInformer
     /**
      * Возвращает объект SOAP-клиента для запросов.
      *
-     * @return SoapClient
+     * @return \SoapClient
      *
-     * @throws SoapFault
+     * @throws \SoapFault
      */
-    private function getSoapClient(): SoapClient
+    private function getSoapClient(): \SoapClient
     {
         if ($this->soapClient === null) {
-            $this->soapClient = new SoapClient(
+            $this->soapClient = new \SoapClient(
                 $this->wsdl,
                 [
                     'exceptions' => true,

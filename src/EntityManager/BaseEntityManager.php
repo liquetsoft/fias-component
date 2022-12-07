@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityManager;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
@@ -26,7 +25,7 @@ class BaseEntityManager implements EntityManager
      * @param EntityRegistry        $registry
      * @param array<string, string> $bindings
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(EntityRegistry $registry, array $bindings)
     {
@@ -37,7 +36,7 @@ class BaseEntityManager implements EntityManager
             $normalizedEntityName = $this->normalizeEntityName($entityName);
             $normalizedClassName = $this->normalizeClassName($className);
             if ($normalizedClassName === '') {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "There is no class for {$entityName} entity name."
                 );
             }

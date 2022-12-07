@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTaskTrait;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -21,7 +20,7 @@ class LoggableTaskTraitTest extends BaseCase
     /**
      * Проверяет, что объект правильно залоггирует сообщение.
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @psalm-suppress UndefinedInterfaceMethod
      * @psalm-suppress InvalidScalarArgument

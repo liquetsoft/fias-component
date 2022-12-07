@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
-use SplFileInfo;
 
 /**
  * Задача, которая подготавливает все необходимые каталоги и файлы для процесса
@@ -20,14 +18,14 @@ class PrepareFolderTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected SplFileInfo $folder;
+    protected \SplFileInfo $folder;
 
     private FileSystemHelperInterface $fs;
 
     /**
      * @param string $folder
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $folder)
     {
@@ -35,12 +33,12 @@ class PrepareFolderTask implements LoggableTask, Task
         $parent = realpath(\dirname($trimmedFolder));
 
         if (!$parent || !is_dir($parent) || !is_writable($parent)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "'{$parent}' folder doesn't exist or isn't writable."
             );
         }
 
-        $this->folder = new SplFileInfo($trimmedFolder);
+        $this->folder = new \SplFileInfo($trimmedFolder);
         $this->fs = FileSystemFactory::create();
     }
 
@@ -53,8 +51,8 @@ class PrepareFolderTask implements LoggableTask, Task
         $this->fs->mkdirIfNotExist($this->folder);
         $this->fs->emptyDir($this->folder);
 
-        $downloadToFile = new SplFileInfo($this->folder->getRealPath() . '/archive');
-        $extractToFolder = new SplFileInfo($this->folder->getRealPath() . '/extracted');
+        $downloadToFile = new \SplFileInfo($this->folder->getRealPath() . '/archive');
+        $extractToFolder = new \SplFileInfo($this->folder->getRealPath() . '/extracted');
 
         $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder.");
         $this->fs->mkdir($extractToFolder);

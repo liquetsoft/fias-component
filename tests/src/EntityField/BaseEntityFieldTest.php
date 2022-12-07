@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityField;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
@@ -52,7 +51,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testEmptyNameException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createField(
             [
                 'name' => null,
@@ -81,7 +80,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testEmptyTypeException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createField(
             [
                 'type' => null,
@@ -224,7 +223,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testIsIndexDoublingException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createField(
             [
                 'isPrimary' => true,

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -35,7 +34,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testEmptyNameException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createDescriptor(
             [
                 'name' => null,
@@ -62,7 +61,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testEmptyXmlPathException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createDescriptor(
             [
                 'xmlPath' => null,
@@ -230,7 +229,7 @@ class BaseEntityDescriptorTest extends BaseCase
             'fields' => ['test' => $field],
         ]);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $descriptor->getField('test2');
     }
 
@@ -239,7 +238,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testEmptyFieldsException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createDescriptor(
             [
                 'fields' => null,
@@ -256,7 +255,7 @@ class BaseEntityDescriptorTest extends BaseCase
         $field2 = 123;
         $fields = [$field1, $field2];
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createDescriptor(
             [
                 'fields' => $fields,
@@ -275,7 +274,7 @@ class BaseEntityDescriptorTest extends BaseCase
         $field2 = $this->getMockBuilder(EntityField::class)->getMock();
         $field2->method('getName')->willReturn('test');
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->createDescriptor(
             [
                 'fields' => [

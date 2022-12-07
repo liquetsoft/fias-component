@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
@@ -29,7 +27,7 @@ class DataInsertTaskTest extends BaseCase
     /**
      * Проверяет, что объект читает и записывает данные.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -89,7 +87,7 @@ class DataInsertTaskTest extends BaseCase
     /**
      * Проверяет, что объект обработает исключение от объекта, который преобразует строку.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunDeserializeException(): void
     {
@@ -134,7 +132,7 @@ class DataInsertTaskTest extends BaseCase
         $serializer = $this->getMockBuilder(SerializerInterface::class)->getMock();
         $serializer->method('deserialize')
             ->will(
-                $this->throwException(new InvalidArgumentException())
+                $this->throwException(new \InvalidArgumentException())
             );
 
         $task = new DataInsertTask(
@@ -151,7 +149,7 @@ class DataInsertTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если десериализатор вернет не объект.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunDeserializeNonObjectException(): void
     {

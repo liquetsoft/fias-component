@@ -14,9 +14,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Psr\Log\LogLevel;
-use SplFileInfo;
 use Symfony\Component\Serializer\SerializerInterface;
-use Throwable;
 
 /**
  * Абстрактная задача, которая переносит данные из xml в хранилище данных.
@@ -50,11 +48,11 @@ abstract class DataAbstractTask implements LoggableTask, Task
     /**
      * Пробует найти дескриптор для указанного файла.
      *
-     * @param SplFileInfo $file
+     * @param \SplFileInfo $file
      *
      * @return EntityDescriptor|null
      */
-    abstract protected function getFileDescriptor(SplFileInfo $file): ?EntityDescriptor;
+    abstract protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor;
 
     /**
      * Обрабатывает одиночную запись из файла.
@@ -72,7 +70,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
         $allFiles = \is_array($allFiles) ? $allFiles : [];
 
         foreach ($allFiles as $file) {
-            $fileInfo = new SplFileInfo((string) $file);
+            $fileInfo = new \SplFileInfo((string) $file);
             if ($descriptor = $this->getFileDescriptor($fileInfo)) {
                 $this->processFile($fileInfo, $descriptor);
             }
@@ -82,14 +80,14 @@ abstract class DataAbstractTask implements LoggableTask, Task
     /**
      * Обрабатывает указанный файл.
      *
-     * @param SplFileInfo      $fileInfo
+     * @param \SplFileInfo     $fileInfo
      * @param EntityDescriptor $descriptor
      *
      * @throws TaskException
      * @throws StorageException
      * @throws XmlException
      */
-    protected function processFile(SplFileInfo $fileInfo, EntityDescriptor $descriptor): void
+    protected function processFile(\SplFileInfo $fileInfo, EntityDescriptor $descriptor): void
     {
         $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
         if ($entityClass) {
@@ -101,15 +99,15 @@ abstract class DataAbstractTask implements LoggableTask, Task
     /**
      * Обрабатывает данные из файла и передает в хранилище.
      *
-     * @param SplFileInfo $fileInfo
-     * @param string      $xpath
-     * @param string      $entityClass
+     * @param \SplFileInfo $fileInfo
+     * @param string       $xpath
+     * @param string       $entityClass
      *
      * @throws TaskException
      * @throws StorageException
      * @throws XmlException
      */
-    protected function processDataFromFile(SplFileInfo $fileInfo, string $xpath, string $entityClass): void
+    protected function processDataFromFile(\SplFileInfo $fileInfo, string $xpath, string $entityClass): void
     {
         $this->log(
             LogLevel::INFO,
@@ -162,7 +160,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
     {
         try {
             $entity = $this->serializer->deserialize($xml, $entityClass, 'xml');
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $message = "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class.";
             throw new TaskException($message, 0, $e);
         }

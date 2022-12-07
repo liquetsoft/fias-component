@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityRegistry;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityRegistry\ArrayEntityRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
@@ -25,7 +24,7 @@ class ArrayEntityRegistryTest extends BaseCase
     {
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new ArrayEntityRegistry(
             [
                 $descriptor,
@@ -96,7 +95,7 @@ class ArrayEntityRegistryTest extends BaseCase
     {
         $registry = new ArrayEntityRegistry([]);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $registry->getDescriptor('empty');
     }
 }

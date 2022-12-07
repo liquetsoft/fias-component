@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
-use InvalidArgumentException;
-
 /**
  * Объект, который предоставляет результат со ссылкой на файлы
  * от сервиса ФИАС.
@@ -40,7 +38,7 @@ class InformerResponseBase implements InformerResponse
     public function setUrl(string $url): InformerResponse
     {
         if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
-            throw new InvalidArgumentException("Wrong url format: {$url}");
+            throw new \InvalidArgumentException("Wrong url format: {$url}");
         }
 
         $this->url = $url;

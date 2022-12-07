@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Filter;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Filter\RegexpFilter;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\ToStringObjectMock;
@@ -20,7 +19,7 @@ class RegexpFilterTest extends BaseCase
     {
         $filter = new RegexpFilter();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $filter->test($filter);
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 
 /**
@@ -18,7 +17,7 @@ interface Task
      *
      * @param State $state
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function run(State $state): void;
 }

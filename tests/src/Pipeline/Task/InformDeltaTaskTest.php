@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
@@ -24,7 +23,7 @@ class InformDeltaTaskTest extends BaseCase
     /**
      * Проверяет, что объект верно получает ссылку.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -51,7 +50,7 @@ class InformDeltaTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указана текущая версия ФИАС.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoVersionException(): void
     {
@@ -70,7 +69,7 @@ class InformDeltaTaskTest extends BaseCase
     /**
      * Проверяет, что объект прервет цепочку задач, если не найдется обновлений.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoResponseComplete(): void
     {

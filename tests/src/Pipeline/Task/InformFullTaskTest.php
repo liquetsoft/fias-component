@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
@@ -24,7 +23,7 @@ class InformFullTaskTest extends BaseCase
     /**
      * Проверяет, что объект верно получает ссылку.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -48,7 +47,7 @@ class InformFullTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если сервис информирования не вернет ответ.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoResponseException(): void
     {

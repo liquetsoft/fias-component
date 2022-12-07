@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Downloader;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
-use SplFileInfo;
 
 /**
  * Объект, который скачивает файл по ссылке с помощью curl.
@@ -30,10 +28,10 @@ class CurlDownloader implements Downloader
     /**
      * {@inheritdoc}
      */
-    public function download(string $url, SplFileInfo $localFile): void
+    public function download(string $url, \SplFileInfo $localFile): void
     {
         if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
-            throw new InvalidArgumentException("Wrong url format: {$url}");
+            throw new \InvalidArgumentException("Wrong url format: {$url}");
         }
 
         $headers = $this->getHeadResponseHeaders($url);
@@ -119,12 +117,12 @@ class CurlDownloader implements Downloader
      * Открывает локальный файл, в который будет вестись запись,
      * и возвращает его ресурс.
      *
-     * @param SplFileInfo $localFile
-     * @param string      $mode
+     * @param \SplFileInfo $localFile
+     * @param string       $mode
      *
      * @return resource
      */
-    private function openLocalFile(SplFileInfo $localFile, string $mode)
+    private function openLocalFile(\SplFileInfo $localFile, string $mode)
     {
         $hLocal = @fopen($localFile->getPathname(), $mode);
 

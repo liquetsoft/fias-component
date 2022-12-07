@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityManager;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\BaseEntityManager;
 use Liquetsoft\Fias\Component\EntityRegistry\ArrayEntityRegistry;
@@ -12,7 +11,6 @@ use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use stdClass;
 
 /**
  * Тест для объекта, содержит соответствия между сущностями ФИАС и их реализациями.
@@ -29,7 +27,7 @@ class BaseEntityManagerTest extends BaseCase
         /** @var MockObject&EntityRegistry */
         $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new BaseEntityManager(
             $registry,
             [
@@ -195,7 +193,7 @@ class BaseEntityManagerTest extends BaseCase
      */
     public function testGetDescriptorByObject(): void
     {
-        $class = stdClass::class;
+        $class = \stdClass::class;
         $entityName = 'TestEntity';
         $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
         $descriptor->method('getName')->willReturn($entityName);
@@ -212,7 +210,7 @@ class BaseEntityManagerTest extends BaseCase
             $entityName1 => $class1,
         ]);
 
-        $this->assertSame($descriptor, $manager->getDescriptorByObject(new stdClass()));
+        $this->assertSame($descriptor, $manager->getDescriptorByObject(new \stdClass()));
         $this->assertNull($manager->getDescriptorByObject('TestEmpty'));
     }
 

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\State;
 
-use InvalidArgumentException;
-
 /**
  * Объект, который хранит состояние во внутреннем массиве.
  */
@@ -28,7 +26,7 @@ class ArrayState implements State
         $unifiedName = $this->unifyParameterName($parameterName);
 
         if (\in_array($unifiedName, $this->lockedParams)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "Parameter with name '{$parameterName}' is locked."
             );
         }

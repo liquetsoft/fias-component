@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionSetTask;
@@ -22,7 +21,7 @@ class VersionSetTaskTest extends BaseCase
     /**
      * Проверяет, что объект получает версию ФИАС и передает в менеджер версий.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -56,7 +55,7 @@ class VersionSetTaskTest extends BaseCase
     /**
      * Проверяет, что объект ничего не запишет, если результата в ответе нет.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoResult(): void
     {
@@ -81,7 +80,7 @@ class VersionSetTaskTest extends BaseCase
     /**
      * Проверяет, что объект ничего не запишет, если параметра с результатом нет.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoResultParameter(): void
     {

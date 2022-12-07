@@ -6,8 +6,6 @@ namespace Liquetsoft\Fias\Component\XmlReader;
 
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
-use SplFileInfo;
-use Throwable;
 use XmlReader as PhpXmlReader;
 
 /**
@@ -18,7 +16,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * Файл, который открыт в данный момент.
      */
-    protected ?SplFileInfo $file = null;
+    protected ?\SplFileInfo $file = null;
 
     /**
      * Xpath, по которому следует искать данные.
@@ -48,7 +46,7 @@ class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function open(SplFileInfo $file, string $xpath): bool
+    public function open(\SplFileInfo $file, string $xpath): bool
     {
         if (!$file->isFile() || !$file->isReadable()) {
             throw new XmlException(
@@ -176,7 +174,7 @@ class BaseXmlReader implements XmlReaderInterface
                 // один и тот же элемент
                 $this->reader->next();
             }
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $fileName = $this->file ? $this->file->getPathname() : '';
             $message = "Error while parsing xml '{$fileName}' by '{$this->xpath}' path.";
             throw new XmlException($message, 0, $e);

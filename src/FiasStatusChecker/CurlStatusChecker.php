@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\FiasStatusChecker;
 
 use Liquetsoft\Fias\Component\Exception\StatusCheckerException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
-use Throwable;
 
 /**
  * Объект, который проверяет статус сервисов ФИАС с помощью запросов через curl.
@@ -48,7 +47,7 @@ class CurlStatusChecker implements FiasStatusChecker
 
         try {
             $info = $this->informer->getCompleteInfo();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             return new StatusCheckerResult(
                 FiasStatusChecker::STATUS_NOT_AVAILABLE,
                 [

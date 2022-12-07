@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Downloader;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use SplFileInfo;
 
 /**
  * Тест для объекта, который загружает файл с помощью curl.
@@ -29,7 +27,7 @@ class CurlDownloaderTest extends BaseCase
         $source = $this->createFakeData()->url();
 
         $destinationPath = $this->getPathToTestFile('archive.rar');
-        $destination = new SplFileInfo($destinationPath);
+        $destination = new \SplFileInfo($destinationPath);
 
         $curl = $this->createDownloaderMock(
             function (array $options) use ($source) {
@@ -62,11 +60,11 @@ class CurlDownloaderTest extends BaseCase
         $source = 'test';
 
         $destinationPath = $this->getPathToTestFile('archive.rar');
-        $destination = new SplFileInfo($destinationPath);
+        $destination = new \SplFileInfo($destinationPath);
 
         $curl = new CurlDownloader();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $curl->download($source, $destination);
     }
 
@@ -79,7 +77,7 @@ class CurlDownloaderTest extends BaseCase
         $source = $this->createFakeData()->url();
 
         $destinationPath = $this->getPathToTestFile('archive.rar');
-        $destination = new SplFileInfo($destinationPath);
+        $destination = new \SplFileInfo($destinationPath);
 
         $curl = $this->createDownloaderMock(
             function (array $options) {
@@ -104,7 +102,7 @@ class CurlDownloaderTest extends BaseCase
         $source = $this->createFakeData()->url();
 
         $destinationPath = $this->getPathToTestFile('archive.rar');
-        $destination = new SplFileInfo($destinationPath);
+        $destination = new \SplFileInfo($destinationPath);
 
         $curl = $this->createDownloaderMock(
             function (array $options) {
@@ -129,7 +127,7 @@ class CurlDownloaderTest extends BaseCase
         $source = $this->createFakeData()->url();
 
         $destinationPath = '/wrong/path/to/file.rar';
-        $destination = new SplFileInfo($destinationPath);
+        $destination = new \SplFileInfo($destinationPath);
 
         $curl = $this->createDownloaderMock(
             function (array $options) {

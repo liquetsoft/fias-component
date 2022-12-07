@@ -10,7 +10,6 @@ use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
-use SplFileInfo;
 
 /**
  * Задача, которая скачивает архив из текущего состояния по ссылке
@@ -43,9 +42,9 @@ class DownloadTask implements LoggableTask, Task
         }
 
         $localFile = $state->getParameter(StateParameter::DOWNLOAD_TO_FILE);
-        if (!($localFile instanceof SplFileInfo)) {
+        if (!($localFile instanceof \SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . StateParameter::DOWNLOAD_TO_FILE . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . StateParameter::DOWNLOAD_TO_FILE . "' must be an '" . \SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 

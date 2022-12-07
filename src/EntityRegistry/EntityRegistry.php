@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 
@@ -40,7 +39,7 @@ interface EntityRegistry
      *
      * @return EntityDescriptor
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @throws EntityRegistryException
      */
     public function getDescriptor(string $entityName): EntityDescriptor;

@@ -9,7 +9,6 @@ use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
-use SplFileInfo;
 
 /**
  * Задача, которая удаляет все временные файлы, полученные во время импорта.
@@ -38,7 +37,7 @@ class CleanupTask implements LoggableTask, Task
         $toRemove = array_diff($toRemove, [null]);
 
         foreach ($toRemove as $fileInfo) {
-            if ($fileInfo instanceof SplFileInfo) {
+            if ($fileInfo instanceof \SplFileInfo) {
                 $this->log(LogLevel::INFO, "Cleaning up '{$fileInfo->getPathname()}' folder.");
                 $this->fs->removeIfExists($fileInfo);
             }
