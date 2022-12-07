@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
 
-use Exception;
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
@@ -13,7 +11,6 @@ use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Ramsey\Uuid\Uuid;
-use Throwable;
 
 /**
  * Объект, который содержит внутренний массив со списком операций для исполнения.
@@ -36,8 +33,8 @@ class ArrayPipe implements Pipe
      * @param Task|null            $cleanupTask Задача, которая будет выполнена после исключения или по успешному завершению очереди
      * @param LoggerInterface|null $logger      PSR-3 совместимый объект для записи логов
      *
-     * @throws InvalidArgumentException
-     * @throws Exception
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function __construct(iterable $tasks, ?Task $cleanupTask = null, ?LoggerInterface $logger = null)
     {
@@ -50,7 +47,7 @@ class ArrayPipe implements Pipe
     /**
      * {@inheritdoc}
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function run(State $state): Pipe
     {
@@ -59,7 +56,7 @@ class ArrayPipe implements Pipe
         foreach ($this->tasks as $task) {
             try {
                 $this->proceedTask($state, $task);
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 $this->proceedException($state, $task, $e);
             }
             if ($state->isCompleted()) {
@@ -95,7 +92,7 @@ class ArrayPipe implements Pipe
      * @param State $state
      * @param Task  $task
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function proceedTask(State $state, Task $task): void
     {
@@ -124,13 +121,13 @@ class ArrayPipe implements Pipe
     /**
      * Обрабатывает исключение во время работы очереди.
      *
-     * @param Task      $task
-     * @param State     $state
-     * @param Throwable $e
+     * @param Task       $task
+     * @param State      $state
+     * @param \Throwable $e
      *
      * @throws PipeException
      */
-    protected function proceedException(State $state, Task $task, Throwable $e): void
+    protected function proceedException(State $state, Task $task, \Throwable $e): void
     {
         $taskName = $this->getTaskId($task);
         $message = "There was an error while running '{$taskName}' task. Pipeline was interrupted.";
@@ -153,7 +150,7 @@ class ArrayPipe implements Pipe
      *
      * @param State $state
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function proceedCleanup(State $state): void
     {
@@ -234,7 +231,7 @@ class ArrayPipe implements Pipe
      *
      * @return Task[]
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function checkAndReturnTaskArray(iterable $tasks): array
     {
@@ -242,7 +239,7 @@ class ArrayPipe implements Pipe
 
         foreach ($tasks as $key => $task) {
             if (!($task instanceof Task)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Task with key '{$key}' must be an '" . Task::class . "' instance."
                 );
             }

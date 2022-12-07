@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Mock;
 
-use DateTimeInterface;
-
 /**
  * Мок для тестирования сериализатора.
  *
@@ -24,7 +22,7 @@ class FiasSerializerMock
     private $name = '';
 
     /**
-     * @var DateTimeInterface|null
+     * @var \DateTimeInterface|null
      */
     private $testDate = null;
 
@@ -58,12 +56,12 @@ class FiasSerializerMock
         return $this->name;
     }
 
-    public function setTestDate(DateTimeInterface $testDate): void
+    public function setTestDate(\DateTimeInterface $testDate): void
     {
         $this->testDate = $testDate;
     }
 
-    public function getTestDate(): ?DateTimeInterface
+    public function getTestDate(): ?\DateTimeInterface
     {
         return $this->testDate;
     }

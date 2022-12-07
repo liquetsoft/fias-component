@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityDescriptor;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
 
 /**
@@ -32,7 +31,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * @param array $p Массив с описанием сущности
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $p)
     {
@@ -133,7 +132,7 @@ class BaseEntityDescriptor implements EntityDescriptor
         }
 
         if (!$return) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "EntityDescriptor doesn't have field with name '{$name}'."
             );
         }
@@ -166,14 +165,14 @@ class BaseEntityDescriptor implements EntityDescriptor
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function extractStringFromOptions(array $options, string $name, bool $required = false): string
     {
         $return = '';
 
         if (!isset($options[$name]) && $required) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "Option with key '{$name}' is required for EntityDescriptor."
             );
         } elseif (isset($options[$name])) {
@@ -190,26 +189,26 @@ class BaseEntityDescriptor implements EntityDescriptor
      *
      * @return EntityField[]
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function extractFieldsFromOptions(array $options): array
     {
         $return = [];
 
         if (empty($options['fields']) || !\is_array($options['fields'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Fields is required option for EntityDescriptor.'
             );
         }
 
         foreach ($options['fields'] as $key => $field) {
             if (!($field instanceof EntityField)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Field with key '{$key}' must be an '" . EntityField::class . "' instance."
                 );
             }
             if (isset($return[$field->getName()])) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Field with key '{$key}' has doubling name '" . $field->getName() . "'."
                 );
             }

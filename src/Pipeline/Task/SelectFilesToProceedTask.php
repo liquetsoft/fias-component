@@ -9,9 +9,6 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Filter\Filter;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Psr\Log\LogLevel;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use SplFileInfo;
 
 class SelectFilesToProceedTask implements LoggableTask, Task
 {
@@ -60,15 +57,15 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      *
      * @param mixed $parameterValue
      *
-     * @return SplFileInfo
+     * @return \SplFileInfo
      *
      * @throws TaskException
      */
-    private function checkDirectory($parameterValue): SplFileInfo
+    private function checkDirectory($parameterValue): \SplFileInfo
     {
-        if (!($parameterValue instanceof SplFileInfo)) {
+        if (!($parameterValue instanceof \SplFileInfo)) {
             throw new TaskException(
-                "State parameter '" . Task::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . SplFileInfo::class . "' instance for '" . self::class . "'."
+                "State parameter '" . Task::EXTRACT_TO_FOLDER_PARAM . "' must be an '" . \SplFileInfo::class . "' instance for '" . self::class . "'."
             );
         }
 
@@ -84,20 +81,20 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * Возвращает список файлов для обработки из указанной директории.
      *
-     * @param SplFileInfo $filesFolder
+     * @param \SplFileInfo $filesFolder
      *
      * @return string[]
      */
-    private function getFilesForProceedFromFolder(SplFileInfo $filesFolder): array
+    private function getFilesForProceedFromFolder(\SplFileInfo $filesFolder): array
     {
         $files = [];
 
-        $directoryIterator = new RecursiveDirectoryIterator(
+        $directoryIterator = new \RecursiveDirectoryIterator(
             $filesFolder->getRealPath(),
-            RecursiveDirectoryIterator::SKIP_DOTS
+            \RecursiveDirectoryIterator::SKIP_DOTS
         );
-        /** @var iterable<SplFileInfo> */
-        $iterator = new RecursiveIteratorIterator($directoryIterator);
+        /** @var iterable<\SplFileInfo> */
+        $iterator = new \RecursiveIteratorIterator($directoryIterator);
 
         foreach ($iterator as $fileInfo) {
             if ($this->isFileAllowed($fileInfo)) {
@@ -113,11 +110,11 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * Проверяет следует ли добавлять файл к списку.
      *
-     * @param SplFileInfo $fileInfo
+     * @param \SplFileInfo $fileInfo
      *
      * @return bool
      */
-    private function isFileAllowed(SplFileInfo $fileInfo): bool
+    private function isFileAllowed(\SplFileInfo $fileInfo): bool
     {
         return ($this->filter === null || $this->filter->test($fileInfo))
             && ($this->isFileAllowedToInsert($fileInfo) || $this->isFileAllowedToDelete($fileInfo))
@@ -127,11 +124,11 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * Проверяет нужно ли файл обрабатывать для создания и обновления в рамках данного процесса.
      *
-     * @param SplFileInfo $fileInfo
+     * @param \SplFileInfo $fileInfo
      *
      * @return bool
      */
-    private function isFileAllowedToInsert(SplFileInfo $fileInfo): bool
+    private function isFileAllowedToInsert(\SplFileInfo $fileInfo): bool
     {
         $descriptor = $this->entityManager->getDescriptorByInsertFile($fileInfo->getFilename());
 
@@ -141,11 +138,11 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * Проверяет нужно ли файл обрабатывать для удаления в рамках данного процесса.
      *
-     * @param SplFileInfo $fileInfo
+     * @param \SplFileInfo $fileInfo
      *
      * @return bool
      */
-    private function isFileAllowedToDelete(SplFileInfo $fileInfo): bool
+    private function isFileAllowedToDelete(\SplFileInfo $fileInfo): bool
     {
         $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileInfo->getFilename());
 

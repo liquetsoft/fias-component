@@ -7,7 +7,6 @@ namespace Liquetsoft\Fias\Component\Tests\XmlReader;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
-use SplFileInfo;
 
 /**
  * Тест для объекта, который читает данные из xml файла.
@@ -23,7 +22,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testOpenNonExistedFileException(): void
     {
-        $file = new SplFileInfo(__DIR__ . '/_fixtures/empty.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/empty.xml');
 
         $reader = new BaseXmlReader();
 
@@ -62,7 +61,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testRead(): void
     {
-        $file = new SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testRead.xml');
 
         $reader = new BaseXmlReader();
         $reader->open($file, '/ActualStatuses/ActualStatus');
@@ -86,7 +85,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testReadEmpty(): void
     {
-        $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadEmpty.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testReadEmpty.xml');
 
         $reader = new BaseXmlReader();
         $reader->open($file, '/ActualStatuses/ActualStatus');
@@ -107,7 +106,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testReadMessyFile(): void
     {
-        $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadMessyFile.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testReadMessyFile.xml');
 
         $reader = new BaseXmlReader();
         $reader->open($file, '/root/firstLevel/secondLevel/realItem');
@@ -134,7 +133,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testReadException(): void
     {
-        $file = new SplFileInfo(__DIR__ . '/_fixtures/testReadException.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testReadException.xml');
 
         $reader = new BaseXmlReader();
         $reader->open($file, '/root/qwe');

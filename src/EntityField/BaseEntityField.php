@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityField;
 
-use InvalidArgumentException;
-
 /**
  * Объект, который описывает поле сущности.
  */
@@ -32,7 +30,7 @@ class BaseEntityField implements EntityField
     /**
      * @param array $p Массив с описанием поля
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $p)
     {
@@ -47,7 +45,7 @@ class BaseEntityField implements EntityField
         $this->isPartition = !empty($p['isPartition']);
 
         if ($this->isPrimary && $this->isIndex) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Field is already primary, no needs to set index.'
             );
         }
@@ -134,14 +132,14 @@ class BaseEntityField implements EntityField
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function extractStringFromOptions(array $options, string $name, bool $required = false): string
     {
         $return = '';
 
         if (!isset($options[$name]) && $required) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "Option with key '{$name}' is required for EntityField."
             );
         } elseif (isset($options[$name])) {

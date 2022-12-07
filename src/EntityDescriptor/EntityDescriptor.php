@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityDescriptor;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityField\EntityField;
 
 /**
@@ -77,7 +76,7 @@ interface EntityDescriptor
      *
      * @return EntityField
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getField(string $name): EntityField;
 

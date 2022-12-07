@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
@@ -12,7 +11,6 @@ use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use SplFileInfo;
 
 /**
  * Тест для задачи, которая загружает архив ФИАС по ссылке.
@@ -24,7 +22,7 @@ class DownloadTaskTest extends BaseCase
     /**
      * Проверяет, что объект верно загружает ссылку.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -35,7 +33,7 @@ class DownloadTaskTest extends BaseCase
         $informerResult->method('getUrl')->willReturn($url);
 
         $filePath = __DIR__ . '/test.file';
-        $file = new SplFileInfo($filePath);
+        $file = new \SplFileInfo($filePath);
 
         /** @var MockObject&Downloader */
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
@@ -43,7 +41,7 @@ class DownloadTaskTest extends BaseCase
             ->method('download')->with(
                 $this->equalTo($url),
                 $this->callback(
-                    function (SplFileInfo $file) use ($filePath) {
+                    function (\SplFileInfo $file) use ($filePath) {
                         return $file->getPathname() === $filePath;
                     }
                 )
@@ -64,7 +62,7 @@ class DownloadTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указана ссылка на ФИАС.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoFiasInfoException(): void
     {
@@ -73,7 +71,7 @@ class DownloadTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::DOWNLOAD_TO_FILE_PARAM => new SplFileInfo(__DIR__ . '/test.file'),
+                Task::DOWNLOAD_TO_FILE_PARAM => new \SplFileInfo(__DIR__ . '/test.file'),
             ]
         );
 
@@ -86,7 +84,7 @@ class DownloadTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указан путь к локальному файлу.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoDownloadToInfoException(): void
     {

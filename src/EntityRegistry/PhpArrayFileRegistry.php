@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
@@ -56,7 +55,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      *
      * @return EntityDescriptor
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     private function createEntityDescriptor(array $entity): EntityDescriptor
     {
@@ -82,7 +81,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      *
      * @return EntityField
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     private function createEntityField(array $field): EntityField
     {
@@ -103,7 +102,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
                 "File '%s' for php entity registry must exists and be readable.",
                 $this->pathToSource
             );
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException($message);
         }
 
         $extension = pathinfo($path, \PATHINFO_EXTENSION);
@@ -113,7 +112,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
                 $this->pathToSource,
                 $extension
             );
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException($message);
         }
 
         return $path;

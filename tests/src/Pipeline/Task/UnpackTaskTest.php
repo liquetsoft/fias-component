@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
 use PHPUnit\Framework\MockObject\MockObject;
-use SplFileInfo;
 
 /**
  * Тест для задачи, которая распаковывает архив из параметра в состоянии.
@@ -23,14 +21,14 @@ class UnpackTaskTest extends BaseCase
     /**
      * Проверяет, что объект верно загружает ссылку.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
         $sourcePath = __DIR__ . '/test.file';
-        $source = new SplFileInfo($sourcePath);
+        $source = new \SplFileInfo($sourcePath);
         $destinationPath = __DIR__;
-        $destination = new SplFileInfo($destinationPath);
+        $destination = new \SplFileInfo($destinationPath);
 
         /** @var MockObject&Unpacker */
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
@@ -38,12 +36,12 @@ class UnpackTaskTest extends BaseCase
             ->method('unpack')
             ->with(
                 $this->callback(
-                    function (SplFileInfo $source) use ($sourcePath) {
+                    function (\SplFileInfo $source) use ($sourcePath) {
                         return $source->getPathname() === $sourcePath;
                     }
                 ),
                 $this->callback(
-                    function (SplFileInfo $destination) use ($destinationPath) {
+                    function (\SplFileInfo $destination) use ($destinationPath) {
                         return $destination->getPathname() === $destinationPath;
                     }
                 )
@@ -64,11 +62,11 @@ class UnpackTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указан путь к архиву.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoSourceException(): void
     {
-        $destination = new SplFileInfo(__DIR__);
+        $destination = new \SplFileInfo(__DIR__);
 
         /** @var MockObject&Unpacker */
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
@@ -88,11 +86,11 @@ class UnpackTaskTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указан путь куда распаковать файл.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunNoDestinationException(): void
     {
-        $source = new SplFileInfo(__DIR__ . '/test.file');
+        $source = new \SplFileInfo(__DIR__ . '/test.file');
 
         /** @var MockObject&Unpacker */
         $unpack = $this->getMockBuilder(Unpacker::class)->getMock();

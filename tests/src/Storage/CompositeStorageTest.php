@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Storage;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Storage\CompositeStorage;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use stdClass;
 
 /**
  * Тест для объекта, который сохраняет данные в несколько хранилищ.
@@ -26,7 +24,7 @@ class CompositeStorageTest extends BaseCase
     {
         $storage = $this->getMockBuilder(Storage::class)->getMock();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new CompositeStorage([$storage, 'test']);
     }
 
@@ -70,7 +68,7 @@ class CompositeStorageTest extends BaseCase
      */
     public function testSupports(): void
     {
-        $object = new stdClass();
+        $object = new \stdClass();
 
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())
@@ -123,7 +121,7 @@ class CompositeStorageTest extends BaseCase
      */
     public function testInsert(): void
     {
-        $object = new stdClass();
+        $object = new \stdClass();
 
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())
@@ -150,7 +148,7 @@ class CompositeStorageTest extends BaseCase
      */
     public function testDelete(): void
     {
-        $object = new stdClass();
+        $object = new \stdClass();
 
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())
@@ -179,7 +177,7 @@ class CompositeStorageTest extends BaseCase
      */
     public function testUpsert(): void
     {
-        $object = new stdClass();
+        $object = new \stdClass();
 
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())

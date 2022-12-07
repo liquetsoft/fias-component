@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 
 /**
@@ -20,7 +19,7 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
     /**
      * @param array $registry
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $registry)
     {
@@ -28,7 +27,7 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
 
         foreach ($registry as $key => $descriptor) {
             if (!($descriptor instanceof EntityDescriptor)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Item with key {$key} must be an " . EntityDescriptor::class . ' instance.'
                 );
             }

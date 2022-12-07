@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use SplFileInfo;
 
 /**
  * Тест для задачи, которая очищает все временные данные после завершения импорта.
@@ -20,17 +18,17 @@ class CleanupTaskTest extends BaseCase
     /**
      * Проверяет, что задача очищает все папки и файлы.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
         $downloadToPath = $this->getPathToTestFile('downloadTo.rar');
-        $downloadTo = new SplFileInfo($downloadToPath);
+        $downloadTo = new \SplFileInfo($downloadToPath);
 
         $extractToDir = $this->getPathToTestDir('extractTo');
         $this->getPathToTestDir('extractTo/subDir');
         $extractToPath = $this->getPathToTestFile('extractTo/subDir/downloadTo.rar');
-        $extractTo = new SplFileInfo($extractToDir);
+        $extractTo = new \SplFileInfo($extractToDir);
 
         $state = $this->createDefaultStateMock(
             [
@@ -49,12 +47,12 @@ class CleanupTaskTest extends BaseCase
     /**
      * Проверяет, что задача очищает все папки и файлы.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunEmptyFiles(): void
     {
         $downloadToPath = __DIR__ . '/test.rar';
-        $downloadTo = new SplFileInfo($downloadToPath);
+        $downloadTo = new \SplFileInfo($downloadToPath);
 
         $state = $this->createDefaultStateMock(
             [

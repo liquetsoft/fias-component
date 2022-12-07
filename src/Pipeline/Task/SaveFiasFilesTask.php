@@ -8,7 +8,6 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
-use SplFileInfo;
 
 /**
  * Задача, которая перемещает загруженные и распакованные файлы ФИАС
@@ -51,7 +50,7 @@ class SaveFiasFilesTask implements LoggableTask, Task
     {
         foreach ($this->movePaths as $paramName => $movePath) {
             $fileInfo = $state->getParameter($paramName);
-            if ($fileInfo instanceof SplFileInfo) {
+            if ($fileInfo instanceof \SplFileInfo) {
                 $message = sprintf("Moving '%s' to '%s'.", $fileInfo->getRealPath(), $movePath);
                 $this->log(LogLevel::INFO, $message);
                 $this->fs->rename($fileInfo, $movePath);

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
-use InvalidArgumentException;
-
 /**
  * Интерфейс для объекта, который предоставляет результат со ссылкой на файлы
  * от сервиса ФИАС.
@@ -35,7 +33,7 @@ interface InformerResponse
      *
      * @return InformerResponse
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setUrl(string $url): InformerResponse;
 

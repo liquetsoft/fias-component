@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Pipe;
 
-use Exception;
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use Liquetsoft\Fias\Component\Pipeline\Pipe\ArrayPipe;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
@@ -14,7 +12,6 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\ArrayPipeTestLoggableMock;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 /**
  * Тест для объекта, который запускает на исполнение задачи из внутреннего массива.
@@ -26,14 +23,14 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что объект выбросит исключение при попытке передать неверный параметр.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testConstructNoTaskInstanceException(): void
     {
         $task1 = $this->createTaskMock();
         $task2 = 'test';
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new ArrayPipe(
             [
                 $task1,
@@ -45,7 +42,7 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -66,7 +63,7 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются, а после задач запускается задача очистки.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunWithCleanup(): void
     {
@@ -91,7 +88,7 @@ class ArrayPipeTest extends BaseCase
      * с помощью объекта состояния.
      *
      * @throws PipeException
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunWithCompleted(): void
     {
@@ -127,14 +124,14 @@ class ArrayPipeTest extends BaseCase
      * Проверяет, что объект приложения перехватит любое исключение и выбросит
      * унифицированный тип.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRunException(): void
     {
         $state = $this->createDefaultStateMock([], false);
         $cleanUp = $this->createTaskMock($state);
         $task1 = $this->createTaskMock($state);
-        $task2 = $this->createTaskMock($state, new InvalidArgumentException());
+        $task2 = $this->createTaskMock($state, new \InvalidArgumentException());
 
         $pipe = new ArrayPipe(
             [
@@ -151,7 +148,7 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что очередь пишет данные в лог.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testLogger(): void
     {
@@ -185,7 +182,7 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что очередь передаст объект лога в задачу, если требуется.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testLoggableTaskLoggerInjected(): void
     {
@@ -220,12 +217,12 @@ class ArrayPipeTest extends BaseCase
     /**
      * Создает мок для новой задачи.
      *
-     * @param mixed          $with
-     * @param Throwable|null $exception
+     * @param mixed           $with
+     * @param \Throwable|null $exception
      *
      * @return Task
      */
-    private function createTaskMock($with = null, ?Throwable $exception = null): Task
+    private function createTaskMock($with = null, ?\Throwable $exception = null): Task
     {
         /** @var MockObject&Task */
         $task = $this->getMockBuilder(Task::class)->getMock();

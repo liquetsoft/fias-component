@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
 use Liquetsoft\Fias\Component\Pipeline\Task\SaveFiasFilesTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use SplFileInfo;
 
 /**
  * Тест для задачи, которая сохраняет файлы ФИАС после обработки.
@@ -20,7 +18,7 @@ class SaveFiasFilesTaskTest extends BaseCase
     /**
      * Проверяет, что задача создает все папки и передает в состояние.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -34,8 +32,8 @@ class SaveFiasFilesTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::DOWNLOAD_TO_FILE_PARAM => new SplFileInfo($sourceFile),
-                Task::EXTRACT_TO_FOLDER_PARAM => new SplFileInfo($sourceDir),
+                Task::DOWNLOAD_TO_FILE_PARAM => new \SplFileInfo($sourceFile),
+                Task::EXTRACT_TO_FOLDER_PARAM => new \SplFileInfo($sourceDir),
             ]
         );
 

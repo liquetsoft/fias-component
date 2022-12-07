@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Exception;
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\Task\PrepareFolderTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use SplFileInfo;
 
 /**
  * Тест для задачи, которая подготавливает папки и файлы для импорта.
@@ -22,7 +19,7 @@ class PrepareFolderTaskTest extends BaseCase
     /**
      * Проверяет, что задача создает все папки и передает в состояние.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -36,8 +33,8 @@ class PrepareFolderTaskTest extends BaseCase
         $downloadFile = $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM);
         $extractToFolder = $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM);
 
-        $this->assertInstanceOf(SplFileInfo::class, $downloadFile);
-        $this->assertInstanceOf(SplFileInfo::class, $extractToFolder);
+        $this->assertInstanceOf(\SplFileInfo::class, $downloadFile);
+        $this->assertInstanceOf(\SplFileInfo::class, $extractToFolder);
         $this->assertTrue($extractToFolder->isDir());
     }
 
@@ -47,7 +44,7 @@ class PrepareFolderTaskTest extends BaseCase
      */
     public function testConstructBadFolderException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new PrepareFolderTask(__DIR__ . '/empty/empty');
     }
 }

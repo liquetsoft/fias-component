@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
-use InvalidArgumentException;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
@@ -55,7 +54,7 @@ class ArrayStateTest extends BaseCase
         $state = new ArrayState();
         $state->setAndLockParameter($parameterName, $parameterValue);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $state->setParameter($parameterName, $parameterValue);
     }
 
