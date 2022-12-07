@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionGetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
@@ -44,7 +44,7 @@ class VersionGetTaskTest extends BaseCase
         $task = new VersionGetTask($versionManager);
         $task->run($state);
 
-        $this->assertSame($version, $state->getParameter(Task::FIAS_VERSION_PARAM));
+        $this->assertSame($version, $state->getParameter(StateParameter::FIAS_VERSION));
     }
 
     /**

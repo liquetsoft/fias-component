@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
@@ -29,8 +30,8 @@ class CleanupTask implements LoggableTask, Task
     public function run(State $state): void
     {
         $toRemove = [
-            $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM),
-            $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM),
+            $state->getParameter(StateParameter::DOWNLOAD_TO_FILE),
+            $state->getParameter(StateParameter::EXTRACT_TO_FOLDER),
         ];
 
         $toRemove = array_diff($toRemove, [null]);

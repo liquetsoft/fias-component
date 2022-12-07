@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
@@ -56,7 +57,7 @@ class PrepareFolderTask implements LoggableTask, Task
         $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder.");
         $this->fs->mkdir($extractToFolder);
 
-        $state->setAndLockParameter(Task::DOWNLOAD_TO_FILE_PARAM, $downloadToFile);
-        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, $extractToFolder);
+        $state->setAndLockParameter(StateParameter::DOWNLOAD_TO_FILE, $downloadToFile);
+        $state->setAndLockParameter(StateParameter::EXTRACT_TO_FOLDER, $extractToFolder);
     }
 }

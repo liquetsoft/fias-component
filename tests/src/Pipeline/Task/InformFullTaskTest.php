@@ -8,8 +8,8 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformFullTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -41,7 +41,7 @@ class InformFullTaskTest extends BaseCase
         $task = new InformFullTask($informer);
         $task->run($state);
 
-        $this->assertSame($informerResult, $state->getParameter(Task::FIAS_INFO_PARAM));
+        $this->assertSame($informerResult, $state->getParameter(StateParameter::FIAS_INFO));
     }
 
     /**

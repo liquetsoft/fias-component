@@ -9,8 +9,8 @@ use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Filter\Filter;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -50,7 +50,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::EXTRACT_TO_FOLDER_PARAM => new \SplFileInfo(__DIR__ . '/test'),
+                StateParameter::EXTRACT_TO_FOLDER => new \SplFileInfo(__DIR__ . '/test'),
             ]
         );
 
@@ -93,7 +93,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
         );
 
         $state = new ArrayState();
-        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new \SplFileInfo($fixturesFolder));
+        $state->setAndLockParameter(StateParameter::EXTRACT_TO_FOLDER, new \SplFileInfo($fixturesFolder));
 
         $task = new SelectFilesToProceedTask($entityManager);
         $task->run($state);
@@ -105,7 +105,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
             ],
-            $state->getParameter(Task::FILES_TO_PROCEED)
+            $state->getParameter(StateParameter::FILES_TO_PROCEED)
         );
     }
 
@@ -143,7 +143,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
         );
 
         $state = new ArrayState();
-        $state->setAndLockParameter(Task::EXTRACT_TO_FOLDER_PARAM, new \SplFileInfo($fixturesFolder));
+        $state->setAndLockParameter(StateParameter::EXTRACT_TO_FOLDER, new \SplFileInfo($fixturesFolder));
 
         $task = new SelectFilesToProceedTask($entityManager, $filter);
         $task->run($state);
@@ -152,7 +152,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
             [
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
             ],
-            $state->getParameter(Task::FILES_TO_PROCEED)
+            $state->getParameter(StateParameter::FILES_TO_PROCEED)
         );
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\PrepareFolderTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -30,8 +30,8 @@ class PrepareFolderTaskTest extends BaseCase
 
         $task = new PrepareFolderTask($pathToPrepare);
         $task->run($state);
-        $downloadFile = $state->getParameter(Task::DOWNLOAD_TO_FILE_PARAM);
-        $extractToFolder = $state->getParameter(Task::EXTRACT_TO_FOLDER_PARAM);
+        $downloadFile = $state->getParameter(StateParameter::DOWNLOAD_TO_FILE);
+        $extractToFolder = $state->getParameter(StateParameter::EXTRACT_TO_FOLDER);
 
         $this->assertInstanceOf(\SplFileInfo::class, $downloadFile);
         $this->assertInstanceOf(\SplFileInfo::class, $extractToFolder);

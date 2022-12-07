@@ -49,7 +49,7 @@ class CurlDownloader implements Downloader
         $response = new CurlDownloaderResponse();
         for ($i = 0; $i < $this->maxAttempts; ++$i) {
             $response = $this->runRequest($url, $options);
-            if ($response->isOk() && $response->getError() === null) {
+            if ($response->isOk() && !$response->hasError()) {
                 break;
             }
             // в случае ошибки пробуем скачать файл еще раз,
@@ -69,7 +69,7 @@ class CurlDownloader implements Downloader
 
         fclose($options[\CURLOPT_FILE]);
 
-        if ($response->getError() !== null) {
+        if ($response->hasError()) {
             $message = sprintf(
                 "There was an error while downloading '%s': %s.",
                 $url,

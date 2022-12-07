@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Psr\Log\LogLevel;
@@ -65,7 +66,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $allFiles = $state->getParameter(Task::FILES_TO_PROCEED);
+        $allFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);
         $allFiles = \is_array($allFiles) ? $allFiles : [];
 
         foreach ($allFiles as $file) {

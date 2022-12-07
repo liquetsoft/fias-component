@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 
 /**
@@ -34,6 +35,6 @@ class VersionGetTask implements Task
             throw new TaskException('There is no version of FIAS installed.');
         }
 
-        $state->setAndLockParameter(Task::FIAS_VERSION_PARAM, $version->getVersion());
+        $state->setAndLockParameter(StateParameter::FIAS_VERSION, $version->getVersion());
     }
 }

@@ -7,8 +7,8 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
-use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -49,8 +49,8 @@ class DownloadTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::FIAS_INFO_PARAM => $informerResult,
-                Task::DOWNLOAD_TO_FILE_PARAM => $file,
+                StateParameter::FIAS_INFO => $informerResult,
+                StateParameter::DOWNLOAD_TO_FILE => $file,
             ]
         );
 
@@ -71,7 +71,7 @@ class DownloadTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::DOWNLOAD_TO_FILE_PARAM => new \SplFileInfo(__DIR__ . '/test.file'),
+                StateParameter::DOWNLOAD_TO_FILE => new \SplFileInfo(__DIR__ . '/test.file'),
             ]
         );
 
@@ -97,7 +97,7 @@ class DownloadTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                Task::FIAS_INFO_PARAM => $informerResult,
+                StateParameter::FIAS_INFO => $informerResult,
             ]
         );
 

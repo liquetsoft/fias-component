@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\FilesDispatcher\FilesDispatcher;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -48,7 +49,7 @@ class ProcessSwitchTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $rawFiles = $state->getParameter(Task::FILES_TO_PROCEED);
+        $rawFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);
         $files = [];
         if (\is_array($rawFiles)) {
             $files = array_map(

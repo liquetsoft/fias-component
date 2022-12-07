@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 use Psr\Log\LogLevel;
@@ -33,11 +34,11 @@ class SaveFiasFilesTask implements LoggableTask, Task
         $this->movePaths = [];
 
         if ($moveArchiveTo !== null) {
-            $this->movePaths[Task::DOWNLOAD_TO_FILE_PARAM] = $moveArchiveTo;
+            $this->movePaths[StateParameter::DOWNLOAD_TO_FILE] = $moveArchiveTo;
         }
 
         if ($moveExtractedTo !== null) {
-            $this->movePaths[Task::EXTRACT_TO_FOLDER_PARAM] = $moveExtractedTo;
+            $this->movePaths[StateParameter::EXTRACT_TO_FOLDER] = $moveExtractedTo;
         }
 
         $this->fs = FileSystemFactory::create();
