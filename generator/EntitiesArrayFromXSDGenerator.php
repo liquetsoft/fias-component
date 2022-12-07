@@ -111,7 +111,7 @@ class EntitiesArrayFromXSDGenerator
             $deleteFileMask = "/^AS_DEL_{$entityName}_\d+_.*\.XML$/";
         }
 
-        $xpath = new \DOMXpath($schema);
+        $xpath = new \DOMXPath($schema);
 
         $elements = $xpath->query('//xs:schema/xs:element');
         foreach ($elements as $element) {
@@ -161,7 +161,7 @@ class EntitiesArrayFromXSDGenerator
      *
      * @psalm-suppress UndefinedMethod
      */
-    private function extractFieldsDescription(\DOMNode $innerElement, \DOMXpath $xpath): array
+    private function extractFieldsDescription(\DOMNode $innerElement, \DOMXPath $xpath): array
     {
         $fieldsList = [];
 
@@ -198,7 +198,7 @@ class EntitiesArrayFromXSDGenerator
      *
      * @psalm-suppress UndefinedMethod
      */
-    private function extractFieldDescription(\DOMNode $field, \DOMXpath $xpath): array
+    private function extractFieldDescription(\DOMNode $field, \DOMXPath $xpath): array
     {
         $typeArray = $this->extractTypeArray($field, $xpath);
 
@@ -242,7 +242,7 @@ class EntitiesArrayFromXSDGenerator
      *
      * @psalm-suppress UndefinedMethod
      */
-    private function extractTypeArray(\DOMNode $field, \DOMXpath $xpath): array
+    private function extractTypeArray(\DOMNode $field, \DOMXPath $xpath): array
     {
         $type = $field->getAttribute('type');
         if (empty($type)) {
