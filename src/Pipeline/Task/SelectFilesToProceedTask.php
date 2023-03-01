@@ -55,7 +55,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      *
      * @throws TaskException
      */
-    private function checkDirectory($parameterValue): \SplFileInfo
+    private function checkDirectory(mixed $parameterValue): \SplFileInfo
     {
         if (!($parameterValue instanceof \SplFileInfo)) {
             throw new TaskException(

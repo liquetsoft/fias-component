@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Marvin255\FileSystemHelper\FileSystemFactory;
-use Marvin255\FileSystemHelper\FileSystemHelperInterface;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 use Psr\Log\LogLevel;
 
 /**
@@ -17,7 +17,7 @@ class CleanupTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    private FileSystemHelperInterface $fs;
+    private FileSystemHelper $fs;
 
     public function __construct()
     {

@@ -40,7 +40,7 @@ interface EntityManager
     /**
      * Возвращает дескриптор сущности, к которой относится указанный объект.
      */
-    public function getDescriptorByObject($object): ?EntityDescriptor;
+    public function getDescriptorByObject(mixed $object): ?EntityDescriptor;
 
     /**
      * Возвращает список имен классов, у которых есть отношения к сущностям ФИАС.

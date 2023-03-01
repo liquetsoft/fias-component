@@ -26,7 +26,7 @@ class RegexpFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public function test($testData): bool
+    public function test(mixed $testData): bool
     {
         if (\is_scalar($testData)) {
             $testData = (string) $testData;

@@ -135,7 +135,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByObject($object): ?EntityDescriptor
+    public function getDescriptorByObject(mixed $object): ?EntityDescriptor
     {
         $return = null;
 

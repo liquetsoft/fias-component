@@ -14,19 +14,19 @@ interface State
      *
      * @throws \InvalidArgumentException
      */
-    public function setParameter(string $parameterName, $parameterValue): State;
+    public function setParameter(string $parameterName, mixed $parameterValue): State;
 
     /**
      * Задает константу состояния по его имени и запрещает изменение.
      *
      * @throws \InvalidArgumentException
      */
-    public function setAndLockParameter(string $parameterName, $parameterValue): State;
+    public function setAndLockParameter(string $parameterName, mixed $parameterValue): State;
 
     /**
      * Возвращает параметр состояния по его имени.
      */
-    public function getParameter(string $parameterName);
+    public function getParameter(string $parameterName): mixed;
 
     /**
      * Команда, которая отмечает, что нужно мягко прервать цепочку операций.

@@ -61,7 +61,7 @@ class CurlDownloaderResponse
      *
      * @return array<string, string>
      */
-    private function extractHeadersFromContent($content): array
+    private function extractHeadersFromContent(mixed $content): array
     {
         if (!\is_string($content)) {
             return [];

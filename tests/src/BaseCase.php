@@ -7,9 +7,9 @@ namespace Liquetsoft\Fias\Component\Tests;
 use Faker\Factory;
 use Faker\Generator;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Marvin255\FileSystemHelper\FileSystemException;
+use Marvin255\FileSystemHelper\Exception\FileSystemException;
 use Marvin255\FileSystemHelper\FileSystemFactory;
-use Marvin255\FileSystemHelper\FileSystemHelperInterface;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +20,7 @@ abstract class BaseCase extends TestCase
 {
     private ?Generator $faker = null;
 
-    private ?FileSystemHelperInterface $fs = null;
+    private ?FileSystemHelper $fs = null;
 
     private ?string $tempDir = null;
 
@@ -43,7 +43,7 @@ abstract class BaseCase extends TestCase
     /**
      * Возвращает объект для работы с файловой системой.
      */
-    public function fs(): FileSystemHelperInterface
+    public function fs(): FileSystemHelper
     {
         if ($this->fs === null) {
             $this->fs = FileSystemFactory::create();

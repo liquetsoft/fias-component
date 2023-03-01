@@ -21,7 +21,7 @@ class ArrayState implements State
     /**
      * {@inheritdoc}
      */
-    public function setParameter(string $parameterName, $parameterValue): State
+    public function setParameter(string $parameterName, mixed $parameterValue): State
     {
         $unifiedName = $this->unifyParameterName($parameterName);
 
@@ -39,7 +39,7 @@ class ArrayState implements State
     /**
      * {@inheritdoc}
      */
-    public function setAndLockParameter(string $parameterName, $parameterValue): State
+    public function setAndLockParameter(string $parameterName, mixed $parameterValue): State
     {
         $this->setParameter($parameterName, $parameterValue);
         $this->lockedParams[] = $this->unifyParameterName($parameterName);
@@ -50,7 +50,7 @@ class ArrayState implements State
     /**
      * {@inheritdoc}
      */
-    public function getParameter(string $parameterName)
+    public function getParameter(string $parameterName): mixed
     {
         $unifiedName = $this->unifyParameterName($parameterName);
 

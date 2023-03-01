@@ -24,6 +24,7 @@ class LoggableTaskTraitTest extends BaseCase
      *
      * @psalm-suppress UndefinedInterfaceMethod
      * @psalm-suppress InvalidScalarArgument
+     * @psalm-suppress InvalidArgument
      */
     public function testLog(): void
     {

@@ -3,6 +3,8 @@
     cacheDirectory="/tmp"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
     xsi:schemaLocation="https://getpsalm.org/schema/config file:///var/www/vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
