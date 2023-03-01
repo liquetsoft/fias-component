@@ -13,10 +13,6 @@ class EntitiesArrayFromXSDGenerator
     /**
      * Создает файл с описаниями сущностей ФИАС на основании данных собранных
      * из XSD файлов.
-     *
-     * @param string $xsdDir
-     * @param string $resultFile
-     * @param string $defaultEntitiesFile
      */
     public function generate(string $xsdDir, string $resultFile, string $defaultEntitiesFile): void
     {
@@ -33,8 +29,6 @@ class EntitiesArrayFromXSDGenerator
 
     /**
      * Получает массив с файлами XSD из указанной папки.
-     *
-     * @param string $xsdDir
      *
      * @return string[]
      */
@@ -61,8 +55,6 @@ class EntitiesArrayFromXSDGenerator
      * Получает описания сущностей из XSD файлов.
      *
      * @param string[] $files
-     *
-     * @return array
      */
     private function parseEntitiesFromFiles(array $files): array
     {
@@ -85,10 +77,6 @@ class EntitiesArrayFromXSDGenerator
 
     /**
      * Получает описание сущности из XSD файла.
-     *
-     * @param string $filePath
-     *
-     * @return array
      *
      * @psalm-suppress UndefinedMethod
      */
@@ -154,11 +142,6 @@ class EntitiesArrayFromXSDGenerator
     /**
      * Создает описания полей по XSD схеме.
      *
-     * @param \DOMNode  $innerElement
-     * @param \DOMXpath $xpath
-     *
-     * @return array
-     *
      * @psalm-suppress UndefinedMethod
      */
     private function extractFieldsDescription(\DOMNode $innerElement, \DOMXPath $xpath): array
@@ -190,11 +173,6 @@ class EntitiesArrayFromXSDGenerator
 
     /**
      * Получает все данные поля из описания.
-     *
-     * @param \DOMNode  $field
-     * @param \DOMXpath $xpath
-     *
-     * @return array
      *
      * @psalm-suppress UndefinedMethod
      */
@@ -235,11 +213,6 @@ class EntitiesArrayFromXSDGenerator
     /**
      * Получает тип поля из описания.
      *
-     * @param \DOMNode  $field
-     * @param \DOMXpath $xpath
-     *
-     * @return array
-     *
      * @psalm-suppress UndefinedMethod
      */
     private function extractTypeArray(\DOMNode $field, \DOMXPath $xpath): array
@@ -259,10 +232,6 @@ class EntitiesArrayFromXSDGenerator
 
     /**
      * Конвертирует XSD тип в тип пригодный для описания сущностей.
-     *
-     * @param string $type
-     *
-     * @return array
      */
     private function convertType(string $type): array
     {
@@ -280,10 +249,6 @@ class EntitiesArrayFromXSDGenerator
     /**
      * Загружает массив с описанием сущностей по умолчанию.
      *
-     * @param string $defaultEntitiesFile
-     *
-     * @return array
-     *
      * @psalm-suppress UnresolvableInclude
      */
     private function loadDefaultEntities(string $defaultEntitiesFile): array
@@ -293,11 +258,6 @@ class EntitiesArrayFromXSDGenerator
 
     /**
      * Объединяет массив с описанием текущих сущностей и сущностей по умолчанию.
-     *
-     * @param array $entities
-     * @param array $defaultEntities
-     *
-     * @return array
      */
     private function mergeEntities(array $entities, array $defaultEntities): array
     {

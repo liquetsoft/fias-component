@@ -26,12 +26,6 @@ class ProcessSwitchTask implements LoggableTask, Task
 
     protected int $numberOfParallel;
 
-    /**
-     * @param FilesDispatcher $filesDispatcher
-     * @param string          $pathToBin
-     * @param string          $commandName
-     * @param int             $numberOfParallel
-     */
     public function __construct(
         FilesDispatcher $filesDispatcher,
         string $pathToBin,
@@ -155,8 +149,6 @@ class ProcessSwitchTask implements LoggableTask, Task
      * Создает новый процесс для списка файлов.
      *
      * @param string[] $dispatchedFiles
-     *
-     * @return Process
      */
     protected function createProcess(array $dispatchedFiles): Process
     {

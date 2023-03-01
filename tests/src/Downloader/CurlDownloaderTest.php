@@ -141,11 +141,6 @@ class CurlDownloaderTest extends BaseCase
 
     /**
      * Создает настроенный мок для curl загрузчика.
-     *
-     * @param callable $with
-     * @param array    $additionalCurlOptions
-     *
-     * @return Downloader
      */
     private function createDownloaderMock(callable $with, array $additionalCurlOptions = []): Downloader
     {

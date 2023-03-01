@@ -16,9 +16,6 @@ class VersionSetTask implements Task
 {
     protected VersionManager $versionManager;
 
-    /**
-     * @param VersionManager $versionManager
-     */
     public function __construct(VersionManager $versionManager)
     {
         $this->versionManager = $versionManager;

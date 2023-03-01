@@ -21,10 +21,6 @@ class TruncateTask implements LoggableTask, Task
 
     protected Storage $storage;
 
-    /**
-     * @param EntityManager $entityManager
-     * @param Storage       $storage
-     */
     public function __construct(EntityManager $entityManager, Storage $storage)
     {
         $this->entityManager = $entityManager;

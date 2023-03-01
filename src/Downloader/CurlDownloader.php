@@ -15,10 +15,6 @@ class CurlDownloader implements Downloader
 
     private int $maxAttempts;
 
-    /**
-     * @param array $additionalCurlOptions
-     * @param int   $maxAttempts
-     */
     public function __construct(array $additionalCurlOptions = [], int $maxAttempts = 10)
     {
         $this->additionalCurlOptions = $additionalCurlOptions;
@@ -95,8 +91,6 @@ class CurlDownloader implements Downloader
     /**
      * Возвращает список заголовков из ответа на HEAD запрос.
      *
-     * @param string $url
-     *
      * @return array<string, string>
      */
     private function getHeadResponseHeaders(string $url): array
@@ -117,9 +111,6 @@ class CurlDownloader implements Downloader
      * Открывает локальный файл, в который будет вестись запись,
      * и возвращает его ресурс.
      *
-     * @param \SplFileInfo $localFile
-     * @param string       $mode
-     *
      * @return resource
      */
     private function openLocalFile(\SplFileInfo $localFile, string $mode)
@@ -139,11 +130,6 @@ class CurlDownloader implements Downloader
 
     /**
      * Отправляет запрос с помощью curl и возвращает содержимое, статус ответа и список заголовков.
-     *
-     * @param string $url
-     * @param array  $options
-     *
-     * @return CurlDownloaderResponse
      */
     protected function runRequest(string $url, array $options): CurlDownloaderResponse
     {
@@ -155,10 +141,6 @@ class CurlDownloader implements Downloader
 
     /**
      * Отправляет запрос с помощью curl и возвращает содержимое, статус ответа и список заголовков.
-     *
-     * @param array $options
-     *
-     * @return array
      */
     protected function runCurlRequest(array $options): array
     {

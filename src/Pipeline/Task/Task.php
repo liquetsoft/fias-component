@@ -15,8 +15,6 @@ interface Task
     /**
      * Запускает задачу на исполнение.
      *
-     * @param State $state
-     *
      * @throws \Exception
      */
     public function run(State $state): void;

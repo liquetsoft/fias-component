@@ -19,10 +19,6 @@ interface Pipe
     /**
      * Запускает все операции на выполнение.
      *
-     * @param State $state
-     *
-     * @return Pipe
-     *
      * @throws PipeException
      */
     public function run(State $state): Pipe;

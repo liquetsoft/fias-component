@@ -30,8 +30,6 @@ abstract class BaseCase extends TestCase
      * Использует ленивую инициализацию и создает объект faker только при первом
      * запросе, для всех последующих запросов возвращает тот же самый объект,
      * который был создан в первый раз.
-     *
-     * @return Generator
      */
     public function createFakeData(): Generator
     {
@@ -44,8 +42,6 @@ abstract class BaseCase extends TestCase
 
     /**
      * Возвращает объект для работы с файловой системой.
-     *
-     * @return FileSystemHelperInterface
      */
     public function fs(): FileSystemHelperInterface
     {
@@ -58,8 +54,6 @@ abstract class BaseCase extends TestCase
 
     /**
      * Возвращает путь до базовой папки для тестов.
-     *
-     * @return string
      *
      * @throws \RuntimeException
      * @throws FileSystemException
@@ -84,10 +78,6 @@ abstract class BaseCase extends TestCase
     /**
      * Создает тестовую директорию во временной папке и возвращает путь до нее.
      *
-     * @param string $name
-     *
-     * @return string
-     *
      * @throws \RuntimeException
      * @throws FileSystemException
      */
@@ -106,11 +96,6 @@ abstract class BaseCase extends TestCase
 
     /**
      * Создает тестовый файл во временной директории.
-     *
-     * @param string      $name
-     * @param string|null $content
-     *
-     * @return string
      */
     protected function getPathToTestFile(string $name = '', ?string $content = null): string
     {
@@ -141,11 +126,6 @@ abstract class BaseCase extends TestCase
 
     /**
      * Создает мок для объекта состояния.
-     *
-     * @param array     $params
-     * @param bool|null $needCompleting
-     *
-     * @return State
      */
     protected function createDefaultStateMock(array $params = [], ?bool $needCompleting = null): State
     {

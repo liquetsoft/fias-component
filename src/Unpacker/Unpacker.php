@@ -15,9 +15,6 @@ interface Unpacker
      * Извлекает данные из указанного в первом параметре архива по
      * указанному во втором параметре пути.
      *
-     * @param \SplFileInfo $source
-     * @param \SplFileInfo $destination
-     *
      * @throws \InvalidArgumentException
      * @throws UnpackerException
      */

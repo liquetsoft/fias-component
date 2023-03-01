@@ -21,9 +21,6 @@ class DownloadTask implements LoggableTask, Task
 
     protected Downloader $downloader;
 
-    /**
-     * @param Downloader $downloader
-     */
     public function __construct(Downloader $downloader)
     {
         $this->downloader = $downloader;

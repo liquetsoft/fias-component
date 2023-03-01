@@ -65,10 +65,6 @@ class FiasSerializer extends Serializer
 
     /**
      * Removes items from with empty string in value from array.
-     *
-     * @param mixed $data
-     *
-     * @return mixed
      */
     private function filterData($data)
     {

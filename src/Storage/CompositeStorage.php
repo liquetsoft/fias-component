@@ -14,9 +14,6 @@ class CompositeStorage implements Storage
      */
     protected array $internalStorages = [];
 
-    /**
-     * @param iterable $internalStorages
-     */
     public function __construct(iterable $internalStorages)
     {
         foreach ($internalStorages as $key => $storage) {

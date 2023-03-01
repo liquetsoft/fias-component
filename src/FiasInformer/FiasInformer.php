@@ -15,8 +15,6 @@ interface FiasInformer
     /**
      * Получает ссылку на файл с полными данными ФИАС.
      *
-     * @return InformerResponse
-     *
      * @throws FiasInformerException
      */
     public function getCompleteInfo(): InformerResponse;
@@ -30,8 +28,6 @@ interface FiasInformer
      * изменяя версию, до тех пор, пока он не перестанет возвращать результат.
      *
      * @param int $currentVersion Текущая версия, относительно которой нужно получить файл с изменениями на следующую версию
-     *
-     * @return InformerResponse
      *
      * @throws FiasInformerException
      */

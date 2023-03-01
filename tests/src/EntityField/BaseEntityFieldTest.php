@@ -260,10 +260,6 @@ class BaseEntityFieldTest extends BaseCase
 
     /**
      * Создает объект по умолчанию.
-     *
-     * @param array $options
-     *
-     * @return BaseEntityField
      */
     protected function createField(array $options = []): BaseEntityField
     {

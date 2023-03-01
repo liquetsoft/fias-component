@@ -120,11 +120,6 @@ class SoapFiasInformer implements FiasInformer
 
     /**
      * Создает объект с ответом по номеру версии и url.
-     *
-     * @param int    $versionId
-     * @param string $url
-     *
-     * @return InformerResponse
      */
     private function createResponseObject(int $versionId, string $url): InformerResponse
     {
@@ -137,8 +132,6 @@ class SoapFiasInformer implements FiasInformer
 
     /**
      * Возвращает объект SOAP-клиента для запросов.
-     *
-     * @return \SoapClient
      *
      * @throws \SoapFault
      */

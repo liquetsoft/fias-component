@@ -19,9 +19,6 @@ class UnpackTask implements LoggableTask, Task
 
     protected Unpacker $unpacker;
 
-    /**
-     * @param Unpacker $unpacker
-     */
     public function __construct(Unpacker $unpacker)
     {
         $this->unpacker = $unpacker;

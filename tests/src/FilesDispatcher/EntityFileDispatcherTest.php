@@ -21,7 +21,6 @@ class EntityFileDispatcherTest extends BaseCase
      * Проверяет, что объект правильно разбивает на потоки файлы.
      *
      * @param string[]   $files
-     * @param int        $processCount
      * @param string[][] $expected
      *
      * @dataProvider dispatchProvider

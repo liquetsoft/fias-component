@@ -14,17 +14,11 @@ interface VersionManager
 {
     /**
      * Задает версию ФИАС из ответа от сервиса информирования ФИАС.
-     *
-     * @param InformerResponse $info
-     *
-     * @return VersionManager
      */
     public function setCurrentVersion(InformerResponse $info): VersionManager;
 
     /**
      * Возвращает текущую версию ФИАС.
-     *
-     * @return InformerResponse
      */
     public function getCurrentVersion(): InformerResponse;
 }

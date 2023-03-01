@@ -11,8 +11,6 @@ class PathHelper
 {
     /**
      * Возвращает полный путь к папке с ресурсами.
-     *
-     * @return string
      */
     public static function resources(): string
     {
@@ -21,10 +19,6 @@ class PathHelper
 
     /**
      * Возвращает полный путь до файла внутри папки с ресурсами.
-     *
-     * @param string $resourceName
-     *
-     * @return string
      */
     public static function resource(string $resourceName): string
     {

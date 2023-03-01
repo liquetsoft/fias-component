@@ -79,10 +79,6 @@ class ArrayState implements State
 
     /**
      * Приводит имя параметра к общему виду, чтобы не плодить разные варианты имен.
-     *
-     * @param string $parameterName
-     *
-     * @return string
      */
     protected function unifyParameterName(string $parameterName): string
     {

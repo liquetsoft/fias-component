@@ -59,8 +59,6 @@ class CurlDownloaderResponse
     /**
      * Получает список заголовков из http ответа.
      *
-     * @param mixed $content
-     *
      * @return array<string, string>
      */
     private function extractHeadersFromContent($content): array

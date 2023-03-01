@@ -53,8 +53,6 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      *
      * @param mixed[] $entity
      *
-     * @return EntityDescriptor
-     *
      * @throws \InvalidArgumentException
      */
     private function createEntityDescriptor(array $entity): EntityDescriptor
@@ -77,10 +75,6 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
     /**
      * Создает поле из массива, который был записан в файле.
      *
-     * @param array $field
-     *
-     * @return EntityField
-     *
      * @throws \InvalidArgumentException
      */
     private function createEntityField(array $field): EntityField
@@ -90,8 +84,6 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
 
     /**
      * Проверяет, что путь до файла с описанием сущностей существует и возвращает его.
-     *
-     * @return string
      */
     private function checkAndReturnPath(): string
     {

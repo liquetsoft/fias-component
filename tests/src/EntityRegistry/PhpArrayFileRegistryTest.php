@@ -109,10 +109,6 @@ class PhpArrayFileRegistryTest extends BaseCase
 
     /**
      * Создает объект.
-     *
-     * @param string|null $fileName
-     *
-     * @return PhpArrayFileRegistry
      */
     protected function createRegistry(?string $fileName = null): PhpArrayFileRegistry
     {

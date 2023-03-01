@@ -26,7 +26,6 @@ class RegexpFilterTest extends BaseCase
     /**
      * @param string[]      $regexps
      * @param object|string $testedObject
-     * @param bool          $result
      *
      * @dataProvider provideTestData
      */

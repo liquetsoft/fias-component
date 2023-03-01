@@ -22,7 +22,6 @@ class BaseEntityManager implements EntityManager
     protected array $bindings;
 
     /**
-     * @param EntityRegistry        $registry
      * @param array<string, string> $bindings
      *
      * @throws \InvalidArgumentException
@@ -157,10 +156,6 @@ class BaseEntityManager implements EntityManager
 
     /**
      * Приводит имя сущности к единообразному виду.
-     *
-     * @param string $entityName
-     *
-     * @return string
      */
     protected function normalizeEntityName(string $entityName): string
     {
@@ -169,10 +164,6 @@ class BaseEntityManager implements EntityManager
 
     /**
      * Приводит имя класса к единообразному виду.
-     *
-     * @param string $className
-     *
-     * @return string
      */
     protected function normalizeClassName(string $className): string
     {
