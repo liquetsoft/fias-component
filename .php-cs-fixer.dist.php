@@ -11,7 +11,7 @@ $rules = [
     'array_syntax' => ['syntax' => 'short'],
     'yoda_style' => false,
     'phpdoc_no_empty_return' => false,
-    'no_superfluous_phpdoc_tags' => false,
+    'no_superfluous_phpdoc_tags' => true,
     'single_line_throw' => false,
     'array_indentation' => true,
     'declare_strict_types' => true,

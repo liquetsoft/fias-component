@@ -246,7 +246,12 @@ class EntitiesArrayFromXSDGenerator
     {
         $type = $field->getAttribute('type');
         if (empty($type)) {
-            $type = $xpath->query('.//xs:simpleType/xs:restriction', $field)->item(0)->getAttribute('base');
+            $restriction = $xpath->query('.//xs:simpleType/xs:restriction', $field)->item(0);
+            if (empty($restriction)) {
+                $type = 'string';
+            } else {
+                $type = $restriction->getAttribute('base');
+            }
         }
 
         return $this->convertType($type);
