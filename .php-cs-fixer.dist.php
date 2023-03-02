@@ -30,6 +30,7 @@ $rules = [
     'php_unit_mock_short_will_return' => true,
     'php_unit_strict' => true,
     'strict_comparison' => true,
+    'increment_style' => false,
 ];
 
 return (new Config())->setRules($rules)->setFinder($finder);

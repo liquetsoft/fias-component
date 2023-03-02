@@ -15,7 +15,6 @@ interface Downloader
      * Скачивает файл по ссылке из первого параметра в локальный файл,
      * указанный во втором параметре.
      *
-     * @throws \InvalidArgumentException
      * @throws DownloaderException
      */
     public function download(string $url, \SplFileInfo $localFile): void;
