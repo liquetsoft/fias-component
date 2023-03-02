@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Downloader;
 
 /**
- * Объект, содержащий ответ от curl.
+ * Объект, содержащий http ответ.
  *
  * @internal
  */
