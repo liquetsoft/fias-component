@@ -12,7 +12,6 @@ use Liquetsoft\Fias\Component\Exception\DownloaderException;
 final class CurlDownloader implements Downloader
 {
     public const DEFAULT_MAX_ATTEMPTS = 10;
-    public const DEFAULT_SLEEP_BETWEEN_ATTEMPTS = 10;
     public const DEFAULT_CONNECTION_TIMEOUT = 5;
     public const DEFAULT_TIMEOUT = 60 * 25;
 
@@ -20,19 +19,15 @@ final class CurlDownloader implements Downloader
 
     private readonly int $maxAttempts;
 
-    private readonly int $sleepBetweenAttempts;
-
     private readonly CurlTransport $transport;
 
     public function __construct(
         array $additionalCurlOptions = [],
         int $maxAttempts = self::DEFAULT_MAX_ATTEMPTS,
-        int $sleepBetweenAttempts = self::DEFAULT_SLEEP_BETWEEN_ATTEMPTS,
         ?CurlTransport $transport = null
     ) {
         $this->additionalCurlOptions = $additionalCurlOptions;
         $this->maxAttempts = $maxAttempts;
-        $this->sleepBetweenAttempts = $sleepBetweenAttempts;
         $this->transport = $transport ?: new CurlTransport();
     }
 
@@ -41,7 +36,9 @@ final class CurlDownloader implements Downloader
      */
     public function download(string $url, \SplFileInfo $localFile): void
     {
-        $this->checkIsUrlCorrect($url);
+        if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
+            throw DownloaderException::create('Wrong url format: %s', $url);
+        }
 
         $headers = $this->getHeadResponseHeaders($url);
         $contentLength = (int) ($headers['content-length'] ?? 0);
@@ -66,31 +63,28 @@ final class CurlDownloader implements Downloader
             }
             if ($response->isOk()) {
                 break;
-            } elseif ($i < $this->maxAttempts - 1) {
-                // в случае ошибки пробуем скачать файл еще раз,
-                // но для этого нужно переоткрыть ресурс файла
-                $this->closeLocalFile($options[\CURLOPT_FILE]);
-                // следует подождать какое-то время прежде, чем возобновить попытку
-                if ($this->sleepBetweenAttempts > 0) {
-                    sleep($this->sleepBetweenAttempts);
-                }
-                // если уже скачали какие-то данные и сервер поддерживает Range,
-                // пробуем продолжить с того же места
-                clearstatcache(true, $localFile->getRealPath());
-                $fileSize = (int) filesize($localFile->getRealPath());
-                if ($fileSize > 0 && $isRangeSupported) {
-                    $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'ab');
-                    $options[\CURLOPT_RANGE] = $fileSize . '-' . ($contentLength - 1);
-                } else {
-                    $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'wb');
-                }
+            }
+            // в случае ошибки пробуем скачать файл еще раз,
+            // но для этого нужно переоткрыть ресурс файла
+            $this->closeLocalFile($options[\CURLOPT_FILE]);
+            // php запоминает описания файлов, поэтому чтобы получить
+            // реальный размер, нужно очистить кэш
+            clearstatcache(true, $localFile->getRealPath());
+            // если уже скачали какие-то данные и сервер поддерживает Range,
+            // пробуем продолжить с того же места
+            $fileSize = filesize($localFile->getRealPath());
+            if (!empty($fileSize) && $isRangeSupported) {
+                $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'ab');
+                $options[\CURLOPT_RANGE] = $fileSize . '-' . ($contentLength - 1);
+            } else {
+                $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'wb');
             }
         }
 
         $this->closeLocalFile($options[\CURLOPT_FILE]);
 
         if ($exception) {
-            throw new DownloaderException($exception->getMessage(), 0, $exception);
+            throw DownloaderException::wrap($exception);
         } elseif (!$response->isOk()) {
             throw DownloaderException::create(
                 "Url '%s' returned status: %s",
@@ -109,7 +103,7 @@ final class CurlDownloader implements Downloader
     {
         $hLocal = @fopen($localFile->getPathname(), $mode);
 
-        if ($hLocal === false) {
+        if (empty($hLocal)) {
             throw DownloaderException::create(
                 "Can't open local file for writing: %s",
                 $localFile->getPathname()
@@ -162,15 +156,5 @@ final class CurlDownloader implements Downloader
         $fullOptionsList[\CURLOPT_URL] = $url;
 
         return $this->transport->run($fullOptionsList);
-    }
-
-    /**
-     * Выбрасывает исключение, если ссылка указана неверно.
-     */
-    private function checkIsUrlCorrect(string $url): void
-    {
-        if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
-            throw DownloaderException::create('Wrong url format: %s', $url);
-        }
     }
 }

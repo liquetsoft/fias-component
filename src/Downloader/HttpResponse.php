@@ -40,20 +40,18 @@ class HttpResponse
 
     public function isOk(): bool
     {
-        return $this->statusCode !== null
-            && $this->statusCode >= 200
-            && $this->statusCode < 300;
+        return $this->statusCode >= 200 && $this->statusCode < 300;
     }
 
     /**
      * @return array<string, string>
      */
-    private function extractHeadersFromContent(string $body): array
+    private function extractHeadersFromContent(string $response): array
     {
-        $explodeHeadersContent = explode("\n\n", $body, 2);
+        $explodedResponse = explode("\n\n", $response);
 
         $headers = [];
-        $rawHeaders = explode("\n", $explodeHeadersContent[0]);
+        $rawHeaders = explode("\n", $explodedResponse[0]);
         foreach ($rawHeaders as $rawHeader) {
             $rawHeaderExplode = explode(':', $rawHeader, 2);
             if (\count($rawHeaderExplode) < 2) {

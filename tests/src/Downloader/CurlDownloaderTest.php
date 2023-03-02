@@ -58,7 +58,7 @@ class CurlDownloaderTest extends BaseCase
             ]
         );
 
-        $downloader = new CurlDownloader([], 10, 1, $transport);
+        $downloader = new CurlDownloader([], 10, $transport);
         $downloader->download($url, $destination);
 
         $this->assertStringEqualsFile($destinationPath, $content);
@@ -100,7 +100,6 @@ class CurlDownloaderTest extends BaseCase
         $downloader = new CurlDownloader(
             [$additionalOptionName => $additionalOptionValue],
             10,
-            1,
             $transport
         );
         $downloader->download($url, $destination);
@@ -126,6 +125,7 @@ class CurlDownloaderTest extends BaseCase
                     self::KEY_OPTIONS => [
                         \CURLOPT_URL => $url,
                         \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
                     ],
                     self::KEY_CODE => self::STATUS_SERVER_ERROR,
                 ],
@@ -133,20 +133,23 @@ class CurlDownloaderTest extends BaseCase
                     self::KEY_OPTIONS => [
                         \CURLOPT_URL => $url,
                         \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
                     ],
                     self::KEY_CURL_EXCEPTION => new \RuntimeException(),
+                    self::KEY_FILE_CONTENT => '123',
                 ],
                 [
                     self::KEY_OPTIONS => [
                         \CURLOPT_URL => $url,
                         \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
                     ],
                     self::KEY_FILE_CONTENT => $content,
                 ],
             ]
         );
 
-        $downloader = new CurlDownloader([], 3, 1, $transport);
+        $downloader = new CurlDownloader([], 3, $transport);
         $downloader->download($url, $destination);
 
         $this->assertStringEqualsFile($destinationPath, $content);
@@ -177,6 +180,7 @@ class CurlDownloaderTest extends BaseCase
                     self::KEY_OPTIONS => [
                         \CURLOPT_URL => $url,
                         \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
                     ],
                     self::KEY_CODE => self::STATUS_SERVER_ERROR,
                     self::KEY_FILE_CONTENT => $partialLoadedContent,
@@ -191,7 +195,94 @@ class CurlDownloaderTest extends BaseCase
             ]
         );
 
-        $downloader = new CurlDownloader([], 2, 0, $transport);
+        $downloader = new CurlDownloader([], 2, $transport);
+        $downloader->download($url, $destination);
+    }
+
+    public function testDownloadWithRangeNoAcceptRange(): void
+    {
+        $url = 'https://test.ru/test.zip';
+        $destinationPath = $this->getPathToTestFile('testDownloadWithRange.zip');
+        $destination = new \SplFileInfo($destinationPath);
+        $partialLoadedContent = 'testDownloadWithRange content';
+        $contentLength = \strlen($partialLoadedContent) + 100;
+
+        $transport = $this->createTransportMock(
+            [
+                [
+                    self::KEY_OPTIONS => [
+                        \CURLOPT_HEADER => true,
+                        \CURLOPT_NOBODY => true,
+                        \CURLOPT_URL => $url,
+                    ],
+                    self::KEY_HEADERS => [
+                        'content-length' => $contentLength,
+                        'accept-ranges' => 'test',
+                    ],
+                ],
+                [
+                    self::KEY_OPTIONS => [
+                        \CURLOPT_URL => $url,
+                        \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
+                    ],
+                    self::KEY_CODE => self::STATUS_SERVER_ERROR,
+                    self::KEY_FILE_CONTENT => $partialLoadedContent,
+                ],
+                [
+                    self::KEY_OPTIONS => [
+                        \CURLOPT_URL => $url,
+                        \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
+                    ],
+                ],
+            ]
+        );
+
+        $downloader = new CurlDownloader([], 2, $transport);
+        $downloader->download($url, $destination);
+    }
+
+    public function testDownloadWithRangeEmptyContentLength(): void
+    {
+        $url = 'https://test.ru/test.zip';
+        $destinationPath = $this->getPathToTestFile('testDownloadWithRange.zip');
+        $destination = new \SplFileInfo($destinationPath);
+        $partialLoadedContent = 'testDownloadWithRange content';
+
+        $transport = $this->createTransportMock(
+            [
+                [
+                    self::KEY_OPTIONS => [
+                        \CURLOPT_HEADER => true,
+                        \CURLOPT_NOBODY => true,
+                        \CURLOPT_URL => $url,
+                    ],
+                    self::KEY_HEADERS => [
+                        'content-length' => 0,
+                        'accept-ranges' => 'bytes',
+                    ],
+                ],
+                [
+                    self::KEY_OPTIONS => [
+                        \CURLOPT_URL => $url,
+                        \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
+                    ],
+                    self::KEY_CODE => self::STATUS_SERVER_ERROR,
+                    self::KEY_FILE_CONTENT => $partialLoadedContent,
+                ],
+                [
+                    self::KEY_OPTIONS => [
+                        \CURLOPT_URL => $url,
+                        \CURLOPT_FILE => $destinationPath,
+                        \CURLOPT_RANGE => null,
+                    ],
+                ],
+            ]
+        );
+
+        $downloader = new CurlDownloader([], 2, $transport);
         $downloader->download($url, $destination);
     }
 
@@ -227,7 +318,7 @@ class CurlDownloaderTest extends BaseCase
             ]
         );
 
-        $downloader = new CurlDownloader([], 2, 0, $transport);
+        $downloader = new CurlDownloader([], 2, $transport);
 
         $this->expectException(DownloaderException::class);
         $this->expectExceptionMessage((string) self::STATUS_SERVER_ERROR);
@@ -260,7 +351,7 @@ class CurlDownloaderTest extends BaseCase
             ]
         );
 
-        $downloader = new CurlDownloader([], 1, 0, $transport);
+        $downloader = new CurlDownloader([], 1, $transport);
 
         $this->expectException(DownloaderException::class);
         $this->expectExceptionMessage($exceptionMessage);
@@ -270,7 +361,7 @@ class CurlDownloaderTest extends BaseCase
     public function testDownloadBrokenUrlException(): void
     {
         $source = 'test';
-        $destination = new \SplFileInfo('');
+        $destination = new \SplFileInfo('/test');
 
         $curl = new CurlDownloader();
 

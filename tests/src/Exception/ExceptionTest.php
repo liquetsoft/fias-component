@@ -14,6 +14,17 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  */
 class ExceptionTest extends BaseCase
 {
+    public function testConstructStringCode(): void
+    {
+        $message = 'test';
+        $code = '123';
+
+        $exception = new Exception($message, $code);
+
+        $this->assertSame($message, $exception->getMessage());
+        $this->assertSame((int) $code, $exception->getCode());
+    }
+
     /**
      * @dataProvider provideCreate
      */
@@ -29,7 +40,21 @@ class ExceptionTest extends BaseCase
         return [
             'simple text message' => ['test', [], 'test'],
             'message with replacement' => ['test %s', ['test'], 'test test'],
+            'message with not trimmed replacement' => ['test %s', ['   test   '], 'test test'],
             'message with non-string replacement' => ['test %s', [123], 'test 123'],
         ];
+    }
+
+    public function testWrap(): void
+    {
+        $message = 'message';
+        $code = 123;
+        $wrappedException = new \RuntimeException($message, $code);
+
+        $exception = Exception::wrap($wrappedException);
+
+        $this->assertSame($message, $exception->getMessage());
+        $this->assertSame($code, $exception->getCode());
+        $this->assertSame($wrappedException, $exception->getPrevious());
     }
 }

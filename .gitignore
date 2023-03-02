@@ -1,13 +1,15 @@
 .idea
+
 vendor
 composer.lock
 .php_cs.cache
 .phpunit.result.cache
 .php-cs-fixer.cache
-
+infection.log
 tests/coverage
 docker/.env
 test.php
+
 generator/extracted
 generator/archive
 

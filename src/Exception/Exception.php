@@ -11,9 +11,11 @@ namespace Liquetsoft\Fias\Component\Exception;
  */
 class Exception extends \Exception
 {
-    public function __construct(string $message = '', int $code = 0, ?\Throwable $previous = null)
+    public const DEFAULT_CODE = 0;
+
+    public function __construct(string $message = '', int|string $code = self::DEFAULT_CODE, ?\Throwable $previous = null)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, (int) $code, $previous);
     }
 
     /**
@@ -23,7 +25,7 @@ class Exception extends \Exception
      */
     public static function create(string $message, ...$params): static
     {
-        $params = array_map(fn (mixed $param): string => (string) $param, $params);
+        $params = array_map(fn (mixed $param): string => trim((string) $param), $params);
 
         array_unshift($params, $message);
 
@@ -31,5 +33,15 @@ class Exception extends \Exception
         $compiledMessage = \call_user_func_array('sprintf', $params);
 
         return new static($compiledMessage);
+    }
+
+    /**
+     * Фабричный метод, который оборачивает готовое исключение другим.
+     *
+     * @psalm-suppress PossiblyInvalidArgument
+     */
+    public static function wrap(\Throwable $e): static
+    {
+        return new static($e->getMessage(), $e->getCode(), $e);
     }
 }

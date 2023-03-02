@@ -29,10 +29,13 @@ class HttpResponseTest extends BaseCase
     {
         return [
             'correct response' => ["HTTP/2 301\n\ntest", 301],
+            'correct response with lower case' => ["http/2 301\n\ntest", 301],
             'correct response with spaces' => ["       HTTP/2 500\n\ntest  ", 500],
             'correct response http 1' => ["HTTP/1 404\n\ntest", 404],
             'no response' => ['', null],
             'wring code response' => ['HTTP/2 abc', null],
+            'tricky response body' => ["HTTP/2 301\n\nHTTP/2 404", 301],
+            'broken response status' => ["HTTP/2 HTTP/2 301\n\ntest", null],
         ];
     }
 
@@ -63,8 +66,14 @@ class HttpResponseTest extends BaseCase
                     'content-length' => '100',
                 ],
             ],
+            'correct headers with underscores' => [
+                "HTTP/2 301\ncontent_length: test_test\n\ntest",
+                [
+                    'content-length' => 'test_test',
+                ],
+            ],
             'lower case' => [
-                "HTTP/2 301\n X-Test : Test \n\ntest",
+                "HTTP/2 301\nX-Test: Test\n\ntest",
                 [
                     'x-test' => 'test',
                 ],
@@ -72,6 +81,12 @@ class HttpResponseTest extends BaseCase
             'empty headers' => [
                 "HTTP/2 301\n\ntest",
                 [],
+            ],
+            'semicolon in the value' => [
+                "HTTP/2 301\nx-test: test:test\n\ntest",
+                [
+                    'x-test' => 'test:test',
+                ],
             ],
         ];
     }
@@ -90,9 +105,11 @@ class HttpResponseTest extends BaseCase
     public function provideIsOk(): array
     {
         return [
-            'ok response' => ["HTTP/2 200\n\ntest", true],
-            'created response' => ["HTTP/2 201\n\ntest", true],
-            'server error response' => ["HTTP/2 500\n\ntest", false],
+            '200 response' => ["HTTP/2 200\n\ntest", true],
+            '201 response' => ["HTTP/2 201\n\ntest", true],
+            '300 response' => ["HTTP/2 300\n\ntest", false],
+            '199 response' => ["HTTP/2 199\n\ntest", false],
+            '500 response' => ["HTTP/2 500\n\ntest", false],
             'no response' => ['', false],
         ];
     }
