@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Exception\DownloaderException;
 final class CurlDownloader implements Downloader
 {
     public const DEFAULT_MAX_ATTEMPTS = 10;
-    public const DEFAULT_SLEEP_BETWEEN_ATTEMPTS = 30;
+    public const DEFAULT_SLEEP_BETWEEN_ATTEMPTS = 10;
     public const DEFAULT_CONNECTION_TIMEOUT = 5;
     public const DEFAULT_TIMEOUT = 60 * 25;
 
