@@ -294,13 +294,15 @@ class CurlDownloaderTest extends BaseCase
      */
     public function testDownloadBrokenUrlException(): void
     {
-        $source = 'test';
+        $url = 'test';
         $destination = new \SplFileInfo('/test');
+        $transport = $this->createTransportMock();
 
-        $curl = new CurlDownloader();
+        $curl = new CurlDownloader([], 1, $transport);
 
         $this->expectException(DownloaderException::class);
-        $curl->download($source, $destination);
+        $this->expectExceptionMessage($url);
+        $curl->download($url, $destination);
     }
 
     /**
@@ -314,16 +316,14 @@ class CurlDownloaderTest extends BaseCase
         foreach ($requests as $request) {
             $code = (int) ($request[self::KEY_CODE] ?? self::STATUS_OK);
             $headers = (array) ($request[self::KEY_HEADERS] ?? []);
-            $options = (array) ($request[self::KEY_OPTIONS] ?? []);
-            $httpResponse = $this->getMockBuilder(HttpResponse::class)->disableOriginalConstructor()->getMock();
-            $httpResponse->method('getStatusCode')->willReturn($code);
-            $httpResponse->method('getHeaders')->willReturn($headers);
-            $httpResponse->method('isOk')->willReturn($code >= 200 && $code < 300);
-            $httpResponse->method('getContentLength')->willReturn($headers['content-length'] ?? 0);
-            $httpResponse->method('isRangeSupported')->willReturn(($headers['accept-ranges'] ?? '') === 'bytes');
+            $httpBody = "HTTP/2 {$code}\n" . implode("\n", array_map(
+                fn (string $value, string|int $key): string => "{$key}:{$value}",
+                $headers,
+                array_keys($headers)
+            ));
             $responses[] = [
-                self::KEY_OPTIONS => $options,
-                self::KEY_RESPONSE => $httpResponse,
+                self::KEY_OPTIONS => (array) ($request[self::KEY_OPTIONS] ?? []),
+                self::KEY_RESPONSE => new HttpResponse($httpBody),
                 self::KEY_FILE_CONTENT => $request[self::KEY_FILE_CONTENT] ?? null,
                 self::KEY_CURL_EXCEPTION => $request[self::KEY_CURL_EXCEPTION] ?? null,
             ];

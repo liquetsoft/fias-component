@@ -36,9 +36,7 @@ final class CurlDownloader implements Downloader
      */
     public function download(string $url, \SplFileInfo $localFile): void
     {
-        if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
-            throw DownloaderException::create('Wrong url format: %s', $url);
-        }
+        $this->checkUrl($url);
 
         $headResponse = $this->getHeadResponse($url);
 
@@ -153,5 +151,15 @@ final class CurlDownloader implements Downloader
         $fullOptionsList[\CURLOPT_URL] = $url;
 
         return $this->transport->run($fullOptionsList);
+    }
+
+    /**
+     * Проверяет, что url задан в правильном формате.
+     */
+    private function checkUrl(string $url): void
+    {
+        if (!preg_match('#https?://.+\.[^.]+.*#', $url)) {
+            throw DownloaderException::create('Wrong url format: %s', $url);
+        }
     }
 }

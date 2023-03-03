@@ -9,7 +9,7 @@ namespace Liquetsoft\Fias\Component\Downloader;
  *
  * @internal
  */
-class HttpResponse
+final class HttpResponse
 {
     private readonly ?int $statusCode;
 

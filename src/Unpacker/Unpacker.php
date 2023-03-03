@@ -17,5 +17,21 @@ interface Unpacker
      *
      * @throws UnpackerException
      */
-    public function unpack(\SplFileInfo $source, \SplFileInfo $destination): void;
+    public function unpack(\SplFileInfo $archive, \SplFileInfo $destination): void;
+
+    /**
+     * Возвращает список файлов, содержащихсяв архиве.
+     *
+     * @return ZipEntity[]
+     *
+     * @throws UnpackerException
+     */
+    public function getListOfFiles(\SplFileInfo $archive): array;
+
+    /**
+     * Извлекает указанный файл или папку в указанную папку назначения и возвращает полный путь.
+     *
+     * @throws UnpackerException
+     */
+    public function extractEntity(\SplFileInfo $archive, string $entityName, \SplFileInfo $destination): string;
 }
