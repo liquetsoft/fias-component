@@ -40,9 +40,7 @@ final class CurlDownloader implements Downloader
             throw DownloaderException::create('Wrong url format: %s', $url);
         }
 
-        $headers = $this->getHeadResponseHeaders($url);
-        $contentLength = (int) ($headers['content-length'] ?? 0);
-        $isRangeSupported = $contentLength > 0 && ($headers['accept-ranges'] ?? '') === 'bytes';
+        $headResponse = $this->getHeadResponse($url);
 
         $options = [
             \CURLOPT_FOLLOWLOCATION => true,
@@ -73,9 +71,9 @@ final class CurlDownloader implements Downloader
             // если уже скачали какие-то данные и сервер поддерживает Range,
             // пробуем продолжить с того же места
             $fileSize = filesize($localFile->getRealPath());
-            if (!empty($fileSize) && $isRangeSupported) {
+            if (!empty($fileSize) && $headResponse->isRangeSupported()) {
                 $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'ab');
-                $options[\CURLOPT_RANGE] = $fileSize . '-' . ($contentLength - 1);
+                $options[\CURLOPT_RANGE] = $fileSize . '-' . ($headResponse->getContentLength() - 1);
             } else {
                 $options[\CURLOPT_FILE] = $this->openLocalFile($localFile, 'wb');
             }
@@ -131,18 +129,17 @@ final class CurlDownloader implements Downloader
 
     /**
      * Возвращает список заголовков из ответа на HEAD запрос.
-     *
-     * @return array<string, string>
      */
-    private function getHeadResponseHeaders(string $url): array
+    private function getHeadResponse(string $url): HttpResponse
     {
-        $options = [
-            \CURLOPT_HEADER => true,
-            \CURLOPT_NOBODY => true,
-            \CURLOPT_RETURNTRANSFER => true,
-        ];
-
-        return $this->runRequest($url, $options)->getHeaders();
+        return $this->runRequest(
+            $url,
+            [
+                \CURLOPT_HEADER => true,
+                \CURLOPT_NOBODY => true,
+                \CURLOPT_RETURNTRANSFER => true,
+            ]
+        );
     }
 
     /**

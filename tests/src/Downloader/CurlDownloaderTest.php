@@ -27,6 +27,9 @@ class CurlDownloaderTest extends BaseCase
     private const STATUS_OK = 200;
     private const STATUS_SERVER_ERROR = 500;
 
+    /**
+     * Проверяет обычную загрузку.
+     */
     public function testDownload(): void
     {
         $url = 'https://test.ru/test.zip';
@@ -64,6 +67,9 @@ class CurlDownloaderTest extends BaseCase
         $this->assertStringEqualsFile($destinationPath, $content);
     }
 
+    /**
+     * Проверяет, что дополнительные опции из конструктора добавляются к каждому запросу.
+     */
     public function testDownloadWithAdditionalOptions(): void
     {
         $url = 'https://test.ru/test.zip';
@@ -105,6 +111,9 @@ class CurlDownloaderTest extends BaseCase
         $downloader->download($url, $destination);
     }
 
+    /**
+     * Проверяет, что загрузчик попробует повторить загрузку в случае ошибки.
+     */
     public function testDownloadWithRetry(): void
     {
         $url = 'https://test.ru/test.zip';
@@ -155,6 +164,9 @@ class CurlDownloaderTest extends BaseCase
         $this->assertStringEqualsFile($destinationPath, $content);
     }
 
+    /**
+     * Проверяет, что загрузка продолжится с того же места, где оборвалась.
+     */
     public function testDownloadWithRange(): void
     {
         $url = 'https://test.ru/test.zip';
@@ -199,93 +211,9 @@ class CurlDownloaderTest extends BaseCase
         $downloader->download($url, $destination);
     }
 
-    public function testDownloadWithRangeNoAcceptRange(): void
-    {
-        $url = 'https://test.ru/test.zip';
-        $destinationPath = $this->getPathToTestFile('testDownloadWithRange.zip');
-        $destination = new \SplFileInfo($destinationPath);
-        $partialLoadedContent = 'testDownloadWithRange content';
-        $contentLength = \strlen($partialLoadedContent) + 100;
-
-        $transport = $this->createTransportMock(
-            [
-                [
-                    self::KEY_OPTIONS => [
-                        \CURLOPT_HEADER => true,
-                        \CURLOPT_NOBODY => true,
-                        \CURLOPT_URL => $url,
-                    ],
-                    self::KEY_HEADERS => [
-                        'content-length' => $contentLength,
-                        'accept-ranges' => 'test',
-                    ],
-                ],
-                [
-                    self::KEY_OPTIONS => [
-                        \CURLOPT_URL => $url,
-                        \CURLOPT_FILE => $destinationPath,
-                        \CURLOPT_RANGE => null,
-                    ],
-                    self::KEY_CODE => self::STATUS_SERVER_ERROR,
-                    self::KEY_FILE_CONTENT => $partialLoadedContent,
-                ],
-                [
-                    self::KEY_OPTIONS => [
-                        \CURLOPT_URL => $url,
-                        \CURLOPT_FILE => $destinationPath,
-                        \CURLOPT_RANGE => null,
-                    ],
-                ],
-            ]
-        );
-
-        $downloader = new CurlDownloader([], 2, $transport);
-        $downloader->download($url, $destination);
-    }
-
-    public function testDownloadWithRangeEmptyContentLength(): void
-    {
-        $url = 'https://test.ru/test.zip';
-        $destinationPath = $this->getPathToTestFile('testDownloadWithRange.zip');
-        $destination = new \SplFileInfo($destinationPath);
-        $partialLoadedContent = 'testDownloadWithRange content';
-
-        $transport = $this->createTransportMock(
-            [
-                [
-                    self::KEY_OPTIONS => [
-                        \CURLOPT_HEADER => true,
-                        \CURLOPT_NOBODY => true,
-                        \CURLOPT_URL => $url,
-                    ],
-                    self::KEY_HEADERS => [
-                        'content-length' => 0,
-                        'accept-ranges' => 'bytes',
-                    ],
-                ],
-                [
-                    self::KEY_OPTIONS => [
-                        \CURLOPT_URL => $url,
-                        \CURLOPT_FILE => $destinationPath,
-                        \CURLOPT_RANGE => null,
-                    ],
-                    self::KEY_CODE => self::STATUS_SERVER_ERROR,
-                    self::KEY_FILE_CONTENT => $partialLoadedContent,
-                ],
-                [
-                    self::KEY_OPTIONS => [
-                        \CURLOPT_URL => $url,
-                        \CURLOPT_FILE => $destinationPath,
-                        \CURLOPT_RANGE => null,
-                    ],
-                ],
-            ]
-        );
-
-        $downloader = new CurlDownloader([], 2, $transport);
-        $downloader->download($url, $destination);
-    }
-
+    /**
+     * Проверяет, что в случае ошибочного статуса будет выброшено исключение.
+     */
     public function testDownloadStatusError(): void
     {
         $url = 'https://test.ru/test.zip';
@@ -325,6 +253,9 @@ class CurlDownloaderTest extends BaseCase
         $downloader->download($url, $destination);
     }
 
+    /**
+     * Проверяет, что в случае ошибку curl будет выброшено исключение.
+     */
     public function testDownloadCurlError(): void
     {
         $url = 'https://test.ru/test.zip';
@@ -358,6 +289,9 @@ class CurlDownloaderTest extends BaseCase
         $downloader->download($url, $destination);
     }
 
+    /**
+     * Проверяет, что в случае неправильно указанного url будет выброшено исклчение.
+     */
     public function testDownloadBrokenUrlException(): void
     {
         $source = 'test';
@@ -370,6 +304,8 @@ class CurlDownloaderTest extends BaseCase
     }
 
     /**
+     * Создает мок для объекта транспорта.
+     *
      * @param mixed[][] $requests
      */
     private function createTransportMock(array $requests = []): CurlTransport
@@ -383,6 +319,8 @@ class CurlDownloaderTest extends BaseCase
             $httpResponse->method('getStatusCode')->willReturn($code);
             $httpResponse->method('getHeaders')->willReturn($headers);
             $httpResponse->method('isOk')->willReturn($code >= 200 && $code < 300);
+            $httpResponse->method('getContentLength')->willReturn($headers['content-length'] ?? 0);
+            $httpResponse->method('isRangeSupported')->willReturn(($headers['accept-ranges'] ?? '') === 'bytes');
             $responses[] = [
                 self::KEY_OPTIONS => $options,
                 self::KEY_RESPONSE => $httpResponse,

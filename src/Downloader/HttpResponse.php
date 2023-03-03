@@ -43,6 +43,16 @@ class HttpResponse
         return $this->statusCode >= 200 && $this->statusCode < 300;
     }
 
+    public function getContentLength(): int
+    {
+        return (int) ($this->headers['content-length'] ?? 0);
+    }
+
+    public function isRangeSupported(): bool
+    {
+        return $this->getContentLength() > 0 && ($this->headers['accept-ranges'] ?? '') === 'bytes';
+    }
+
     /**
      * @return array<string, string>
      */

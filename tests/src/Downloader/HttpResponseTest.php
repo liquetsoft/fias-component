@@ -113,4 +113,47 @@ class HttpResponseTest extends BaseCase
             'no response' => ['', false],
         ];
     }
+
+    /**
+     * @dataProvider provideGetContentLength
+     */
+    public function testGetContentLength(string $rawResponse, int $awaits): void
+    {
+        $response = new HttpResponse($rawResponse);
+        $contentLength = $response->getContentLength();
+
+        $this->assertSame($awaits, $contentLength);
+    }
+
+    public function provideGetContentLength(): array
+    {
+        return [
+            'content length' => ["HTTP/2 200\nContent-Length:123\n\ntest", 123],
+            'no content length' => ["HTTP/2 200\n\ntest", 0],
+            'empty content length' => ["HTTP/2 200\nContent-Length:\n\ntest", 0],
+            'malformed content length' => ["HTTP/2 200\nContent-Length: qwe\n\ntest", 0],
+        ];
+    }
+
+    /**
+     * @dataProvider provideIsRangeSupported
+     */
+    public function testIsRangeSupported(string $rawResponse, bool $awaits): void
+    {
+        $response = new HttpResponse($rawResponse);
+        $isRangeSupported = $response->isRangeSupported();
+
+        $this->assertSame($awaits, $isRangeSupported);
+    }
+
+    public function provideIsRangeSupported(): array
+    {
+        return [
+            'range supported' => ["HTTP/2 200\nAccept-Ranges:bytes\nContent-Length:123\n\ntest", true],
+            'empty content length' => ["HTTP/2 200\nAccept-Ranges:bytes\n\ntest", false],
+            'no header' => ["HTTP/2 200\n\ntest", false],
+            'empty header' => ["HTTP/2 200\nAccept-Ranges:\nContent-Length:123\n\ntest", false],
+            'malformed header' => ["HTTP/2 200\nAccept-Ranges:qwe\nContent-Length:123\n\ntest", false],
+        ];
+    }
 }
