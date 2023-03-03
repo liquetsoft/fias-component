@@ -26,7 +26,7 @@ final class ZipUnpacker implements Unpacker
     /**
      * Распаковывает архив в указанную папку.
      *
-     * @throws \RuntimeException
+     * @throws UnpackerException
      */
     private function runUnZip(\SplFileInfo $source, \SplFileInfo $destination): void
     {
