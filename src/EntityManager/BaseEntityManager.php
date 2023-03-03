@@ -17,7 +17,7 @@ class BaseEntityManager implements EntityManager
     protected EntityRegistry $registry;
 
     /**
-     * @var array<string, string>
+     * @var array<string, class-string>
      */
     protected array $bindings;
 
@@ -34,11 +34,6 @@ class BaseEntityManager implements EntityManager
         foreach ($bindings as $entityName => $className) {
             $normalizedEntityName = $this->normalizeEntityName($entityName);
             $normalizedClassName = $this->normalizeClassName($className);
-            if ($normalizedClassName === '') {
-                throw new \InvalidArgumentException(
-                    "There is no class for {$entityName} entity name."
-                );
-            }
             $this->bindings[$normalizedEntityName] = $normalizedClassName;
         }
     }
@@ -164,9 +159,14 @@ class BaseEntityManager implements EntityManager
 
     /**
      * Приводит имя класса к единообразному виду.
+     *
+     * @psalm-return class-string
      */
     protected function normalizeClassName(string $className): string
     {
-        return trim($className, '\\ ');
+        /** @psalm-var class-string */
+        $res = trim($className, '\\ ');
+
+        return $res;
     }
 }

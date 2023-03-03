@@ -46,6 +46,8 @@ interface EntityManager
      * Возвращает список имен классов, у которых есть отношения к сущностям ФИАС.
      *
      * @return string[]
+     *
+     * @psalm-return class-string[]
      */
     public function getBindedClasses(): array;
 }

@@ -15,6 +15,8 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 class HttpResponseTest extends BaseCase
 {
     /**
+     * Проверяет, что объект извлечет правильный код статуса ответа.
+     *
      * @dataProvider provideGetStatusCode
      */
     public function testGetStatusCode(string $rawResponse, ?int $awaits): void
@@ -40,6 +42,8 @@ class HttpResponseTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект извлечет правильные заголовки.
+     *
      * @dataProvider provideGetHeaders
      */
     public function testGetHeaders(string $rawResponse, array $awaits): void
@@ -92,6 +96,8 @@ class HttpResponseTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект вернет правду, если запрос был успешным
+     *
      * @dataProvider provideIsOk
      */
     public function testIsOk(string $rawResponse, bool $awaits): void
@@ -115,6 +121,8 @@ class HttpResponseTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект вернет правильное значение заголовка Content-Length.
+     *
      * @dataProvider provideGetContentLength
      */
     public function testGetContentLength(string $rawResponse, int $awaits): void
@@ -136,6 +144,8 @@ class HttpResponseTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект вернет правильное значение заголовка Accept-Ranges.
+     *
      * @dataProvider provideIsRangeSupported
      */
     public function testIsRangeSupported(string $rawResponse, bool $awaits): void

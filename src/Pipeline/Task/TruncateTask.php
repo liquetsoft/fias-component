@@ -34,7 +34,7 @@ class TruncateTask implements LoggableTask, Task
     {
         $this->storage->start();
         foreach ($this->entityManager->getBindedClasses() as $className) {
-            if (!$this->storage->supportsClass($className)) {
+            if (!$this->storage->supports($className)) {
                 continue;
             }
             $this->log(LogLevel::INFO, "Truncating '{$className}' entity.", [

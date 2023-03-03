@@ -38,7 +38,7 @@ class TruncateTaskTest extends BaseCase
         $storage = $this->getMockBuilder(Storage::class)->getMock();
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
-        $storage->method('supportsClass')
+        $storage->method('supports')
             ->willReturnCallback(
                 function (string $className) use (&$insertedData) {
                     return $className === 'Test\Class2';

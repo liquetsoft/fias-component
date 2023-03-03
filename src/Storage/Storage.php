@@ -27,14 +27,11 @@ interface Storage
     public function stop(): void;
 
     /**
-     * Проверяет может ли хранилище работать с данным объектом.
+     * Проверяет может ли хранилище работать с данным объектом или классом.
+     *
+     * @psalm-param object|class-string $entity
      */
-    public function supports(object $entity): bool;
-
-    /**
-     * Проверяет может ли хранилище работать с данным типом объектов.
-     */
-    public function supportsClass(string $class): bool;
+    public function supports(object|string $entity): bool;
 
     /**
      * Отправляет объект на запись в хранилище.
@@ -60,6 +57,8 @@ interface Storage
 
     /**
      * Очищает хранилище для объектов с указанным в параметре классом.
+     *
+     * @psalm-param class-string $entityClassName
      *
      * @throws StorageException
      */

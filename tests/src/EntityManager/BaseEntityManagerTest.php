@@ -20,24 +20,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 class BaseEntityManagerTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение, если реализация не указана.
-     */
-    public function testConstructNoClassException(): void
-    {
-        /** @var MockObject&EntityRegistry */
-        $registry = $this->getMockBuilder(EntityRegistry::class)->getMock();
-
-        $this->expectException(\InvalidArgumentException::class);
-        new BaseEntityManager(
-            $registry,
-            [
-                'TestEntity' => 'TestClass',
-                'TestEntity1' => '\\',
-            ]
-        );
-    }
-
-    /**
      * Проверяет, что объект возвращает дескриптор по имени сущности.
      *
      * @throws EntityRegistryException

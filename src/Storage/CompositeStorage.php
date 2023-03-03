@@ -7,23 +7,19 @@ namespace Liquetsoft\Fias\Component\Storage;
 /**
  * Объект, который может сохранять данные в несколько других хранилищ.
  */
-class CompositeStorage implements Storage
+final class CompositeStorage implements Storage
 {
     /**
-     * @var Storage[]
+     * @var iterable<Storage>
      */
-    protected array $internalStorages = [];
+    private readonly iterable $internalStorages;
 
+    /**
+     * @param iterable<Storage> $internalStorages
+     */
     public function __construct(iterable $internalStorages)
     {
-        foreach ($internalStorages as $key => $storage) {
-            if (!($storage instanceof Storage)) {
-                throw new \InvalidArgumentException(
-                    "Item with key '{$key}' must be instance of '" . Storage::class . "'."
-                );
-            }
-            $this->internalStorages[] = $storage;
-        }
+        $this->internalStorages = $internalStorages;
     }
 
     /**
@@ -49,27 +45,11 @@ class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
-    public function supports(object $entity): bool
+    public function supports(object|string $entity): bool
     {
         $isSupport = false;
         foreach ($this->internalStorages as $storage) {
             if ($storage->supports($entity)) {
-                $isSupport = true;
-                break;
-            }
-        }
-
-        return $isSupport;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function supportsClass(string $class): bool
-    {
-        $isSupport = false;
-        foreach ($this->internalStorages as $storage) {
-            if ($storage->supportsClass($class)) {
                 $isSupport = true;
                 break;
             }
@@ -123,7 +103,7 @@ class CompositeStorage implements Storage
     public function truncate(string $entityClassName): void
     {
         foreach ($this->internalStorages as $storage) {
-            if (!$storage->supportsClass($entityClassName)) {
+            if (!$storage->supports($entityClassName)) {
                 continue;
             }
             $storage->truncate($entityClassName);
