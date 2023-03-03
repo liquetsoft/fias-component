@@ -4,6 +4,7 @@
         "directories": [
             "src/Downloader",
             "src/Exception",
+            "src/Storage",
             "src/Unpacker"
         ],
         "excludes": [

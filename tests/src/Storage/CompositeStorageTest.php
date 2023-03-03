@@ -70,7 +70,10 @@ class CompositeStorageTest extends BaseCase
             ->with($this->identicalTo($object))
             ->willReturn(true);
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
+        $storage2 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage2->expects($this->never())->method('supports');
+
+        $compositeStorage = new CompositeStorage([$storage, $storage1, $storage2]);
         $isSupport = $compositeStorage->supports($object);
 
         $this->assertTrue($isSupport);
@@ -100,6 +103,19 @@ class CompositeStorageTest extends BaseCase
         $isSupport = $compositeStorage->supports($class);
 
         $this->assertTrue($isSupport);
+    }
+
+    /**
+     * Проверяет, что объект вернет false, если вложенные хранилища не заданы.
+     */
+    public function testSupportsEmptyStoragesList(): void
+    {
+        $object = new \stdClass();
+
+        $compositeStorage = new CompositeStorage([]);
+        $isSupport = $compositeStorage->supports($object);
+
+        $this->assertFalse($isSupport);
     }
 
     /**
