@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\Exception\UnpackerException;
 /**
  * Объект, который распаковывает файлы из zip архива.
  */
-class ZipUnpacker implements Unpacker
+final class ZipUnpacker implements Unpacker
 {
     /**
      * {@inheritDoc}
@@ -19,8 +19,7 @@ class ZipUnpacker implements Unpacker
         try {
             $this->runUnZip($source, $destination);
         } catch (\Throwable $e) {
-            $message = "Can't extract zip archive '{$source->getPathname()}' to '{$destination->getPathname()}'.";
-            throw new UnpackerException($message, 0, $e);
+            throw UnpackerException::wrap($e);
         }
     }
 
@@ -37,9 +36,7 @@ class ZipUnpacker implements Unpacker
             $zip->extractTo($destination->getPathName());
             $zip->close();
         } else {
-            throw new \RuntimeException(
-                sprintf("Can't open '%s' zip archive file.", $filePath)
-            );
+            throw UnpackerException::create("Can't open '%s' zip archive file.", $filePath);
         }
     }
 }
