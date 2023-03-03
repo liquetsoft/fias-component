@@ -25,7 +25,7 @@ final class ZipEntity
 
     public function isFile(): bool
     {
-        return ((int) ($this->stats['crc'] ?? 0)) > 0;
+        return ((int) ($this->stats['crc'] ?? 0)) !== 0;
     }
 
     public function getIndex(): int

@@ -3,7 +3,8 @@
     "source": {
         "directories": [
             "src/Downloader",
-            "src/Exception"
+            "src/Exception",
+            "src/Unpacker"
         ],
         "excludes": [
             "CurlTransport.php"
@@ -19,15 +20,7 @@
                 "Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::openLocalFile"
             ]
         },
-        "FunctionCallRemoval": {
-            "ignore": [
-                "Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader"
-            ]
-        },
-        "MethodCallRemoval": {
-            "ignore": [
-                "Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader"
-            ]
-        }
+        "FunctionCallRemoval": false,
+        "MethodCallRemoval": false
     }
 }

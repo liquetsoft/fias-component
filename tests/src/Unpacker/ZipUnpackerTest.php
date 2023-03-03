@@ -39,9 +39,9 @@ class ZipUnpackerTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект перехватит исключение при распаковке.
+     * Проверяет, что объект выбросит исключение при попытке открыть несуществующий архив.
      */
-    public function testUnpackException(): void
+    public function testUnpackNonExistedArchiveException(): void
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpackException.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');
@@ -49,6 +49,25 @@ class ZipUnpackerTest extends BaseCase
         $zipUnpack = new ZipUnpacker();
 
         $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't open");
+        $zipUnpack->unpack(
+            new \SplFileInfo($testArchive),
+            new \SplFileInfo($testDestination)
+        );
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение при попытке открыть несуществующий архив.
+     */
+    public function testUnpackNonExistedDestinationException(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testDestination = '/non-existed';
+
+        $zipUnpack = new ZipUnpacker();
+
+        $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't unpack");
         $zipUnpack->unpack(
             new \SplFileInfo($testArchive),
             new \SplFileInfo($testDestination)
@@ -94,11 +113,12 @@ class ZipUnpackerTest extends BaseCase
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testExtractEntity');
+        $entityName = 'nested/nested_file.txt';
 
         $zipUnpack = new ZipUnpacker();
         $path = $zipUnpack->extractEntity(
             new \SplFileInfo($testArchive),
-            'nested/nested_file.txt',
+            $entityName,
             new \SplFileInfo($testDestination)
         );
 
@@ -114,13 +134,35 @@ class ZipUnpackerTest extends BaseCase
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testExtractEntity');
+        $entityName = 'non_existed';
 
         $zipUnpack = new ZipUnpacker();
 
         $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't find entity");
         $zipUnpack->extractEntity(
             new \SplFileInfo($testArchive),
-            'non_existed',
+            $entityName,
+            new \SplFileInfo($testDestination)
+        );
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение при попытке распаковать файл в несуществующий каталог.
+     */
+    public function testExtractEntityBadDestinationException(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testDestination = '/unexisted';
+        $entityName = 'nested/nested_file.txt';
+
+        $zipUnpack = new ZipUnpacker();
+
+        $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't extract entity");
+        $zipUnpack->extractEntity(
+            new \SplFileInfo($testArchive),
+            $entityName,
             new \SplFileInfo($testDestination)
         );
     }

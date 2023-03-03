@@ -16,12 +16,20 @@ final class ZipUnpacker implements Unpacker
      */
     public function unpack(\SplFileInfo $archive, \SplFileInfo $destination): void
     {
+        $zip = $this->openArchive($archive);
+
         try {
-            $zip = $this->openArchive($archive);
-            $zip->extractTo($destination->getPathName());
-            $zip->close();
+            $unpackResult = $zip->extractTo($destination->getPathName());
+            if (!$unpackResult) {
+                throw UnpackerException::create(
+                    "Can't unpack archive '%s'",
+                    $archive->getPathname()
+                );
+            }
         } catch (\Throwable $e) {
             throw UnpackerException::wrap($e);
+        } finally {
+            $zip->close();
         }
     }
 
@@ -30,18 +38,12 @@ final class ZipUnpacker implements Unpacker
      */
     public function getListOfFiles(\SplFileInfo $archive): array
     {
-        $files = [];
-
-        try {
-            $zip = $this->openArchive($archive);
-            $files = array_filter(
-                $this->getListOfEntities($zip),
-                fn (ZipEntity $entity): bool => $entity->isFile()
-            );
-            $zip->close();
-        } catch (\Throwable $e) {
-            throw UnpackerException::wrap($e);
-        }
+        $zip = $this->openArchive($archive);
+        $files = array_filter(
+            $this->getListOfEntities($zip),
+            fn (ZipEntity $entity): bool => $entity->isFile()
+        );
+        $zip->close();
 
         return array_values($files);
     }
@@ -52,13 +54,13 @@ final class ZipUnpacker implements Unpacker
     public function extractEntity(\SplFileInfo $archive, string $entityName, \SplFileInfo $destination): string
     {
         $path = '';
+        $zip = $this->openArchive($archive);
 
         try {
-            $zip = $this->openArchive($archive);
             $entity = $this->getEntityByName($zip, $entityName);
             if ($entity === null) {
                 throw UnpackerException::create(
-                    "Cant find entity '%s' in archive '%s'",
+                    "Can't find entity '%s' in archive '%s'",
                     $entityName,
                     $archive->getPathname()
                 );
@@ -66,15 +68,16 @@ final class ZipUnpacker implements Unpacker
             $unpackResult = $zip->extractTo($destination->getPathname(), $entity->getName());
             if (!$unpackResult) {
                 throw UnpackerException::create(
-                    "Cant extract entity '%s' form archive '%s'",
+                    "Can't extract entity '%s' form archive '%s'",
                     $entityName,
                     $archive->getPathname()
                 );
             }
-            $zip->close();
             $path = $destination->getPathname() . '/' . $entity->getName();
         } catch (\Throwable $e) {
             throw UnpackerException::wrap($e);
+        } finally {
+            $zip->close();
         }
 
         return $path;
@@ -89,7 +92,10 @@ final class ZipUnpacker implements Unpacker
         $zip = new \ZipArchive();
 
         if ($zip->open($filePath) !== true) {
-            throw UnpackerException::create("Can't open '%s' zip archive", $filePath);
+            throw UnpackerException::create(
+                "Can't open '%s' zip archive",
+                $filePath
+            );
         }
 
         return $zip;

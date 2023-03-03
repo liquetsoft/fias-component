@@ -43,6 +43,7 @@ class ZipEntityTest extends BaseCase
             'file' => [['crc' => 10], true],
             'string param' => [['crc' => '10'], true],
             'not file' => [['crc' => 0], false],
+            'not file string param' => [['crc' => '0'], false],
             'no param' => [[], false],
         ];
     }
