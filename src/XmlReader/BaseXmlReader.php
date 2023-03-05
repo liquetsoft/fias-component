@@ -10,53 +10,44 @@ use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
 /**
  * Объект, который читает данные из xml файла с помощью XmlReader.
  */
-class BaseXmlReader implements XmlReaderInterface
+final class BaseXmlReader implements XmlReaderInterface
 {
-    /**
-     * Файл, который открыт в данный момент.
-     */
-    protected ?\SplFileInfo $file = null;
+    private const XML_READER_CHARSET = 'UTF-8';
+    private const XML_READER_OPTIONS = \LIBXML_COMPACT | \LIBXML_NONET | \LIBXML_NOBLANKS;
 
     /**
-     * Xpath, по которому следует искать данные.
+     * Файл, данные из которого нужно получить.
      */
-    protected string $xpath = '';
+    private ?\SplFileInfo $file = null;
+
+    /**
+     * Путь до списка элементов в формате xpath.
+     */
+    private string $xpath = '';
 
     /**
      * Объект XMLReader для чтения документа.
      */
-    protected ?\XMLReader $reader = null;
+    private ?\XMLReader $reader = null;
 
     /**
      * Текущее смещение внутри массива.
      */
-    protected int $position = 0;
-
-    /**
-     * Флаг, который указывает, что данные были прочитаны в буфер.
-     */
-    protected bool $isBufferFull = false;
+    private int $position = 0;
 
     /**
      * Массив с буфером, для isValid и current.
      */
-    protected ?string $buffer = null;
+    private ?string $buffer = null;
 
     /**
      * {@inheritdoc}
      */
-    public function open(\SplFileInfo $file, string $xpath): bool
+    public function open(\SplFileInfo $file, string $xpath): void
     {
-        if (!$file->isFile() || !$file->isReadable()) {
-            throw new XmlException(
-                "File '" . $file->getPathname() . "' isn't readable or doesn't exist"
-            );
-        }
-
         $this->file = $file;
-        $this->xpath = $xpath;
-
-        return $this->seekXmlPath();
+        $this->xpath = $this->checkAndPrepareXpath($xpath);
+        $this->unsetReader();
     }
 
     /**
@@ -64,9 +55,9 @@ class BaseXmlReader implements XmlReaderInterface
      */
     public function close(): void
     {
-        $this->unsetReader();
         $this->file = null;
         $this->xpath = '';
+        $this->unsetReader();
     }
 
     /**
@@ -76,10 +67,9 @@ class BaseXmlReader implements XmlReaderInterface
      */
     public function rewind(): void
     {
+        $this->resetReader();
         $this->position = 0;
-        $this->buffer = null;
-        $this->isBufferFull = false;
-        $this->seekXmlPath();
+        $this->buffer = $this->getLine();
     }
 
     /**
@@ -87,14 +77,9 @@ class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
-    public function current(): ?string
+    public function current(): string
     {
-        if (!$this->isBufferFull) {
-            $this->isBufferFull = true;
-            $this->buffer = $this->getLine();
-        }
-
-        return $this->buffer;
+        return $this->buffer ?: '';
     }
 
     /**
@@ -113,7 +98,6 @@ class BaseXmlReader implements XmlReaderInterface
     public function next(): void
     {
         ++$this->position;
-        $this->isBufferFull = true;
         $this->buffer = $this->getLine();
     }
 
@@ -124,74 +108,66 @@ class BaseXmlReader implements XmlReaderInterface
      */
     public function valid(): bool
     {
-        if (!$this->isBufferFull) {
-            $this->isBufferFull = true;
-            $this->buffer = $this->getLine();
-        }
-
         return $this->buffer !== null;
     }
 
     /**
-     * Деструктор.
-     *
-     * Закрывает файл, если он все еще открыт.
+     * Создает новый объект для чтения xml и устанавливает указатель в начало списка.
      */
-    public function __destruct()
+    private function resetReader(): void
     {
-        $this->close();
+        $this->unsetReader();
+        $this->setReader();
+        $this->seekXmlRoot();
     }
 
     /**
-     * Возвращает строку из файла, соответствующую элементу, или null, если разбор
-     * файла завершен.
-     *
-     * @throws XmlException
+     * Закрывает текущий XmlReader и убирает ссылку на него.
      */
-    protected function getLine(): ?string
+    private function unsetReader(): void
     {
-        if (!$this->reader) {
-            throw new XmlException('Reader and xpath must be set before reading');
+        if ($this->reader !== null) {
+            $this->reader->close();
+            $this->reader = null;
         }
+    }
 
-        $return = null;
-        $arPath = explode('/', $this->xpath);
-        $nameFilter = array_pop($arPath);
-        $currentDepth = $this->reader->depth;
+    /**
+     * Создает объект для чтения xml из указанного файла.
+     *
+     * @psalm-suppress InvalidPropertyAssignmentValue
+     */
+    private function setReader(): void
+    {
+        if ($this->file === null) {
+            throw XmlException::create("File wasn't opened");
+        }
 
         try {
-            $this->skipUselessXml($nameFilter, $currentDepth);
-            // мы можем выйти из цикла, если найдем нужный элемент
-            // или попадем на уровень выше - проверяем, что нашли нужный
-            if ($nameFilter === $this->reader->name) {
-                $return = $this->reader->readOuterXml();
-                // нужно передвинуть указатель, чтобы дважды не прочитать
-                // один и тот же элемент
-                $this->reader->next();
-            }
+            $this->reader = \XMLReader::open(
+                'file://' . $this->file->getPathname(),
+                self::XML_READER_CHARSET,
+                self::XML_READER_OPTIONS
+            );
         } catch (\Throwable $e) {
-            $fileName = $this->file ? $this->file->getPathname() : '';
-            $message = "Error while parsing xml '{$fileName}' by '{$this->xpath}' path.";
-            throw new XmlException($message, 0, $e);
+            throw XmlException::create(
+                "Can't open file '%s' for reading: %s",
+                $this->file->getPathname(),
+                $e->getMessage()
+            );
         }
-
-        return $return;
     }
 
     /**
-     * Пропускает все xml элементы в текущем ридере, у которых имя или вложенность
-     * не совпадают с указанным параметром.
+     * Возвращает объект для чтения xml файла или пытается создать новый.
      */
-    protected function skipUselessXml(string $nodeName, int $nodeDepth): void
+    private function getReader(): \XMLReader
     {
-        while (
-            $this->reader
-            && $this->reader->depth === $nodeDepth
-            && $nodeName !== $this->reader->name
-            && $this->reader->next()
-        ) {
-            continue;
+        if ($this->reader === null) {
+            throw XmlException::create("Iterator wasn't initialized");
         }
+
+        return $this->reader;
     }
 
     /**
@@ -204,66 +180,97 @@ class BaseXmlReader implements XmlReaderInterface
      * то выходим из цикла.
      * Если путь не совпадает и не лежит в начале строки,
      * то пропускаем данный узел со всеми вложенными деревьями.
-     *
-     * @throws XmlException
      */
-    protected function seekXmlPath(): bool
+    private function seekXmlRoot(): void
     {
-        $reader = $this->resetReader();
-
+        $reader = $this->getReader();
         $path = trim($this->xpath, '/');
         $currentPath = [];
-        $isCompleted = false;
-        $readResult = $reader->read();
-
-        while ($readResult) {
-            array_push($currentPath, $reader->name);
-            $currentPathStr = implode('/', $currentPath);
-            if ($path === $currentPathStr) {
-                $isCompleted = true;
-                $readResult = false;
-            } elseif (mb_strpos($path, $currentPathStr) !== 0) {
-                array_pop($currentPath);
-                $readResult = $reader->next();
-            } else {
-                $readResult = $reader->read();
+        try {
+            $readResult = $reader->read();
+            while ($readResult) {
+                array_push($currentPath, $reader->name);
+                $currentPathStr = implode('/', $currentPath);
+                if ($path === $currentPathStr) {
+                    $readResult = false;
+                } elseif (strpos($path, $currentPathStr) !== 0) {
+                    array_pop($currentPath);
+                    $readResult = $reader->next();
+                } else {
+                    $readResult = $reader->read();
+                }
             }
+        } catch (\Throwable $e) {
+            throw XmlException::create(
+                "Reading error in '%s' file: %s",
+                $this->file?->getPathname(),
+                $e->getMessage()
+            );
         }
-
-        return $isCompleted;
     }
 
     /**
-     * Пересоздает объект для чтения xml.
+     * Возвращает строку из файла, соответствующую элементу, или null, если разбор
+     * файла завершен.
      *
      * @throws XmlException
      */
-    protected function resetReader(): \XMLReader
+    private function getLine(): ?string
     {
-        if (!$this->file || !$this->xpath) {
-            throw new XmlException("File doesn't open.");
-        }
+        $return = null;
 
-        $this->unsetReader();
-        $this->reader = new \XMLReader();
-
-        if ($this->reader->open($this->file->getPathname(), 'UTF-8', \LIBXML_COMPACT | \LIBXML_NONET | \LIBXML_NOBLANKS) === false) {
-            throw new XmlException(
-                "Can't open file '" . $this->file->getPathname() . "' for reading."
+        $reader = $this->getReader();
+        $arPath = explode('/', $this->xpath);
+        $nameFilter = array_pop($arPath);
+        $currentDepth = $reader->depth;
+        try {
+            $this->skipUselessXml($nameFilter, $currentDepth);
+            // мы можем выйти из цикла, если найдем нужный элемент
+            // или попадем на уровень выше - проверяем, что нашли нужный
+            if ($nameFilter === $reader->name) {
+                $return = $reader->readOuterXml();
+                // нужно передвинуть указатель, чтобы дважды не прочитать
+                // один и тот же элемент
+                $reader->next();
+            }
+        } catch (\Throwable $e) {
+            throw XmlException::create(
+                "Reading error in '%s' file: %s",
+                $this->file?->getPathname(),
+                $e->getMessage()
             );
         }
 
-        return $this->reader;
+        return $return;
     }
 
     /**
-     * Закрывает открытые ресурсы и сбрасывает все внутренние счетчики.
+     * Пропускает все xml элементы в текущем ридере, у которых имя или вложенность
+     * не совпадают с указанным параметром.
      */
-    protected function unsetReader(): void
+    private function skipUselessXml(string $nodeName, int $nodeDepth): void
     {
-        if ($this->reader) {
-            $this->reader->close();
-            $this->reader = null;
+        $reader = $this->getReader();
+        while (
+            $reader->depth === $nodeDepth
+            && $nodeName !== $reader->name
+            && $reader->next()
+        ) {
+            continue;
         }
+    }
+
+    /**
+     * Проверяет и приводит к общему виду строку с xpath.
+     */
+    private function checkAndPrepareXpath(string $rawXpath): string
+    {
+        $xpath = trim($rawXpath);
+
+        if (!str_starts_with($xpath, '/') || \strlen($xpath) <= 1) {
+            throw XmlException::create("Xpath parameter can't be empty and must start with '/'");
+        }
+
+        return $xpath;
     }
 }

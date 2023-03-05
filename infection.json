@@ -5,7 +5,8 @@
             "src/Downloader",
             "src/Exception",
             "src/Storage",
-            "src/Unpacker"
+            "src/Unpacker",
+            "src/XmlReader"
         ],
         "excludes": [
             "CurlTransport.php"
@@ -21,7 +22,13 @@
                 "Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::openLocalFile"
             ]
         },
+        "ConcatOperandRemoval": {
+            "ignore": [
+                "Liquetsoft\\Fias\\Component\\XmlReader\\BaseXmlReader::setReader"
+            ]
+        },
         "FunctionCallRemoval": false,
-        "MethodCallRemoval": false
+        "MethodCallRemoval": false,
+        "NullSafeMethodCall": false
     }
 }

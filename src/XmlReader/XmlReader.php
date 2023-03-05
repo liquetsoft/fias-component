@@ -10,21 +10,19 @@ use Liquetsoft\Fias\Component\Exception\XmlException;
 /**
  * Интерфейс для объекта, который читает данные из xml файла.
  *
- * @template-extends Iterator<int, string|null>
+ * @template-extends Iterator<int, string>
  */
 interface XmlReader extends \Iterator
 {
     /**
-     * Открывает файл на чтение, пытается найти указанный путь, если
-     * путь найден, то открывает файл и возвращает правду, если не найден, то
-     * возвращает ложь.
+     * Открывает файл на чтение, пытается найти указанный путь.
      *
      * @throws XmlException
      */
-    public function open(\SplFileInfo $file, string $xpath): bool;
+    public function open(\SplFileInfo $file, string $xpath): void;
 
     /**
-     * Закрывает открытый файл, если такой был.
+     * Закрывает открытый файл.
      */
     public function close(): void;
 }

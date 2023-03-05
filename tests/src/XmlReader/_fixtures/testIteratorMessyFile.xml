@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <levelToSkip1>
+        <itemToSkip>test 1</itemToSkip>
+        <itemToSkip>test 2</itemToSkip>
+        <itemToSkip>test 3</itemToSkip>
+    </levelToSkip1>
+    <levelToSkip2>
+        <itemToSkip>test 1</itemToSkip>
+    </levelToSkip2>
+    <firstLevel>
+        <firstLevelToSkip1>
+            <itemToSkip>test 1</itemToSkip>
+            <itemToSkip>test 2</itemToSkip>
+            <itemToSkip>test 3</itemToSkip>
+        </firstLevelToSkip1>
+        <secondLevel>
+            <secondLevelToSkip1>test 1</secondLevelToSkip1>
+            <secondLevelToSkip2>test 1</secondLevelToSkip2>
+            <realItem
+                firstParam="real item 1 first param"
+                secondParam="real item 1 second param"
+                thirdParam="real item 1 third param"
+                fake="real item 1 fake attr"
+            />
+            <secondLevelToSkip3>test 1</secondLevelToSkip3>
+            <secondLevelToSkip4>test 1</secondLevelToSkip4>
+            <secondLevelToSkip5>test 1</secondLevelToSkip5>
+            <realItem
+                firstParam="real item 2 first param"
+                secondParam="real item 2 second param"
+            />
+            <realItem
+                fake="real item 3 fake attr"
+            />
+            <secondLevelToSkip6>test 1</secondLevelToSkip6>
+            <secondLevelToSkip7>test 1</secondLevelToSkip7>
+        </secondLevel>
+        <firstLevelToSkip2>test 1</firstLevelToSkip2>
+        <firstLevelToSkip3>test 1</firstLevelToSkip3>
+    </firstLevel>
+    <levelToSkip3>test 1</levelToSkip3>
+</root>
