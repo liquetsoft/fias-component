@@ -11,6 +11,9 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  */
 class FiasNameConverter implements NameConverterInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function normalize(string $propertyName): string
     {
         $propertyName = trim($propertyName);
@@ -23,6 +26,9 @@ class FiasNameConverter implements NameConverterInterface
         return $return;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function denormalize(string $propertyName): string
     {
         $propertyName = trim($propertyName);

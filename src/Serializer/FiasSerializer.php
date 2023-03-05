@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Serializer;
  *
  * @psalm-suppress DeprecatedInterface
  */
-class FiasSerializer extends Serializer
+final class FiasSerializer extends Serializer
 {
     /**
      * @param array<DenormalizerInterface|NormalizerInterface>|null $normalizers
@@ -34,12 +34,7 @@ class FiasSerializer extends Serializer
                     null,
                     new FiasNameConverter(),
                     null,
-                    new ReflectionExtractor(),
-                    null,
-                    null,
-                    [
-                        ObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,
-                    ]
+                    new ReflectionExtractor()
                 ),
             ];
         }
@@ -56,25 +51,39 @@ class FiasSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+    {
+        return $format !== null && strtolower($format) === 'xml';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $data = $this->filterData($data);
+        if (\is_array($data)) {
+            $data = $this->filterData($data);
+        }
 
         return parent::denormalize($data, $type, $format, $context);
     }
 
     /**
-     * Removes items from with empty string in value from array.
+     * Убирает пустые строки из массива - сериалайзер не понимает как их преобразовывать в другие типы.
      */
-    private function filterData(mixed $data): mixed
+    private function filterData(array $data): mixed
     {
-        if (!\is_array($data)) {
-            return $data;
-        }
-
         $filteredData = [];
         foreach ($data as $name => $value) {
-            if (\is_string($name) && ($value !== '' || strpos($name, '@') !== 0)) {
+            if ($value !== '') {
                 $filteredData[$name] = $value;
             }
         }

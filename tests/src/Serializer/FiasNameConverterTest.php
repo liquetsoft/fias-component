@@ -16,29 +16,45 @@ class FiasNameConverterTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует имя.
+     *
+     * @dataProvider provideNormalize
      */
-    public function testNormalize(): void
+    public function testNormalize(string $name, string $awaits): void
     {
-        $name = ' @TEST';
-        $name1 = 'tEst1 ';
-
         $converter = new FiasNameConverter();
 
-        $this->assertSame('@TEST', $converter->normalize($name));
-        $this->assertSame('@tEst1', $converter->normalize($name1));
+        $this->assertSame($awaits, $converter->normalize($name));
+    }
+
+    public function provideNormalize(): array
+    {
+        return [
+            'with leading and tailing spaces' => ['   @test ', '@test'],
+            'with at' => ['@test', '@test'],
+            'without at' => ['test', '@test'],
+            'utf' => ['тест', '@тест'],
+        ];
     }
 
     /**
      * Проверяет, что объект верно преобразует имя из XML.
+     *
+     * @dataProvider provideDenormalize
      */
-    public function testDenormalize(): void
+    public function testDenormalize(string $name, string $awaits): void
     {
-        $name = ' @TEST';
-        $name1 = 'tEst1 ';
-
         $converter = new FiasNameConverter();
 
-        $this->assertSame('TEST', $converter->denormalize($name));
-        $this->assertSame('tEst1', $converter->denormalize($name1));
+        $this->assertSame($awaits, $converter->denormalize($name));
+    }
+
+    public function provideDenormalize(): array
+    {
+        return [
+            'with leading and tailing spaces' => ['   @test ', 'test'],
+            'with at' => ['@test', 'test'],
+            'without at' => ['test', 'test'],
+            'utf' => ['@тест', 'тест'],
+        ];
     }
 }

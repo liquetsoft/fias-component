@@ -16,7 +16,39 @@ use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
 class FiasSerializerTest extends BaseCase
 {
     /**
-     * Проверяет, что объект правильно разберет данные их xml в объект.
+     * Проверяет, что объект не поддерживает нормализацию.
+     */
+    public function testSupportsNormalization(): void
+    {
+        $serializer = new FiasSerializer();
+
+        $this->assertFalse($serializer->supportsNormalization('test'));
+    }
+
+    /**
+     * Проверяет, что объект поддерживает денормализацию xml.
+     *
+     * @dataProvider provideSupportsDeormalization
+     */
+    public function testSupportsDeormalization(?string $format, bool $awaits): void
+    {
+        $serializer = new FiasSerializer();
+
+        $this->assertSame($awaits, $serializer->supportsDenormalization('test', 'test', $format));
+    }
+
+    public function provideSupportsDeormalization(): array
+    {
+        return [
+            'lower case' => ['xml', true],
+            'upper case' => ['XML', true],
+            'csv' => ['csv', false],
+            'null' => [null, false],
+        ];
+    }
+
+    /**
+     * Проверяет, что объект правильно разберет данные из xml в объект.
      */
     public function testDenormalize(): void
     {
@@ -30,7 +62,6 @@ class FiasSerializerTest extends BaseCase
 />
 EOT;
         $serializer = new FiasSerializer();
-
         $object = $serializer->deserialize($data, FiasSerializerMock::class, 'xml');
 
         $this->assertInstanceOf(FiasSerializerMock::class, $object);
@@ -38,9 +69,6 @@ EOT;
         $this->assertSame('Не актуальный', $object->getName());
         $this->assertSame('10', $object->getKodtst());
         $this->assertSame(0, $object->getEmptyStringInt());
-
-        $date = $object->getTestDate();
-        $date = $date ? $date->format('Y-m-d H:i:s') : null;
-        $this->assertSame('2019-10-10 10:10:10', $date);
+        $this->assertSame('2019-10-10 10:10:10', $object->getTestDate()?->format('Y-m-d H:i:s'));
     }
 }
