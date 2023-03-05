@@ -5,6 +5,7 @@
             "src/Downloader",
             "src/Exception",
             "src/Filter",
+            "src/Helper",
             "src/Serializer",
             "src/Storage",
             "src/Unpacker",
