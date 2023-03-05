@@ -8,12 +8,12 @@ namespace Liquetsoft\Fias\Component\Filter;
  * Фильтр, который проверяет подходит ли указанная строка под одно из регулярных
  * выражения из набора.
  */
-class RegexpFilter implements Filter
+final class RegexpFilter implements Filter
 {
     /**
      * @var string[]
      */
-    private array $regexps;
+    private readonly array $regexps;
 
     /**
      * @param string[] $regexps
@@ -30,25 +30,22 @@ class RegexpFilter implements Filter
     {
         if (\is_scalar($testData)) {
             $testData = (string) $testData;
-        } elseif (\is_object($testData) && method_exists($testData, '__toString')) {
-            $testData = (string) $testData->__toString();
+        } elseif ($testData instanceof \Stringable) {
+            $testData = $testData->__toString();
         } else {
-            $message = 'This filter supports only strings or objects that can be coverted to strings.';
-            throw new \InvalidArgumentException($message);
+            return false;
         }
 
         if (empty($this->regexps)) {
             return true;
         }
 
-        $isTested = false;
         foreach ($this->regexps as $regexp) {
             if (preg_match($regexp, $testData)) {
-                $isTested = true;
-                break;
+                return true;
             }
         }
 
-        return $isTested;
+        return false;
     }
 }

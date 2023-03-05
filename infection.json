@@ -4,6 +4,7 @@
         "directories": [
             "src/Downloader",
             "src/Exception",
+            "src/Filter",
             "src/Storage",
             "src/Unpacker",
             "src/XmlReader"

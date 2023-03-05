@@ -15,21 +15,14 @@ use Liquetsoft\Fias\Component\Tests\Mock\ToStringObjectMock;
  */
 class RegexpFilterTest extends BaseCase
 {
-    public function testTestException(): void
-    {
-        $filter = new RegexpFilter();
-
-        $this->expectException(\InvalidArgumentException::class);
-        $filter->test($filter);
-    }
-
     /**
-     * @param string[]      $regexps
-     * @param object|string $testedObject
+     * Проверяет, что объет правильно отфильтрует данные.
+     *
+     * @param string[] $regexps
      *
      * @dataProvider provideTestData
      */
-    public function testTest(array $regexps, $testedObject, bool $result): void
+    public function testTest(array $regexps, object|string|int $testedObject, bool $result): void
     {
         $filter = new RegexpFilter($regexps);
         $testResult = $filter->test($testedObject);
@@ -40,7 +33,7 @@ class RegexpFilterTest extends BaseCase
     public function provideTestData(): array
     {
         return [
-            'positive case' => [
+            'filter is true' => [
                 [
                     '/rts_/',
                     '/_str/',
@@ -48,24 +41,39 @@ class RegexpFilterTest extends BaseCase
                 'test_string',
                 true,
             ],
-            'negative case' => [
+            'filter is false' => [
                 [
                     '/rts_/',
                 ],
                 'test_string',
                 false,
             ],
-            'empty case' => [
+            'empty filters' => [
                 [],
                 'test_string',
                 true,
             ],
-            'object case' => [
+            'filter Stringable object' => [
                 [
                     '/rts_/',
                     '/_str/',
                 ],
                 new ToStringObjectMock('test_string'),
+                true,
+            ],
+            'filter non Stringable object' => [
+                [
+                    '/rts_/',
+                    '/_str/',
+                ],
+                $this,
+                false,
+            ],
+            'filter int' => [
+                [
+                    '/12/',
+                ],
+                12345,
                 true,
             ],
         ];
