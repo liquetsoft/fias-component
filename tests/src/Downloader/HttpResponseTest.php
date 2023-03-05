@@ -19,9 +19,9 @@ class HttpResponseTest extends BaseCase
      *
      * @dataProvider provideGetStatusCode
      */
-    public function testGetStatusCode(string $rawResponse, ?int $awaits): void
+    public function testGetStatusCode(?string $rawResponse, ?int $awaits, mixed $separateStatusCode = null): void
     {
-        $response = new HttpResponse($rawResponse);
+        $response = new HttpResponse($rawResponse, $separateStatusCode);
         $code = $response->getStatusCode();
 
         $this->assertSame($awaits, $code);
@@ -38,6 +38,9 @@ class HttpResponseTest extends BaseCase
             'wring code response' => ['HTTP/2 abc', null],
             'tricky response body' => ["HTTP/2 301\n\nHTTP/2 404", 301],
             'broken response status' => ["HTTP/2 HTTP/2 301\n\ntest", null],
+            'no response and forced status' => [null, 502, 502],
+            'no response and forced string status' => [null, 502, '502'],
+            'correct response and forced code' => ["HTTP/2 301\n\ntest", 502, 502],
         ];
     }
 

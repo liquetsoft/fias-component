@@ -18,10 +18,10 @@ final class HttpResponse
      */
     private readonly array $headers;
 
-    public function __construct(mixed $rawResponse = null)
+    public function __construct(mixed $rawResponse = null, mixed $statusCode = null)
     {
         $response = trim((string) $rawResponse);
-        $this->statusCode = $this->extractStatusCodeFromResponseBody($response);
+        $this->statusCode = $statusCode !== null ? (int) $statusCode : $this->extractStatusCodeFromResponseBody($response);
         $this->headers = $this->extractHeadersFromContent($response);
     }
 

@@ -26,6 +26,7 @@ class CurlTransport
         curl_setopt_array($ch, $options);
         $content = curl_exec($ch);
         $error = curl_error($ch);
+        $code = curl_getinfo($ch, \CURLINFO_RESPONSE_CODE);
         curl_close($ch);
 
         if ($error !== '') {
@@ -36,6 +37,6 @@ class CurlTransport
             );
         }
 
-        return new HttpResponse($content ?: '');
+        return new HttpResponse($content ?: '', $code);
     }
 }
