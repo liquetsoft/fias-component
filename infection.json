@@ -13,7 +13,8 @@
             "src/XmlReader"
         ],
         "excludes": [
-            "CurlTransport.php"
+            "CurlTransport.php",
+            "CurlHttpTransport.php"
         ]
     },
     "logs": {
