@@ -100,6 +100,6 @@ final class CurlHttpTransport implements HttpTransport
             return HttpResponseFactory::createFromText($content);
         }
 
-        return HttpResponseFactory::create($code);
+        return HttpResponseFactory::create((int) $code);
     }
 }

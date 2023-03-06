@@ -25,6 +25,11 @@ abstract class BaseCase extends TestCase
     private ?string $tempDir = null;
 
     /**
+     * @var array<string, int>
+     */
+    private array $counters = [];
+
+    /**
      * Возвращает объект php faker для генерации случайных данных.
      *
      * Использует ленивую инициализацию и создает объект faker только при первом
@@ -117,6 +122,7 @@ abstract class BaseCase extends TestCase
      */
     protected function tearDown(): void
     {
+        $this->counters = [];
         if ($this->tempDir) {
             $this->fs()->remove($this->tempDir);
         }
@@ -145,5 +151,31 @@ abstract class BaseCase extends TestCase
         }
 
         return $state;
+    }
+
+    /**
+     * Создает счетчик для willReturnCallback из-за того, что withConsecutive отменен.
+     *
+     * @see https://github.com/sebastianbergmann/phpunit/issues/4026
+     */
+    protected function incrementAndGetCounter(string $counterName = 'counter'): int
+    {
+        $counterName = strtolower(trim($counterName));
+        if (!isset($this->counters[$counterName])) {
+            $this->counters[$counterName] = 0;
+        }
+        $this->counters[$counterName]++;
+
+        return $this->counters[$counterName];
+    }
+
+    /**
+     * Возвращает значение счетчика.
+     */
+    protected function getCounter(string $counterName = 'counter'): int
+    {
+        $counterName = strtolower(trim($counterName));
+
+        return $this->counters[$counterName] ?? 1;
     }
 }

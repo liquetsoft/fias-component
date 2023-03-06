@@ -13,7 +13,6 @@
             "src/XmlReader"
         ],
         "excludes": [
-            "CurlTransport.php",
             "CurlHttpTransport.php"
         ]
     },
@@ -24,7 +23,7 @@
         "@default": true,
         "Throw_": {
             "ignore": [
-                "Liquetsoft\\Fias\\Component\\Downloader\\CurlDownloader::openLocalFile"
+                "Liquetsoft\\Fias\\Component\\Downloader\\BaseDownloader::openLocalFile"
             ]
         },
         "ConcatOperandRemoval": {
