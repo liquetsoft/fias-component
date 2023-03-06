@@ -6,6 +6,7 @@
             "src/Exception",
             "src/Filter",
             "src/Helper",
+            "src/HttpTransport",
             "src/Serializer",
             "src/Storage",
             "src/Unpacker",
