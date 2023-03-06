@@ -2,31 +2,32 @@
 
 declare(strict_types=1);
 
-use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
+use Liquetsoft\Fias\Component\Downloader\BaseDownloader;
+use Liquetsoft\Fias\Component\Helper\FiasLinks;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
+use Liquetsoft\Fias\Component\HttpTransport\CurlHttpTransport;
 use Liquetsoft\Fias\Component\Unpacker\ZipUnpacker;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-$xsdUrl = 'https://fias.nalog.ru/docs/gar_schemas.zip';
-
 $fs = FileSystemFactory::create();
-$downloader = new CurlDownloader();
-$unpack = new ZipUnpacker();
-$sysTmp = __DIR__;
-$tmpFile = new SplFileInfo("{$sysTmp}/archive");
-$tmpDir = new SplFileInfo("{$sysTmp}/extracted");
+$downloader = new BaseDownloader(new CurlHttpTransport());
+$unpacker = new ZipUnpacker();
+
+$sysTmp = $fs->getTmpDir()->getRealPath();
+$tmpFile = new SplFileInfo("{$sysTmp}/xsd_archive");
+$tmpDir = new SplFileInfo("{$sysTmp}/xsd_extracted");
 $xsdFolder = new SplFileInfo(PathHelper::resource('xsd'));
 
 $fs->removeIfExists($tmpFile);
 $fs->mkdirIfNotExist($tmpDir);
 $fs->emptyDir($tmpDir);
 
-$downloader->download($xsdUrl, $tmpFile);
-$unpack->unpack($tmpFile, $tmpDir);
+$downloader->download(FiasLinks::GAR_SCHEMAS->value, $tmpFile);
+$unpacker->unpack($tmpFile, $tmpDir);
 
 $fs->removeIfExists($xsdFolder);
-$fs->rename($tmpDir->getPathname(), $xsdFolder);
+$fs->copy($tmpDir, $xsdFolder);
 $fs->removeIfExists($tmpDir);
 $fs->removeIfExists($tmpFile);

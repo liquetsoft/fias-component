@@ -16,7 +16,7 @@ final class CurlHttpTransport implements HttpTransport
 
     private readonly array $defaultOptions;
 
-    public function __construct(array $defaultOptions)
+    public function __construct(array $defaultOptions = [])
     {
         $preDefinedOptions = [
             \CURLOPT_CONNECTTIMEOUT => self::DEFAULT_CONNECTION_TIMEOUT,
