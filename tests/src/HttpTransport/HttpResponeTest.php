@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\HttpTransport;
 
+use Liquetsoft\Fias\Component\Exception\HttpTransportException;
 use Liquetsoft\Fias\Component\HttpTransport\HttpResponse;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
@@ -176,6 +177,54 @@ class HttpResponeTest extends BaseCase
             'no header' => [[], false],
             'empty header' => [['Accept-Ranges' => '', 'Content-Length' => 123], false],
             'malformed header' => [['Accept-Ranges' => 'qwe', 'Content-Length' => 123], false],
+        ];
+    }
+
+    /**
+     * Проверяет, что объект вернет тело json ответа в виде массива.
+     *
+     * @dataProvider provideGetJsonPayload
+     */
+    public function testGetJsonPayload(array $headers, string $payload, mixed $awaits): void
+    {
+        $response = new HttpResponse(200, $headers, $payload);
+
+        if ($awaits instanceof \Exception) {
+            $this->expectExceptionObject($awaits);
+        }
+        $jsonPayload = $response->getJsonPayload();
+
+        if (\is_array($awaits)) {
+            $this->assertSame($awaits, $jsonPayload);
+        }
+    }
+
+    public function provideGetJsonPayload(): array
+    {
+        return [
+            'correct json payload' => [
+                ['content-type' => 'application/json; charset=utf-8'],
+                '{"VersionId":20230307,"TextVersion":"БД ФИАС от 07.03.2023"}',
+                [
+                    'VersionId' => 20230307,
+                    'TextVersion' => 'БД ФИАС от 07.03.2023',
+                ],
+            ],
+            'no content type header' => [
+                [],
+                '{test: "test value"}',
+                new HttpTransportException('Payload is not a json'),
+            ],
+            'non json payload' => [
+                ['content-type' => 'text/html'],
+                '{test: "test value"}',
+                new HttpTransportException('Payload is not a json'),
+            ],
+            'malformed payload' => [
+                ['content-type' => 'application/json; charset=utf-8'],
+                '{test: "test va',
+                new HttpTransportException('Syntax error', 4),
+            ],
         ];
     }
 }

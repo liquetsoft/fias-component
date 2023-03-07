@@ -46,7 +46,7 @@ class CurlStatusChecker implements FiasStatusChecker
         }
 
         try {
-            $info = $this->informer->getCompleteInfo();
+            $info = $this->informer->getCurrentCompleteVersion();
         } catch (\Throwable $e) {
             return new StatusCheckerResult(
                 FiasStatusChecker::STATUS_NOT_AVAILABLE,

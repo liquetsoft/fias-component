@@ -28,7 +28,7 @@ class VersionGetTask implements Task
     {
         $version = $this->versionManager->getCurrentVersion();
 
-        if (!$version->hasResult()) {
+        if ($version === null) {
             throw new TaskException('There is no version of FIAS installed.');
         }
 

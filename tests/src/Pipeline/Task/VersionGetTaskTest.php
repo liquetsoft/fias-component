@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
@@ -33,7 +32,6 @@ class VersionGetTaskTest extends BaseCase
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('getVersion')->willReturn($version);
         $response->method('getUrl')->willReturn($url);
-        $response->method('hasResult')->willReturn(true);
 
         /** @var MockObject&VersionManager */
         $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
@@ -45,27 +43,5 @@ class VersionGetTaskTest extends BaseCase
         $task->run($state);
 
         $this->assertSame($version, $state->getParameter(StateParameter::FIAS_VERSION));
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если ФИАС не установлен.
-     *
-     * @throws \Exception
-     */
-    public function testRunNoResultException(): void
-    {
-        $response = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $response->method('hasResult')->willReturn(false);
-
-        /** @var MockObject&VersionManager */
-        $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->method('getCurrentVersion')->willReturn($response);
-
-        $state = $this->createDefaultStateMock();
-
-        $task = new VersionGetTask($versionManager);
-
-        $this->expectException(TaskException::class);
-        $task->run($state);
     }
 }

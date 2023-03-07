@@ -20,5 +20,5 @@ interface VersionManager
     /**
      * Возвращает текущую версию ФИАС.
      */
-    public function getCurrentVersion(): InformerResponse;
+    public function getCurrentVersion(): ?InformerResponse;
 }

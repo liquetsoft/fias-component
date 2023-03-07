@@ -51,7 +51,7 @@ final class HttpResponseFactory
      */
     private static function extractHeadersFromResponse(string $response): array
     {
-        $explodedResponse = explode("\n\n", $response);
+        $explodedResponse = explode("\r\n\r\n", $response);
 
         $headers = [];
         $rawHeaders = explode("\n", $explodedResponse[0]);
@@ -71,7 +71,7 @@ final class HttpResponseFactory
      */
     private static function extractPayloadFromResponse(string $response): string
     {
-        $explodedResponse = explode("\n\n", $response, 2);
+        $explodedResponse = explode("\r\n\r\n", $response, 2);
 
         return $explodedResponse[1] ?? '';
     }

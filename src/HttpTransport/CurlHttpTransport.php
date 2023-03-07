@@ -49,8 +49,9 @@ final class CurlHttpTransport implements HttpTransport
             $url,
             [
                 \CURLOPT_HEADER => true,
-                \CURLOPT_NOBODY => true,
                 \CURLOPT_RETURNTRANSFER => true,
+                \CURLOPT_POSTFIELDS => $params,
+                \CURLOPT_FOLLOWLOCATION => true,
             ]
         );
     }

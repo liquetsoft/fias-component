@@ -48,36 +48,36 @@ class HttpResponseFactoryTest extends BaseCase
     {
         return [
             'correct response' => [
-                "HTTP/2 200\nContent-Length:123\nx-test:test\n\ntest",
+                "HTTP/2 200\nContent-Length:123\nx-test:test\r\n\r\ntest",
                 200,
                 ['content-length' => '123', 'x-test' => 'test'],
                 'test',
             ],
             'header with semicolon in value' => [
-                "HTTP/2 200\nx-test:123:321\n\ntest",
+                "HTTP/2 200\nx-test:123:321\r\n\r\ntest",
                 200,
                 ['x-test' => '123:321'],
                 'test',
             ],
             'malformed header' => [
-                "HTTP/2 200\nx-test\nContent-Length:123\n\ntest",
+                "HTTP/2 200\nx-test\nContent-Length:123\r\n\r\ntest",
                 200,
                 ['content-length' => '123'],
                 'test',
             ],
             'blank lines in body' => [
-                "HTTP/2 200\nx-test\nContent-Length:123\n\ntest\n\ntest",
+                "HTTP/2 200\nx-test\nContent-Length:123\r\n\r\ntest\r\n\r\ntest",
                 200,
                 ['content-length' => '123'],
-                "test\n\ntest",
+                "test\r\n\r\ntest",
             ],
-            'correct response with lower case' => ["http/2 301\n\n", 301],
-            'correct response with spaces' => ["       HTTP/2 500\n\n", 500],
-            'correct response http 1' => ["HTTP/1 404\n\n", 404],
+            'correct response with lower case' => ["http/2 301\r\n\r\n", 301],
+            'correct response with spaces' => ["       HTTP/2 500\r\n\r\n", 500],
+            'correct response http 1' => ["HTTP/1 404\r\n\r\n", 404],
             'no response' => ['', 0],
             'wrong code response' => ['HTTP/2 abc', 0],
-            'tricky response body' => ["HTTP/2 301\n\nHTTP/2 404", 301, [], 'HTTP/2 404'],
-            'broken response status' => ["HTTP/2 HTTP/2 301\n\n", 0],
+            'tricky response body' => ["HTTP/2 301\r\n\r\nHTTP/2 404", 301, [], 'HTTP/2 404'],
+            'broken response status' => ["HTTP/2 HTTP/2 301\r\n\r\n", 0],
         ];
     }
 }

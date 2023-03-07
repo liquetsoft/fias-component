@@ -17,7 +17,7 @@ interface FiasInformer
      *
      * @throws FiasInformerException
      */
-    public function getCompleteInfo(): InformerResponse;
+    public function getCurrentCompleteVersion(): InformerResponse;
 
     /**
      * Получает ссылку на файл с разницей между двумя версиями ФИАС.
@@ -31,7 +31,7 @@ interface FiasInformer
      *
      * @throws FiasInformerException
      */
-    public function getDeltaInfo(int $currentVersion): InformerResponse;
+    public function getNextDeltaVersion(int $currentVersion): ?InformerResponse;
 
     /**
      * Возвращает список всех версий, доступных для установки обновления.
@@ -40,5 +40,5 @@ interface FiasInformer
      *
      * @throws FiasInformerException
      */
-    public function getDeltaList(): array;
+    public function getAllDeltaVersions(): array;
 }

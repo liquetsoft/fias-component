@@ -31,7 +31,6 @@ class VersionSetTaskTest extends BaseCase
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('getVersion')->willReturn($version);
         $response->method('getUrl')->willReturn($url);
-        $response->method('hasResult')->willReturn(true);
 
         $state = $this->createDefaultStateMock(
             [
@@ -46,31 +45,6 @@ class VersionSetTaskTest extends BaseCase
             ->with(
                 $this->equalTo($response)
             );
-
-        $task = new VersionSetTask($versionManager);
-
-        $task->run($state);
-    }
-
-    /**
-     * Проверяет, что объект ничего не запишет, если результата в ответе нет.
-     *
-     * @throws \Exception
-     */
-    public function testRunNoResult(): void
-    {
-        $response = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $response->method('hasResult')->willReturn(false);
-
-        $state = $this->createDefaultStateMock(
-            [
-                StateParameter::FIAS_INFO => $response,
-            ]
-        );
-
-        /** @var MockObject&VersionManager */
-        $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->never())->method('setCurrentVersion');
 
         $task = new VersionSetTask($versionManager);
 

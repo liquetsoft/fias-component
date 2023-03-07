@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\HttpTransport;
 
+use Liquetsoft\Fias\Component\Exception\HttpTransportException;
+
 /**
  * Объект, содержащий http ответ.
  */
 final class HttpResponse
 {
+    private const JSON_DEPTH = 512;
+
     private readonly int $statusCode;
 
     /**
@@ -68,11 +72,29 @@ final class HttpResponse
     }
 
     /**
-     * Возвращает тело ответ.
+     * Возвращает тело ответа.
      */
     public function getPayload(): string
     {
         return $this->payload;
+    }
+
+    /**
+     * Возвращает декодированное из json тело ответа.
+     */
+    public function getJsonPayload(): mixed
+    {
+        if (empty($this->headers['content-type']) || !str_contains($this->headers['content-type'], 'json')) {
+            throw HttpTransportException::create('Payload is not a json');
+        }
+
+        try {
+            $res = json_decode($this->payload, true, self::JSON_DEPTH, \JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            throw HttpTransportException::wrap($e);
+        }
+
+        return $res;
     }
 
     /**

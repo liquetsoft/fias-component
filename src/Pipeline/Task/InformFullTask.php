@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
@@ -29,13 +28,7 @@ class InformFullTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $info = $this->informer->getCompleteInfo();
-
-        if (!$info->hasResult()) {
-            throw new TaskException(
-                "Can't find full archive for fias in '" . self::class . "'."
-            );
-        }
+        $info = $this->informer->getCurrentCompleteVersion();
 
         $this->log(
             LogLevel::INFO,

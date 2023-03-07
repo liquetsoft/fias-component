@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
@@ -28,13 +27,12 @@ class InformFullTaskTest extends BaseCase
     public function testRun(): void
     {
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->willReturn(true);
         $informerResult->method('getVersion')->willReturn(1);
         $informerResult->method('getUrl')->willReturn('http://test.test/test');
 
         /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getCompleteInfo')->willReturn($informerResult);
+        $informer->method('getCurrentCompleteVersion')->willReturn($informerResult);
 
         $state = new ArrayState();
 
@@ -42,27 +40,5 @@ class InformFullTaskTest extends BaseCase
         $task->run($state);
 
         $this->assertSame($informerResult, $state->getParameter(StateParameter::FIAS_INFO));
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если сервис информирования не вернет ответ.
-     *
-     * @throws \Exception
-     */
-    public function testRunNoResponseException(): void
-    {
-        $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->willReturn(false);
-
-        /** @var MockObject&FiasInformer */
-        $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getCompleteInfo')->willReturn($informerResult);
-
-        $state = $this->createDefaultStateMock();
-
-        $task = new InformFullTask($informer);
-
-        $this->expectException(TaskException::class);
-        $task->run($state);
     }
 }

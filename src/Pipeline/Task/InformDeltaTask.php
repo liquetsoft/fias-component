@@ -37,8 +37,8 @@ class InformDeltaTask implements LoggableTask, Task
             );
         }
 
-        $info = $this->informer->getDeltaInfo($version);
-        if (!$info->hasResult()) {
+        $info = $this->informer->getNextDeltaVersion($version);
+        if ($info === null) {
             $state->complete();
             $this->log(
                 LogLevel::INFO,

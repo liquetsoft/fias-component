@@ -28,7 +28,7 @@ class VersionSetTask implements Task
     {
         $version = $state->getParameter(StateParameter::FIAS_INFO);
 
-        if ($version instanceof InformerResponse && $version->hasResult()) {
+        if ($version instanceof InformerResponse) {
             $this->versionManager->setCurrentVersion($version);
         }
     }
