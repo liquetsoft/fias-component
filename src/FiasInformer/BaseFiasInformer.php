@@ -94,7 +94,7 @@ final class BaseFiasInformer implements FiasInformer
         }
 
         if (!$response->isOk()) {
-            throw FiasInformerException::create('Informer responsed with bad status: %s', $response->getStatusCode());
+            throw FiasInformerException::create("Informer '%s' responsed with bad status: %s", $url, $response->getStatusCode());
         }
 
         try {
