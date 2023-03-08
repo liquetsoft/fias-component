@@ -37,7 +37,7 @@ class InformDeltaTask implements LoggableTask, Task
             );
         }
 
-        $info = $this->informer->getNextDeltaVersion($version);
+        $info = $this->informer->getNextVersion($version);
         if ($info === null) {
             $state->complete();
             $this->log(
@@ -50,11 +50,11 @@ class InformDeltaTask implements LoggableTask, Task
         } else {
             $this->log(
                 LogLevel::INFO,
-                "Current version of FIAS is '{$version}', next version is '{$info->getVersion()}' and can be downloaded from '{$info->getUrl()}'.",
+                "Current version of FIAS is '{$version}', next version is '{$info->getVersion()}' and can be downloaded from '{$info->getDeltaUrl()}'.",
                 [
                     'current_version' => $version,
                     'next_version' => $info->getVersion(),
-                    'url' => $info->getUrl(),
+                    'url' => $info->getDeltaUrl(),
                 ]
             );
         }

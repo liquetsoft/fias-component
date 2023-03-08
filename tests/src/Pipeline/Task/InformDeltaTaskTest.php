@@ -31,11 +31,11 @@ class InformDeltaTaskTest extends BaseCase
 
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('getVersion')->willReturn($version);
-        $informerResult->method('getUrl')->willReturn('http://test.test/test');
+        $informerResult->method('getDeltaUrl')->willReturn('http://test.test/test');
 
         /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getNextDeltaVersion')->with($this->equalTo($version))->willReturn($informerResult);
+        $informer->method('getNextVersion')->with($this->equalTo($version))->willReturn($informerResult);
 
         $state = new ArrayState();
         $state->setAndLockParameter(StateParameter::FIAS_VERSION, $version);
@@ -55,7 +55,7 @@ class InformDeltaTaskTest extends BaseCase
     {
         /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->expects($this->never())->method('getNextDeltaVersion');
+        $informer->expects($this->never())->method('getNextVersion');
 
         $state = $this->createDefaultStateMock();
 
@@ -76,7 +76,7 @@ class InformDeltaTaskTest extends BaseCase
 
         /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getNextDeltaVersion')->with($this->equalTo($version))->willReturn(null);
+        $informer->method('getNextVersion')->with($this->equalTo($version))->willReturn(null);
 
         $state = new ArrayState();
         $state->setAndLockParameter(StateParameter::FIAS_VERSION, $version);

@@ -16,46 +16,18 @@ final class InformerResponseFactory
     }
 
     /**
-     * Создает объект, используя ссылку и версию.
+     * Создает объект для версии, используя json ответ от сервиса.
      */
-    public static function create(int $version, string $url): InformerResponse
-    {
-        return new BaseInformerResponse($version, $url);
-    }
-
-    /**
-     * Создает объект для полной версии, используя json ответ от сервиса.
-     */
-    public static function createFullFromJson(array $data): InformerResponse
+    public static function createFromJson(array $data): InformerResponse
     {
         $version = (int) ($data['VersionId'] ?? 0);
         if ($version === 0) {
             throw FiasInformerException::create('No version provided');
         }
 
-        $url = (string) ($data['GarXMLFullURL'] ?? '');
-        if ($url === '') {
-            throw FiasInformerException::create('No url provided');
-        }
+        $fullUrl = (string) ($data['GarXMLFullURL'] ?? '');
+        $deltaUrl = (string) ($data['GarXMLDeltaURL'] ?? '');
 
-        return new BaseInformerResponse($version, $url);
-    }
-
-    /**
-     * Создает объект для дельта версии, используя json ответ от сервиса.
-     */
-    public static function createDeltaFromJson(array $data): InformerResponse
-    {
-        $version = (int) ($data['VersionId'] ?? 0);
-        if ($version === 0) {
-            throw FiasInformerException::create('No version provided');
-        }
-
-        $url = (string) ($data['GarXMLDeltaURL'] ?? '');
-        if ($url === '') {
-            throw FiasInformerException::create('No url provided');
-        }
-
-        return new BaseInformerResponse($version, $url);
+        return new BaseInformerResponse($version, $fullUrl, $deltaUrl);
     }
 }

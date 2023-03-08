@@ -30,7 +30,7 @@ class VersionSetTaskTest extends BaseCase
 
         $response = $this->getMockBuilder(InformerResponse::class)->getMock();
         $response->method('getVersion')->willReturn($version);
-        $response->method('getUrl')->willReturn($url);
+        $response->method('getFullUrl')->willReturn($url);
 
         $state = $this->createDefaultStateMock(
             [

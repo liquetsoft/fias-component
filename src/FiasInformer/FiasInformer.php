@@ -13,25 +13,18 @@ use Liquetsoft\Fias\Component\Exception\FiasInformerException;
 interface FiasInformer
 {
     /**
-     * Получает ссылку на файл с полными данными ФИАС.
+     * Возвращает информацию о последней версии ФИАС.
      *
      * @throws FiasInformerException
      */
-    public function getCurrentCompleteVersion(): InformerResponse;
+    public function getLatestVersion(): InformerResponse;
 
     /**
-     * Получает ссылку на файл с разницей между двумя версиями ФИАС.
-     *
-     * Возвращает ссылку на файл с изменениями для следующей версии,
-     * относительно указанной. Если требуется получить все файлы с изменениями
-     * до последней версии ФИАС, то нужно запрашивать данный метод в цикле,
-     * изменяя версию, до тех пор, пока он не перестанет возвращать результат.
-     *
-     * @param int $currentVersion Текущая версия, относительно которой нужно получить файл с изменениями на следующую версию
+     * Получает информацию о версии, которая следует за указанной версией.
      *
      * @throws FiasInformerException
      */
-    public function getNextDeltaVersion(int $currentVersion): ?InformerResponse;
+    public function getNextVersion(int|InformerResponse $currentVersion): ?InformerResponse;
 
     /**
      * Возвращает список всех версий, доступных для установки обновления.
@@ -40,5 +33,5 @@ interface FiasInformer
      *
      * @throws FiasInformerException
      */
-    public function getAllDeltaVersions(): array;
+    public function getAllVersions(): array;
 }

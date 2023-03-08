@@ -20,24 +20,40 @@ class BaseInformerResponseTest extends BaseCase
      */
     public function testGetVersion(): void
     {
-        $url = 'https://test.test/test';
         $version = 123;
+        $fullUrl = 'https://test.test/full';
+        $deltaUrl = 'https://test.test/delta';
 
-        $res = new BaseInformerResponse($version, $url);
+        $res = new BaseInformerResponse($version, $fullUrl, $deltaUrl);
 
         $this->assertSame($version, $res->getVersion());
     }
 
     /**
-     * Проверяет геттер для ссылки.
+     * Проверяет геттер для ссылки на полную версию.
      */
-    public function testGetUrl(): void
+    public function testGetFullUrl(): void
     {
-        $url = 'https://test.test/test';
         $version = 123;
+        $fullUrl = 'https://test.test/full';
+        $deltaUrl = 'https://test.test/delta';
 
-        $res = new BaseInformerResponse($version, $url);
+        $res = new BaseInformerResponse($version, $fullUrl, $deltaUrl);
 
-        $this->assertSame($url, $res->getUrl());
+        $this->assertSame($fullUrl, $res->getFullUrl());
+    }
+
+    /**
+     * Проверяет геттер для ссылки на изменения в версии.
+     */
+    public function testGetDeltaUrl(): void
+    {
+        $version = 123;
+        $fullUrl = 'https://test.test/full';
+        $deltaUrl = 'https://test.test/delta';
+
+        $res = new BaseInformerResponse($version, $fullUrl, $deltaUrl);
+
+        $this->assertSame($deltaUrl, $res->getDeltaUrl());
     }
 }

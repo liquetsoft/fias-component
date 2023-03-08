@@ -16,7 +16,12 @@ interface InformerResponse
     public function getVersion(): int;
 
     /**
-     * Получает ссылку, по которой можно скачать файл.
+     * Получает ссылку, по которой можно скачать файл с полной версией.
      */
-    public function getUrl(): string;
+    public function getFullUrl(): string;
+
+    /**
+     * Получает ссылку, по которой можно скачать файл с изменениями между версиями.
+     */
+    public function getDeltaUrl(): string;
 }

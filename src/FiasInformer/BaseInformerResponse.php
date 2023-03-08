@@ -12,12 +12,15 @@ final class BaseInformerResponse implements InformerResponse
 {
     private readonly int $version;
 
-    private readonly string $url;
+    private readonly string $fullUrl;
 
-    public function __construct(int $version, string $url)
+    private readonly string $deltaUrl;
+
+    public function __construct(int $version, string $fullUrl, string $deltaUrl)
     {
         $this->version = $version;
-        $this->url = $url;
+        $this->fullUrl = $fullUrl;
+        $this->deltaUrl = $deltaUrl;
     }
 
     /**
@@ -31,8 +34,16 @@ final class BaseInformerResponse implements InformerResponse
     /**
      * {@inheritdoc}
      */
-    public function getUrl(): string
+    public function getFullUrl(): string
     {
-        return $this->url;
+        return $this->fullUrl;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDeltaUrl(): string
+    {
+        return $this->deltaUrl;
     }
 }

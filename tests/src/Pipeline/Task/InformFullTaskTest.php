@@ -28,11 +28,11 @@ class InformFullTaskTest extends BaseCase
     {
         $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
         $informerResult->method('getVersion')->willReturn(1);
-        $informerResult->method('getUrl')->willReturn('http://test.test/test');
+        $informerResult->method('getFullUrl')->willReturn('http://test.test/test');
 
         /** @var MockObject&FiasInformer */
         $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-        $informer->method('getCurrentCompleteVersion')->willReturn($informerResult);
+        $informer->method('getLatestVersion')->willReturn($informerResult);
 
         $state = new ArrayState();
 

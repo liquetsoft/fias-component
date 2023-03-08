@@ -33,9 +33,9 @@ final class BaseFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      */
-    public function getCurrentCompleteVersion(): InformerResponse
+    public function getLatestVersion(): InformerResponse
     {
-        return InformerResponseFactory::createFullFromJson(
+        return InformerResponseFactory::createFromJson(
             $this->query($this->endpointLast)
         );
     }
@@ -43,34 +43,31 @@ final class BaseFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      */
-    public function getNextDeltaVersion(int $currentVersion): ?InformerResponse
+    public function getNextVersion(int|InformerResponse $currentVersion): ?InformerResponse
     {
-        $deltas = $this->getAllDeltaVersions();
+        $currentVersionId = $currentVersion instanceof InformerResponse ? $currentVersion->getVersion() : $currentVersion;
+        $deltas = $this->getAllVersions();
 
-        $result = null;
         foreach ($deltas as $delta) {
-            if ($delta->getVersion() > $currentVersion) {
-                $result = $delta;
-                break;
+            if ($delta->getVersion() > $currentVersionId) {
+                return $delta;
             }
         }
 
-        return $result;
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAllDeltaVersions(): array
+    public function getAllVersions(): array
     {
         $data = $this->query($this->endpointAll);
 
         $list = [];
         foreach ($data as $item) {
-            if (\is_array($item) && !empty($item['GarXMLDeltaURL'])) {
-                // похоже только так это работает, дельта появляется не сразу
-                // поэтому просто пропускаем объекты без дельты
-                $list[] = InformerResponseFactory::createDeltaFromJson($item);
+            if (\is_array($item)) {
+                $list[] = InformerResponseFactory::createFromJson($item);
             }
         }
 

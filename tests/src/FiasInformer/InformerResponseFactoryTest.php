@@ -17,60 +17,56 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 class InformerResponseFactoryTest extends BaseCase
 {
     /**
-     * Проверяет метод, который создает ответ по версии и ссылке.
-     */
-    public function testCreate(): void
-    {
-        $url = 'https://test.test/test';
-        $version = 123;
-
-        $res = InformerResponseFactory::create($version, $url);
-
-        $this->assertSame($version, $res->getVersion());
-        $this->assertSame($url, $res->getUrl());
-    }
-
-    /**
-     * Проверяет метод, который создает ответ для полной версии по массиву из json ответа.
+     * Проверяет метод, который создает ответ по массиву из json ответа.
      *
-     * @dataProvider provideCreateFullFromJson
+     * @dataProvider provideCreateFromJson
      */
-    public function testCreateFullFromJson(array $data, int|\Exception $awaitsVersion, string $awaitsUrl = ''): void
-    {
+    public function testCreateFromJson(
+        array $data,
+        int|\Exception $awaitsVersion,
+        string $awaitsFullUrl = '',
+        string $awaitsDeltalUrl = ''
+    ): void {
         if ($awaitsVersion instanceof \Exception) {
             $this->expectExceptionObject($awaitsVersion);
         }
 
-        $res = InformerResponseFactory::createFullFromJson($data);
+        $res = InformerResponseFactory::createFromJson($data);
 
         if (\is_int($awaitsVersion)) {
             $this->assertSame($awaitsVersion, $res->getVersion());
-            $this->assertSame($awaitsUrl, $res->getUrl());
+            $this->assertSame($awaitsFullUrl, $res->getFullUrl());
+            $this->assertSame($awaitsDeltalUrl, $res->getDeltaUrl());
         }
     }
 
-    public function provideCreateFullFromJson(): array
+    public function provideCreateFromJson(): array
     {
         return [
             'correct array' => [
                 [
                     'VersionId' => 123,
-                    'GarXMLFullURL' => 'https://test.test/test',
+                    'GarXMLFullURL' => 'https://test.test/full',
+                    'GarXMLDeltaURL' => 'https://test.test/delta',
                 ],
                 123,
-                'https://test.test/test',
+                'https://test.test/full',
+                'https://test.test/delta',
             ],
             'string version' => [
                 [
                     'VersionId' => '123',
-                    'GarXMLFullURL' => 'https://test.test/test',
+                    'GarXMLFullURL' => 'https://test.test/full',
+                    'GarXMLDeltaURL' => 'https://test.test/delta',
                 ],
                 123,
-                'https://test.test/test',
+                'https://test.test/full',
+                'https://test.test/delta',
             ],
             'no version' => [
                 [
-                    'GarXMLFullURL' => 'https://test.test/test',
+                    'GarXMLFullURL' => 'https://test.test/full',
+                    'GarXMLDeltaURL' => 'https://test.test/delta',
                 ],
                 new FiasInformerException('No version provided'),
             ],
@@ -78,60 +74,9 @@ class InformerResponseFactoryTest extends BaseCase
                 [
                     'VersionId' => 123,
                 ],
-                new FiasInformerException('No url provided'),
-            ],
-        ];
-    }
-
-    /**
-     * Проверяет метод, который создает ответ для дельта версии по массиву из json ответа.
-     *
-     * @dataProvider provideCreateDeltaFromJson
-     */
-    public function testCreateDeltaFromJson(array $data, int|\Exception $awaitsVersion, string $awaitsUrl = ''): void
-    {
-        if ($awaitsVersion instanceof \Exception) {
-            $this->expectExceptionObject($awaitsVersion);
-        }
-
-        $res = InformerResponseFactory::createDeltaFromJson($data);
-
-        if (\is_int($awaitsVersion)) {
-            $this->assertSame($awaitsVersion, $res->getVersion());
-            $this->assertSame($awaitsUrl, $res->getUrl());
-        }
-    }
-
-    public function provideCreateDeltaFromJson(): array
-    {
-        return [
-            'correct array' => [
-                [
-                    'VersionId' => 123,
-                    'GarXMLDeltaURL' => 'https://test.test/test',
-                ],
                 123,
-                'https://test.test/test',
-            ],
-            'string version' => [
-                [
-                    'VersionId' => '123',
-                    'GarXMLDeltaURL' => 'https://test.test/test',
-                ],
-                123,
-                'https://test.test/test',
-            ],
-            'no version' => [
-                [
-                    'GarXMLDeltaURL' => 'https://test.test/test',
-                ],
-                new FiasInformerException('No version provided'),
-            ],
-            'no url' => [
-                [
-                    'VersionId' => 123,
-                ],
-                new FiasInformerException('No url provided'),
+                '',
+                '',
             ],
         ];
     }
