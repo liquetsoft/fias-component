@@ -3,6 +3,7 @@
     "source": {
         "directories": [
             "src/Downloader",
+            "src/FiasInformer",
             "src/Exception",
             "src/Filter",
             "src/Helper",

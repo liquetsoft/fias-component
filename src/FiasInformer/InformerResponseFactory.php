@@ -26,8 +26,25 @@ final class InformerResponseFactory
         }
 
         $fullUrl = (string) ($data['GarXMLFullURL'] ?? '');
+        if ($fullUrl !== '') {
+            self::checkUrl($fullUrl);
+        }
+
         $deltaUrl = (string) ($data['GarXMLDeltaURL'] ?? '');
+        if ($deltaUrl !== '') {
+            self::checkUrl($deltaUrl);
+        }
 
         return new BaseInformerResponse($version, $fullUrl, $deltaUrl);
+    }
+
+    /**
+     * Выбрасывает исключение, если ссылка задана в неверном формате.
+     */
+    private static function checkUrl(string $url): void
+    {
+        if (!preg_match('#https?://.+#', $url)) {
+            throw FiasInformerException::create("String '%s' is not an url", $url);
+        }
     }
 }

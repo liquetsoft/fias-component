@@ -18,7 +18,7 @@ final class HttpResponseFactory
      */
     public static function create(int $statusCode, array $headers = [], string $payload = ''): HttpResponse
     {
-        return new HttpResponse($statusCode, $headers, $payload);
+        return new BaseHttpResponse($statusCode, $headers, $payload);
     }
 
     /**
@@ -30,7 +30,7 @@ final class HttpResponseFactory
         $headers = self::extractHeadersFromResponse($response);
         $payload = self::extractPayloadFromResponse($response);
 
-        return new HttpResponse($statusCode, $headers, $payload);
+        return new BaseHttpResponse($statusCode, $headers, $payload);
     }
 
     /**

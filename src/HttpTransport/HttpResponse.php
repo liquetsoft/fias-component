@@ -4,113 +4,45 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\HttpTransport;
 
-use Liquetsoft\Fias\Component\Exception\HttpTransportException;
-
 /**
- * Объект, содержащий http ответ.
+ * Интерфейс для объекта, содержащего http ответ.
  */
-final class HttpResponse
+interface HttpResponse
 {
-    private const JSON_DEPTH = 512;
-
-    private readonly int $statusCode;
-
-    /**
-     * @var array<string, string>
-     */
-    private readonly array $headers;
-
-    private readonly string $payload;
-
-    public function __construct(int $statusCode, array $headers = [], string $payload = '')
-    {
-        $this->statusCode = $statusCode;
-        $this->headers = $this->prepareHeaders($headers);
-        $this->payload = $payload;
-    }
-
     /**
      * Возвращает код ответа.
      */
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
+    public function getStatusCode(): int;
 
     /**
      * Возвращает заголовки ответа.
      *
      * @return array<string, string>
      */
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
+    public function getHeaders(): array;
 
     /**
      * Возвращает правду, если ответ был успешным.
      */
-    public function isOk(): bool
-    {
-        return $this->statusCode >= 200 && $this->statusCode < 300;
-    }
+    public function isOk(): bool;
 
     /**
      * Возвращает длину тела ответ.
      */
-    public function getContentLength(): int
-    {
-        return (int) ($this->headers['content-length'] ?? 0);
-    }
+    public function getContentLength(): int;
 
     /**
      * Возвращает правду, если сервер поддерживает докачку файла.
      */
-    public function isRangeSupported(): bool
-    {
-        return $this->getContentLength() > 0 && ($this->headers['accept-ranges'] ?? '') === 'bytes';
-    }
+    public function isRangeSupported(): bool;
 
     /**
      * Возвращает тело ответа.
      */
-    public function getPayload(): string
-    {
-        return $this->payload;
-    }
+    public function getPayload(): string;
 
     /**
      * Возвращает декодированное из json тело ответа.
      */
-    public function getJsonPayload(): mixed
-    {
-        if (empty($this->headers['content-type']) || !str_contains($this->headers['content-type'], 'json')) {
-            throw HttpTransportException::create('Payload is not a json');
-        }
-
-        try {
-            $res = json_decode($this->payload, true, self::JSON_DEPTH, \JSON_THROW_ON_ERROR);
-        } catch (\Throwable $e) {
-            throw HttpTransportException::wrap($e);
-        }
-
-        return $res;
-    }
-
-    /**
-     * Подготавливает заголовки для использования.
-     *
-     * @return array<string, string>
-     */
-    private function prepareHeaders(array $headers): array
-    {
-        $preparedHeaders = [];
-        foreach ($headers as $name => $value) {
-            $name = str_replace('_', '-', strtolower(trim((string) $name)));
-            $value = strtolower(trim((string) $value));
-            $preparedHeaders[$name] = $value;
-        }
-
-        return $preparedHeaders;
-    }
+    public function getJsonPayload(): mixed;
 }

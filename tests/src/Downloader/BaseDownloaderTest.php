@@ -7,9 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Downloader;
 use Liquetsoft\Fias\Component\Downloader\BaseDownloader;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\HttpTransport\HttpResponse;
-use Liquetsoft\Fias\Component\HttpTransport\HttpResponseFactory;
-use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
-use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Tests\HttpTransportCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -17,11 +15,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @internal
  */
-class BaseDownloaderTest extends BaseCase
+class BaseDownloaderTest extends HttpTransportCase
 {
     private const URL = 'https://test.ru/test.zip';
-    private const STATUS_OK = 200;
-    private const STATUS_SERVER_ERROR = 500;
     private const METHOD_HEAD = 'head';
     private const METHOD_DOWNLOAD = 'download';
 
@@ -32,10 +28,9 @@ class BaseDownloaderTest extends BaseCase
     {
         $path = $this->getPathToTestFile('testDownload.txt');
         $destination = new \SplFileInfo($path);
-        $okResponse = HttpResponseFactory::create(self::STATUS_OK);
+        $okResponse = $this->createOkResponseMock();
 
-        /** @var HttpTransport&MockObject */
-        $transport = $this->getMockBuilder(HttpTransport::class)->getMock();
+        $transport = $this->createTransportMock();
         $transport->expects($this->once())
             ->method(self::METHOD_HEAD)
             ->with($this->equalTo(self::URL))
@@ -63,11 +58,10 @@ class BaseDownloaderTest extends BaseCase
     {
         $path = $this->getPathToTestFile('testDownload.txt');
         $destination = new \SplFileInfo($path);
-        $okResponse = HttpResponseFactory::create(self::STATUS_OK);
-        $badResponse = HttpResponseFactory::create(self::STATUS_SERVER_ERROR);
+        $okResponse = $this->createOkResponseMock();
+        $badResponse = $this->createBadResponseMock();
 
-        /** @var HttpTransport&MockObject */
-        $transport = $this->getMockBuilder(HttpTransport::class)->getMock();
+        $transport = $this->createTransportMock();
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn($okResponse);
         $transport->expects($this->exactly(4))
             ->method(self::METHOD_DOWNLOAD)
@@ -100,29 +94,24 @@ class BaseDownloaderTest extends BaseCase
         $destination = new \SplFileInfo($path);
         $bytesFrom = 10;
         $bytesTo = 99;
-        $headResponse = HttpResponseFactory::create(
-            self::STATUS_OK,
-            [
-                'Content-Length' => $bytesTo + 1,
-                'Accept-Ranges' => 'bytes',
-            ]
-        );
+        $headResponse = $this->createHeadResponseMock(true, $bytesTo + 1);
+        $okResponse = $this->createOkResponseMock();
+        $badResponse = $this->createBadResponseMock();
 
-        /** @var HttpTransport&MockObject */
-        $transport = $this->getMockBuilder(HttpTransport::class)->getMock();
+        $transport = $this->createTransportMock();
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn($headResponse);
         $transport->expects($this->exactly(2))
             ->method(self::METHOD_DOWNLOAD)
             ->willReturnCallback(
-                function (string $url, mixed $fh, ?int $from, ?int $to) use ($bytesFrom, $bytesTo): HttpResponse {
+                function (string $url, mixed $fh, ?int $from, ?int $to) use ($bytesFrom, $bytesTo, $okResponse, $badResponse): HttpResponse {
                     $counter = $this->incrementAndGetCounter();
                     if ($counter === 1 && \is_resource($fh)) {
                         fwrite($fh, str_repeat('-', $bytesFrom));
                     }
                     if ($counter === 2 && $from === $bytesFrom && $to === $bytesTo) {
-                        return HttpResponseFactory::create(self::STATUS_OK);
+                        return $okResponse;
                     } else {
-                        return HttpResponseFactory::create(self::STATUS_SERVER_ERROR);
+                        return $badResponse;
                     }
                 }
             );
@@ -139,10 +128,12 @@ class BaseDownloaderTest extends BaseCase
     {
         $path = $this->getPathToTestFile('testDownload.txt');
         $destination = new \SplFileInfo($path);
+        $headResponse = $this->createHeadResponseMock();
+        $okResponse = $this->createOkResponseMock();
+        $badResponse = $this->createBadResponseMock();
 
-        /** @var HttpTransport&MockObject */
-        $transport = $this->getMockBuilder(HttpTransport::class)->getMock();
-        $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn(HttpResponseFactory::create(self::STATUS_OK));
+        $transport = $this->createTransportMock();
+        $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn($headResponse);
         $transport->expects($this->exactly(2))
             ->method(self::METHOD_DOWNLOAD)
             ->with(
@@ -152,15 +143,15 @@ class BaseDownloaderTest extends BaseCase
                 $this->isNull()
             )
             ->willReturnCallback(
-                function (string $url, mixed $fh): HttpResponse {
+                function (string $url, mixed $fh) use ($okResponse, $badResponse): HttpResponse {
                     $counter = $this->incrementAndGetCounter();
                     if ($counter === 1 && \is_resource($fh)) {
                         fwrite($fh, '123');
                     }
                     if ($counter === 2) {
-                        return HttpResponseFactory::create(self::STATUS_OK);
+                        return $okResponse;
                     } else {
-                        return HttpResponseFactory::create(self::STATUS_SERVER_ERROR);
+                        return $badResponse;
                     }
                 }
             );
@@ -177,8 +168,7 @@ class BaseDownloaderTest extends BaseCase
         $destination = new \SplFileInfo($this->getPathToTestFile('testDownloadHeadException'));
         $exception = new \RuntimeException('message for exception');
 
-        /** @var HttpTransport&MockObject */
-        $transport = $this->getMockBuilder(HttpTransport::class)->getMock();
+        $transport = $this->createTransportMock();
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willThrowException($exception);
         $transport->expects($this->never())->method(self::METHOD_DOWNLOAD);
 
@@ -196,10 +186,9 @@ class BaseDownloaderTest extends BaseCase
     {
         $destination = new \SplFileInfo($this->getPathToTestFile('testDownloadException'));
         $exception = new \RuntimeException('message for exception');
-        $okResponse = HttpResponseFactory::create(self::STATUS_OK);
+        $okResponse = $this->createOkResponseMock();
 
-        /** @var HttpTransport&MockObject */
-        $transport = $this->getMockBuilder(HttpTransport::class)->getMock();
+        $transport = $this->createTransportMock();
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn($okResponse);
         $transport->expects($this->exactly(2))->method(self::METHOD_DOWNLOAD)->willThrowException($exception);
 
@@ -216,11 +205,10 @@ class BaseDownloaderTest extends BaseCase
     public function testDownloadBadStatusException(): void
     {
         $destination = new \SplFileInfo($this->getPathToTestFile('testDownloadBadStatusException'));
-        $okResponse = HttpResponseFactory::create(self::STATUS_OK);
-        $badResponse = HttpResponseFactory::create(self::STATUS_SERVER_ERROR);
+        $okResponse = $this->createOkResponseMock();
+        $badResponse = $this->createBadResponseMock();
 
-        /** @var HttpTransport&MockObject */
-        $transport = $this->getMockBuilder(HttpTransport::class)->getMock();
+        $transport = $this->createTransportMock();
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn($okResponse);
         $transport->expects($this->exactly(2))->method(self::METHOD_DOWNLOAD)->willReturn($badResponse);
 
@@ -229,5 +217,21 @@ class BaseDownloaderTest extends BaseCase
         $this->expectException(DownloaderException::class);
         $this->expectExceptionMessage((string) self::STATUS_SERVER_ERROR);
         $downloader->download(self::URL, $destination);
+    }
+
+    /**
+     * Создает мок с ответом на HEAD запрос.
+     *
+     * @return HttpResponse&MockObject
+     */
+    protected function createHeadResponseMock(bool $acceptRanges = false, int $contentLength = 0): HttpResponse
+    {
+        $headers = [];
+        if ($acceptRanges) {
+            $headers['content-length'] = $contentLength;
+            $headers['accept-ranges'] = 'bytes';
+        }
+
+        return $this->createResponseMock(200, $headers);
     }
 }

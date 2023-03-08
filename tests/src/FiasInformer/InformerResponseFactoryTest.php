@@ -78,6 +78,22 @@ class InformerResponseFactoryTest extends BaseCase
                 '',
                 '',
             ],
+            'malformed delta url' => [
+                [
+                    'VersionId' => 123,
+                    'GarXMLFullURL' => 'https://test.test/full',
+                    'GarXMLDeltaURL' => 123,
+                ],
+                new FiasInformerException("String '123' is not an url"),
+            ],
+            'malformed full url' => [
+                [
+                    'VersionId' => 123,
+                    'GarXMLFullURL' => 123,
+                    'GarXMLDeltaURL' => 'https://test.test/delta',
+                ],
+                new FiasInformerException("String '123' is not an url"),
+            ],
         ];
     }
 }
