@@ -9,13 +9,6 @@ namespace Liquetsoft\Fias\Component\FiasStatusChecker;
  */
 interface FiasStatusChecker
 {
-    public const STATUS_AVAILABLE = 'available';
-    public const STATUS_NOT_AVAILABLE = 'not available';
-    public const STATUS_UNKNOWN = 'unknown';
-
-    public const SERVICE_INFORMER = 'informer';
-    public const SERVICE_FILE_SERVER = 'file server';
-
     /**
      * Проверяет статусы всех компонентов ФИАС.
      */

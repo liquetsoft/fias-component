@@ -5,41 +5,19 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasStatusChecker;
 
 /**
- * Объект, который содержит информацию о проверке статуса.
+ * Интерфейс для объекта, который содержит информацию о проверке статуса.
  */
-class StatusCheckerResult
+interface StatusCheckerResult
 {
-    private string $resultStatus;
-
-    /**
-     * @var array<int, array>
-     */
-    private array $perServiceStatuses;
-
-    /**
-     * @param array<int, array> $perServiceStatuses
-     */
-    public function __construct(string $resultStatus, array $perServiceStatuses)
-    {
-        $this->resultStatus = $resultStatus;
-        $this->perServiceStatuses = $perServiceStatuses;
-    }
-
     /**
      * Возвращает статус общего сосотояния ФИАС.
      */
-    public function getResultStatus(): string
-    {
-        return $this->resultStatus;
-    }
+    public function getResultStatus(): FiasStatuses;
 
     /**
      * Возвращает массив со статусами по каждому сервису.
      *
-     * @return array<int, array>
+     * @return StatusCheckerServiceResult[]
      */
-    public function getPerServiceStatuses(): array
-    {
-        return $this->perServiceStatuses;
-    }
+    public function getPerServiceStatuses(): array;
 }

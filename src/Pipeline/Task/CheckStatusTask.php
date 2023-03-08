@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\StatusCheckerException;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusChecker;
+use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatuses;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Psr\Log\LogLevel;
 
@@ -30,7 +31,7 @@ class CheckStatusTask implements LoggableTask, Task
     {
         $status = $this->checker->check();
 
-        if ($status->getResultStatus() !== FiasStatusChecker::STATUS_AVAILABLE) {
+        if ($status->getResultStatus() !== FiasStatuses::AVAILABLE) {
             $message = 'There are some troubles on the FIAS side. Please try again later.';
             $this->log(
                 LogLevel::ERROR,

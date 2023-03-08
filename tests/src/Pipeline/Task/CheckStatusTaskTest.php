@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\StatusCheckerException;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusChecker;
+use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatuses;
 use Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult;
 use Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -29,7 +30,7 @@ class CheckStatusTaskTest extends BaseCase
             ->disableOriginalConstructor()
             ->getMock();
         $checkerResult->method('getResultStatus')
-            ->willReturn(FiasStatusChecker::STATUS_AVAILABLE);
+            ->willReturn(FiasStatuses::AVAILABLE);
 
         /** @var MockObject&FiasStatusChecker */
         $statusChecker = $this->getMockBuilder(FiasStatusChecker::class)->getMock();
@@ -53,7 +54,7 @@ class CheckStatusTaskTest extends BaseCase
             ->disableOriginalConstructor()
             ->getMock();
         $checkerResult->method('getResultStatus')
-            ->willReturn(FiasStatusChecker::STATUS_NOT_AVAILABLE);
+            ->willReturn(FiasStatuses::NOT_AVAILABLE);
 
         /** @var MockObject&FiasStatusChecker */
         $statusChecker = $this->getMockBuilder(FiasStatusChecker::class)->getMock();
