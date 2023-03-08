@@ -4,6 +4,7 @@
         "directories": [
             "src/Downloader",
             "src/FiasInformer",
+            "src/FiasStatusChecker",
             "src/Exception",
             "src/Filter",
             "src/Helper",

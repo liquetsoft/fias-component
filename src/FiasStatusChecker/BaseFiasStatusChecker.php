@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
 
 /**
- * Объект, который проверяет статус сервисов ФИАС с помощью запросов через curl.
+ * Объект, который проверяет статус сервисов ФИАС.
  */
 final class BaseFiasStatusChecker implements FiasStatusChecker
 {
