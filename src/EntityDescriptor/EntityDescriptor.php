@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityDescriptor;
 
-use Liquetsoft\Fias\Component\EntityField\EntityField;
+use Liquetsoft\Fias\Component\Entity\EntityField;
 
 /**
  * Интерфейс для объекта, который описывает сущность ФИАС.

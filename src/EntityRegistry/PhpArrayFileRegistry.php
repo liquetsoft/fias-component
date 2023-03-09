@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
+use Liquetsoft\Fias\Component\Entity\EntityField;
+use Liquetsoft\Fias\Component\Entity\EntityFieldFactory;
 use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\EntityField\BaseEntityField;
-use Liquetsoft\Fias\Component\EntityField\EntityField;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
 
 /**
@@ -79,7 +79,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     private function createEntityField(array $field): EntityField
     {
-        return new BaseEntityField($field);
+        return EntityFieldFactory::createFromArray($field);
     }
 
     /**

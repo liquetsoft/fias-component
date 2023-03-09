@@ -2,13 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\EntityField;
+namespace Liquetsoft\Fias\Component\Entity;
 
 /**
  * Интерфейс для объекта, который описывает поле сущности.
  */
 interface EntityField
 {
+    /**
+     * Возвращает тип поля.
+     */
+    public function getType(): EntityFieldTypes;
+
+    /**
+     * Возвращает дополнительную типизацию для основного типа поля.
+     *
+     * Например, используется, чтобы указать, что в строке не просто строка, а дата.
+     */
+    public function getSubType(): EntityFieldSubTypes;
+
     /**
      * Возвращает имя поля.
      */
@@ -18,18 +30,6 @@ interface EntityField
      * Возвращает описание поля.
      */
     public function getDescription(): string;
-
-    /**
-     * Возвращает тип поля.
-     */
-    public function getType(): string;
-
-    /**
-     * Возвращает дополнительную типизацию для основного типа поля.
-     *
-     * Например, используется, чтобы указать, что в строке не просто строка, а дата
-     */
-    public function getSubType(): string;
 
     /**
      * Возвращает длину значения поля.

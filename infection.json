@@ -3,6 +3,7 @@
     "source": {
         "directories": [
             "src/Downloader",
+            "src/Entity",
             "src/FiasInformer",
             "src/FiasStatusChecker",
             "src/Exception",
