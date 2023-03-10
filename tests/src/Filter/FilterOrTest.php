@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Filter;
 
-use Liquetsoft\Fias\Component\Filter\AndFilter;
 use Liquetsoft\Fias\Component\Filter\Filter;
+use Liquetsoft\Fias\Component\Filter\FilterOr;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
- * Тест для фильтра, объединяющего несколько фильтров через AND.
+ * Тест для фильтра, объединяющего несколько фильтров через OR.
  *
  * @internal
  */
-class AndFilterTest extends BaseCase
+class FilterOrTest extends BaseCase
 {
     /**
      * Проверяет, что объект вызовет все вложенные фильтры.
@@ -26,7 +26,7 @@ class AndFilterTest extends BaseCase
         $filter1->expects($this->once())
             ->method('test')
             ->with($this->equalTo($toTest))
-            ->willReturn(true);
+            ->willReturn(false);
 
         $filter2 = $this->getMockBuilder(Filter::class)->getMock();
         $filter2->expects($this->once())
@@ -34,14 +34,14 @@ class AndFilterTest extends BaseCase
             ->with($this->equalTo($toTest))
             ->willReturn(true);
 
-        $filter = new AndFilter([$filter1, $filter2]);
+        $filter = new FilterOr([$filter1, $filter2]);
         $testResult = $filter->test($toTest);
 
         $this->assertTrue($testResult);
     }
 
     /**
-     * Проверяет, что цепочка будет оборвана, если один из вложенных фильтров вернет false.
+     * Проверяет, что цепочка не будет оборвана, если один из вложенных фильтров вернет false.
      */
     public function testNegativeTest(): void
     {
@@ -51,7 +51,7 @@ class AndFilterTest extends BaseCase
         $filter1->expects($this->once())
             ->method('test')
             ->with($this->equalTo($toTest))
-            ->willReturn(true);
+            ->willReturn(false);
 
         $filter2 = $this->getMockBuilder(Filter::class)->getMock();
         $filter2->expects($this->once())
@@ -60,9 +60,12 @@ class AndFilterTest extends BaseCase
             ->willReturn(false);
 
         $filter3 = $this->getMockBuilder(Filter::class)->getMock();
-        $filter3->expects($this->never())->method('test');
+        $filter3->expects($this->once())
+            ->method('test')
+            ->with($this->equalTo($toTest))
+            ->willReturn(false);
 
-        $filter = new AndFilter([$filter1, $filter2, $filter3]);
+        $filter = new FilterOr([$filter1, $filter2, $filter3]);
         $testResult = $filter->test($toTest);
 
         $this->assertFalse($testResult);

@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Filter;
 /**
  * Фильтр, который соединяет несколько фильтров через OR.
  */
-final class OrFilter implements Filter
+final class FilterOr implements Filter
 {
     /**
      * @var Filter[]

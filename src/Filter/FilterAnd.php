@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Filter;
 /**
  * Фильтр, который соединяет несколько фильтров через AND.
  */
-final class AndFilter implements Filter
+final class FilterAnd implements Filter
 {
     /**
      * @var Filter[]

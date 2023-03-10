@@ -8,7 +8,7 @@ namespace Liquetsoft\Fias\Component\Filter;
  * Фильтр, который проверяет подходит ли указанная строка под одно из регулярных
  * выражения из набора.
  */
-final class RegexpFilter implements Filter
+final class FilterRegexp implements Filter
 {
     /**
      * @var string[]

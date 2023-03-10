@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Filter;
 
-use Liquetsoft\Fias\Component\Filter\RegexpFilter;
+use Liquetsoft\Fias\Component\Filter\FilterRegexp;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\ToStringObjectMock;
 
@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Tests\Mock\ToStringObjectMock;
  *
  * @internal
  */
-class RegexpFilterTest extends BaseCase
+class FilterRegexpTest extends BaseCase
 {
     /**
      * Проверяет, что объет правильно отфильтрует данные.
@@ -24,7 +24,7 @@ class RegexpFilterTest extends BaseCase
      */
     public function testTest(array $regexps, object|string|int $testedObject, bool $result): void
     {
-        $filter = new RegexpFilter($regexps);
+        $filter = new FilterRegexp($regexps);
         $testResult = $filter->test($testedObject);
 
         $this->assertSame($result, $testResult);
