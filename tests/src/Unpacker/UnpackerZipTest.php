@@ -6,7 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Unpacker;
 
 use Liquetsoft\Fias\Component\Exception\UnpackerException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerZipEntity;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerEntity;
 use Liquetsoft\Fias\Component\Unpacker\UnpackerZip;
 
 /**
@@ -86,10 +86,10 @@ class UnpackerZipTest extends BaseCase
 
         $this->assertCount(2, $files);
         $this->assertArrayHasKey(0, $files);
-        $this->assertInstanceOf(UnpackerZipEntity::class, $files[0]);
+        $this->assertInstanceOf(UnpackerEntity::class, $files[0]);
         $this->assertSame('nested/nested_file.txt', $files[0]->getName());
         $this->assertArrayHasKey(1, $files);
-        $this->assertInstanceOf(UnpackerZipEntity::class, $files[1]);
+        $this->assertInstanceOf(UnpackerEntity::class, $files[1]);
         $this->assertSame('test.txt', $files[1]->getName());
     }
 

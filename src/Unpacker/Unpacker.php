@@ -22,7 +22,7 @@ interface Unpacker
     /**
      * Возвращает список файлов, содержащихсяв архиве.
      *
-     * @return ZipEntity[]
+     * @return UnpackerEntity[]
      *
      * @throws UnpackerException
      */

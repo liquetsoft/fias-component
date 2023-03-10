@@ -8,10 +8,8 @@ use Liquetsoft\Fias\Component\Exception\UnpackerException;
 
 /**
  * Объект, который представляет файл внутри архива.
- *
- * @internal
  */
-final class UnpackerZipEntity
+final class UnpackerEntity
 {
     private readonly array $stats;
 

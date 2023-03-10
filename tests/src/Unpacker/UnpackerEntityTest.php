@@ -6,14 +6,14 @@ namespace Liquetsoft\Fias\Component\Tests\Unpacker;
 
 use Liquetsoft\Fias\Component\Exception\UnpackerException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerZipEntity;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerEntity;
 
 /**
  * Тест для объекта, который представляет файл в архиве.
  *
  * @internal
  */
-class UnpackerZipEntityTest extends BaseCase
+class UnpackerEntityTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если задан неверный параметр конструктора.
@@ -21,7 +21,7 @@ class UnpackerZipEntityTest extends BaseCase
     public function testConstructException(): void
     {
         $this->expectException(UnpackerException::class);
-        new UnpackerZipEntity(false);
+        new UnpackerEntity(false);
     }
 
     /**
@@ -31,7 +31,7 @@ class UnpackerZipEntityTest extends BaseCase
      */
     public function testIsFile(array $stats, bool $awaits): void
     {
-        $entity = new UnpackerZipEntity($stats);
+        $entity = new UnpackerEntity($stats);
         $isFile = $entity->isFile();
 
         $this->assertSame($awaits, $isFile);
@@ -55,7 +55,7 @@ class UnpackerZipEntityTest extends BaseCase
      */
     public function testGetIndex(array $stats, int $awaits): void
     {
-        $entity = new UnpackerZipEntity($stats);
+        $entity = new UnpackerEntity($stats);
         $index = $entity->getIndex();
 
         $this->assertSame($awaits, $index);
@@ -77,7 +77,7 @@ class UnpackerZipEntityTest extends BaseCase
      */
     public function testGetSize(array $stats, int $size): void
     {
-        $entity = new UnpackerZipEntity($stats);
+        $entity = new UnpackerEntity($stats);
         $index = $entity->getSize();
 
         $this->assertSame($size, $index);
@@ -99,7 +99,7 @@ class UnpackerZipEntityTest extends BaseCase
      */
     public function testGetName(array $stats, string $awaits): void
     {
-        $entity = new UnpackerZipEntity($stats);
+        $entity = new UnpackerEntity($stats);
         $name = $entity->getName();
 
         $this->assertSame($awaits, $name);
