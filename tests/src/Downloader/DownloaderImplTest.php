@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Downloader;
 
-use Liquetsoft\Fias\Component\Downloader\BaseDownloader;
+use Liquetsoft\Fias\Component\Downloader\DownloaderImpl;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\HttpTransport\HttpResponse;
 use Liquetsoft\Fias\Component\Tests\HttpTransportCase;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @internal
  */
-class BaseDownloaderTest extends HttpTransportCase
+class DownloaderImplTest extends HttpTransportCase
 {
     private const URL = 'https://test.ru/test.zip';
     private const METHOD_HEAD = 'head';
@@ -47,7 +47,7 @@ class BaseDownloaderTest extends HttpTransportCase
             )
             ->willReturn($okResponse);
 
-        $downloader = new BaseDownloader($transport, 1);
+        $downloader = new DownloaderImpl($transport, 1);
         $downloader->download(self::URL, $destination);
     }
 
@@ -80,7 +80,7 @@ class BaseDownloaderTest extends HttpTransportCase
                 }
             );
 
-        $downloader = new BaseDownloader($transport, 4);
+        $downloader = new DownloaderImpl($transport, 4);
         $downloader->download(self::URL, $destination);
     }
 
@@ -116,7 +116,7 @@ class BaseDownloaderTest extends HttpTransportCase
                 }
             );
 
-        $downloader = new BaseDownloader($transport, 3);
+        $downloader = new DownloaderImpl($transport, 3);
         $downloader->download(self::URL, $destination);
     }
 
@@ -156,7 +156,7 @@ class BaseDownloaderTest extends HttpTransportCase
                 }
             );
 
-        $downloader = new BaseDownloader($transport, 10);
+        $downloader = new DownloaderImpl($transport, 10);
         $downloader->download(self::URL, $destination);
     }
 
@@ -172,7 +172,7 @@ class BaseDownloaderTest extends HttpTransportCase
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willThrowException($exception);
         $transport->expects($this->never())->method(self::METHOD_DOWNLOAD);
 
-        $downloader = new BaseDownloader($transport, 10);
+        $downloader = new DownloaderImpl($transport, 10);
 
         $this->expectException(DownloaderException::class);
         $this->expectExceptionMessage($exception->getMessage());
@@ -192,7 +192,7 @@ class BaseDownloaderTest extends HttpTransportCase
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn($okResponse);
         $transport->expects($this->exactly(2))->method(self::METHOD_DOWNLOAD)->willThrowException($exception);
 
-        $downloader = new BaseDownloader($transport, 2);
+        $downloader = new DownloaderImpl($transport, 2);
 
         $this->expectException(DownloaderException::class);
         $this->expectExceptionMessage($exception->getMessage());
@@ -212,7 +212,7 @@ class BaseDownloaderTest extends HttpTransportCase
         $transport->expects($this->once())->method(self::METHOD_HEAD)->willReturn($okResponse);
         $transport->expects($this->exactly(2))->method(self::METHOD_DOWNLOAD)->willReturn($badResponse);
 
-        $downloader = new BaseDownloader($transport, 2);
+        $downloader = new DownloaderImpl($transport, 2);
 
         $this->expectException(DownloaderException::class);
         $this->expectExceptionMessage((string) self::STATUS_SERVER_ERROR);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Liquetsoft\Fias\Component\Downloader\BaseDownloader;
+use Liquetsoft\Fias\Component\Downloader\DownloaderImpl;
 use Liquetsoft\Fias\Component\Helper\FiasLinks;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
 use Liquetsoft\Fias\Component\HttpTransport\CurlHttpTransport;
@@ -12,7 +12,7 @@ use Marvin255\FileSystemHelper\FileSystemFactory;
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $fs = FileSystemFactory::create();
-$downloader = new BaseDownloader(new CurlHttpTransport());
+$downloader = new DownloaderImpl(new CurlHttpTransport());
 $unpacker = new ZipUnpacker();
 
 $sysTmp = $fs->getTmpDir()->getRealPath();

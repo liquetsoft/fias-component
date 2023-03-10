@@ -10,7 +10,7 @@ use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
 /**
  * Встроенная реализация загрузчика.
  */
-final class BaseDownloader implements Downloader
+final class DownloaderImpl implements Downloader
 {
     private const DEFAULT_MAX_ATTEMPTS = 10;
     private const FILE_MODE_NEW = 'wb';

@@ -26,7 +26,7 @@
         "@default": true,
         "Throw_": {
             "ignore": [
-                "Liquetsoft\\Fias\\Component\\Downloader\\BaseDownloader::openLocalFile"
+                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl::openLocalFile"
             ]
         },
         "ConcatOperandRemoval": {
