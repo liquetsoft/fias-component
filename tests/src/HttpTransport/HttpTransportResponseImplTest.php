@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\HttpTransport;
 
 use Liquetsoft\Fias\Component\Exception\HttpTransportException;
-use Liquetsoft\Fias\Component\HttpTransport\BaseHttpResponse;
+use Liquetsoft\Fias\Component\HttpTransport\HttpTransportResponseImpl;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class BaseHttpResponseTest extends BaseCase
+class HttpTransportResponseImplTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно вернет код ответа.
@@ -22,7 +22,7 @@ class BaseHttpResponseTest extends BaseCase
     {
         $code = 304;
 
-        $response = new BaseHttpResponse($code);
+        $response = new HttpTransportResponseImpl($code);
         $responseStatusCode = $response->getStatusCode();
 
         $this->assertSame($code, $responseStatusCode);
@@ -37,7 +37,7 @@ class BaseHttpResponseTest extends BaseCase
     {
         $code = 304;
 
-        $response = new BaseHttpResponse($code, $headers);
+        $response = new HttpTransportResponseImpl($code, $headers);
         $responseHeaders = $response->getHeaders();
 
         $this->assertSame($awaits, $responseHeaders);
@@ -104,7 +104,7 @@ class BaseHttpResponseTest extends BaseCase
         $headers = [];
         $payload = 'test';
 
-        $response = new BaseHttpResponse($code, $headers, $payload);
+        $response = new HttpTransportResponseImpl($code, $headers, $payload);
         $responsePayload = $response->getPayload();
 
         $this->assertSame($payload, $responsePayload);
@@ -117,7 +117,7 @@ class BaseHttpResponseTest extends BaseCase
      */
     public function testIsOk(int $code, bool $awaits): void
     {
-        $response = new BaseHttpResponse($code);
+        $response = new HttpTransportResponseImpl($code);
         $isOk = $response->isOk();
 
         $this->assertSame($awaits, $isOk);
@@ -140,7 +140,7 @@ class BaseHttpResponseTest extends BaseCase
      */
     public function testGetContentLength(array $headers, int $awaits): void
     {
-        $response = new BaseHttpResponse(200, $headers);
+        $response = new HttpTransportResponseImpl(200, $headers);
         $contentLength = $response->getContentLength();
 
         $this->assertSame($awaits, $contentLength);
@@ -163,7 +163,7 @@ class BaseHttpResponseTest extends BaseCase
      */
     public function testIsRangeSupported(array $headers, bool $awaits): void
     {
-        $response = new BaseHttpResponse(200, $headers);
+        $response = new HttpTransportResponseImpl(200, $headers);
         $isRangeSupported = $response->isRangeSupported();
 
         $this->assertSame($awaits, $isRangeSupported);
@@ -187,7 +187,7 @@ class BaseHttpResponseTest extends BaseCase
      */
     public function testGetJsonPayload(array $headers, string $payload, mixed $awaits): void
     {
-        $response = new BaseHttpResponse(200, $headers, $payload);
+        $response = new HttpTransportResponseImpl(200, $headers, $payload);
 
         if ($awaits instanceof \Exception) {
             $this->expectExceptionObject($awaits);

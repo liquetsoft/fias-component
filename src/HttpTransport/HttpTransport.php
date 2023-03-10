@@ -16,14 +16,14 @@ interface HttpTransport
      *
      * @throws HttpTransportException
      */
-    public function head(string $url): HttpResponse;
+    public function head(string $url): HttpTransportResponse;
 
     /**
      * Отправляет GET запрос.
      *
      * @throws HttpTransportException
      */
-    public function get(string $url, array $params = []): HttpResponse;
+    public function get(string $url, array $params = []): HttpTransportResponse;
 
     /**
      * Запускает скачивание файла по ссылке в указанный ресурс.
@@ -32,5 +32,5 @@ interface HttpTransport
      *
      * @throws HttpTransportException
      */
-    public function download(string $url, $destination, ?int $bytesFrom = null, ?int $bytesTo = null): HttpResponse;
+    public function download(string $url, $destination, ?int $bytesFrom = null, ?int $bytesTo = null): HttpTransportResponse;
 }

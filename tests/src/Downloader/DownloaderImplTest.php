@@ -6,7 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Downloader;
 
 use Liquetsoft\Fias\Component\Downloader\DownloaderImpl;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
-use Liquetsoft\Fias\Component\HttpTransport\HttpResponse;
+use Liquetsoft\Fias\Component\HttpTransport\HttpTransportResponse;
 use Liquetsoft\Fias\Component\Tests\HttpTransportCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -74,7 +74,7 @@ class DownloaderImplTest extends HttpTransportCase
                 $this->isNull()
             )
             ->willReturnCallback(
-                fn (): HttpResponse => match ($this->incrementAndGetCounter()) {
+                fn (): HttpTransportResponse => match ($this->incrementAndGetCounter()) {
                     4 => $okResponse,
                     default => $badResponse,
                 }
@@ -103,7 +103,7 @@ class DownloaderImplTest extends HttpTransportCase
         $transport->expects($this->exactly(2))
             ->method(self::METHOD_DOWNLOAD)
             ->willReturnCallback(
-                function (string $url, mixed $fh, ?int $from, ?int $to) use ($bytesFrom, $bytesTo, $okResponse, $badResponse): HttpResponse {
+                function (string $url, mixed $fh, ?int $from, ?int $to) use ($bytesFrom, $bytesTo, $okResponse, $badResponse): HttpTransportResponse {
                     $counter = $this->incrementAndGetCounter();
                     if ($counter === 1 && \is_resource($fh)) {
                         fwrite($fh, str_repeat('-', $bytesFrom));
@@ -143,7 +143,7 @@ class DownloaderImplTest extends HttpTransportCase
                 $this->isNull()
             )
             ->willReturnCallback(
-                function (string $url, mixed $fh) use ($okResponse, $badResponse): HttpResponse {
+                function (string $url, mixed $fh) use ($okResponse, $badResponse): HttpTransportResponse {
                     $counter = $this->incrementAndGetCounter();
                     if ($counter === 1 && \is_resource($fh)) {
                         fwrite($fh, '123');
@@ -222,9 +222,9 @@ class DownloaderImplTest extends HttpTransportCase
     /**
      * Создает мок с ответом на HEAD запрос.
      *
-     * @return HttpResponse&MockObject
+     * @return HttpTransportResponse&MockObject
      */
-    protected function createHeadResponseMock(bool $acceptRanges = false, int $contentLength = 0): HttpResponse
+    protected function createHeadResponseMock(bool $acceptRanges = false, int $contentLength = 0): HttpTransportResponse
     {
         $headers = [];
         if ($acceptRanges) {

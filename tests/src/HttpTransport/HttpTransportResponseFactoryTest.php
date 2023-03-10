@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\HttpTransport;
 
-use Liquetsoft\Fias\Component\HttpTransport\HttpResponseFactory;
+use Liquetsoft\Fias\Component\HttpTransport\HttpTransportResponseFactory;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class HttpResponseFactoryTest extends BaseCase
+class HttpTransportResponseFactoryTest extends BaseCase
 {
     /**
      * Проверяет, что фабрика создаст объект из составных частей.
@@ -23,7 +23,7 @@ class HttpResponseFactoryTest extends BaseCase
         $headers = ['test name' => 'test value'];
         $payload = 'test';
 
-        $response = HttpResponseFactory::create($code, $headers, $payload);
+        $response = HttpTransportResponseFactory::create($code, $headers, $payload);
 
         $this->assertSame($code, $response->getStatusCode());
         $this->assertSame($headers, $response->getHeaders());
@@ -37,7 +37,7 @@ class HttpResponseFactoryTest extends BaseCase
      */
     public function testCreateFromText(string $response, int $code, array $headers = [], string $payload = ''): void
     {
-        $response = HttpResponseFactory::createFromText($response);
+        $response = HttpTransportResponseFactory::createFromText($response);
 
         $this->assertSame($code, $response->getStatusCode());
         $this->assertSame($headers, $response->getHeaders());

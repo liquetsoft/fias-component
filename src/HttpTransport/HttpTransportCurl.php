@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\Exception\HttpTransportException;
 /**
  * Объект, который может отправлять запросы с помощью curl.
  */
-final class CurlHttpTransport implements HttpTransport
+final class HttpTransportCurl implements HttpTransport
 {
     public const DEFAULT_CONNECTION_TIMEOUT = 5;
     public const DEFAULT_TIMEOUT = 60 * 25;
@@ -28,7 +28,7 @@ final class CurlHttpTransport implements HttpTransport
     /**
      * {@inheritdoc}
      */
-    public function head(string $url): HttpResponse
+    public function head(string $url): HttpTransportResponse
     {
         return $this->run(
             $url,
@@ -43,7 +43,7 @@ final class CurlHttpTransport implements HttpTransport
     /**
      * {@inheritdoc}
      */
-    public function get(string $url, array $params = []): HttpResponse
+    public function get(string $url, array $params = []): HttpTransportResponse
     {
         return $this->run(
             $url,
@@ -59,7 +59,7 @@ final class CurlHttpTransport implements HttpTransport
     /**
      * {@inheritdoc}
      */
-    public function download(string $url, $destination, ?int $bytesFrom = null, ?int $bytesTo = null): HttpResponse
+    public function download(string $url, $destination, ?int $bytesFrom = null, ?int $bytesTo = null): HttpTransportResponse
     {
         $options = [
             \CURLOPT_FOLLOWLOCATION => true,
@@ -76,7 +76,7 @@ final class CurlHttpTransport implements HttpTransport
     /**
      * Отправляет запрос с помощью curl и возвращает содержимое в виде объекта HttpResponse.
      */
-    public function run(string $url, array $options): HttpResponse
+    public function run(string $url, array $options): HttpTransportResponse
     {
         $ch = curl_init();
         if ($ch === false) {
@@ -98,9 +98,9 @@ final class CurlHttpTransport implements HttpTransport
         }
 
         if (!empty($content) && \is_string($content)) {
-            return HttpResponseFactory::createFromText($content);
+            return HttpTransportResponseFactory::createFromText($content);
         }
 
-        return HttpResponseFactory::create((int) $code);
+        return HttpTransportResponseFactory::create((int) $code);
     }
 }

@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\HttpTransport;
 /**
  * Фабрика, которая создает объекты с http ответами.
  */
-final class HttpResponseFactory
+final class HttpTransportResponseFactory
 {
     private function __construct()
     {
@@ -16,21 +16,21 @@ final class HttpResponseFactory
     /**
      * Создает объект ответа из заданных составных частей.
      */
-    public static function create(int $statusCode, array $headers = [], string $payload = ''): HttpResponse
+    public static function create(int $statusCode, array $headers = [], string $payload = ''): HttpTransportResponse
     {
-        return new BaseHttpResponse($statusCode, $headers, $payload);
+        return new HttpTransportResponseImpl($statusCode, $headers, $payload);
     }
 
     /**
      * Создает объект, пытаясь распарсить сырой текст ответа.
      */
-    public static function createFromText(string $response): HttpResponse
+    public static function createFromText(string $response): HttpTransportResponse
     {
         $statusCode = self::extractStatusCodeFromResponse($response);
         $headers = self::extractHeadersFromResponse($response);
         $payload = self::extractPayloadFromResponse($response);
 
-        return new BaseHttpResponse($statusCode, $headers, $payload);
+        return new HttpTransportResponseImpl($statusCode, $headers, $payload);
     }
 
     /**

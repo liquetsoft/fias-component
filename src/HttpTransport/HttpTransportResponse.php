@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\HttpTransport;
 /**
  * Интерфейс для объекта, содержащего http ответ.
  */
-interface HttpResponse
+interface HttpTransportResponse
 {
     /**
      * Возвращает код ответа.

@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\Exception\HttpTransportException;
 /**
  * Объект, содержащий http ответ.
  */
-final class BaseHttpResponse implements HttpResponse
+final class HttpTransportResponseImpl implements HttpTransportResponse
 {
     private const JSON_DEPTH = 512;
 

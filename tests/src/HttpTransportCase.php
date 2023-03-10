@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests;
 
 use Liquetsoft\Fias\Component\Exception\HttpTransportException;
-use Liquetsoft\Fias\Component\HttpTransport\HttpResponse;
 use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
+use Liquetsoft\Fias\Component\HttpTransport\HttpTransportResponse;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -34,9 +34,9 @@ abstract class HttpTransportCase extends BaseCase
     /**
      * Создает мок с ответом 200.
      *
-     * @return HttpResponse&MockObject
+     * @return HttpTransportResponse&MockObject
      */
-    protected function createOkResponseMock(string|array $payload = '', bool $isJson = false): HttpResponse
+    protected function createOkResponseMock(string|array $payload = '', bool $isJson = false): HttpTransportResponse
     {
         return $this->createResponseMock(self::STATUS_OK, [], $payload, $isJson);
     }
@@ -44,9 +44,9 @@ abstract class HttpTransportCase extends BaseCase
     /**
      * Создает мок с ответом 200.
      *
-     * @return HttpResponse&MockObject
+     * @return HttpTransportResponse&MockObject
      */
-    protected function createBadResponseMock(): HttpResponse
+    protected function createBadResponseMock(): HttpTransportResponse
     {
         return $this->createResponseMock(self::STATUS_SERVER_ERROR);
     }
@@ -54,12 +54,12 @@ abstract class HttpTransportCase extends BaseCase
     /**
      * Создает для http ответа.
      *
-     * @return HttpResponse&MockObject
+     * @return HttpTransportResponse&MockObject
      */
-    protected function createResponseMock(int $status, array $headers = [], string|array $payload = '', bool $isJson = false): HttpResponse
+    protected function createResponseMock(int $status, array $headers = [], string|array $payload = '', bool $isJson = false): HttpTransportResponse
     {
-        /** @var HttpResponse&MockObject */
-        $response = $this->getMockBuilder(HttpResponse::class)->getMock();
+        /** @var HttpTransportResponse&MockObject */
+        $response = $this->getMockBuilder(HttpTransportResponse::class)->getMock();
         $response->method('getStatusCode')->willReturn($status);
         $response->method('isOk')->willReturn($status < 300 && $status >= 200);
         $response->method('getHeaders')->willReturn($headers);
