@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 
 use Liquetsoft\Fias\Component\Exception\FiasInformerException;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponseFactory;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponseFactory;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class InformerResponseFactoryTest extends BaseCase
+class FiasInformerResponseFactoryTest extends BaseCase
 {
     /**
      * Проверяет метод, который создает ответ по массиву из json ответа.
@@ -31,7 +31,7 @@ class InformerResponseFactoryTest extends BaseCase
             $this->expectExceptionObject($awaitsVersion);
         }
 
-        $res = InformerResponseFactory::createFromJson($data);
+        $res = FiasInformerResponseFactory::createFromJson($data);
 
         if (\is_int($awaitsVersion)) {
             $this->assertSame($awaitsVersion, $res->getVersion());
@@ -63,13 +63,6 @@ class InformerResponseFactoryTest extends BaseCase
                 'https://test.test/full',
                 'https://test.test/delta',
             ],
-            'no version' => [
-                [
-                    'GarXMLFullURL' => 'https://test.test/full',
-                    'GarXMLDeltaURL' => 'https://test.test/delta',
-                ],
-                new FiasInformerException('No version provided'),
-            ],
             'no url' => [
                 [
                     'VersionId' => 123,
@@ -77,6 +70,13 @@ class InformerResponseFactoryTest extends BaseCase
                 123,
                 '',
                 '',
+            ],
+            'no version' => [
+                [
+                    'GarXMLFullURL' => 'https://test.test/full',
+                    'GarXMLDeltaURL' => 'https://test.test/delta',
+                ],
+                new FiasInformerException('Version must be more than zero'),
             ],
             'malformed delta url' => [
                 [

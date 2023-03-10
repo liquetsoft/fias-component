@@ -6,7 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformDeltaTask;
@@ -29,7 +29,7 @@ class InformDeltaTaskTest extends BaseCase
     {
         $version = 123;
 
-        $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
+        $informerResult = $this->getMockBuilder(FiasInformerResponse::class)->getMock();
         $informerResult->method('getVersion')->willReturn($version);
         $informerResult->method('getDeltaUrl')->willReturn('http://test.test/test');
 

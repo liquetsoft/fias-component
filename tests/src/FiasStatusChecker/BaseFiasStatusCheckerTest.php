@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\FiasStatusChecker;
 
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\FiasStatusChecker\BaseFiasStatusChecker;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasServices;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatuses;
@@ -26,8 +26,8 @@ class BaseFiasStatusCheckerTest extends HttpTransportCase
     {
         $versionUrl = 'https://test.test/version';
 
-        /** @var MockObject&InformerResponse */
-        $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
+        /** @var MockObject&FiasInformerResponse */
+        $informerResult = $this->getMockBuilder(FiasInformerResponse::class)->getMock();
         $informerResult->method('getFullUrl')->willReturn($versionUrl);
 
         /** @var MockObject&FiasInformer */
@@ -85,8 +85,8 @@ class BaseFiasStatusCheckerTest extends HttpTransportCase
     {
         $versionUrl = 'https://test.test/version';
 
-        /** @var MockObject&InformerResponse */
-        $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
+        /** @var MockObject&FiasInformerResponse */
+        $informerResult = $this->getMockBuilder(FiasInformerResponse::class)->getMock();
         $informerResult->method('getFullUrl')->willReturn($versionUrl);
 
         /** @var MockObject&FiasInformer */

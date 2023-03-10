@@ -17,19 +17,19 @@ interface FiasInformer
      *
      * @throws FiasInformerException
      */
-    public function getLatestVersion(): InformerResponse;
+    public function getLatestVersion(): FiasInformerResponse;
 
     /**
      * Получает информацию о версии, которая следует за указанной версией.
      *
      * @throws FiasInformerException
      */
-    public function getNextVersion(int|InformerResponse $currentVersion): ?InformerResponse;
+    public function getNextVersion(int|FiasInformerResponse $currentVersion): ?FiasInformerResponse;
 
     /**
      * Возвращает список всех версий, доступных для установки обновления.
      *
-     * @return InformerResponse[]
+     * @return FiasInformerResponse[]
      *
      * @throws FiasInformerException
      */

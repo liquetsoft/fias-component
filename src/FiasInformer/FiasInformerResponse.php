@@ -8,7 +8,7 @@ namespace Liquetsoft\Fias\Component\FiasInformer;
  * Интерфейс для объекта, который предоставляет результат со ссылкой на файлы
  * от сервиса ФИАС.
  */
-interface InformerResponse
+interface FiasInformerResponse
 {
     /**
      * Возвращает версию ФИАС, для которой получена ссылка.

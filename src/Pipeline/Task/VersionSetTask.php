@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
@@ -28,7 +28,7 @@ class VersionSetTask implements Task
     {
         $version = $state->getParameter(StateParameter::FIAS_INFO);
 
-        if ($version instanceof InformerResponse) {
+        if ($version instanceof FiasInformerResponse) {
             $this->versionManager->setCurrentVersion($version);
         }
     }

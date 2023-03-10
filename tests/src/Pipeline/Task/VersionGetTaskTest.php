@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionGetTask;
@@ -29,7 +29,7 @@ class VersionGetTaskTest extends BaseCase
         $version = $this->createFakeData()->numberBetween(1, 123);
         $url = $this->createFakeData()->url();
 
-        $response = $this->getMockBuilder(InformerResponse::class)->getMock();
+        $response = $this->getMockBuilder(FiasInformerResponse::class)->getMock();
         $response->method('getVersion')->willReturn($version);
         $response->method('getFullUrl')->willReturn($url);
 

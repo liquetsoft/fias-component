@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
  * Объект, который получает ссылку на файл с архивом ФИАС
  * от сервиса информирования ФИАС.
  */
-final class BaseFiasInformer implements FiasInformer
+final class FiasInformerImpl implements FiasInformer
 {
     private readonly HttpTransport $transport;
 
@@ -33,9 +33,9 @@ final class BaseFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      */
-    public function getLatestVersion(): InformerResponse
+    public function getLatestVersion(): FiasInformerResponse
     {
-        return InformerResponseFactory::createFromJson(
+        return FiasInformerResponseFactory::createFromJson(
             $this->query($this->endpointLast)
         );
     }
@@ -43,9 +43,9 @@ final class BaseFiasInformer implements FiasInformer
     /**
      * {@inheritDoc}
      */
-    public function getNextVersion(int|InformerResponse $currentVersion): ?InformerResponse
+    public function getNextVersion(int|FiasInformerResponse $currentVersion): ?FiasInformerResponse
     {
-        $currentVersionId = $currentVersion instanceof InformerResponse ? $currentVersion->getVersion() : $currentVersion;
+        $currentVersionId = $currentVersion instanceof FiasInformerResponse ? $currentVersion->getVersion() : $currentVersion;
         $deltas = $this->getAllVersions();
 
         foreach ($deltas as $delta) {
@@ -67,13 +67,13 @@ final class BaseFiasInformer implements FiasInformer
         $list = [];
         foreach ($data as $item) {
             if (\is_array($item)) {
-                $list[] = InformerResponseFactory::createFromJson($item);
+                $list[] = FiasInformerResponseFactory::createFromJson($item);
             }
         }
 
         usort(
             $list,
-            fn (InformerResponse $a, InformerResponse $b): int => $a->getVersion() - $b->getVersion()
+            fn (FiasInformerResponse $a, FiasInformerResponse $b): int => $a->getVersion() - $b->getVersion()
         );
 
         return $list;

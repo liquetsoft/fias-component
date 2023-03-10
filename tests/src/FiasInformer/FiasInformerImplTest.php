@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\FiasInformer;
 
 use Liquetsoft\Fias\Component\Exception\FiasInformerException;
-use Liquetsoft\Fias\Component\FiasInformer\BaseFiasInformer;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerImpl;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Tests\HttpTransportCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @internal
  */
-class BaseFiasInformerTest extends HttpTransportCase
+class FiasInformerImplTest extends HttpTransportCase
 {
     /**
      * Проверяет получение текущей версии.
@@ -33,7 +33,7 @@ class BaseFiasInformerTest extends HttpTransportCase
             ->with($this->equalTo($latestUrl))
             ->willReturn($response);
 
-        $informer = new BaseFiasInformer($transport, '', $latestUrl);
+        $informer = new FiasInformerImpl($transport, '', $latestUrl);
         $version = $informer->getLatestVersion();
 
         $this->assertSame($versionId, $version->getVersion());
@@ -51,7 +51,7 @@ class BaseFiasInformerTest extends HttpTransportCase
             ->method('get')
             ->willThrowException(new \RuntimeException($message));
 
-        $informer = new BaseFiasInformer($transport);
+        $informer = new FiasInformerImpl($transport);
 
         $this->expectException(FiasInformerException::class);
         $this->expectExceptionMessage($message);
@@ -68,7 +68,7 @@ class BaseFiasInformerTest extends HttpTransportCase
             ->method('get')
             ->willReturn($this->createBadResponseMock());
 
-        $informer = new BaseFiasInformer($transport);
+        $informer = new FiasInformerImpl($transport);
 
         $this->expectException(FiasInformerException::class);
         $this->expectExceptionMessage((string) self::STATUS_SERVER_ERROR);
@@ -85,7 +85,7 @@ class BaseFiasInformerTest extends HttpTransportCase
             ->method('get')
             ->willReturn($this->createOkResponseMock('test'));
 
-        $informer = new BaseFiasInformer($transport);
+        $informer = new FiasInformerImpl($transport);
 
         $this->expectException(FiasInformerException::class);
         $this->expectExceptionMessage(self::ERROR_MESSAGE_JSON);
@@ -102,7 +102,7 @@ class BaseFiasInformerTest extends HttpTransportCase
             ->method('get')
             ->willReturn($this->createOkResponseMock('test', true));
 
-        $informer = new BaseFiasInformer($transport);
+        $informer = new FiasInformerImpl($transport);
 
         $this->expectException(FiasInformerException::class);
         $this->expectExceptionMessage('Response from informer is malformed');
@@ -114,7 +114,7 @@ class BaseFiasInformerTest extends HttpTransportCase
      *
      * @dataProvider provideGetNextVersion
      */
-    public function testGetNextVersion(array $responseArray, int|InformerResponse $current, ?int $awaits): void
+    public function testGetNextVersion(array $responseArray, int|FiasInformerResponse $current, ?int $awaits): void
     {
         $allUrl = 'https://test.test/latest';
         $response = $this->createOkResponseMock($responseArray);
@@ -125,7 +125,7 @@ class BaseFiasInformerTest extends HttpTransportCase
             ->with($this->equalTo($allUrl))
             ->willReturn($response);
 
-        $informer = new BaseFiasInformer($transport, $allUrl);
+        $informer = new FiasInformerImpl($transport, $allUrl);
         $nextVersion = $informer->getNextVersion($current);
 
         if ($awaits === null) {
@@ -138,8 +138,8 @@ class BaseFiasInformerTest extends HttpTransportCase
 
     public function provideGetNextVersion(): array
     {
-        /** @var MockObject&InformerResponse */
-        $informerResponseMock = $this->getMockBuilder(InformerResponse::class)->getMock();
+        /** @var MockObject&FiasInformerResponse */
+        $informerResponseMock = $this->getMockBuilder(FiasInformerResponse::class)->getMock();
         $informerResponseMock->method('getVersion')->willReturn(2);
 
         return [
@@ -203,7 +203,7 @@ class BaseFiasInformerTest extends HttpTransportCase
             ->with($this->equalTo($allUrl))
             ->willReturn($response);
 
-        $informer = new BaseFiasInformer($transport, $allUrl);
+        $informer = new FiasInformerImpl($transport, $allUrl);
         $allVersions = $informer->getAllVersions();
 
         $this->assertCount(\count($awaits), $allVersions);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformFullTask;
@@ -26,7 +26,7 @@ class InformFullTaskTest extends BaseCase
      */
     public function testRun(): void
     {
-        $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
+        $informerResult = $this->getMockBuilder(FiasInformerResponse::class)->getMock();
         $informerResult->method('getVersion')->willReturn(1);
         $informerResult->method('getFullUrl')->willReturn('http://test.test/test');
 

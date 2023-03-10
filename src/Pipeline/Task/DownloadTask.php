@@ -6,7 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
@@ -32,9 +32,9 @@ class DownloadTask implements LoggableTask, Task
     public function run(State $state): void
     {
         $info = $state->getParameter(StateParameter::FIAS_INFO);
-        if (!($info instanceof InformerResponse)) {
+        if (!($info instanceof FiasInformerResponse)) {
             throw new TaskException(
-                "State parameter '" . StateParameter::FIAS_INFO . "' must be an '" . InformerResponse::class . "' instance for '" . self::class . "'."
+                "State parameter '" . StateParameter::FIAS_INFO . "' must be an '" . FiasInformerResponse::class . "' instance for '" . self::class . "'."
             );
         }
 
