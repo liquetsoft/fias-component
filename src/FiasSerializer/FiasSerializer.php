@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Serializer;
+namespace Liquetsoft\Fias\Component\FiasSerializer;
 
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
@@ -32,7 +32,7 @@ final class FiasSerializer extends Serializer
                 new DateTimeNormalizer(),
                 new ObjectNormalizer(
                     null,
-                    new FiasNameConverter(),
+                    new FiasSerializerNameConverter(),
                     null,
                     new ReflectionExtractor()
                 ),

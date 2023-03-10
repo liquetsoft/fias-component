@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\Serializer;
+namespace Liquetsoft\Fias\Component\Tests\FiasSerializer;
 
-use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
+use Liquetsoft\Fias\Component\FiasSerializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
 

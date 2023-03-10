@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Serializer;
+namespace Liquetsoft\Fias\Component\FiasSerializer;
 
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Объект, который преобразует имена полей ФИАС при трансформации xml строки в объект.
  */
-final class FiasNameConverter implements NameConverterInterface
+final class FiasSerializerNameConverter implements NameConverterInterface
 {
     /**
      * {@inheritdoc}

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\Serializer;
+namespace Liquetsoft\Fias\Component\Tests\FiasSerializer;
 
-use Liquetsoft\Fias\Component\Serializer\FiasNameConverter;
+use Liquetsoft\Fias\Component\FiasSerializer\FiasSerializerNameConverter;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class FiasNameConverterTest extends BaseCase
+class FiasSerializerNameConverterTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует имя.
@@ -21,7 +21,7 @@ class FiasNameConverterTest extends BaseCase
      */
     public function testNormalize(string $name, string $awaits): void
     {
-        $converter = new FiasNameConverter();
+        $converter = new FiasSerializerNameConverter();
 
         $this->assertSame($awaits, $converter->normalize($name));
     }
@@ -43,7 +43,7 @@ class FiasNameConverterTest extends BaseCase
      */
     public function testDenormalize(string $name, string $awaits): void
     {
-        $converter = new FiasNameConverter();
+        $converter = new FiasSerializerNameConverter();
 
         $this->assertSame($awaits, $converter->denormalize($name));
     }

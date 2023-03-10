@@ -10,7 +10,7 @@
             "src/Filter",
             "src/Helper",
             "src/HttpTransport",
-            "src/Serializer",
+            "src/FiasSerializer",
             "src/Storage",
             "src/Unpacker",
             "src/XmlReader"
