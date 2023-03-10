@@ -10,7 +10,7 @@ use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
 /**
  * Объект, который читает данные из xml файла с помощью XmlReader.
  */
-final class BaseXmlReader implements XmlReaderInterface
+final class XmlReaderImpl implements XmlReaderInterface
 {
     private const XML_READER_CHARSET = 'UTF-8';
     private const XML_READER_OPTIONS = \LIBXML_COMPACT | \LIBXML_NONET | \LIBXML_NOBLANKS;

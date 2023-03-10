@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\DataDeleteTaskMock;
-use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use Liquetsoft\Fias\Component\XmlReader\XmlReaderImpl;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -73,7 +73,7 @@ class DataDeleteTaskTest extends BaseCase
 
         $task = new DataDeleteTask(
             $entityManager,
-            new BaseXmlReader(),
+            new XmlReaderImpl(),
             $storage,
             new FiasSerializer()
         );

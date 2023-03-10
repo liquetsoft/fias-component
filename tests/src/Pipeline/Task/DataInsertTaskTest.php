@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\DataInsertTaskMock;
-use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use Liquetsoft\Fias\Component\XmlReader\XmlReaderImpl;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -75,7 +75,7 @@ class DataInsertTaskTest extends BaseCase
 
         $task = new DataInsertTask(
             $entityManager,
-            new BaseXmlReader(),
+            new XmlReaderImpl(),
             $storage,
             new FiasSerializer()
         );
@@ -137,7 +137,7 @@ class DataInsertTaskTest extends BaseCase
 
         $task = new DataInsertTask(
             $entityManager,
-            new BaseXmlReader(),
+            new XmlReaderImpl(),
             $storage,
             $serializer
         );
@@ -196,7 +196,7 @@ class DataInsertTaskTest extends BaseCase
 
         $task = new DataInsertTask(
             $entityManager,
-            new BaseXmlReader(),
+            new XmlReaderImpl(),
             $storage,
             $serializer
         );

@@ -6,14 +6,14 @@ namespace Liquetsoft\Fias\Component\Tests\XmlReader;
 
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
+use Liquetsoft\Fias\Component\XmlReader\XmlReaderImpl;
 
 /**
  * Тест для объекта, который читает данные из xml файла.
  *
  * @internal
  */
-class BaseXmlReaderTest extends BaseCase
+class XmlReaderImplTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если указан пустой xpath.
@@ -23,7 +23,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testOpen.xml');
         $xpath = '';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
 
         $this->expectException(XmlException::class);
         $this->expectExceptionMessage("Xpath parameter can't be empty and must start with '/'");
@@ -38,7 +38,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testOpen.xml');
         $xpath = 'ActualStatuses/ActualStatus';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
 
         $this->expectException(XmlException::class);
         $this->expectExceptionMessage("Xpath parameter can't be empty and must start with '/'");
@@ -54,7 +54,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo($path);
         $xpath = '/';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
 
         $this->expectException(XmlException::class);
         $this->expectExceptionMessage("Xpath parameter can't be empty and must start with '/'");
@@ -69,7 +69,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
         $xpath = '  /ActualStatuses/ActualStatus  ';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
         $result = [];
         foreach ($reader as $key => $item) {
@@ -92,7 +92,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
         $result = [];
         foreach ($reader as $key => $item) {
@@ -121,7 +121,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorEmptyFile.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
         $result = [];
         foreach ($reader as $key => $item) {
@@ -141,7 +141,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorMessyFile.xml');
         $xpath = '/root/firstLevel/secondLevel/realItem';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
         $result = [];
         foreach ($reader as $key => $item) {
@@ -164,7 +164,7 @@ class BaseXmlReaderTest extends BaseCase
      */
     public function testIteratorNotOpenException(): void
     {
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
 
         $this->expectException(XmlException::class);
         $this->expectExceptionMessage("File wasn't opened");
@@ -181,7 +181,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
         $reader->close();
 
@@ -200,7 +200,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/non_existed');
         $xpath = '/ActualStatuses/ActualStatus';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
 
         $this->expectException(XmlException::class);
@@ -218,7 +218,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorMalformedFileException.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
 
         $this->expectException(XmlException::class);
@@ -236,7 +236,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorInterruptedFileException.xml');
         $xpath = '/root/qwe';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
 
         $this->expectException(XmlException::class);
@@ -254,7 +254,7 @@ class BaseXmlReaderTest extends BaseCase
         $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
-        $reader = new BaseXmlReader();
+        $reader = new XmlReaderImpl();
         $reader->open($file, $xpath);
 
         $this->expectException(XmlException::class);
