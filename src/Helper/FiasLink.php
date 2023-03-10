@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Helper;
 /**
  * Список ссылок на основные части ФИАС.
  */
-enum FiasLinks: string
+enum FiasLink: string
 {
     case GAR_SCHEMAS = 'https://fias.nalog.ru/docs/gar_schemas.zip';
     case INFORMER_ALL = 'https://fias.nalog.ru/WebServices/Public/GetAllDownloadFileInfo';

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
 use Liquetsoft\Fias\Component\Exception\FiasInformerException;
-use Liquetsoft\Fias\Component\Helper\FiasLinks;
+use Liquetsoft\Fias\Component\Helper\FiasLink;
 use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
 
 /**
@@ -22,12 +22,12 @@ final class BaseFiasInformer implements FiasInformer
 
     public function __construct(
         HttpTransport $transport,
-        string|FiasLinks $endpointAll = FiasLinks::INFORMER_ALL,
-        string|FiasLinks $endpointLast = FiasLinks::INFORMER_LAST
+        string|FiasLink $endpointAll = FiasLink::INFORMER_ALL,
+        string|FiasLink $endpointLast = FiasLink::INFORMER_LAST
     ) {
         $this->transport = $transport;
-        $this->endpointAll = $endpointAll instanceof FiasLinks ? $endpointAll->value : $endpointAll;
-        $this->endpointLast = $endpointLast instanceof FiasLinks ? $endpointLast->value : $endpointLast;
+        $this->endpointAll = $endpointAll instanceof FiasLink ? $endpointAll->value : $endpointAll;
+        $this->endpointLast = $endpointLast instanceof FiasLink ? $endpointLast->value : $endpointLast;
     }
 
     /**
