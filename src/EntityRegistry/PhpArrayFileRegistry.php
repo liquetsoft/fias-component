@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFactory;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldFactory;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
@@ -42,7 +42,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
                 continue;
             }
             $entity['name'] = $key;
-            $registry[] = $this->createEntityDescriptor($entity);
+            $registry[] = $this->createFiasEntity($entity);
         }
 
         return $registry;
@@ -55,7 +55,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      *
      * @throws \InvalidArgumentException
      */
-    private function createEntityDescriptor(array $entity): EntityDescriptor
+    private function createFiasEntity(array $entity): FiasEntity
     {
         if (!empty($entity['fields']) && \is_array($entity['fields'])) {
             $fields = [];
@@ -69,7 +69,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
             $entity['fields'] = $fields;
         }
 
-        return new BaseEntityDescriptor($entity);
+        return FiasEntityFactory::createFromArray($entity);
     }
 
     /**

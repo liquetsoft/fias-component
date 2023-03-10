@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 
 /**
  * Интерфейс для объекта, который содержит описание объектов ФИАС.
@@ -15,7 +15,7 @@ interface EntityRegistry
     /**
      * Возвращает список всех дескрипторов.
      *
-     * @return EntityDescriptor[]
+     * @return FiasEntity[]
      *
      * @throws EntityRegistryException
      */
@@ -34,5 +34,5 @@ interface EntityRegistry
      * @throws \InvalidArgumentException
      * @throws EntityRegistryException
      */
-    public function getDescriptor(string $entityName): EntityDescriptor;
+    public function getDescriptor(string $entityName): FiasEntity;
 }

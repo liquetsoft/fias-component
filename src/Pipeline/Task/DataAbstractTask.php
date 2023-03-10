@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Exception\XmlException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Storage\Storage;
@@ -42,7 +42,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
     /**
      * Пробует найти дескриптор для указанного файла.
      */
-    abstract protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor;
+    abstract protected function getFileDescriptor(\SplFileInfo $file): ?FiasEntity;
 
     /**
      * Обрабатывает одиночную запись из файла.
@@ -72,7 +72,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
      * @throws StorageException
      * @throws XmlException
      */
-    protected function processFile(\SplFileInfo $fileInfo, EntityDescriptor $descriptor): void
+    protected function processFile(\SplFileInfo $fileInfo, FiasEntity $descriptor): void
     {
         $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
         if ($entityClass) {

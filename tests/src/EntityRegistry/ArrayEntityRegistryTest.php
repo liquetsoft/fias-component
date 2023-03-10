@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityRegistry;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityRegistry\ArrayEntityRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -18,11 +18,11 @@ class ArrayEntityRegistryTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если задан объект,
-     * который не реализует EntityDescriptor.
+     * который не реализует FiasEntity.
      */
     public function testConstructorWrongInstanceException(): void
     {
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor = $this->getMockBuilder(FiasEntity::class)->getMock();
 
         $this->expectException(\InvalidArgumentException::class);
         new ArrayEntityRegistry(
@@ -41,8 +41,8 @@ class ArrayEntityRegistryTest extends BaseCase
     public function testGetDescriptors(): void
     {
         $descriptors = [
-            'test' => $this->getMockBuilder(EntityDescriptor::class)->getMock(),
-            $this->getMockBuilder(EntityDescriptor::class)->getMock(),
+            'test' => $this->getMockBuilder(FiasEntity::class)->getMock(),
+            $this->getMockBuilder(FiasEntity::class)->getMock(),
         ];
 
         $registry = new ArrayEntityRegistry($descriptors);
@@ -60,7 +60,7 @@ class ArrayEntityRegistryTest extends BaseCase
     {
         $name = 'Test';
 
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor = $this->getMockBuilder(FiasEntity::class)->getMock();
         $descriptor->method('getName')->willReturn($name);
 
         $registry = new ArrayEntityRegistry([$descriptor]);
@@ -78,7 +78,7 @@ class ArrayEntityRegistryTest extends BaseCase
     {
         $name = 'Test';
 
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor = $this->getMockBuilder(FiasEntity::class)->getMock();
         $descriptor->method('getName')->willReturn($name);
 
         $registry = new ArrayEntityRegistry([$descriptor]);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Unpacker;
 
 use Liquetsoft\Fias\Component\Exception\UnpackerException;
+use Liquetsoft\Fias\Component\Helper\ArrayHelper;
 
 /**
  * Фабрика, которая может создавать сущности, описывающие файлы в архиве.
@@ -24,10 +25,10 @@ final class UnpackerEntityFactory
             throw UnpackerException::create('Stats must be an array instance');
         }
 
-        $crc = (int) ($stats['crc'] ?? 0);
-        $index = (int) ($stats['index'] ?? 0);
-        $size = (int) ($stats['size'] ?? 0);
-        $name = (string) ($stats['name'] ?? '');
+        $crc = ArrayHelper::extractIntFromArrayByName('crc', $stats);
+        $index = ArrayHelper::extractIntFromArrayByName('index', $stats);
+        $size = ArrayHelper::extractIntFromArrayByName('size', $stats);
+        $name = ArrayHelper::extractStringFromArrayByName('name', $stats);
 
         return new UnpackerEntityImpl(
             $crc !== 0 ? UnpackerEntityType::FILE : UnpackerEntityType::DIRECTORY,

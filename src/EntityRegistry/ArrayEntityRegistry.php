@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 
 /**
  * Объект, который хранит описания сущностей ФИАС во внутреннем массиве.
@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 class ArrayEntityRegistry extends AbstractEntityRegistry
 {
     /**
-     * @var array<int, EntityDescriptor>
+     * @var array<int, FiasEntity>
      */
     protected array $arrayRegistry;
 
@@ -24,9 +24,9 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
         $this->arrayRegistry = [];
 
         foreach ($registry as $key => $descriptor) {
-            if (!($descriptor instanceof EntityDescriptor)) {
+            if (!($descriptor instanceof FiasEntity)) {
                 throw new \InvalidArgumentException(
-                    "Item with key {$key} must be an " . EntityDescriptor::class . ' instance.'
+                    "Item with key {$key} must be an " . FiasEntity::class . ' instance.'
                 );
             }
             $this->arrayRegistry[] = $descriptor;

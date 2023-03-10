@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasEntity;
 
+use Liquetsoft\Fias\Component\Helper\ArrayHelper;
+
 /**
  * Фабричный класс, который может создавать поле сущности.
  */
@@ -19,39 +21,15 @@ final class FiasEntityFieldFactory
     public static function createFromArray(array $options): FiasEntityField
     {
         return new FiasEntityFieldImpl(
-            FiasEntityFieldType::from(self::extractStringFromArrayByName('type', $options)),
-            FiasEntityFieldSubType::from(self::extractStringFromArrayByName('subType', $options)),
-            self::extractStringFromArrayByName('name', $options),
-            self::extractStringFromArrayByName('description', $options),
-            self::extractIntFromArrayByName('length', $options),
-            self::extractBoolFromArrayByName('isNullable', $options),
-            self::extractBoolFromArrayByName('isPrimary', $options),
-            self::extractBoolFromArrayByName('isIndex', $options),
-            self::extractBoolFromArrayByName('isPartition', $options)
+            FiasEntityFieldType::from(ArrayHelper::extractStringFromArrayByName('type', $options)),
+            FiasEntityFieldSubType::from(ArrayHelper::extractStringFromArrayByName('subType', $options)),
+            ArrayHelper::extractStringFromArrayByName('name', $options),
+            ArrayHelper::extractStringFromArrayByName('description', $options),
+            ArrayHelper::extractIntFromArrayByName('length', $options) ?: null,
+            ArrayHelper::extractBoolFromArrayByName('isNullable', $options),
+            ArrayHelper::extractBoolFromArrayByName('isPrimary', $options),
+            ArrayHelper::extractBoolFromArrayByName('isIndex', $options),
+            ArrayHelper::extractBoolFromArrayByName('isPartition', $options)
         );
-    }
-
-    /**
-     * Извлекает строку из указанного массива по имени ключа.
-     */
-    private static function extractStringFromArrayByName(string $name, array $array): string
-    {
-        return trim((string) ($array[$name] ?? ''));
-    }
-
-    /**
-     * Извлекает число из указанного массива по имени ключа.
-     */
-    private static function extractIntFromArrayByName(string $name, array $array): ?int
-    {
-        return isset($array[$name]) ? (int) $array[$name] : null;
-    }
-
-    /**
-     * Извлекает булево значение из указанного массива по имени ключа.
-     */
-    private static function extractBoolFromArrayByName(string $name, array $array): bool
-    {
-        return (bool) ($array[$name] ?? false);
     }
 }

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
+namespace Liquetsoft\Fias\Component\Tests\FiasEntity;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityImpl;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -13,16 +13,16 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class BaseEntityDescriptorTest extends BaseCase
+class FiasEntityImplTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно вернет имя сущности.
      */
     public function testGetName(): void
     {
-        $name = $this->createFakeData()->word();
+        $name = 'name';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'name' => $name,
         ]);
 
@@ -35,9 +35,10 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testEmptyNameException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->createDescriptor(
+        $this->expectExceptionMessage('Name param is required');
+        $this->createEntity(
             [
-                'name' => null,
+                'name' => '  ',
             ]
         );
     }
@@ -47,9 +48,9 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlPath(): void
     {
-        $xpath = '/root/' . $this->createFakeData()->word();
+        $xpath = '/root/Test';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'xmlPath' => $xpath,
         ]);
 
@@ -62,9 +63,10 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testEmptyXmlPathException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->createDescriptor(
+        $this->expectExceptionMessage('XmlPath param is required');
+        $this->createEntity(
             [
-                'xmlPath' => null,
+                'xmlPath' => '  ',
             ]
         );
     }
@@ -74,9 +76,9 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetDescription(): void
     {
-        $description = $this->createFakeData()->text();
+        $description = 'test description';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'description' => $description,
         ]);
 
@@ -88,7 +90,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetDescriptionDefault(): void
     {
-        $descriptor = $this->createDescriptor();
+        $descriptor = $this->createEntity();
 
         $this->assertSame('', $descriptor->getDescription());
     }
@@ -98,9 +100,9 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlInsertFileMask(): void
     {
-        $file = $this->createFakeData()->word() . '_*.xml';
+        $file = 'test_file_*.xml';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'insertFileMask' => $file,
         ]);
 
@@ -112,7 +114,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlInsertFileMaskDefault(): void
     {
-        $descriptor = $this->createDescriptor();
+        $descriptor = $this->createEntity();
 
         $this->assertSame('', $descriptor->getXmlInsertFileMask());
     }
@@ -122,9 +124,9 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlDeleteFileMask(): void
     {
-        $file = $this->createFakeData()->word() . '_*.xml';
+        $file = 'test_file_*.xml';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'deleteFileMask' => $file,
         ]);
 
@@ -136,7 +138,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetXmlDeleteFileMaskDefault(): void
     {
-        $descriptor = $this->createDescriptor();
+        $descriptor = $this->createEntity();
 
         $this->assertSame('', $descriptor->getXmlDeleteFileMask());
     }
@@ -147,23 +149,25 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetPartitionsCount(): void
     {
-        $count = (string) $this->createFakeData()->numberBetween(1, 10);
+        $count = 5;
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'partitionsCount' => $count,
         ]);
 
-        $this->assertSame((int) $count, $descriptor->getPartitionsCount());
+        $this->assertSame($count, $descriptor->getPartitionsCount());
     }
 
     /**
-     * Проверяет, что объект по умолчанию вернет одну часть для таблицы.
+     * Проверяет, что объект выбросит исключение, если число партиций меньше 1.
      */
-    public function testGetPartitionsCountDefault(): void
+    public function testGetPartitionsCountLessThan1Exception(): void
     {
-        $descriptor = $this->createDescriptor();
-
-        $this->assertSame(1, $descriptor->getPartitionsCount());
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Partititons count can't be less than 1");
+        $this->createEntity([
+            'partitionsCount' => 0,
+        ]);
     }
 
     /**
@@ -179,7 +183,7 @@ class BaseEntityDescriptorTest extends BaseCase
 
         $fields = [$field1, $field2];
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'fields' => $fields,
         ]);
 
@@ -194,7 +198,7 @@ class BaseEntityDescriptorTest extends BaseCase
         $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'fields' => ['test' => $field],
         ]);
 
@@ -210,7 +214,7 @@ class BaseEntityDescriptorTest extends BaseCase
         $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'fields' => ['test' => $field],
         ]);
 
@@ -225,7 +229,7 @@ class BaseEntityDescriptorTest extends BaseCase
         $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'fields' => ['test' => $field],
         ]);
 
@@ -239,26 +243,10 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testEmptyFieldsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->createDescriptor(
+        $this->expectExceptionMessage("Fields array can't be empty");
+        $this->createEntity(
             [
-                'fields' => null,
-            ]
-        );
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если указано неверное поле.
-     */
-    public function testWrongFieldTypeException(): void
-    {
-        $field1 = $this->getMockBuilder(FiasEntityField::class)->getMock();
-        $field2 = 123;
-        $fields = [$field1, $field2];
-
-        $this->expectException(\InvalidArgumentException::class);
-        $this->createDescriptor(
-            [
-                'fields' => $fields,
+                'fields' => [],
             ]
         );
     }
@@ -269,13 +257,14 @@ class BaseEntityDescriptorTest extends BaseCase
     public function testDoublingFieldsNamesException(): void
     {
         $field1 = $this->getMockBuilder(FiasEntityField::class)->getMock();
-        $field1->method('getName')->willReturn('test');
+        $field1->method('getName')->willReturn('test_field_name');
 
         $field2 = $this->getMockBuilder(FiasEntityField::class)->getMock();
-        $field2->method('getName')->willReturn('test');
+        $field2->method('getName')->willReturn('test_field_name');
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->createDescriptor(
+        $this->expectExceptionMessage('test_field_name');
+        $this->createEntity(
             [
                 'fields' => [
                     $field1,
@@ -292,7 +281,7 @@ class BaseEntityDescriptorTest extends BaseCase
     {
         $fileMask = '*_test_*.xml';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'insertFileMask' => $fileMask,
         ]);
 
@@ -307,7 +296,7 @@ class BaseEntityDescriptorTest extends BaseCase
     {
         $fileMask = '/^AS_NORMATIVE_DOCS_\d+_.*\.XML$/';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'insertFileMask' => $fileMask,
         ]);
 
@@ -326,7 +315,7 @@ class BaseEntityDescriptorTest extends BaseCase
     {
         $fileMask = '*_test_*.xml';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'deleteFileMask' => $fileMask,
         ]);
 
@@ -341,7 +330,7 @@ class BaseEntityDescriptorTest extends BaseCase
     {
         $fileMask = '#^\d{3}_test_.*\.xml#';
 
-        $descriptor = $this->createDescriptor([
+        $descriptor = $this->createEntity([
             'deleteFileMask' => $fileMask,
         ]);
 
@@ -351,18 +340,22 @@ class BaseEntityDescriptorTest extends BaseCase
 
     /**
      * Создает объект по умолчанию.
+     *
+     * @psalm-suppress MixedArgument
      */
-    protected function createDescriptor(array $options = []): BaseEntityDescriptor
+    private function createEntity(array $options = []): FiasEntityImpl
     {
         $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test');
 
-        $resultOptions = array_merge([
-            'name' => 'Test',
-            'xmlPath' => '/test/item',
-            'fields' => [$field],
-        ], $options);
-
-        return new BaseEntityDescriptor($resultOptions);
+        return new FiasEntityImpl(
+            $options['name'] ?? 'name',
+            $options['xmlPath'] ?? '/test/item',
+            $options['fields'] ?? [$field],
+            $options['description'] ?? '',
+            $options['partitionsCount'] ?? 1,
+            $options['insertFileMask'] ?? '',
+            $options['deleteFileMask'] ?? '',
+        );
     }
 }

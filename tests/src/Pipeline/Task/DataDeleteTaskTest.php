@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 use Liquetsoft\Fias\Component\FiasSerializer\FiasSerializer;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\DataDeleteTask;
@@ -29,7 +29,7 @@ class DataDeleteTaskTest extends BaseCase
      */
     public function testRun(): void
     {
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor = $this->getMockBuilder(FiasEntity::class)->getMock();
         $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
 
         /** @var MockObject&EntityManager */
@@ -42,7 +42,7 @@ class DataDeleteTaskTest extends BaseCase
             );
         $entityManager->method('getClassByDescriptor')
             ->willReturnCallback(
-                function (EntityDescriptor $testDescriptor) use ($descriptor) {
+                function (FiasEntity $testDescriptor) use ($descriptor) {
                     return $testDescriptor === $descriptor ? DataDeleteTaskMock::class : null;
                 }
             );

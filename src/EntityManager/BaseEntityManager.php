@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityManager;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 
 /**
  * Объект, который содержит соответствия между сущностями ФИАС и их реализациями
@@ -43,7 +43,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByEntityName(string $entityName): ?EntityDescriptor
+    public function getDescriptorByEntityName(string $entityName): ?FiasEntity
     {
         $normalizedEntityName = $this->normalizeEntityName($entityName);
         $return = null;
@@ -58,7 +58,7 @@ class BaseEntityManager implements EntityManager
     /**
      * {@inheritdoc}
      */
-    public function getClassByDescriptor(EntityDescriptor $descriptor): ?string
+    public function getClassByDescriptor(FiasEntity $descriptor): ?string
     {
         $normalizedEntityName = $this->normalizeEntityName($descriptor->getName());
 
@@ -70,7 +70,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByInsertFile(string $insertFileName): ?EntityDescriptor
+    public function getDescriptorByInsertFile(string $insertFileName): ?FiasEntity
     {
         $return = null;
 
@@ -90,7 +90,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByDeleteFile(string $insertFileName): ?EntityDescriptor
+    public function getDescriptorByDeleteFile(string $insertFileName): ?FiasEntity
     {
         $return = null;
 
@@ -110,7 +110,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByClass(string $className): ?EntityDescriptor
+    public function getDescriptorByClass(string $className): ?FiasEntity
     {
         $normalizedClassName = $this->normalizeClassName($className);
         $entityName = null;
@@ -130,7 +130,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByObject(mixed $object): ?EntityDescriptor
+    public function getDescriptorByObject(mixed $object): ?FiasEntity
     {
         $return = null;
 

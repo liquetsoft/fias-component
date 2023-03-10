@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasInformer;
 
+use Liquetsoft\Fias\Component\Helper\ArrayHelper;
+
 /**
  * Фабрика, которая может создать объект со ссылкой на версию ФИАС.
  */
 final class FiasInformerResponseFactory
 {
-    private const DEFAULT_VERSION_NUMBER = 0;
-
     private function __construct()
     {
     }
@@ -21,9 +21,9 @@ final class FiasInformerResponseFactory
     public static function createFromJson(array $data): FiasInformerResponse
     {
         return new FiasInformerResponseImpl(
-            (int) ($data['VersionId'] ?? self::DEFAULT_VERSION_NUMBER),
-            (string) ($data['GarXMLFullURL'] ?? ''),
-            (string) ($data['GarXMLDeltaURL'] ?? '')
+            ArrayHelper::extractIntFromArrayByName('VersionId', $data),
+            ArrayHelper::extractStringFromArrayByName('GarXMLFullURL', $data),
+            ArrayHelper::extractStringFromArrayByName('GarXMLDeltaURL', $data)
         );
     }
 }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 use Liquetsoft\Fias\Component\Filter\Filter;
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
@@ -69,7 +69,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     {
         $fixturesFolder = __DIR__ . '/_fixtures';
 
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor = $this->getMockBuilder(FiasEntity::class)->getMock();
 
         /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
@@ -118,7 +118,7 @@ class SelectFilesToProceedTaskTest extends BaseCase
     {
         $fixturesFolder = __DIR__ . '/_fixtures';
 
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        $descriptor = $this->getMockBuilder(FiasEntity::class)->getMock();
 
         /** @var MockObject&EntityManager */
         $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();

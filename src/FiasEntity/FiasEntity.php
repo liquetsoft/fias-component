@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\EntityDescriptor;
-
-use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
+namespace Liquetsoft\Fias\Component\FiasEntity;
 
 /**
  * Интерфейс для объекта, который описывает сущность ФИАС.
  */
-interface EntityDescriptor
+interface FiasEntity
 {
     /**
      * Возвращает имя сущности.
@@ -44,9 +42,9 @@ interface EntityDescriptor
     /**
      * Возвращает список полей для данной сущности.
      *
-     * @return FiasEntityField[]
+     * @return iterable<FiasEntityField>
      */
-    public function getFields(): array;
+    public function getFields(): iterable;
 
     /**
      * Проверяет существует ли поле с указанным именем.

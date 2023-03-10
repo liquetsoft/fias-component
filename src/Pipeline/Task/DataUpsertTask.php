@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\StorageException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 
 /**
  * Задача, которая читает данные из xml и либо обновляет, если запись уже имеется,
@@ -16,7 +16,7 @@ class DataUpsertTask extends DataAbstractTask
     /**
      * {@inheritDoc}
      */
-    protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor
+    protected function getFileDescriptor(\SplFileInfo $file): ?FiasEntity
     {
         return $this->entityManager->getDescriptorByInsertFile($file->getBasename());
     }

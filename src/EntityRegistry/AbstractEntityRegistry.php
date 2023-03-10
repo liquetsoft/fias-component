@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityRegistry;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 
 /**
  * Абстрактный класс для реестра сущностей ФИАС.
@@ -13,14 +13,14 @@ use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 abstract class AbstractEntityRegistry implements EntityRegistry
 {
     /**
-     * @var EntityDescriptor[]|null
+     * @var FiasEntity[]|null
      */
     protected ?array $registry = null;
 
     /**
      * Возвращает полностью подготовленный массив с описаниями сущностей.
      *
-     * @return EntityDescriptor[]
+     * @return FiasEntity[]
      */
     abstract protected function createRegistry(): array;
 
@@ -46,7 +46,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     /**
      * {@inheritdoc}
      */
-    public function getDescriptor(string $entityName): EntityDescriptor
+    public function getDescriptor(string $entityName): FiasEntity
     {
         $return = null;
         $normalizedName = $this->normalizeEntityName($entityName);

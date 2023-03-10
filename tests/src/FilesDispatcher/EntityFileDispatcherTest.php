@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FilesDispatcher;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 use Liquetsoft\Fias\Component\FilesDispatcher\EntityFileDispatcher;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -94,16 +94,16 @@ class EntityFileDispatcherTest extends BaseCase
 
     private function getEntityManagerMock(): EntityManager
     {
-        /** @var MockObject&EntityDescriptor */
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        /** @var MockObject&FiasEntity */
+        $descriptor = $this->getMockBuilder(FiasEntity::class)->getMock();
         $descriptor->method('getName')->willReturn('entity');
 
-        /** @var MockObject&EntityDescriptor */
-        $descriptor1 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        /** @var MockObject&FiasEntity */
+        $descriptor1 = $this->getMockBuilder(FiasEntity::class)->getMock();
         $descriptor1->method('getName')->willReturn('entity_1');
 
-        /** @var MockObject&EntityDescriptor */
-        $descriptor2 = $this->getMockBuilder(EntityDescriptor::class)->getMock();
+        /** @var MockObject&FiasEntity */
+        $descriptor2 = $this->getMockBuilder(FiasEntity::class)->getMock();
         $descriptor2->method('getName')->willReturn('entity_2');
 
         /** @var MockObject&EntityManager */
