@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Storage;
 
 use Liquetsoft\Fias\Component\Exception\StorageException;
-use Liquetsoft\Fias\Component\Storage\CompositeStorage;
 use Liquetsoft\Fias\Component\Storage\Storage;
+use Liquetsoft\Fias\Component\Storage\StorageComposite;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class CompositeStorageTest extends BaseCase
+class StorageCompositeTest extends BaseCase
 {
     /**
      * Проверяет, что объект передаст вызов start всем вложенным хранилищам.
@@ -29,8 +29,8 @@ class CompositeStorageTest extends BaseCase
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())->method('start');
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
-        $compositeStorage->start();
+        $StorageComposite = new StorageComposite([$storage, $storage1]);
+        $StorageComposite->start();
     }
 
     /**
@@ -46,8 +46,8 @@ class CompositeStorageTest extends BaseCase
         $storage1 = $this->getMockBuilder(Storage::class)->getMock();
         $storage1->expects($this->once())->method('stop');
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
-        $compositeStorage->stop();
+        $StorageComposite = new StorageComposite([$storage, $storage1]);
+        $StorageComposite->stop();
     }
 
     /**
@@ -73,8 +73,8 @@ class CompositeStorageTest extends BaseCase
         $storage2 = $this->getMockBuilder(Storage::class)->getMock();
         $storage2->expects($this->never())->method('supports');
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1, $storage2]);
-        $isSupport = $compositeStorage->supports($object);
+        $StorageComposite = new StorageComposite([$storage, $storage1, $storage2]);
+        $isSupport = $StorageComposite->supports($object);
 
         $this->assertTrue($isSupport);
     }
@@ -99,8 +99,8 @@ class CompositeStorageTest extends BaseCase
             ->with($this->identicalTo($class))
             ->willReturn(true);
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
-        $isSupport = $compositeStorage->supports($class);
+        $StorageComposite = new StorageComposite([$storage, $storage1]);
+        $isSupport = $StorageComposite->supports($class);
 
         $this->assertTrue($isSupport);
     }
@@ -112,8 +112,8 @@ class CompositeStorageTest extends BaseCase
     {
         $object = new \stdClass();
 
-        $compositeStorage = new CompositeStorage([]);
-        $isSupport = $compositeStorage->supports($object);
+        $StorageComposite = new StorageComposite([]);
+        $isSupport = $StorageComposite->supports($object);
 
         $this->assertFalse($isSupport);
     }
@@ -141,8 +141,8 @@ class CompositeStorageTest extends BaseCase
             ->willReturn(true);
         $storage1->expects($this->once())->method('insert')->with($this->identicalTo($object));
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
-        $compositeStorage->insert($object);
+        $StorageComposite = new StorageComposite([$storage, $storage1]);
+        $StorageComposite->insert($object);
     }
 
     /**
@@ -170,8 +170,8 @@ class CompositeStorageTest extends BaseCase
             ->method('delete')
             ->with($this->identicalTo($object));
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
-        $compositeStorage->delete($object);
+        $StorageComposite = new StorageComposite([$storage, $storage1]);
+        $StorageComposite->delete($object);
     }
 
     /**
@@ -199,8 +199,8 @@ class CompositeStorageTest extends BaseCase
             ->method('upsert')
             ->with($this->identicalTo($object));
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
-        $compositeStorage->upsert($object);
+        $StorageComposite = new StorageComposite([$storage, $storage1]);
+        $StorageComposite->upsert($object);
     }
 
     /**
@@ -226,7 +226,7 @@ class CompositeStorageTest extends BaseCase
             ->willReturn(true);
         $storage1->expects($this->once())->method('truncate')->with($this->identicalTo($className));
 
-        $compositeStorage = new CompositeStorage([$storage, $storage1]);
-        $compositeStorage->truncate($className);
+        $StorageComposite = new StorageComposite([$storage, $storage1]);
+        $StorageComposite->truncate($className);
     }
 }

@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Storage;
 /**
  * Объект, который может сохранять данные в несколько других хранилищ.
  */
-final class CompositeStorage implements Storage
+final class StorageComposite implements Storage
 {
     /**
      * @var iterable<Storage>
