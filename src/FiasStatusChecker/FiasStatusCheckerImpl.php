@@ -11,7 +11,7 @@ use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
 /**
  * Объект, который проверяет статус сервисов ФИАС.
  */
-final class BaseFiasStatusChecker implements FiasStatusChecker
+final class FiasStatusCheckerImpl implements FiasStatusChecker
 {
     private readonly HttpTransport $transport;
 
@@ -26,7 +26,7 @@ final class BaseFiasStatusChecker implements FiasStatusChecker
     /**
      * {@inheritDoc}
      */
-    public function check(): StatusCheckerResult
+    public function check(): FiasStatusCheckerResult
     {
         $statusesPerServices = [
             $this->getFiasInformerStatus(),
@@ -34,45 +34,45 @@ final class BaseFiasStatusChecker implements FiasStatusChecker
         ];
 
         foreach ($statusesPerServices as $status) {
-            if ($status->getStatus() !== FiasStatuses::AVAILABLE) {
-                return new StatusCheckerCompleteResult(FiasStatuses::NOT_AVAILABLE, $statusesPerServices);
+            if ($status->getStatus() !== FiasStatusCheckerStatus::AVAILABLE) {
+                return new FiasStatusCheckerResultImpl(FiasStatusCheckerStatus::NOT_AVAILABLE, $statusesPerServices);
             }
         }
 
-        return new StatusCheckerCompleteResult(FiasStatuses::AVAILABLE, $statusesPerServices);
+        return new FiasStatusCheckerResultImpl(FiasStatusCheckerStatus::AVAILABLE, $statusesPerServices);
     }
 
     /**
      * Возвращает состояние сервиса информирования.
      */
-    private function getFiasInformerStatus(): StatusCheckerServiceResult
+    private function getFiasInformerStatus(): FiasStatusCheckerResultForService
     {
-        $status = FiasStatuses::AVAILABLE;
-        $service = FiasServices::INFORMER;
+        $status = FiasStatusCheckerStatus::AVAILABLE;
+        $service = FiasStatusCheckerService::INFORMER;
         $reason = '';
 
         try {
             $this->informer->getLatestVersion();
         } catch (\Throwable $e) {
-            $status = FiasStatuses::NOT_AVAILABLE;
+            $status = FiasStatusCheckerStatus::NOT_AVAILABLE;
             $reason = $e->getMessage();
         }
 
-        return new StatusCheckerServiceResult($status, $service, $reason);
+        return new FiasStatusCheckerResultForService($status, $service, $reason);
     }
 
     /**
      * Возвращает состояние файлового сервера.
      */
-    private function getFileServerStatus(): StatusCheckerServiceResult
+    private function getFileServerStatus(): FiasStatusCheckerResultForService
     {
-        $service = FiasServices::FILE_SERVER;
+        $service = FiasStatusCheckerService::FILE_SERVER;
 
         try {
             $url = $this->informer->getLatestVersion()->getFullUrl();
         } catch (\Throwable $e) {
-            return new StatusCheckerServiceResult(
-                FiasStatuses::UNKNOWN,
+            return new FiasStatusCheckerResultForService(
+                FiasStatusCheckerStatus::UNKNOWN,
                 $service,
                 'Informer is unavailable'
             );
@@ -88,13 +88,13 @@ final class BaseFiasStatusChecker implements FiasStatusChecker
                 );
             }
         } catch (\Throwable $e) {
-            return new StatusCheckerServiceResult(
-                FiasStatuses::NOT_AVAILABLE,
+            return new FiasStatusCheckerResultForService(
+                FiasStatusCheckerStatus::NOT_AVAILABLE,
                 $service,
                 $e->getMessage()
             );
         }
 
-        return new StatusCheckerServiceResult(FiasStatuses::AVAILABLE, $service);
+        return new FiasStatusCheckerResultForService(FiasStatusCheckerStatus::AVAILABLE, $service);
     }
 }

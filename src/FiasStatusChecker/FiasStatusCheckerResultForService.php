@@ -7,15 +7,15 @@ namespace Liquetsoft\Fias\Component\FiasStatusChecker;
 /**
  * Объект, который содержит информацию о проверке статуса одного сервиса.
  */
-final class StatusCheckerServiceResult
+final class FiasStatusCheckerResultForService
 {
-    private readonly FiasStatuses $status;
+    private readonly FiasStatusCheckerStatus $status;
 
-    private readonly FiasServices $service;
+    private readonly FiasStatusCheckerService $service;
 
     private readonly string $reason;
 
-    public function __construct(FiasStatuses $status, FiasServices $service, string $reason = '')
+    public function __construct(FiasStatusCheckerStatus $status, FiasStatusCheckerService $service, string $reason = '')
     {
         $this->status = $status;
         $this->service = $service;
@@ -25,7 +25,7 @@ final class StatusCheckerServiceResult
     /**
      * Возвращает статус состояния сервиса.
      */
-    public function getStatus(): FiasStatuses
+    public function getStatus(): FiasStatusCheckerStatus
     {
         return $this->status;
     }
@@ -33,7 +33,7 @@ final class StatusCheckerServiceResult
     /**
      * Возвращает тип сервиса.
      */
-    public function getService(): FiasServices
+    public function getService(): FiasStatusCheckerService
     {
         return $this->service;
     }

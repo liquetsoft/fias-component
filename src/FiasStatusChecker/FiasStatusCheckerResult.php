@@ -7,17 +7,22 @@ namespace Liquetsoft\Fias\Component\FiasStatusChecker;
 /**
  * Интерфейс для объекта, который содержит информацию о проверке статуса.
  */
-interface StatusCheckerResult
+interface FiasStatusCheckerResult
 {
     /**
      * Возвращает статус общего сосотояния ФИАС.
      */
-    public function getResultStatus(): FiasStatuses;
+    public function getResultStatus(): FiasStatusCheckerStatus;
 
     /**
      * Возвращает массив со статусами по каждому сервису.
      *
-     * @return StatusCheckerServiceResult[]
+     * @return FiasStatusCheckerResultForService[]
      */
     public function getPerServiceStatuses(): array;
+
+    /**
+     * Возращает правду, если можно продолжать установку/обновление.
+     */
+    public function canProceed(): bool;
 }

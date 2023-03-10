@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasStatusChecker;
 
-use Liquetsoft\Fias\Component\FiasStatusChecker\FiasServices;
-use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatuses;
-use Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerServiceResult;
+use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerResultForService;
+use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerService;
+use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerStatus;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -14,18 +14,18 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class StatusCheckerServiceResultTest extends BaseCase
+class FiasStatusCheckerResultForServiceTest extends BaseCase
 {
     /**
      * Проверяет, что объект возвращает правильный статус.
      */
     public function testGetStatus(): void
     {
-        $status = FiasStatuses::AVAILABLE;
-        $service = FiasServices::FILE_SERVER;
+        $status = FiasStatusCheckerStatus::AVAILABLE;
+        $service = FiasStatusCheckerService::FILE_SERVER;
         $reason = 'reason';
 
-        $result = new StatusCheckerServiceResult($status, $service, $reason);
+        $result = new FiasStatusCheckerResultForService($status, $service, $reason);
 
         $this->assertSame($status, $result->getStatus());
     }
@@ -35,11 +35,11 @@ class StatusCheckerServiceResultTest extends BaseCase
      */
     public function testGetService(): void
     {
-        $status = FiasStatuses::AVAILABLE;
-        $service = FiasServices::FILE_SERVER;
+        $status = FiasStatusCheckerStatus::AVAILABLE;
+        $service = FiasStatusCheckerService::FILE_SERVER;
         $reason = 'reason';
 
-        $result = new StatusCheckerServiceResult($status, $service, $reason);
+        $result = new FiasStatusCheckerResultForService($status, $service, $reason);
 
         $this->assertSame($service, $result->getService());
     }
@@ -49,11 +49,11 @@ class StatusCheckerServiceResultTest extends BaseCase
      */
     public function testGetReason(): void
     {
-        $status = FiasStatuses::AVAILABLE;
-        $service = FiasServices::FILE_SERVER;
+        $status = FiasStatusCheckerStatus::AVAILABLE;
+        $service = FiasStatusCheckerService::FILE_SERVER;
         $reason = 'reason';
 
-        $result = new StatusCheckerServiceResult($status, $service, $reason);
+        $result = new FiasStatusCheckerResultForService($status, $service, $reason);
 
         $this->assertSame($reason, $result->getReason());
     }

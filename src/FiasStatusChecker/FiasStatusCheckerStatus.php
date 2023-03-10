@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\FiasStatusChecker;
 /**
  * Список состояний, которые может определить для сервисов ФИАС проверка состояния.
  */
-enum FiasStatuses: string
+enum FiasStatusCheckerStatus: string
 {
     case AVAILABLE = 'available';
     case NOT_AVAILABLE = 'not available';
