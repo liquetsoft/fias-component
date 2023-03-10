@@ -41,7 +41,7 @@ final class UnpackerZip implements Unpacker
         $zip = $this->openArchive($archive);
         $files = array_filter(
             $this->getListOfEntities($zip),
-            fn (UnpackerEntity $entity): bool => $entity->isFile()
+            fn (UnpackerEntity $entity): bool => $entity->getType() === UnpackerEntityType::FILE
         );
         $zip->close();
 
@@ -84,7 +84,7 @@ final class UnpackerZip implements Unpacker
     }
 
     /**
-     * Открывает архи и возвращает объект архива.
+     * Открывает архив и возвращает объект архива.
      */
     private function openArchive(\SplFileInfo $archive): \ZipArchive
     {
@@ -102,7 +102,7 @@ final class UnpackerZip implements Unpacker
     }
 
     /**
-     * Возвращает список все сущностей в архиве.
+     * Возвращает список всех сущностей в архиве.
      *
      * @return UnpackerEntity[]
      */
@@ -110,15 +110,14 @@ final class UnpackerZip implements Unpacker
     {
         $listOfFiles = [];
         for ($i = 0; $i < $zipArchive->numFiles; $i++) {
-            $stats = $zipArchive->statIndex($i);
-            $listOfFiles[] = new UnpackerEntity($stats);
+            $listOfFiles[] = UnpackerEntityFactory::createFromZipStats($zipArchive->statIndex($i));
         }
 
         return $listOfFiles;
     }
 
     /**
-     * Пробует найти сущность в архива по указанному имени.
+     * Пробует найти сущность в архиве по указанному имени.
      */
     private function getEntityByName(\ZipArchive $zipArchive, string $entityName): ?UnpackerEntity
     {
