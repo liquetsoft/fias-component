@@ -11,7 +11,7 @@ use Liquetsoft\Fias\Component\Exception\UnpackerException;
  *
  * @internal
  */
-final class ZipEntity
+final class UnpackerZipEntity
 {
     private readonly array $stats;
 

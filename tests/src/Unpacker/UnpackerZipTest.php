@@ -6,15 +6,15 @@ namespace Liquetsoft\Fias\Component\Tests\Unpacker;
 
 use Liquetsoft\Fias\Component\Exception\UnpackerException;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Unpacker\ZipEntity;
-use Liquetsoft\Fias\Component\Unpacker\ZipUnpacker;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerZipEntity;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerZip;
 
 /**
  * Тест для объекта, который распаковывает zip архив.
  *
  * @internal
  */
-class ZipUnpackerTest extends BaseCase
+class UnpackerZipTest extends BaseCase
 {
     /**
      * Проверяет, что объект распакует zip архив.
@@ -26,7 +26,7 @@ class ZipUnpackerTest extends BaseCase
         $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
         $zipUnpack->unpack(
             new \SplFileInfo($testArchive),
             new \SplFileInfo($testDestination)
@@ -46,7 +46,7 @@ class ZipUnpackerTest extends BaseCase
         $testArchive = __DIR__ . '/_fixtures/testUnpackException.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
 
         $this->expectException(UnpackerException::class);
         $this->expectExceptionMessage("Can't open");
@@ -64,7 +64,7 @@ class ZipUnpackerTest extends BaseCase
         $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
         $testDestination = '/non-existed';
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
 
         $this->expectException(UnpackerException::class);
         $this->expectExceptionMessage("Can't unpack");
@@ -81,15 +81,15 @@ class ZipUnpackerTest extends BaseCase
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
         $files = $zipUnpack->getListOfFiles(new \SplFileInfo($testArchive));
 
         $this->assertCount(2, $files);
         $this->assertArrayHasKey(0, $files);
-        $this->assertInstanceOf(ZipEntity::class, $files[0]);
+        $this->assertInstanceOf(UnpackerZipEntity::class, $files[0]);
         $this->assertSame('nested/nested_file.txt', $files[0]->getName());
         $this->assertArrayHasKey(1, $files);
-        $this->assertInstanceOf(ZipEntity::class, $files[1]);
+        $this->assertInstanceOf(UnpackerZipEntity::class, $files[1]);
         $this->assertSame('test.txt', $files[1]->getName());
     }
 
@@ -100,7 +100,7 @@ class ZipUnpackerTest extends BaseCase
     {
         $testArchive = __DIR__ . '/_fixtures/testUnpackException.zip';
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
 
         $this->expectException(UnpackerException::class);
         $zipUnpack->getListOfFiles(new \SplFileInfo($testArchive));
@@ -115,7 +115,7 @@ class ZipUnpackerTest extends BaseCase
         $testDestination = $this->getPathToTestDir('testExtractEntity');
         $entityName = 'nested/nested_file.txt';
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
         $path = $zipUnpack->extractEntity(
             new \SplFileInfo($testArchive),
             $entityName,
@@ -136,7 +136,7 @@ class ZipUnpackerTest extends BaseCase
         $testDestination = $this->getPathToTestDir('testExtractEntity');
         $entityName = 'non_existed';
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
 
         $this->expectException(UnpackerException::class);
         $this->expectExceptionMessage("Can't find entity");
@@ -156,7 +156,7 @@ class ZipUnpackerTest extends BaseCase
         $testDestination = '/unexisted';
         $entityName = 'nested/nested_file.txt';
 
-        $zipUnpack = new ZipUnpacker();
+        $zipUnpack = new UnpackerZip();
 
         $this->expectException(UnpackerException::class);
         $this->expectExceptionMessage("Can't extract entity");

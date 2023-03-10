@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\Exception\UnpackerException;
 /**
  * Объект, который распаковывает файлы из zip архива.
  */
-final class ZipUnpacker implements Unpacker
+final class UnpackerZip implements Unpacker
 {
     /**
      * {@inheritDoc}
@@ -41,7 +41,7 @@ final class ZipUnpacker implements Unpacker
         $zip = $this->openArchive($archive);
         $files = array_filter(
             $this->getListOfEntities($zip),
-            fn (ZipEntity $entity): bool => $entity->isFile()
+            fn (UnpackerZipEntity $entity): bool => $entity->isFile()
         );
         $zip->close();
 
@@ -104,14 +104,14 @@ final class ZipUnpacker implements Unpacker
     /**
      * Возвращает список все сущностей в архиве.
      *
-     * @return ZipEntity[]
+     * @return UnpackerZipEntity[]
      */
     private function getListOfEntities(\ZipArchive $zipArchive): array
     {
         $listOfFiles = [];
         for ($i = 0; $i < $zipArchive->numFiles; $i++) {
             $stats = $zipArchive->statIndex($i);
-            $listOfFiles[] = new ZipEntity($stats);
+            $listOfFiles[] = new UnpackerZipEntity($stats);
         }
 
         return $listOfFiles;
@@ -120,11 +120,11 @@ final class ZipUnpacker implements Unpacker
     /**
      * Пробует найти сущность в архива по указанному имени.
      */
-    private function getEntityByName(\ZipArchive $zipArchive, string $entityName): ?ZipEntity
+    private function getEntityByName(\ZipArchive $zipArchive, string $entityName): ?UnpackerZipEntity
     {
         $entities = array_filter(
             $this->getListOfEntities($zipArchive),
-            fn (ZipEntity $entity): bool => $entity->getName() === $entityName
+            fn (UnpackerZipEntity $entity): bool => $entity->getName() === $entityName
         );
 
         $key = array_key_first($entities);
