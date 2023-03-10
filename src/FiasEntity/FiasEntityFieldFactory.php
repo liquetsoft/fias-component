@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Entity;
+namespace Liquetsoft\Fias\Component\FiasEntity;
 
 /**
  * Фабричный класс, который может создавать поле сущности.
  */
-final class EntityFieldFactory
+final class FiasEntityFieldFactory
 {
     private function __construct()
     {
@@ -16,11 +16,11 @@ final class EntityFieldFactory
     /**
      * Создает поле сущности из массива с данными.
      */
-    public static function createFromArray(array $options): EntityField
+    public static function createFromArray(array $options): FiasEntityField
     {
-        return new BaseEntityField(
-            EntityFieldTypes::from(self::extractStringFromArrayByName('type', $options)),
-            EntityFieldSubTypes::from(self::extractStringFromArrayByName('subType', $options)),
+        return new FiasEntityFieldImpl(
+            FiasEntityFieldType::from(self::extractStringFromArrayByName('type', $options)),
+            FiasEntityFieldSubType::from(self::extractStringFromArrayByName('subType', $options)),
             self::extractStringFromArrayByName('name', $options),
             self::extractStringFromArrayByName('description', $options),
             self::extractIntFromArrayByName('length', $options),

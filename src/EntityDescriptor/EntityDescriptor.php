@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityDescriptor;
 
-use Liquetsoft\Fias\Component\Entity\EntityField;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
 
 /**
  * Интерфейс для объекта, который описывает сущность ФИАС.
@@ -44,7 +44,7 @@ interface EntityDescriptor
     /**
      * Возвращает список полей для данной сущности.
      *
-     * @return EntityField[]
+     * @return FiasEntityField[]
      */
     public function getFields(): array;
 
@@ -58,7 +58,7 @@ interface EntityDescriptor
      *
      * @throws \InvalidArgumentException
      */
-    public function getField(string $name): EntityField;
+    public function getField(string $name): FiasEntityField;
 
     /**
      * Проверяет подходит ли имя файла для загрузки данных.

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\EntityField;
+namespace Liquetsoft\Fias\Component\Tests\FiasEntityField;
 
-use Liquetsoft\Fias\Component\Entity\EntityFieldFactory;
-use Liquetsoft\Fias\Component\Entity\EntityFieldSubTypes;
-use Liquetsoft\Fias\Component\Entity\EntityFieldTypes;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldFactory;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldSubType;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldType;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class EntityFieldFactoryTest extends BaseCase
+class FiasEntityFieldFactoryTest extends BaseCase
 {
     /**
      * Проверяет, что объект создаст поле из массива значений.
@@ -32,10 +32,10 @@ class EntityFieldFactoryTest extends BaseCase
             'isIndex' => 0,
         ];
 
-        $field = EntityFieldFactory::createFromArray($array);
+        $field = FiasEntityFieldFactory::createFromArray($array);
 
-        $this->assertSame(EntityFieldTypes::STRING, $field->getType());
-        $this->assertSame(EntityFieldSubTypes::DATE, $field->getSubType());
+        $this->assertSame(FiasEntityFieldType::STRING, $field->getType());
+        $this->assertSame(FiasEntityFieldSubType::DATE, $field->getSubType());
         $this->assertSame(trim($array['name']), $field->getName());
         $this->assertSame((string) $array['description'], $field->getDescription());
         $this->assertSame((int) $array['length'], $field->getLength());

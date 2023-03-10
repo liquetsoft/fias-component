@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\EntityField;
+namespace Liquetsoft\Fias\Component\Tests\FiasEntityField;
 
-use Liquetsoft\Fias\Component\Entity\BaseEntityField;
-use Liquetsoft\Fias\Component\Entity\EntityFieldSubTypes;
-use Liquetsoft\Fias\Component\Entity\EntityFieldTypes;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldImpl;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldSubType;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldType;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -14,15 +14,15 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class BaseEntityFieldTest extends BaseCase
+class FiasEntityFieldImplTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если указаны несовместимые тип и дополнительный тип.
      */
     public function testConstructWrongSubTypeException(): void
     {
-        $type = EntityFieldTypes::INT;
-        $subType = EntityFieldSubTypes::DATE;
+        $type = FiasEntityFieldType::INT;
+        $subType = FiasEntityFieldSubType::DATE;
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Subtype is not allowed for set type');
@@ -68,7 +68,7 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testGetType(): void
     {
-        $type = EntityFieldTypes::INT;
+        $type = FiasEntityFieldType::INT;
 
         $field = $this->createField(
             [
@@ -84,8 +84,8 @@ class BaseEntityFieldTest extends BaseCase
      */
     public function testGetSubType(): void
     {
-        $type = EntityFieldTypes::STRING;
-        $subType = EntityFieldSubTypes::DATE;
+        $type = FiasEntityFieldType::STRING;
+        $subType = FiasEntityFieldSubType::DATE;
 
         $field = $this->createField(
             [
@@ -214,11 +214,11 @@ class BaseEntityFieldTest extends BaseCase
      *
      * @psalm-suppress MixedArgument
      */
-    private function createField(array $options = []): BaseEntityField
+    private function createField(array $options = []): FiasEntityFieldImpl
     {
-        return new BaseEntityField(
-            $options['type'] ?? EntityFieldTypes::STRING,
-            $options['subType'] ?? EntityFieldSubTypes::NONE,
+        return new FiasEntityFieldImpl(
+            $options['type'] ?? FiasEntityFieldType::STRING,
+            $options['subType'] ?? FiasEntityFieldSubType::NONE,
             $options['name'] ?? 'name',
             $options['description'] ?? 'description',
             $options['length'] ?? null,

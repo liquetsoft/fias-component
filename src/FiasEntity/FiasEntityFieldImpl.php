@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Entity;
+namespace Liquetsoft\Fias\Component\FiasEntity;
 
 /**
  * Объект, который описывает поле сущности.
  */
-final class BaseEntityField implements EntityField
+final class FiasEntityFieldImpl implements FiasEntityField
 {
     public function __construct(
-        private readonly EntityFieldTypes $type,
-        private readonly EntityFieldSubTypes $subType,
+        private readonly FiasEntityFieldType $type,
+        private readonly FiasEntityFieldSubType $subType,
         private readonly string $name,
         private readonly string $description,
         private readonly ?int $length,
@@ -50,7 +50,7 @@ final class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
-    public function getType(): EntityFieldTypes
+    public function getType(): FiasEntityFieldType
     {
         return $this->type;
     }
@@ -58,7 +58,7 @@ final class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
-    public function getSubType(): EntityFieldSubTypes
+    public function getSubType(): FiasEntityFieldSubType
     {
         return $this->subType;
     }

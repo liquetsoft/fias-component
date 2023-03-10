@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\EntityDescriptor;
 
-use Liquetsoft\Fias\Component\Entity\EntityField;
 use Liquetsoft\Fias\Component\EntityDescriptor\BaseEntityDescriptor;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -171,10 +171,10 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetFields(): void
     {
-        $field1 = $this->getMockBuilder(EntityField::class)->getMock();
+        $field1 = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field1->method('getName')->willReturn('test1');
 
-        $field2 = $this->getMockBuilder(EntityField::class)->getMock();
+        $field2 = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field2->method('getName')->willReturn('test2');
 
         $fields = [$field1, $field2];
@@ -191,7 +191,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testHasField(): void
     {
-        $field = $this->getMockBuilder(EntityField::class)->getMock();
+        $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
         $descriptor = $this->createDescriptor([
@@ -207,7 +207,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetField(): void
     {
-        $field = $this->getMockBuilder(EntityField::class)->getMock();
+        $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
         $descriptor = $this->createDescriptor([
@@ -222,7 +222,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testGetFieldException(): void
     {
-        $field = $this->getMockBuilder(EntityField::class)->getMock();
+        $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
         $descriptor = $this->createDescriptor([
@@ -251,7 +251,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testWrongFieldTypeException(): void
     {
-        $field1 = $this->getMockBuilder(EntityField::class)->getMock();
+        $field1 = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field2 = 123;
         $fields = [$field1, $field2];
 
@@ -268,10 +268,10 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     public function testDoublingFieldsNamesException(): void
     {
-        $field1 = $this->getMockBuilder(EntityField::class)->getMock();
+        $field1 = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field1->method('getName')->willReturn('test');
 
-        $field2 = $this->getMockBuilder(EntityField::class)->getMock();
+        $field2 = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field2->method('getName')->willReturn('test');
 
         $this->expectException(\InvalidArgumentException::class);
@@ -354,7 +354,7 @@ class BaseEntityDescriptorTest extends BaseCase
      */
     protected function createDescriptor(array $options = []): BaseEntityDescriptor
     {
-        $field = $this->getMockBuilder(EntityField::class)->getMock();
+        $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test');
 
         $resultOptions = array_merge([

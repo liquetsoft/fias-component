@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Entity;
+namespace Liquetsoft\Fias\Component\FiasEntity;
 
 /**
  * Список дополнительных типов полей для строк.
  */
-enum EntityFieldSubTypes: string
+enum FiasEntityFieldSubType: string
 {
     case DATE = 'date';
     case UUID = 'uuid';
@@ -16,10 +16,10 @@ enum EntityFieldSubTypes: string
     /**
      * Возвращает основной тип, к которому применим данный.
      */
-    public function getBaseType(): ?EntityFieldTypes
+    public function getBaseType(): ?FiasEntityFieldType
     {
         return match ($this) {
-            self::DATE, self::UUID => EntityFieldTypes::STRING,
+            self::DATE, self::UUID => FiasEntityFieldType::STRING,
             default => null,
         };
     }

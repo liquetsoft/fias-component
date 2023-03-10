@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Entity;
+namespace Liquetsoft\Fias\Component\FiasEntity;
 
 /**
  * Список типов полей.
  */
-enum EntityFieldTypes: string
+enum FiasEntityFieldType: string
 {
     case STRING = 'string';
     case INT = 'int';

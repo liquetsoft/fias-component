@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityDescriptor;
 
-use Liquetsoft\Fias\Component\Entity\EntityField;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
 
 /**
  * Объект, который хранит описание сущности ФИАС.
@@ -24,7 +24,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     protected string $deleteFileMask = '';
 
     /**
-     * @var EntityField[]
+     * @var FiasEntityField[]
      */
     protected array $fields;
 
@@ -120,7 +120,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
-    public function getField(string $name): EntityField
+    public function getField(string $name): FiasEntityField
     {
         $return = null;
 
@@ -179,7 +179,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * Возвращает список полей из массива опций.
      *
-     * @return EntityField[]
+     * @return FiasEntityField[]
      *
      * @throws \InvalidArgumentException
      */
@@ -194,9 +194,9 @@ class BaseEntityDescriptor implements EntityDescriptor
         }
 
         foreach ($options['fields'] as $key => $field) {
-            if (!($field instanceof EntityField)) {
+            if (!($field instanceof FiasEntityField)) {
                 throw new \InvalidArgumentException(
-                    "Field with key '{$key}' must be an '" . EntityField::class . "' instance."
+                    "Field with key '{$key}' must be an '" . FiasEntityField::class . "' instance."
                 );
             }
             if (isset($return[$field->getName()])) {
