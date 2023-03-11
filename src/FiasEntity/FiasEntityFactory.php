@@ -11,6 +11,8 @@ use Liquetsoft\Fias\Component\Helper\ArrayHelper;
  */
 final class FiasEntityFactory
 {
+    private const DEFAULT_PARTITION_COUNT = 1;
+
     private function __construct()
     {
     }
@@ -29,7 +31,7 @@ final class FiasEntityFactory
             ArrayHelper::extractStringFromArrayByName('xmlPath', $array),
             self::extractFields($array),
             ArrayHelper::extractStringFromArrayByName('description', $array),
-            ArrayHelper::extractIntFromArrayByName('partitionsCount', $array, 1),
+            ArrayHelper::extractIntFromArrayByName('partitionsCount', $array, self::DEFAULT_PARTITION_COUNT),
             ArrayHelper::extractStringFromArrayByName('insertFileMask', $array),
             ArrayHelper::extractStringFromArrayByName('deleteFileMask', $array)
         );

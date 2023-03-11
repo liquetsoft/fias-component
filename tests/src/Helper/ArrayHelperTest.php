@@ -178,6 +178,11 @@ class ArrayHelperTest extends BaseCase
                 [],
                 [],
             ],
+            'object' => [
+                'test_name',
+                ['test_name' => new \stdClass()],
+                [],
+            ],
         ];
     }
 }

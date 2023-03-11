@@ -22,11 +22,13 @@ class FiasEntityImplTest extends BaseCase
     {
         $name = 'name';
 
-        $descriptor = $this->createEntity([
-            'name' => $name,
-        ]);
+        $entity = $this->createEntity(
+            [
+                'name' => $name,
+            ]
+        );
 
-        $this->assertSame($name, $descriptor->getName());
+        $this->assertSame($name, $entity->getName());
     }
 
     /**
@@ -50,11 +52,13 @@ class FiasEntityImplTest extends BaseCase
     {
         $xpath = '/root/Test';
 
-        $descriptor = $this->createEntity([
-            'xmlPath' => $xpath,
-        ]);
+        $entity = $this->createEntity(
+            [
+                'xmlPath' => $xpath,
+            ]
+        );
 
-        $this->assertSame($xpath, $descriptor->getXmlPath());
+        $this->assertSame($xpath, $entity->getXmlPath());
     }
 
     /**
@@ -78,11 +82,13 @@ class FiasEntityImplTest extends BaseCase
     {
         $description = 'test description';
 
-        $descriptor = $this->createEntity([
-            'description' => $description,
-        ]);
+        $entity = $this->createEntity(
+            [
+                'description' => $description,
+            ]
+        );
 
-        $this->assertSame($description, $descriptor->getDescription());
+        $this->assertSame($description, $entity->getDescription());
     }
 
     /**
@@ -90,9 +96,9 @@ class FiasEntityImplTest extends BaseCase
      */
     public function testGetDescriptionDefault(): void
     {
-        $descriptor = $this->createEntity();
+        $entity = $this->createEntity();
 
-        $this->assertSame('', $descriptor->getDescription());
+        $this->assertSame('', $entity->getDescription());
     }
 
     /**
@@ -102,11 +108,13 @@ class FiasEntityImplTest extends BaseCase
     {
         $file = 'test_file_*.xml';
 
-        $descriptor = $this->createEntity([
-            'insertFileMask' => $file,
-        ]);
+        $entity = $this->createEntity(
+            [
+                'insertFileMask' => $file,
+            ]
+        );
 
-        $this->assertSame($file, $descriptor->getXmlInsertFileMask());
+        $this->assertSame($file, $entity->getXmlInsertFileMask());
     }
 
     /**
@@ -114,9 +122,9 @@ class FiasEntityImplTest extends BaseCase
      */
     public function testGetXmlInsertFileMaskDefault(): void
     {
-        $descriptor = $this->createEntity();
+        $entity = $this->createEntity();
 
-        $this->assertSame('', $descriptor->getXmlInsertFileMask());
+        $this->assertSame('', $entity->getXmlInsertFileMask());
     }
 
     /**
@@ -126,11 +134,13 @@ class FiasEntityImplTest extends BaseCase
     {
         $file = 'test_file_*.xml';
 
-        $descriptor = $this->createEntity([
-            'deleteFileMask' => $file,
-        ]);
+        $entity = $this->createEntity(
+            [
+                'deleteFileMask' => $file,
+            ]
+        );
 
-        $this->assertSame($file, $descriptor->getXmlDeleteFileMask());
+        $this->assertSame($file, $entity->getXmlDeleteFileMask());
     }
 
     /**
@@ -138,9 +148,9 @@ class FiasEntityImplTest extends BaseCase
      */
     public function testGetXmlDeleteFileMaskDefault(): void
     {
-        $descriptor = $this->createEntity();
+        $entity = $this->createEntity();
 
-        $this->assertSame('', $descriptor->getXmlDeleteFileMask());
+        $this->assertSame('', $entity->getXmlDeleteFileMask());
     }
 
     /**
@@ -151,11 +161,13 @@ class FiasEntityImplTest extends BaseCase
     {
         $count = 5;
 
-        $descriptor = $this->createEntity([
-            'partitionsCount' => $count,
-        ]);
+        $entity = $this->createEntity(
+            [
+                'partitionsCount' => $count,
+            ]
+        );
 
-        $this->assertSame($count, $descriptor->getPartitionsCount());
+        $this->assertSame($count, $entity->getPartitionsCount());
     }
 
     /**
@@ -165,9 +177,11 @@ class FiasEntityImplTest extends BaseCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Partititons count can't be less than 1");
-        $this->createEntity([
-            'partitionsCount' => 0,
-        ]);
+        $this->createEntity(
+            [
+                'partitionsCount' => 0,
+            ]
+        );
     }
 
     /**
@@ -183,11 +197,13 @@ class FiasEntityImplTest extends BaseCase
 
         $fields = [$field1, $field2];
 
-        $descriptor = $this->createEntity([
-            'fields' => $fields,
-        ]);
+        $entity = $this->createEntity(
+            [
+                'fields' => $fields,
+            ]
+        );
 
-        $this->assertSame($fields, $descriptor->getFields());
+        $this->assertSame($fields, $entity->getFields());
     }
 
     /**
@@ -198,12 +214,16 @@ class FiasEntityImplTest extends BaseCase
         $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
-        $descriptor = $this->createEntity([
-            'fields' => ['test' => $field],
-        ]);
+        $entity = $this->createEntity(
+            [
+                'fields' => [
+                    'test' => $field,
+                ],
+            ]
+        );
 
-        $this->assertTrue($descriptor->hasField('test1'));
-        $this->assertFalse($descriptor->hasField('test'));
+        $this->assertTrue($entity->hasField('test1'));
+        $this->assertFalse($entity->hasField('test'));
     }
 
     /**
@@ -214,11 +234,13 @@ class FiasEntityImplTest extends BaseCase
         $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
-        $descriptor = $this->createEntity([
-            'fields' => ['test' => $field],
-        ]);
+        $entity = $this->createEntity(
+            [
+                'fields' => ['test' => $field],
+            ]
+        );
 
-        $this->assertSame($field, $descriptor->getField('test1'));
+        $this->assertSame($field, $entity->getField('test1'));
     }
 
     /**
@@ -229,12 +251,16 @@ class FiasEntityImplTest extends BaseCase
         $field = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field->method('getName')->willReturn('test1');
 
-        $descriptor = $this->createEntity([
-            'fields' => ['test' => $field],
-        ]);
+        $entity = $this->createEntity(
+            [
+                'fields' => [
+                    'test' => $field,
+                ],
+            ]
+        );
 
         $this->expectException(\InvalidArgumentException::class);
-        $descriptor->getField('test2');
+        $entity->getField('test2');
     }
 
     /**
@@ -263,7 +289,7 @@ class FiasEntityImplTest extends BaseCase
         $field2->method('getName')->willReturn('test_field_name');
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('test_field_name');
+        $this->expectExceptionMessage('All fields names must be unique, got duplicate: test_field_name');
         $this->createEntity(
             [
                 'fields' => [
@@ -275,67 +301,88 @@ class FiasEntityImplTest extends BaseCase
     }
 
     /**
-     * Проверяет, что объект правильно сопоставляет имена файлов для вставки с шаблоном.
+     * Проверяет, что объект правильно сопоставляет имена файлов для вставки.
+     *
+     * @dataProvider provideIsFileNameFitsXmlInsertFileMask
      */
-    public function testIsFileNameFitsXmlInsertFileMask(): void
+    public function testIsFileNameFitsXmlInsertFileMask(string $fileMask, string $fileName, bool $awaits): void
     {
-        $fileMask = '*_test_*.xml';
-
-        $descriptor = $this->createEntity([
-            'insertFileMask' => $fileMask,
-        ]);
-
-        $this->assertTrue($descriptor->isFileNameFitsXmlInsertFileMask('123_test_321.xml'));
-        $this->assertFalse($descriptor->isFileNameFitsXmlInsertFileMask('123_321_test.xml'));
-    }
-
-    /**
-     * Проверяет, что объект правильно сопоставляет имена файлов для вставки с регулярным выражением.
-     */
-    public function testIsFileNameFitsXmlInsertFileMaskRegexp(): void
-    {
-        $fileMask = '/^AS_NORMATIVE_DOCS_\d+_.*\.XML$/';
-
-        $descriptor = $this->createEntity([
-            'insertFileMask' => $fileMask,
-        ]);
-
-        $this->assertTrue(
-            $descriptor->isFileNameFitsXmlInsertFileMask('AS_NORMATIVE_DOCS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML')
+        $entity = $this->createEntity(
+            [
+                'insertFileMask' => $fileMask,
+            ]
         );
-        $this->assertFalse(
-            $descriptor->isFileNameFitsXmlInsertFileMask('AS_NORMATIVE_DOCS_PARAMS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML')
+        $res = $entity->isFileNameFitsXmlInsertFileMask($fileName);
+
+        $this->assertSame($awaits, $res);
+    }
+
+    /**
+     * Проверяет, что объект правильно сопоставляет имена файлов для удаления.
+     *
+     * @dataProvider provideIsFileNameFitsXmlInsertFileMask
+     */
+    public function testIsFileNameFitsXmlDeleteFileMask(string $fileMask, string $fileName, bool $awaits): void
+    {
+        $entity = $this->createEntity(
+            [
+                'deleteFileMask' => $fileMask,
+            ]
         );
+        $res = $entity->isFileNameFitsXmlDeleteFileMask($fileName);
+
+        $this->assertSame($awaits, $res);
     }
 
-    /**
-     * Проверяет, что объект правильно сопоставляет имена файлов для удаления с шаблоном.
-     */
-    public function testIsFileNameFitsXmlDeleteFileMask(): void
+    public function provideIsFileNameFitsXmlInsertFileMask(): array
     {
-        $fileMask = '*_test_*.xml';
-
-        $descriptor = $this->createEntity([
-            'deleteFileMask' => $fileMask,
-        ]);
-
-        $this->assertTrue($descriptor->isFileNameFitsXmlDeleteFileMask('123_test_321.xml'));
-        $this->assertFalse($descriptor->isFileNameFitsXmlDeleteFileMask('123_321_test.xml'));
-    }
-
-    /**
-     * Проверяет, что объект правильно сопоставляет имена файлов для удаления с регулярным выражением.
-     */
-    public function testIsFileNameFitsXmlDeleteFileMaskRegexp(): void
-    {
-        $fileMask = '#^\d{3}_test_.*\.xml#';
-
-        $descriptor = $this->createEntity([
-            'deleteFileMask' => $fileMask,
-        ]);
-
-        $this->assertTrue($descriptor->isFileNameFitsXmlDeleteFileMask('123_test_321.xml'));
-        $this->assertFalse($descriptor->isFileNameFitsXmlDeleteFileMask('test_test_321.xml'));
+        return [
+            'mask true' => [
+                '*_test_*.xml',
+                '123_test_321.xml',
+                true,
+            ],
+            'mask false' => [
+                '*_test_*.xml',
+                '123_321_test.xml',
+                false,
+            ],
+            'mask similar to regexp' => [
+                'test#.*#',
+                '123_321_test.xml',
+                false,
+            ],
+            'mask case insensitive' => [
+                'test*.xml',
+                'TEST_123.XML',
+                true,
+            ],
+            'mask string start' => [
+                'test.xml',
+                'testtest.xml',
+                false,
+            ],
+            'mask string end' => [
+                'test.xml',
+                'test.xmlxml',
+                false,
+            ],
+            'mask with regexp delimiter' => [
+                'test/.*',
+                'test/.xml',
+                true,
+            ],
+            'regexp true' => [
+                '/^AS_NORMATIVE_DOCS_\d+_.*\.XML$/',
+                'AS_NORMATIVE_DOCS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML',
+                true,
+            ],
+            'regexp false' => [
+                '/^AS_NORMATIVE_DOCS_\d+_.*\.XML$/',
+                'AS_NORMATIVE_DOCS_PARAMS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML',
+                false,
+            ],
+        ];
     }
 
     /**

@@ -32,10 +32,10 @@ final class FiasEntityImpl implements FiasEntity
         }
         $fieldNames = [];
         foreach ($fields as $field) {
-            if (isset($fieldNames[$field->getName()])) {
+            if (\in_array($field->getName(), $fieldNames)) {
                 throw new \InvalidArgumentException('All fields names must be unique, got duplicate: ' . $field->getName());
             }
-            $fieldNames[$field->getName()] = 1;
+            $fieldNames[] = $field->getName();
         }
 
         if ($partitionsCount < 1) {
@@ -150,10 +150,15 @@ final class FiasEntityImpl implements FiasEntity
      */
     private function isFileNameFitsMask(string $fileName, string $mask): bool
     {
-        if (preg_match('/^(\/.+\/)|(#.*#)[a-z]*$/', $mask)) {
+        if (preg_match('/(^\/.+\/$)|(^#.*#$)/', $mask)) {
             $pattern = $mask;
         } else {
-            $pattern = '/^' . implode('[0-9a-zA-Z\-]+', array_map('preg_quote', explode('*', $mask))) . '$/i';
+            $delimiter = '/';
+            $quotedParts = array_map(
+                fn (string $s): string => preg_quote($s, $delimiter),
+                explode('*', $mask)
+            );
+            $pattern = $delimiter . '^' . implode('[0-9a-zA-Z\-_]+', $quotedParts) . '$' . $delimiter . 'i';
         }
 
         return preg_match($pattern, $fileName) === 1;

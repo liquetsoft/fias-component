@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Tests\FiasEntityField;
+namespace Liquetsoft\Fias\Component\Tests\FiasEntity;
 
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldSubType;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldType;
