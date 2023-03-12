@@ -47,8 +47,9 @@ final class FiasEntityFactory
     {
         $rawFields = ArrayHelper::extractArrayFromArrayByName('fields', $array);
         $fields = [];
-        foreach ($rawFields as $rawField) {
+        foreach ($rawFields as $key => $rawField) {
             if (\is_array($rawField)) {
+                $rawField['name'] = $rawField['name'] ?? $key;
                 $fields[] = FiasEntityFieldFactory::createFromArray($rawField);
             } elseif ($rawField instanceof FiasEntityField) {
                 $fields[] = $rawField;

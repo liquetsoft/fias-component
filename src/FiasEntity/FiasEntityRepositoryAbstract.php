@@ -7,21 +7,31 @@ namespace Liquetsoft\Fias\Component\FiasEntity;
 use Liquetsoft\Fias\Component\Exception\FiasEntityException;
 
 /**
- * Объект, который хранит список всех сущностей во внутреннем массиве.
+ * Абстрактный класс для объектов, которые хранят список всех сущностей во внутреннем массиве.
  */
-final class FiasEntityRepositoryImpl implements FiasEntityRepository
+abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
 {
-    public function __construct(
-        /** @var iterable<FiasEntity> */
-        private readonly iterable $entities
-    ) {
-    }
+    /**
+     * @var iterable<FiasEntity>|null
+     */
+    private ?iterable $entities = null;
+
+    /**
+     * Возвращает полностью подготовленный массив с описаниями сущностей.
+     *
+     * @return iterable<FiasEntity>
+     */
+    abstract protected function loadRepositoryData(): iterable;
 
     /**
      * {@inheritdoc}
      */
     public function getAllEntities(): iterable
     {
+        if ($this->entities === null) {
+            $this->entities = $this->loadRepositoryData();
+        }
+
         return $this->entities;
     }
 
@@ -32,7 +42,7 @@ final class FiasEntityRepositoryImpl implements FiasEntityRepository
     {
         $unifiedName = $this->unifyEntityName($entityName);
 
-        foreach ($this->entities as $entity) {
+        foreach ($this->getAllEntities() as $entity) {
             if ($this->unifyEntityName($entity->getName()) === $unifiedName) {
                 return true;
             }
@@ -48,7 +58,7 @@ final class FiasEntityRepositoryImpl implements FiasEntityRepository
     {
         $unifiedName = $this->unifyEntityName($entityName);
 
-        foreach ($this->entities as $entity) {
+        foreach ($this->getAllEntities() as $entity) {
             if ($this->unifyEntityName($entity->getName()) === $unifiedName) {
                 return $entity;
             }

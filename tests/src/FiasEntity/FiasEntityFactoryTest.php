@@ -64,6 +64,10 @@ class FiasEntityFactoryTest extends BaseCase
                     'subType' => 'date',
                     'name' => 'test_2',
                 ],
+                'test_3' => [
+                    'type' => 'string',
+                    'subType' => 'date',
+                ],
             ],
         ];
 
@@ -77,5 +81,6 @@ class FiasEntityFactoryTest extends BaseCase
         $this->assertSame($options['deleteFileMask'], $entity->getXmlDeleteFileMask());
         $this->assertSame($field, $entity->getField('test_1'));
         $this->assertNotNull($entity->getField('test_2'));
+        $this->assertNotNull($entity->getField('test_3'));
     }
 }
