@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\EntityManager;
 
-use Liquetsoft\Fias\Component\EntityRegistry\EntityRegistry;
 use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityRepository;
 
 /**
  * Объект, который содержит соответствия между сущностями ФИАС и их реализациями
@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
  */
 class BaseEntityManager implements EntityManager
 {
-    protected EntityRegistry $registry;
+    protected FiasEntityRepository $registry;
 
     /**
      * @var array<string, class-string>
@@ -26,7 +26,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(EntityRegistry $registry, array $bindings)
+    public function __construct(FiasEntityRepository $registry, array $bindings)
     {
         $this->registry = $registry;
 
@@ -40,16 +40,14 @@ class BaseEntityManager implements EntityManager
 
     /**
      * {@inheritdoc}
-     *
-     * @throws EntityRegistryException
      */
     public function getDescriptorByEntityName(string $entityName): ?FiasEntity
     {
         $normalizedEntityName = $this->normalizeEntityName($entityName);
         $return = null;
 
-        if (isset($this->bindings[$normalizedEntityName]) && $this->registry->hasDescriptor($normalizedEntityName)) {
-            $return = $this->registry->getDescriptor($normalizedEntityName);
+        if (isset($this->bindings[$normalizedEntityName]) && $this->registry->hasEntity($normalizedEntityName)) {
+            $return = $this->registry->getEntity($normalizedEntityName);
         }
 
         return $return;

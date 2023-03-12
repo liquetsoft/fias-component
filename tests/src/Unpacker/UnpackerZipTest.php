@@ -23,7 +23,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testUnpack(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');
 
         $zipUnpack = new UnpackerZip();
@@ -43,7 +43,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testUnpackNonExistedArchiveException(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpackException.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpackException.zip';
         $testDestination = $this->getPathToTestDir('testUnpack');
 
         $zipUnpack = new UnpackerZip();
@@ -61,7 +61,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testUnpackNonExistedDestinationException(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
         $testDestination = '/non-existed';
 
         $zipUnpack = new UnpackerZip();
@@ -79,7 +79,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testGetListOfFiles(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
 
         $zipUnpack = new UnpackerZip();
         $files = $zipUnpack->getListOfFiles(new \SplFileInfo($testArchive));
@@ -98,7 +98,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testGetListOfFilesException(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpackException.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpackException.zip';
 
         $zipUnpack = new UnpackerZip();
 
@@ -111,7 +111,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testExtractEntityByFileName(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testExtractEntity');
         $entityName = 'nested/nested_file.txt';
 
@@ -132,7 +132,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testExtractEntityNonExistedException(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
         $testDestination = $this->getPathToTestDir('testExtractEntity');
         $entityName = 'non_existed';
 
@@ -152,7 +152,7 @@ class UnpackerZipTest extends BaseCase
      */
     public function testExtractEntityBadDestinationException(): void
     {
-        $testArchive = __DIR__ . '/_fixtures/testUnpack.zip';
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
         $testDestination = '/unexisted';
         $entityName = 'nested/nested_file.txt';
 

@@ -20,7 +20,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testOpenEmptyXpathException(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testOpen.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testOpen.xml');
         $xpath = '';
 
         $reader = new XmlReaderImpl();
@@ -35,7 +35,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testOpenNoLeadingSlashXpathException(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testOpen.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testOpen.xml');
         $xpath = 'ActualStatuses/ActualStatus';
 
         $reader = new XmlReaderImpl();
@@ -50,7 +50,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testOpenOnlySlashXpathException(): void
     {
-        $path = __DIR__ . '/_fixtures/testOpen.xml';
+        $path = __DIR__ . '/_fixtures/XmlReaderImplTest/testOpen.xml';
         $file = new \SplFileInfo($path);
         $xpath = '/';
 
@@ -66,7 +66,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIterator(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIterator.xml');
         $xpath = '  /ActualStatuses/ActualStatus  ';
 
         $reader = new XmlReaderImpl();
@@ -89,7 +89,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorWithRewind(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIterator.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
         $reader = new XmlReaderImpl();
@@ -118,7 +118,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorEmptyFile(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorEmptyFile.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIteratorEmptyFile.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
         $reader = new XmlReaderImpl();
@@ -138,7 +138,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorMessyFile(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorMessyFile.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIteratorMessyFile.xml');
         $xpath = '/root/firstLevel/secondLevel/realItem';
 
         $reader = new XmlReaderImpl();
@@ -178,7 +178,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorClosedFileException(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIterator.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
         $reader = new XmlReaderImpl();
@@ -197,7 +197,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorNonExistedFileException(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/non_existed');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/non_existed');
         $xpath = '/ActualStatuses/ActualStatus';
 
         $reader = new XmlReaderImpl();
@@ -215,7 +215,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorMalformedFileException(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorMalformedFileException.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIteratorMalformedFileException.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
         $reader = new XmlReaderImpl();
@@ -233,7 +233,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorInterruptedFileException(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIteratorInterruptedFileException.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIteratorInterruptedFileException.xml');
         $xpath = '/root/qwe';
 
         $reader = new XmlReaderImpl();
@@ -251,7 +251,7 @@ class XmlReaderImplTest extends BaseCase
      */
     public function testIteratorDirectAccessToMethodsException(): void
     {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testIterator.xml');
+        $file = new \SplFileInfo(__DIR__ . '/_fixtures/XmlReaderImplTest/testIterator.xml');
         $xpath = '/ActualStatuses/ActualStatus';
 
         $reader = new XmlReaderImpl();
