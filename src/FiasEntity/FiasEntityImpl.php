@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasEntity;
 
+use Liquetsoft\Fias\Component\Exception\FiasEntityException;
+
 /**
  * Объект, который хранит описание сущности ФИАС.
  */
@@ -20,26 +22,26 @@ final class FiasEntityImpl implements FiasEntity
         private readonly string $deleteFileMask
     ) {
         if (trim($name) === '') {
-            throw new \InvalidArgumentException('Name param is required');
+            throw FiasEntityException::create('Name param is required');
         }
 
         if (trim($xmlPath) === '') {
-            throw new \InvalidArgumentException('XmlPath param is required');
+            throw FiasEntityException::create('XmlPath param is required');
         }
 
         if (empty($fields)) {
-            throw new \InvalidArgumentException("Fields array can't be empty");
+            throw FiasEntityException::create("Fields array can't be empty");
         }
         $fieldNames = [];
         foreach ($fields as $field) {
             if (\in_array($field->getName(), $fieldNames)) {
-                throw new \InvalidArgumentException('All fields names must be unique, got duplicate: ' . $field->getName());
+                throw FiasEntityException::create('All fields names must be unique, got duplicate: %s', $field->getName());
             }
             $fieldNames[] = $field->getName();
         }
 
         if ($partitionsCount < 1) {
-            throw new \InvalidArgumentException("Partititons count can't be less than 1");
+            throw FiasEntityException::create("Partititons count can't be less than 1");
         }
     }
 
@@ -124,9 +126,7 @@ final class FiasEntityImpl implements FiasEntity
             }
         }
 
-        throw new \InvalidArgumentException(
-            "FiasEntity doesn't have field with name '{$name}'."
-        );
+        throw FiasEntityException::create("FiasEntity doesn't have field with name '%s'", $name);
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasEntity;
 
+use Liquetsoft\Fias\Component\Exception\FiasEntityException;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldImpl;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldSubType;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFieldType;
@@ -24,7 +25,7 @@ class FiasEntityFieldImplTest extends BaseCase
         $type = FiasEntityFieldType::INT;
         $subType = FiasEntityFieldSubType::DATE;
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('Subtype is not allowed for set type');
         $this->createField(
             [
@@ -39,7 +40,7 @@ class FiasEntityFieldImplTest extends BaseCase
      */
     public function testConstructEmptyNameException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('Name is required');
         $this->createField(
             [
@@ -53,7 +54,7 @@ class FiasEntityFieldImplTest extends BaseCase
      */
     public function testConstructIndexAndPrimaryTypeException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('Primary field already has index');
         $this->createField(
             [

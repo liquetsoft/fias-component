@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasEntity;
 
+use Liquetsoft\Fias\Component\Exception\FiasEntityException;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityImpl;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -36,7 +37,7 @@ class FiasEntityImplTest extends BaseCase
      */
     public function testEmptyNameException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('Name param is required');
         $this->createEntity(
             [
@@ -66,7 +67,7 @@ class FiasEntityImplTest extends BaseCase
      */
     public function testEmptyXmlPathException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('XmlPath param is required');
         $this->createEntity(
             [
@@ -175,7 +176,7 @@ class FiasEntityImplTest extends BaseCase
      */
     public function testGetPartitionsCountLessThan1Exception(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage("Partititons count can't be less than 1");
         $this->createEntity(
             [
@@ -259,7 +260,7 @@ class FiasEntityImplTest extends BaseCase
             ]
         );
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $entity->getField('test2');
     }
 
@@ -268,7 +269,7 @@ class FiasEntityImplTest extends BaseCase
      */
     public function testEmptyFieldsException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage("Fields array can't be empty");
         $this->createEntity(
             [
@@ -288,7 +289,7 @@ class FiasEntityImplTest extends BaseCase
         $field2 = $this->getMockBuilder(FiasEntityField::class)->getMock();
         $field2->method('getName')->willReturn('test_field_name');
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('All fields names must be unique, got duplicate: test_field_name');
         $this->createEntity(
             [

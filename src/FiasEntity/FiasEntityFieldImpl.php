@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasEntity;
 
+use Liquetsoft\Fias\Component\Exception\FiasEntityException;
+
 /**
  * Объект, который описывает поле сущности.
  */
@@ -21,13 +23,13 @@ final class FiasEntityFieldImpl implements FiasEntityField
         private readonly bool $isPartition
     ) {
         if ($subType->getBaseType() !== null && $subType->getBaseType() !== $type) {
-            throw new \InvalidArgumentException('Subtype is not allowed for set type');
+            throw FiasEntityException::create('Subtype is not allowed for set type');
         }
         if (trim($name) === '') {
-            throw new \InvalidArgumentException('Name is required');
+            throw FiasEntityException::create('Name is required');
         }
         if ($isPrimary && $isIndex) {
-            throw new \InvalidArgumentException('Primary field already has index');
+            throw FiasEntityException::create('Primary field already has index');
         }
     }
 

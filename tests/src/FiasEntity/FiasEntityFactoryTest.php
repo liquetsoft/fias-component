@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasEntity;
 
+use Liquetsoft\Fias\Component\Exception\FiasEntityException;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityFactory;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityField;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -20,7 +21,7 @@ class FiasEntityFactoryTest extends BaseCase
      */
     public function testCreateFromArrayNonArrayException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('Param must be an instance of array');
         FiasEntityFactory::createFromArray('test');
     }
@@ -30,7 +31,7 @@ class FiasEntityFactoryTest extends BaseCase
      */
     public function testCreateMalformedFieldException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(FiasEntityException::class);
         $this->expectExceptionMessage('Field must be an array or implements EntityField');
         FiasEntityFactory::createFromArray(
             [

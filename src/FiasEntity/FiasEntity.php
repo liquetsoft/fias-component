@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasEntity;
 
+use Liquetsoft\Fias\Component\Exception\FiasEntityException;
+
 /**
  * Интерфейс для объекта, который описывает сущность ФИАС.
  */
@@ -54,7 +56,7 @@ interface FiasEntity
     /**
      * Возвращает поле по имени или выбрасывает исключение, если поля с таким именем нет.
      *
-     * @throws \InvalidArgumentException
+     * @throws FiasEntityException
      */
     public function getField(string $name): FiasEntityField;
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasEntity;
 
+use Liquetsoft\Fias\Component\Exception\FiasEntityException;
 use Liquetsoft\Fias\Component\Helper\ArrayHelper;
 
 /**
@@ -23,7 +24,7 @@ final class FiasEntityFactory
     public static function createFromArray(mixed $array): FiasEntity
     {
         if (!\is_array($array)) {
-            throw new \InvalidArgumentException('Param must be an instance of array');
+            throw FiasEntityException::create('Param must be an instance of array');
         }
 
         return new FiasEntityImpl(
@@ -52,7 +53,7 @@ final class FiasEntityFactory
             } elseif ($rawField instanceof FiasEntityField) {
                 $fields[] = $rawField;
             } else {
-                throw new \InvalidArgumentException('Field must be an array or implements EntityField');
+                throw FiasEntityException::create('Field must be an array or implements EntityField');
             }
         }
 
