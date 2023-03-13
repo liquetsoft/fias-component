@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasEntity;
 
 use Liquetsoft\Fias\Component\Exception\FiasEntityException;
+use Liquetsoft\Fias\Component\Helper\StringHelper;
 
 /**
  * Абстрактный класс для объектов, которые хранят список всех сущностей во внутреннем массиве.
@@ -40,10 +41,10 @@ abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
      */
     public function hasEntity(string $entityName): bool
     {
-        $unifiedName = $this->unifyEntityName($entityName);
+        $normalizedName = StringHelper::normalize($entityName);
 
         foreach ($this->getAllEntities() as $entity) {
-            if ($this->unifyEntityName($entity->getName()) === $unifiedName) {
+            if (StringHelper::normalize($entity->getName()) === $normalizedName) {
                 return true;
             }
         }
@@ -56,22 +57,14 @@ abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
      */
     public function getEntity(string $entityName): FiasEntity
     {
-        $unifiedName = $this->unifyEntityName($entityName);
+        $normalizedName = StringHelper::normalize($entityName);
 
         foreach ($this->getAllEntities() as $entity) {
-            if ($this->unifyEntityName($entity->getName()) === $unifiedName) {
+            if (StringHelper::normalize($entity->getName()) === $normalizedName) {
                 return $entity;
             }
         }
 
         throw FiasEntityException::create("Can't find entity with name '%s'", $entityName);
-    }
-
-    /**
-     * Приводит имена сущностей к единому виду.
-     */
-    private function unifyEntityName(string $name): string
-    {
-        return strtolower(trim($name));
     }
 }
