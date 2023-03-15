@@ -84,6 +84,20 @@ final class UnpackerZip implements Unpacker
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isArchive(\SplFileInfo $archive): bool
+    {
+        try {
+            $this->openArchive($archive)->close();
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Открывает архив и возвращает объект архива.
      */
     private function openArchive(\SplFileInfo $archive): \ZipArchive

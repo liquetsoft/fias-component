@@ -166,4 +166,32 @@ class UnpackerZipTest extends BaseCase
             new \SplFileInfo($testDestination)
         );
     }
+
+    /**
+     * Проверяет, что объект правильно определит является ли файл архивом или нет.
+     *
+     * @dataProvider provideIsArchive
+     */
+    public function testIsArchive(string $file, bool $awaits): void
+    {
+        $zipUnpack = new UnpackerZip();
+
+        $isArchive = $zipUnpack->isArchive(new \SplFileInfo($file));
+
+        $this->assertSame($awaits, $isArchive);
+    }
+
+    public function provideIsArchive(): array
+    {
+        return [
+            'is archive' => [
+                __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip',
+                true,
+            ],
+            'is not archive' => [
+                __DIR__ . '/_fixtures/UnpackerZipTest/testIsArchive_notArchive.zip',
+                false,
+            ],
+        ];
+    }
 }

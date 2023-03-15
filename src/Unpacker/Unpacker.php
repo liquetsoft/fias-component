@@ -34,4 +34,9 @@ interface Unpacker
      * @throws UnpackerException
      */
     public function extractEntity(\SplFileInfo $archive, string $entityName, \SplFileInfo $destination): string;
+
+    /**
+     * Возвращает правду, если файл является валидным архивом.
+     */
+    public function isArchive(\SplFileInfo $archive): bool;
 }

@@ -25,6 +25,13 @@ interface FiasEntityBinder
     public function getEntityByImplementation(string|object $implementation): ?FiasEntity;
 
     /**
+     * Возвращает массив сущностей, которые имеют привязки к реализации.
+     *
+     * @return FiasEntity[]
+     */
+    public function getBoundEntities(): array;
+
+    /**
      * Возвращает список имен классов, у которых есть отношения к сущностям ФИАС.
      *
      * @return array<string, string>

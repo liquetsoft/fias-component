@@ -27,9 +27,9 @@ final class FiasEntityBinderImpl implements FiasEntityBinder
         $this->repo = $repo;
 
         $normalizedBindings = [];
-        foreach ($bindings as $name => $class) {
-            $normalizedName = StringHelper::normalize($name);
-            $normalizedBindings[$normalizedName] = $class;
+        foreach ($bindings as $entityName => $boundClass) {
+            $normalizedName = StringHelper::normalize($entityName);
+            $normalizedBindings[$normalizedName] = $boundClass;
         }
         $this->bindings = $normalizedBindings;
     }
@@ -56,6 +56,21 @@ final class FiasEntityBinderImpl implements FiasEntityBinder
         return \is_string($entityName) && $this->repo->hasEntity($entityName)
             ? $this->repo->getEntity($entityName)
             : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBoundEntities(): array
+    {
+        $result = [];
+        foreach ($this->bindings as $entityName => $boundClass) {
+            if ($this->repo->hasEntity($entityName)) {
+                $result[] = $this->repo->getEntity($entityName);
+            }
+        }
+
+        return $result;
     }
 
     /**

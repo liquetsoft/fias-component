@@ -13,9 +13,9 @@ use Liquetsoft\Fias\Component\Helper\StringHelper;
 abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
 {
     /**
-     * @var iterable<FiasEntity>|null
+     * @var array<string, FiasEntity>|null
      */
-    private ?iterable $entities = null;
+    private ?array $entities = null;
 
     /**
      * Возвращает полностью подготовленный массив с описаниями сущностей.
@@ -29,11 +29,7 @@ abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
      */
     public function getAllEntities(): iterable
     {
-        if ($this->entities === null) {
-            $this->entities = $this->loadRepositoryData();
-        }
-
-        return $this->entities;
+        return array_values($this->loadEntites());
     }
 
     /**
@@ -41,15 +37,10 @@ abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
      */
     public function hasEntity(string $entityName): bool
     {
+        $entites = $this->loadEntites();
         $normalizedName = StringHelper::normalize($entityName);
 
-        foreach ($this->getAllEntities() as $entity) {
-            if (StringHelper::normalize($entity->getName()) === $normalizedName) {
-                return true;
-            }
-        }
-
-        return false;
+        return isset($entites[$normalizedName]);
     }
 
     /**
@@ -57,14 +48,31 @@ abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
      */
     public function getEntity(string $entityName): FiasEntity
     {
+        $entites = $this->loadEntites();
         $normalizedName = StringHelper::normalize($entityName);
 
-        foreach ($this->getAllEntities() as $entity) {
-            if (StringHelper::normalize($entity->getName()) === $normalizedName) {
-                return $entity;
-            }
+        if (isset($entites[$normalizedName])) {
+            return $entites[$normalizedName];
         }
 
         throw FiasEntityException::create("Can't find entity with name '%s'", $entityName);
+    }
+
+    /**
+     * Загружает, если требуется список всех сущностей и возвращает его.
+     *
+     * @return array<string, FiasEntity>
+     */
+    private function loadEntites(): array
+    {
+        if ($this->entities === null) {
+            $loadedEntites = $this->loadRepositoryData();
+            $this->entities = [];
+            foreach ($loadedEntites as $entity) {
+                $this->entities[StringHelper::normalize($entity->getName())] = $entity;
+            }
+        }
+
+        return $this->entities;
     }
 }

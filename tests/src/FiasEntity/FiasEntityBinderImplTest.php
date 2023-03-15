@@ -156,6 +156,46 @@ class FiasEntityBinderImplTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект вернет всех сущностей, имеющих привязки.
+     */
+    public function testGetBoundEntities(): void
+    {
+        $entityName = 'entity';
+        /** @var FiasEntity&MockObject */
+        $entity = $this->getMockBuilder(FiasEntity::class)->getMock();
+
+        $entity1Name = 'entity1';
+        /** @var FiasEntity&MockObject */
+        $entity1 = $this->getMockBuilder(FiasEntity::class)->getMock();
+
+        /** @var FiasEntityRepository&MockObject */
+        $repo = $this->getMockBuilder(FiasEntityRepository::class)->getMock();
+        $repo->method('hasEntity')->willReturnCallback(
+            fn (string $name): bool => match ($name) {
+                $entityName, $entity1Name => true,
+                default => false
+            }
+        );
+        $repo->method('getEntity')->willReturnCallback(
+            fn (string $name): FiasEntity => match ($name) {
+                $entityName => $entity,
+                $entity1Name => $entity1,
+                default => throw new \Exception("entity with name '{$name}' isn't found")
+            }
+        );
+
+        $binder = new FiasEntityBinderImpl(
+            $repo,
+            [
+                $entity1Name => self::class,
+            ]
+        );
+        $boundEntites = $binder->getBoundEntities();
+
+        $this->assertSame([$entity1], $boundEntites);
+    }
+
+    /**
      * Проверяет, что объект вернет правильный список связок.
      */
     public function testGetBindings(): void
