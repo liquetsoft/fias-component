@@ -76,7 +76,7 @@ final class FiasFileSelectorImpl implements FiasFileSelector
 
         $result = [];
         foreach ($files as $file) {
-            if ($this->filter && !$this->filter->test($file)) {
+            if ($this->filter && !$this->filter->test($file->getPath())) {
                 continue;
             }
             foreach ($entites as $entity) {
@@ -104,10 +104,8 @@ final class FiasFileSelectorImpl implements FiasFileSelector
 
         $result = [];
         foreach ($iterator as $file) {
-            if ($file->isFile() && $this->unpacker->isArchive($file)) {
-                $result += $this->parseArchiveFiles($file);
-            } elseif ($file->isFile()) {
-                $result += $this->parseFile($file);
+            if (!$file->isDir()) {
+                $result = array_merge($result, $this->parseSplFileInfoFiles($file));
             }
         }
 

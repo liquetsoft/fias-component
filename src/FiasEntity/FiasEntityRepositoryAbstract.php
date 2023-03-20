@@ -29,7 +29,7 @@ abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
      */
     public function getAllEntities(): iterable
     {
-        return array_values($this->loadEntites());
+        return $this->loadEntites();
     }
 
     /**

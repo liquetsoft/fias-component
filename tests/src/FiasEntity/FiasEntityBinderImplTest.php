@@ -168,11 +168,15 @@ class FiasEntityBinderImplTest extends BaseCase
         /** @var FiasEntity&MockObject */
         $entity1 = $this->getMockBuilder(FiasEntity::class)->getMock();
 
+        $entity2Name = 'entity2';
+        /** @var FiasEntity&MockObject */
+        $entity2 = $this->getMockBuilder(FiasEntity::class)->getMock();
+
         /** @var FiasEntityRepository&MockObject */
         $repo = $this->getMockBuilder(FiasEntityRepository::class)->getMock();
         $repo->method('hasEntity')->willReturnCallback(
             fn (string $name): bool => match ($name) {
-                $entityName, $entity1Name => true,
+                $entityName, $entity1Name, $entity2Name => true,
                 default => false
             }
         );
@@ -180,6 +184,7 @@ class FiasEntityBinderImplTest extends BaseCase
             fn (string $name): FiasEntity => match ($name) {
                 $entityName => $entity,
                 $entity1Name => $entity1,
+                $entity2Name => $entity2,
                 default => throw new \Exception("entity with name '{$name}' isn't found")
             }
         );
@@ -188,11 +193,12 @@ class FiasEntityBinderImplTest extends BaseCase
             $repo,
             [
                 $entity1Name => self::class,
+                $entity2Name => self::class,
             ]
         );
         $boundEntites = $binder->getBoundEntities();
 
-        $this->assertSame([$entity1], $boundEntites);
+        $this->assertSame([$entity1, $entity2], $boundEntites);
     }
 
     /**
