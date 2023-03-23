@@ -6,6 +6,7 @@
             "src/FiasEntity",
             "src/FiasInformer",
             "src/FiasStatusChecker",
+            "src/FiasThread",
             "src/Exception",
             "src/Filter",
             "src/Helper",

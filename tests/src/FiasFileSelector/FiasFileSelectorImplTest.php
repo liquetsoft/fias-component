@@ -33,7 +33,7 @@ class FiasFileSelectorImplTest extends BaseCase
         $sourceName = '/test/test.xml';
         $source = $this->createSplFileInfoMock($sourceName);
 
-        $entity = $this->createEntityMock();
+        $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $sourceName
         );
@@ -64,7 +64,7 @@ class FiasFileSelectorImplTest extends BaseCase
         ];
         $unpacker = $this->createUnpackerFileListMock($source, $archivedFiles);
 
-        $entity = $this->createEntityMock();
+        $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $archivedFiles[0]
         );
@@ -96,7 +96,7 @@ class FiasFileSelectorImplTest extends BaseCase
             'test/file1.txt',
             'test/file2.txt',
         ];
-        $entity = $this->createEntityMock();
+        $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $fileNames[0]
         );
@@ -138,7 +138,7 @@ class FiasFileSelectorImplTest extends BaseCase
             'test/file1.txt',
             'test/file2.txt',
         ];
-        $entity = $this->createEntityMock();
+        $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $fileNames[0]
         );

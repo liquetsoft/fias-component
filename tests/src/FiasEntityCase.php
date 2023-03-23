@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests;
 
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
 use Liquetsoft\Fias\Component\FiasEntity\FiasEntityBinder;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -14,14 +15,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 trait FiasEntityCase
 {
     /**
-     * Создает мок для FiasEntityBinder со списком связанных сущностей.
+     * Создает мок для FiasEntity.
      *
      * @return FiasEntity&MockObject
      */
-    public function createEntityMock(): FiasEntity
+    public function createFiasEntityMock(string $name = ''): FiasEntity
     {
         /** @var FiasEntity&MockObject */
         $entity = $this->getMockBuilder(FiasEntity::class)->getMock();
+
+        $entity->method('getName')->willReturn($name);
 
         return $entity;
     }
@@ -51,5 +54,22 @@ trait FiasEntityCase
         $binder = $this->getMockBuilder(FiasEntityBinder::class)->getMock();
 
         return $binder;
+    }
+
+    /**
+     * Создает мок для FiasEntityRepository.
+     *
+     * @param FiasEntity[] $entites
+     *
+     * @return FiasEntityRepository&MockObject
+     */
+    public function createFiasEntityRepoMock(array $entites = []): FiasEntityRepository
+    {
+        /** @var FiasEntityRepository&MockObject */
+        $repo = $this->getMockBuilder(FiasEntityRepository::class)->getMock();
+
+        $repo->method('getAllEntities')->willReturn($entites);
+
+        return $repo;
     }
 }
