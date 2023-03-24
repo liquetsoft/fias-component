@@ -11,11 +11,27 @@ use Liquetsoft\Fias\Component\Exception\FiasFileSelectorException;
  */
 final class FiasFileSelectorFileImpl implements FiasFileSelectorFile
 {
-    public function __construct(
-        private readonly string $path,
-        private readonly int $size,
-        private readonly ?string $pathToArchive = null
-    ) {
+    private readonly string $path;
+    private readonly int $size;
+    private readonly ?string $pathToArchive;
+
+    public function __construct(string $path, int $size, ?string $pathToArchive = null)
+    {
+        $this->path = trim($path);
+        $this->size = $size;
+        $this->pathToArchive = $pathToArchive !== null ? trim($pathToArchive) : null;
+
+        if ($this->path === '') {
+            throw FiasFileSelectorException::create("path param can't be empty");
+        }
+
+        if ($this->pathToArchive === '') {
+            throw FiasFileSelectorException::create("pathToArchive param can't be empty");
+        }
+
+        if ($this->size < 0) {
+            throw FiasFileSelectorException::create("Size can't be less than 0");
+        }
     }
 
     /**

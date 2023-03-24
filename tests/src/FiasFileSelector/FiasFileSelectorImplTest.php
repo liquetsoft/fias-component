@@ -55,7 +55,8 @@ class FiasFileSelectorImplTest extends BaseCase
      */
     public function testSelectArchive(): void
     {
-        $source = $this->createSplFileInfoMock();
+        $pathToArchive = 'test/archive.zip';
+        $source = $this->createSplFileInfoMock($pathToArchive);
 
         $archivedFiles = [
             'test/file.txt',
@@ -80,7 +81,9 @@ class FiasFileSelectorImplTest extends BaseCase
 
         $this->assertCount(2, $selectedFiles);
         $this->assertSame($archivedFiles[0], $selectedFiles[0]->getPath());
+        $this->assertSame($pathToArchive, $selectedFiles[0]->getPathToArchive());
         $this->assertSame($archivedFiles[1], $selectedFiles[1]->getPath());
+        $this->assertSame($pathToArchive, $selectedFiles[1]->getPathToArchive());
     }
 
     /**
