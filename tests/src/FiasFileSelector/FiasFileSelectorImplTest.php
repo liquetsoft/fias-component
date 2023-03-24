@@ -31,7 +31,7 @@ class FiasFileSelectorImplTest extends BaseCase
     public function testSelectFile(): void
     {
         $sourceName = '/test/test.xml';
-        $source = $this->createSplFileInfoMock($sourceName);
+        $source = $this->createSplFileInfoMock($sourceName, 10);
 
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
@@ -98,20 +98,22 @@ class FiasFileSelectorImplTest extends BaseCase
             'test/file.txt',
             'test/file1.txt',
             'test/file2.txt',
+            'test/file3.txt',
         ];
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $fileNames[0]
         );
         $entity->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[1]
+            fn (string $path): bool => $path === $fileNames[1] || $path === $fileNames[3]
         );
         $binder = $this->createFiasEntityBinderMockWithList([$entity]);
 
         $dirFiles = [
-            $this->createSplFileInfoMock($fileNames[0]),
-            $this->createSplFileInfoMock($fileNames[1]),
-            $this->createSplFileInfoMock($fileNames[2]),
+            $this->createSplFileInfoMock($fileNames[0], 1),
+            $this->createSplFileInfoMock($fileNames[1], 2),
+            $this->createSplFileInfoMock($fileNames[2], 3),
+            $this->createSplFileInfoMock($fileNames[3], 0),
         ];
         $fs = $this->createFileSystemMock();
         $fs->method('createDirectoryIterator')
@@ -151,9 +153,9 @@ class FiasFileSelectorImplTest extends BaseCase
         $binder = $this->createFiasEntityBinderMockWithList([$entity]);
 
         $dirFiles = [
-            $this->createSplFileInfoMock($fileNames[0]),
-            $this->createSplFileInfoMock($fileNames[1]),
-            $this->createSplFileInfoMock($fileNames[2]),
+            $this->createSplFileInfoMock($fileNames[0], 1),
+            $this->createSplFileInfoMock($fileNames[1], 2),
+            $this->createSplFileInfoMock($fileNames[2], 3),
         ];
         $fs = $this->createFileSystemMock();
         $fs->method('createDirectoryIterator')

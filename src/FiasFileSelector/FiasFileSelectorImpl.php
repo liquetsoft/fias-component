@@ -76,7 +76,7 @@ final class FiasFileSelectorImpl implements FiasFileSelector
 
         $result = [];
         foreach ($files as $file) {
-            if ($this->filter && !$this->filter->test($file->getPath())) {
+            if ($file->getSize() === 0 || $this->filter && !$this->filter->test($file->getPath())) {
                 continue;
             }
             foreach ($entites as $entity) {
