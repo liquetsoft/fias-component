@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests;
 
-use Faker\Factory;
-use Faker\Generator;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Helper\IdHelper;
 use Marvin255\FileSystemHelper\Exception\FileSystemException;
 use Marvin255\FileSystemHelper\FileSystemFactory;
 use Marvin255\FileSystemHelper\FileSystemHelper;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,8 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class BaseCase extends TestCase
 {
-    private ?Generator $faker = null;
-
     private ?FileSystemHelper $fs = null;
 
     private ?string $tempDir = null;
@@ -28,22 +23,6 @@ abstract class BaseCase extends TestCase
      * @var array<string, int>
      */
     private array $counters = [];
-
-    /**
-     * Возвращает объект php faker для генерации случайных данных.
-     *
-     * Использует ленивую инициализацию и создает объект faker только при первом
-     * запросе, для всех последующих запросов возвращает тот же самый объект,
-     * который был создан в первый раз.
-     */
-    public function createFakeData(): Generator
-    {
-        if ($this->faker === null) {
-            $this->faker = Factory::create();
-        }
-
-        return $this->faker;
-    }
 
     /**
      * Возвращает объект для работы с файловой системой.
@@ -66,13 +45,7 @@ abstract class BaseCase extends TestCase
     protected function getTempDir(): string
     {
         if ($this->tempDir === null) {
-            $this->tempDir = sys_get_temp_dir();
-            if (!$this->tempDir || !is_writable($this->tempDir)) {
-                throw new \RuntimeException(
-                    "Can't find or write temporary folder: {$this->tempDir}"
-                );
-            }
-            $this->tempDir .= \DIRECTORY_SEPARATOR . 'fias_component';
+            $this->tempDir = $this->fs()->getTmpDir() . \DIRECTORY_SEPARATOR . 'fias_component';
             $this->fs()->mkdirIfNotExist($this->tempDir);
             $this->fs()->emptyDir($this->tempDir);
         }
@@ -89,7 +62,7 @@ abstract class BaseCase extends TestCase
     protected function getPathToTestDir(string $name = ''): string
     {
         if ($name === '') {
-            $name = $this->createFakeData()->word();
+            $name = IdHelper::createUniqueId();
         }
 
         $pathToFolder = $this->getTempDir() . \DIRECTORY_SEPARATOR . $name;
@@ -105,11 +78,11 @@ abstract class BaseCase extends TestCase
     protected function getPathToTestFile(string $name = '', ?string $content = null): string
     {
         if ($name === '') {
-            $name = $this->createFakeData()->word() . '.txt';
+            $name = IdHelper::createUniqueId() . '.txt';
         }
 
         $pathToFile = $this->getTempDir() . \DIRECTORY_SEPARATOR . $name;
-        $content = $content === null ? $this->createFakeData()->word() : $content;
+        $content = $content === null ? IdHelper::createUniqueId() : $content;
         if (file_put_contents($pathToFile, $content) === false) {
             throw new \RuntimeException("Can't create file {$pathToFile}");
         }
@@ -128,29 +101,6 @@ abstract class BaseCase extends TestCase
         }
 
         parent::tearDown();
-    }
-
-    /**
-     * Создает мок для объекта состояния.
-     */
-    protected function createDefaultStateMock(array $params = [], ?bool $needCompleting = null): State
-    {
-        /** @var MockObject&State */
-        $state = $this->getMockBuilder(State::class)->getMock();
-
-        $state->method('getParameter')
-            ->willReturnCallback(
-                function (string $name) use ($params) {
-                    return $params[$name] ?? null;
-                }
-            );
-
-        if ($needCompleting !== null) {
-            $expects = $needCompleting ? $this->once() : $this->never();
-            $state->expects($expects)->method('complete');
-        }
-
-        return $state;
     }
 
     /**

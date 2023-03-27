@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
+namespace Liquetsoft\Fias\Component\Pipeline;
 
-use Liquetsoft\Fias\Component\Exception\PipeException;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Exception\PipelineException;
 
 /**
  * Интерфейс для объекта, который включает в себя несколько операций для
@@ -14,12 +13,12 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
  * Между каждой операцией передается объект состояния, так операции могут
  * взаимодействовать друг с другом, при этом не обретая зависимостей.
  */
-interface Pipe
+interface Pipeline
 {
     /**
      * Запускает все операции на выполнение.
      *
-     * @throws PipeException
+     * @throws PipelineException
      */
-    public function run(State $state): Pipe;
+    public function run(PipelineState $state): void;
 }
