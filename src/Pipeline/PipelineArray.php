@@ -49,7 +49,7 @@ final class PipelineArray implements Pipeline
                 $state = $this->proceedTask($state, $task);
             } catch (\Throwable $e) {
                 $this->log(
-                    'Task throwed an error: ' . $e->getMessage(),
+                    'Task throwed an error',
                     [
                         'task' => $taskName,
                         'error' => $e->getMessage(),

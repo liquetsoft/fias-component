@@ -106,10 +106,21 @@ class FiasFileSelectorImplTest extends BaseCase
             fn (string $path): bool => $path === $fileNames[0]
         );
         $entity->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[1] || $path === $fileNames[3]
+            fn (string $path): bool => $path === $fileNames[1]
         );
 
-        $binder = $this->createFiasEntityBinderMockWithList([$entity]);
+        $entity1 = $this->createFiasEntityMock();
+        $entity1->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
+            fn (string $path): bool => $path === $fileNames[3]
+        );
+        $entity1->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
+            fn (string $path): bool => match ($path) {
+                $fileNames[0], $fileNames[1], $fileNames[3] => throw new \RuntimeException('This psth should be proceed by another entity'),
+                default => false
+            }
+        );
+
+        $binder = $this->createFiasEntityBinderMockWithList([$entity, $entity1]);
 
         $dirFiles = [
             $this->createSplFileInfoMock($fileNames[0], 1),
