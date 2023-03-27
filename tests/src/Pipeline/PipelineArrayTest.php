@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline;
 
 use Liquetsoft\Fias\Component\Exception\PipelineException;
+use Liquetsoft\Fias\Component\Helper\IdHelper;
 use Liquetsoft\Fias\Component\Pipeline\PipelineArray;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\LoggerCase;
 use Liquetsoft\Fias\Component\Tests\PipelineCase;
+use Psr\Log\LogLevel;
 
 /**
  * Тест для объекта, который содержит внутренний массив со списком операций для исполнения..
@@ -107,7 +109,18 @@ class PipelineArrayTest extends BaseCase
         $task1->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state);
 
         $logger = $this->createLoggerMock();
-        $logger->expects($this->exactly(5))->method('log');
+        $logger->expects($this->exactly(5))
+            ->method('log')
+            ->with(
+                $this->equalTo(LogLevel::INFO),
+                $this->anything(),
+                $this->callback(
+                    fn (array $ctx): bool => isset($ctx['source'], $ctx['pipeline_class'], $ctx['pipeline_id'])
+                        && $ctx['source'] === IdHelper::getComponentId()
+                        && $ctx['pipeline_class'] === PipelineArray::class
+                        && \strlen((string) $ctx['pipeline_id']) === 32
+                )
+            );
 
         $pipeline = new PipelineArray([$task1], null, $logger);
         $pipeline->run($state);
@@ -124,7 +137,15 @@ class PipelineArrayTest extends BaseCase
 
         $task1 = $this->createPipelineTaskLogAwareMock();
         $task1->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state);
-        $task1->expects($this->once())->method('injectLogger')->with($this->identicalTo($logger));
+        $task1->expects($this->once())
+            ->method('injectLogger')
+            ->with(
+                $this->identicalTo($logger),
+                $this->callback(
+                    fn (array $ctx): bool => isset($ctx['source'], $ctx['pipeline_class'], $ctx['pipeline_id'], $ctx['task'])
+                        && $ctx['task'] === \get_class($task1)
+                )
+            );
 
         $pipeline = new PipelineArray([$task1], null, $logger);
         $pipeline->run($state);

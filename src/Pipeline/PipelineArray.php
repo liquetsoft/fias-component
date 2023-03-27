@@ -56,7 +56,7 @@ final class PipelineArray implements Pipeline
                     ]
                 );
                 $this->proceedCleanup($state);
-                throw new PipelineException($e->getMessage(), 0, $e);
+                throw PipelineException::wrap($e);
             }
             if ($state->get(PipelineStateParam::INTERRUPT_PIPELINE) === true) {
                 $this->log('Pipeline interrupted', ['task' => $taskName]);
@@ -124,11 +124,7 @@ final class PipelineArray implements Pipeline
         if ($task instanceof PipelineTaskLogAware && $this->logger) {
             $task->injectLogger(
                 $this->logger,
-                $this->createLoggerContext(
-                    [
-                        'task' => $this->getTaskId($task),
-                    ]
-                )
+                $this->createLoggerContext(['task' => $this->getTaskId($task)])
             );
         }
     }
