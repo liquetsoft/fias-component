@@ -100,6 +100,7 @@ class FiasFileSelectorImplTest extends BaseCase
             'test/file2.txt',
             'test/file3.txt',
         ];
+
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $fileNames[0]
@@ -107,6 +108,7 @@ class FiasFileSelectorImplTest extends BaseCase
         $entity->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $fileNames[1] || $path === $fileNames[3]
         );
+
         $binder = $this->createFiasEntityBinderMockWithList([$entity]);
 
         $dirFiles = [
@@ -142,13 +144,14 @@ class FiasFileSelectorImplTest extends BaseCase
             'test/file.txt',
             'test/file1.txt',
             'test/file2.txt',
+            'test/file3.txt',
         ];
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
             fn (string $path): bool => $path === $fileNames[0]
         );
         $entity->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[1]
+            fn (string $path): bool => $path === $fileNames[1] || $path === $fileNames[3]
         );
         $binder = $this->createFiasEntityBinderMockWithList([$entity]);
 
@@ -156,6 +159,7 @@ class FiasFileSelectorImplTest extends BaseCase
             $this->createSplFileInfoMock($fileNames[0], 1),
             $this->createSplFileInfoMock($fileNames[1], 2),
             $this->createSplFileInfoMock($fileNames[2], 3),
+            $this->createSplFileInfoMock($fileNames[3], 4),
         ];
         $fs = $this->createFileSystemMock();
         $fs->method('createDirectoryIterator')
@@ -167,14 +171,15 @@ class FiasFileSelectorImplTest extends BaseCase
         /** @var Filter&MockObject */
         $filter = $this->getMockBuilder(Filter::class)->getMock();
         $filter->method('test')->willReturnCallback(
-            fn (mixed $test): bool => $test === $fileNames[0]
+            fn (mixed $test): bool => $test === $fileNames[0] || $test === $fileNames[3]
         );
 
         $selector = new FiasFileSelectorImpl($binder, $unpacker, $fs, $filter);
         $selectedFiles = $selector->select($source);
 
-        $this->assertCount(1, $selectedFiles);
+        $this->assertCount(2, $selectedFiles);
         $this->assertSame($fileNames[0], $selectedFiles[0]->getPath());
+        $this->assertSame($fileNames[3], $selectedFiles[1]->getPath());
     }
 
     /**
