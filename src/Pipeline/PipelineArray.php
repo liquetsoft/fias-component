@@ -95,10 +95,10 @@ final class PipelineArray implements Pipeline
     private function proceedCleanup(PipelineState $state): void
     {
         if ($this->cleanupTask) {
-            $this->log('Start cleaning up');
+            $this->log('Cleanup started');
             $this->proceedTask($state, $this->cleanupTask);
         } else {
-            $this->log('Skip cleaning up');
+            $this->log('Cleanup skipped');
         }
     }
 
