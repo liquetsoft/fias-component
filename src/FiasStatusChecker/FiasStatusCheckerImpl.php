@@ -58,7 +58,7 @@ final class FiasStatusCheckerImpl implements FiasStatusChecker
             $reason = $e->getMessage();
         }
 
-        return new FiasStatusCheckerResultForService($status, $service, $reason);
+        return new FiasStatusCheckerResultForServiceImpl($status, $service, $reason);
     }
 
     /**
@@ -71,7 +71,7 @@ final class FiasStatusCheckerImpl implements FiasStatusChecker
         try {
             $url = $this->informer->getLatestVersion()->getFullUrl();
         } catch (\Throwable $e) {
-            return new FiasStatusCheckerResultForService(
+            return new FiasStatusCheckerResultForServiceImpl(
                 FiasStatusCheckerStatus::UNKNOWN,
                 $service,
                 'Informer is unavailable'
@@ -88,13 +88,13 @@ final class FiasStatusCheckerImpl implements FiasStatusChecker
                 );
             }
         } catch (\Throwable $e) {
-            return new FiasStatusCheckerResultForService(
+            return new FiasStatusCheckerResultForServiceImpl(
                 FiasStatusCheckerStatus::NOT_AVAILABLE,
                 $service,
                 $e->getMessage()
             );
         }
 
-        return new FiasStatusCheckerResultForService(FiasStatusCheckerStatus::AVAILABLE, $service);
+        return new FiasStatusCheckerResultForServiceImpl(FiasStatusCheckerStatus::AVAILABLE, $service);
     }
 }

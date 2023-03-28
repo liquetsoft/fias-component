@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\FiasStatusChecker;
 
-use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerResultForService;
+use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerResultForServiceImpl;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerService;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerStatus;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class FiasStatusCheckerResultForServiceTest extends BaseCase
+class FiasStatusCheckerResultForServiceImplTest extends BaseCase
 {
     /**
      * Проверяет, что объект возвращает правильный статус.
@@ -25,7 +25,7 @@ class FiasStatusCheckerResultForServiceTest extends BaseCase
         $service = FiasStatusCheckerService::FILE_SERVER;
         $reason = 'reason';
 
-        $result = new FiasStatusCheckerResultForService($status, $service, $reason);
+        $result = new FiasStatusCheckerResultForServiceImpl($status, $service, $reason);
 
         $this->assertSame($status, $result->getStatus());
     }
@@ -39,7 +39,7 @@ class FiasStatusCheckerResultForServiceTest extends BaseCase
         $service = FiasStatusCheckerService::FILE_SERVER;
         $reason = 'reason';
 
-        $result = new FiasStatusCheckerResultForService($status, $service, $reason);
+        $result = new FiasStatusCheckerResultForServiceImpl($status, $service, $reason);
 
         $this->assertSame($service, $result->getService());
     }
@@ -53,7 +53,7 @@ class FiasStatusCheckerResultForServiceTest extends BaseCase
         $service = FiasStatusCheckerService::FILE_SERVER;
         $reason = 'reason';
 
-        $result = new FiasStatusCheckerResultForService($status, $service, $reason);
+        $result = new FiasStatusCheckerResultForServiceImpl($status, $service, $reason);
 
         $this->assertSame($reason, $result->getReason());
     }

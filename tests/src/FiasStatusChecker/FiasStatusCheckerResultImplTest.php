@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\Tests\FiasStatusChecker;
 
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerResultForService;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerResultImpl;
-use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerService;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerStatus;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
@@ -36,8 +35,9 @@ class FiasStatusCheckerResultImplTest extends BaseCase
     public function testGetPerServiceStatuses(): void
     {
         $status = FiasStatusCheckerStatus::AVAILABLE;
+
         $perService = [
-            new FiasStatusCheckerResultForService(FiasStatusCheckerStatus::AVAILABLE, FiasStatusCheckerService::FILE_SERVER),
+            $this->getMockBuilder(FiasStatusCheckerResultForService::class)->getMock(),
         ];
 
         $result = new FiasStatusCheckerResultImpl($status, $perService);
