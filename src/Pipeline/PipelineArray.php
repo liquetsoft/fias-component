@@ -124,7 +124,11 @@ final class PipelineArray implements Pipeline
         if ($task instanceof PipelineTaskLogAware && $this->logger) {
             $task->injectLogger(
                 $this->logger,
-                $this->createLoggerContext(['task' => $this->getTaskId($task)])
+                $this->createLoggerContext(
+                    [
+                        'task' => $this->getTaskId($task),
+                    ]
+                )
             );
         }
     }

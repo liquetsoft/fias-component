@@ -37,7 +37,9 @@ final class FiasStatusCheckTask implements PipelineTaskLogAware
         $this->log(
             LogLevel::INFO,
             'There are some troubles on the FIAS side',
-            ['statuses' => $this->createLoggableStatuses($result)]
+            [
+                'statuses' => $this->createLoggableStatuses($result),
+            ]
         );
 
         return $state->with(PipelineStateParam::INTERRUPT_PIPELINE, true);
