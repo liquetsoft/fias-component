@@ -38,7 +38,7 @@ class PrepareFolderTaskTest extends BaseCase
             ->method('mkdir')
             ->with(
                 $this->callback(
-                    fn (\SplFileInfo $file): bool => str_starts_with($file->getPathname(), $path)
+                    fn (string $file): bool => str_starts_with($file, $path)
                 )
             );
 
@@ -49,11 +49,11 @@ class PrepareFolderTaskTest extends BaseCase
             ->with(
                 $this->callback(
                     fn (array $params): bool => isset($params[PipelineStateParam::DOWNLOAD_TO_FILE->value])
-                        && $params[PipelineStateParam::DOWNLOAD_TO_FILE->value] instanceof \SplFileInfo
-                        && str_starts_with($params[PipelineStateParam::DOWNLOAD_TO_FILE->value]->getPathname(), $path)
+                        && \is_string($params[PipelineStateParam::DOWNLOAD_TO_FILE->value])
+                        && str_starts_with($params[PipelineStateParam::DOWNLOAD_TO_FILE->value], $path)
                         && isset($params[PipelineStateParam::EXTRACT_TO_FOLDER->value])
-                        && $params[PipelineStateParam::EXTRACT_TO_FOLDER->value] instanceof \SplFileInfo
-                        && str_starts_with($params[PipelineStateParam::EXTRACT_TO_FOLDER->value]->getPathname(), $path)
+                        && \is_string($params[PipelineStateParam::EXTRACT_TO_FOLDER->value])
+                        && str_starts_with($params[PipelineStateParam::EXTRACT_TO_FOLDER->value], $path)
                 )
             )
             ->willReturn($newState);

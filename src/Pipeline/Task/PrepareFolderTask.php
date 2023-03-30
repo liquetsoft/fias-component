@@ -37,8 +37,8 @@ final class PrepareFolderTask implements PipelineTaskLogAware
         $this->fs->mkdirIfNotExist($this->folder);
         $this->fs->emptyDir($this->folder);
 
-        $downloadToFile = new \SplFileInfo("{$this->folder->getRealPath()}/archive");
-        $extractToFolder = new \SplFileInfo("{$this->folder->getRealPath()}/extracted");
+        $downloadToFile = "{$this->folder->getRealPath()}/archive";
+        $extractToFolder = "{$this->folder->getRealPath()}/extracted";
 
         $this->fs->mkdir($extractToFolder);
 
