@@ -35,7 +35,7 @@ final class FiasVersionInformFull implements PipelineTaskLogAware
 
         $this->log(
             LogLevel::INFO,
-            'Full version of FIAS was found',
+            'Full version was found',
             $versionArray
         );
 

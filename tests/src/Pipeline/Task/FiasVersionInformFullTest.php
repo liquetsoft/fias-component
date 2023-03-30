@@ -25,7 +25,7 @@ class FiasVersionInformFullTest extends BaseCase
     use LoggerCase;
 
     /**
-     * Проверяет, что объет получит и вернет правильную версию ФИАС
+     * Проверяет, что объект получит и вернет правильную версию ФИАС
      */
     public function testRun(): void
     {

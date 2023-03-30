@@ -15,5 +15,6 @@ enum PipelineStateParam: string
     case EXTRACT_TO_FOLDER = 'extract_to';
     case ARCHIVE_URL = 'archive_url';
     case PROCESSING_VERSION = 'processing_version';
+    case INSTALLED_VERSION = 'installed_version';
     case DOWNLOAD_TO_FILE = 'download_to';
 }
