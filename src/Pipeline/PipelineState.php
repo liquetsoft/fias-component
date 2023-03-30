@@ -15,6 +15,13 @@ interface PipelineState
     public function with(PipelineStateParam $param, mixed $value): static;
 
     /**
+     * Создает новый объект состояния с дополнительными/обновленными параметрами.
+     *
+     * @param array<string, mixed> $params
+     */
+    public function withList(array $params): static;
+
+    /**
      * Создает новый объект состояния без указанного параметра.
      */
     public function without(PipelineStateParam $param): static;

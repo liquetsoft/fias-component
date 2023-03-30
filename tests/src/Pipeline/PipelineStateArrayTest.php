@@ -31,6 +31,37 @@ class PipelineStateArrayTest extends BaseCase
     }
 
     /**
+     * Проверяет, что к объекту можно добавить несколько новых значений.
+     */
+    public function testWithList(): void
+    {
+        $interruptValue = true;
+        $extractToFolderValue = '/test/';
+        $downloadToFileValue = '/test/file.file';
+        $state = new PipelineStateArray(
+            [
+                PipelineStateParam::INTERRUPT_PIPELINE->value => !$interruptValue,
+                PipelineStateParam::DOWNLOAD_TO_FILE->value => $downloadToFileValue,
+            ]
+        );
+
+        $newState = $state->withList(
+            [
+                PipelineStateParam::INTERRUPT_PIPELINE->value => $interruptValue,
+                PipelineStateParam::EXTRACT_TO_FOLDER->value => $extractToFolderValue,
+            ]
+        );
+        $interruptValueToTest = $newState->get(PipelineStateParam::INTERRUPT_PIPELINE);
+        $extractToFolderValueToTest = $newState->get(PipelineStateParam::EXTRACT_TO_FOLDER);
+        $downloadToFileValueToTest = $newState->get(PipelineStateParam::DOWNLOAD_TO_FILE);
+
+        $this->assertNotSame($state, $newState);
+        $this->assertSame($interruptValue, $interruptValueToTest);
+        $this->assertSame($extractToFolderValue, $extractToFolderValueToTest);
+        $this->assertSame($downloadToFileValue, $downloadToFileValueToTest);
+    }
+
+    /**
      * Проверяет, что из объекта можно удалить значение.
      */
     public function testWithout(): void

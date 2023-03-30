@@ -13,7 +13,36 @@ use Psr\Log\LoggerInterface;
 trait LoggerCase
 {
     /**
-     * Создает мок для объекта состояния.
+     * Создает мок для объекта лога, который ожидает одно сообщение.
+     *
+     * @return LoggerInterface&MockObject
+     */
+    public function createLoggerMockExpectsMessage(string $logLevel, string $message, array $context = []): LoggerInterface
+    {
+        $logger = $this->createLoggerMock();
+
+        $logger->expects($this->once())
+            ->method('log')
+            ->with(
+                $this->identicalTo($logLevel),
+                $this->callback(
+                    fn (string $logMessage): bool => str_contains($logMessage, $message)
+                ),
+                $this->callback(
+                    function (array $logContext) use ($context): bool {
+                        ksort($logContext);
+                        ksort($context);
+
+                        return $logContext === $context;
+                    }
+                )
+            );
+
+        return $logger;
+    }
+
+    /**
+     * Создает мок для объекта лога.
      *
      * @return LoggerInterface&MockObject
      */

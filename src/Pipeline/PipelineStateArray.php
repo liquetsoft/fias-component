@@ -27,6 +27,14 @@ final class PipelineStateArray implements PipelineState
     /**
      * {@inheritdoc}
      */
+    public function withList(array $params): static
+    {
+        return new self(array_merge($this->params, $params));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function without(PipelineStateParam $param): static
     {
         $params = $this->params;
