@@ -30,20 +30,21 @@ class CleanupTaskTest extends BaseCase
     {
         $pathDownloadFile = '/test/download';
         $pathExtractToFolder = '/test/extract';
+        $extractToFolder = $this->createSplDirInfoMock($pathExtractToFolder);
 
         $fs = $this->createFileSystemMock();
         $fs->expects($this->exactly(2))
             ->method('removeIfExists')
             ->with(
                 $this->callback(
-                    fn (string $file): bool => $file === $pathDownloadFile || $file === $pathExtractToFolder
+                    fn (string|\SplFileInfo $file): bool => $file === $pathDownloadFile || $file === $extractToFolder
                 )
             );
 
         $state = $this->createPipelineStateMock(
             [
                 PipelineStateParam::DOWNLOAD_TO_FILE->value => $pathDownloadFile,
-                PipelineStateParam::EXTRACT_TO_FOLDER->value => $pathExtractToFolder,
+                PipelineStateParam::EXTRACT_TO_FOLDER->value => $extractToFolder,
             ]
         );
 

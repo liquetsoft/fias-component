@@ -34,8 +34,11 @@ final class CleanupTask implements PipelineTaskLogAware
 
         foreach ($toRemove as $path) {
             if (\is_string($path)) {
-                $this->log(LogLevel::INFO, "Cleaning up '{$path}' folder");
                 $this->fs->removeIfExists($path);
+                $this->log(LogLevel::INFO, "Path '{$path}' cleaned");
+            } elseif ($path instanceof \SplFileInfo) {
+                $this->fs->removeIfExists($path);
+                $this->log(LogLevel::INFO, "Path '{$path->getPathname()}' cleaned");
             }
         }
 
