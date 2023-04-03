@@ -79,4 +79,36 @@ class PipelineStateArrayTest extends BaseCase
         $this->assertNotSame($state, $newState);
         $this->assertNull($interruptValueToTest);
     }
+
+    /**
+     * Проверяет, что объект правильно вернет строковое значение.
+     */
+    public function testGetString(): void
+    {
+        $state = new PipelineStateArray(
+            [
+                PipelineStateParam::EXTRACT_TO_FOLDER->value => 123,
+            ]
+        );
+
+        $valueToTest = $state->getString(PipelineStateParam::EXTRACT_TO_FOLDER);
+
+        $this->assertSame('123', $valueToTest);
+    }
+
+    /**
+     * Проверяет, что объект правильно вернет числовое значение.
+     */
+    public function testGetInt(): void
+    {
+        $state = new PipelineStateArray(
+            [
+                PipelineStateParam::EXTRACT_TO_FOLDER->value => '123',
+            ]
+        );
+
+        $valueToTest = $state->getInt(PipelineStateParam::EXTRACT_TO_FOLDER);
+
+        $this->assertSame(123, $valueToTest);
+    }
 }

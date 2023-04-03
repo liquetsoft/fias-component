@@ -20,4 +20,9 @@ interface PipelineTaskLogAware extends PipelineTask
      * Записывает сообщение в лог.
      */
     public function log(string $logLevel, string $message, array $context = []): void;
+
+    /**
+     * Записывает сообщение в лог с уровнем INFO.
+     */
+    public function logInfo(string $message, array $context = []): void;
 }

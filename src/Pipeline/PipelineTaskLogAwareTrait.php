@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline;
 
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * Трэйт для объекта операции, в которую можно передать объект логгера.
@@ -33,5 +34,13 @@ trait PipelineTaskLogAwareTrait
             $context = array_merge($this->defaultContext, $context);
             $this->logger->log($logLevel, $message, $context);
         }
+    }
+
+    /**
+     * Записывает сообщение в лог с уровнем INFO.
+     */
+    public function logInfo(string $message, array $context = []): void
+    {
+        $this->log(LogLevel::INFO, $message, $context);
     }
 }

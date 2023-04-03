@@ -28,6 +28,12 @@ trait PipelineCase
         $state->method('get')->willReturnCallback(
             fn (PipelineStateParam $p): mixed => $params[$p->value] ?? null
         );
+        $state->method('getString')->willReturnCallback(
+            fn (PipelineStateParam $p): string => (string) ($params[$p->value] ?? '')
+        );
+        $state->method('getInt')->willReturnCallback(
+            fn (PipelineStateParam $p): int => (int) ($params[$p->value] ?? 0)
+        );
 
         return $state;
     }

@@ -9,7 +9,6 @@ use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAware;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAwareTrait;
 use Marvin255\FileSystemHelper\FileSystemHelper;
-use Psr\Log\LogLevel;
 
 /**
  * Задача, которая подготавливает каталог для загрузки и распаковки ФИАС.
@@ -29,10 +28,7 @@ final class PrepareFolderTask implements PipelineTaskLogAware
      */
     public function run(PipelineState $state): PipelineState
     {
-        $this->log(
-            LogLevel::INFO,
-            "Preparing temporary folder '{$this->folder->getPathname()}'"
-        );
+        $this->logInfo("Preparing temporary folder '{$this->folder->getPathname()}'");
 
         $this->fs->mkdirIfNotExist($this->folder);
         $this->fs->emptyDir($this->folder);

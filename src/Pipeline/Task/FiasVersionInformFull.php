@@ -9,7 +9,6 @@ use Liquetsoft\Fias\Component\Pipeline\PipelineState;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAware;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAwareTrait;
-use Psr\Log\LogLevel;
 
 /**
  * Задача, которая получает информацию о полной версии ФИАС.
@@ -33,11 +32,7 @@ final class FiasVersionInformFull implements PipelineTaskLogAware
             PipelineStateParam::PROCESSING_VERSION->value => $version->getVersion(),
         ];
 
-        $this->log(
-            LogLevel::INFO,
-            'Full version was found',
-            $versionArray
-        );
+        $this->logInfo('Full version was found', $versionArray);
 
         return $state->withList($versionArray);
     }

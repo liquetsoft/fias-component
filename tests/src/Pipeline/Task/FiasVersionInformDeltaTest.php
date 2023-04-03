@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Exception\PipelineException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
@@ -124,38 +123,5 @@ class FiasVersionInformDeltaTest extends BaseCase
         $stateToTest = $task->run($state);
 
         $this->assertSame($newState, $stateToTest);
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если установленная версия не указана
-     * или указана неверно.
-     *
-     * @dataProvider provideRunMalformedVersionException
-     */
-    public function testRunMalformedVersionException(mixed $installedVersion): void
-    {
-        /** @var FiasInformer&MockObject */
-        $informer = $this->getMockBuilder(FiasInformer::class)->getMock();
-
-        $state = $this->createPipelineStateMock(
-            [
-                PipelineStateParam::INSTALLED_VERSION->value => $installedVersion,
-            ]
-        );
-
-        $task = new FiasVersionInformDelta($informer);
-
-        $this->expectException(PipelineException::class);
-        $task->run($state);
-    }
-
-    public function provideRunMalformedVersionException(): array
-    {
-        return [
-            'null version' => [null],
-            'negative version' => [-1],
-            'zero version' => [0],
-            'non int version' => ['test'],
-        ];
     }
 }

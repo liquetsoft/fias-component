@@ -9,7 +9,6 @@ use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAware;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAwareTrait;
 use Marvin255\FileSystemHelper\FileSystemHelper;
-use Psr\Log\LogLevel;
 
 /**
  * Задача, которая очищает временные файлы после работы пайплайна.
@@ -35,10 +34,10 @@ final class CleanupTask implements PipelineTaskLogAware
         foreach ($toRemove as $path) {
             if (\is_string($path)) {
                 $this->fs->removeIfExists($path);
-                $this->log(LogLevel::INFO, "Path '{$path}' cleaned");
+                $this->logInfo('Path cleaned', ['path' => $path]);
             } elseif ($path instanceof \SplFileInfo) {
                 $this->fs->removeIfExists($path);
-                $this->log(LogLevel::INFO, "Path '{$path->getPathname()}' cleaned");
+                $this->logInfo('Path cleaned', ['path' => $path->getPathname()]);
             }
         }
 

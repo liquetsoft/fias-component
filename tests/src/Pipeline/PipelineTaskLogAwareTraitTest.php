@@ -78,4 +78,29 @@ class PipelineTaskLogAwareTraitTest extends BaseCase
         $task->injectLogger($logger, $defaultContext);
         $task->log($logLevel, $message, $context);
     }
+
+    /**
+     * Проверяет, что объект залоггирует значения.
+     *
+     * @psalm-suppress InvalidArgument
+     */
+    public function testLogInfo(): void
+    {
+        $message = 'log message test';
+        $context = ['context_param' => 'context param value'];
+
+        $logger = $this->createLoggerMock();
+        $logger->expects($this->once())
+            ->method('log')
+            ->with(
+                $this->equalTo(LogLevel::INFO),
+                $this->equalTo($message),
+                $this->equalTo($context)
+            );
+
+        /** @var PipelineTaskLogAware&MockObject */
+        $task = $this->getMockForTrait(PipelineTaskLogAwareTrait::class);
+        $task->injectLogger($logger);
+        $task->logInfo($message, $context);
+    }
 }

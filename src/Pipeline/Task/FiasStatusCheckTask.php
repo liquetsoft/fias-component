@@ -10,7 +10,6 @@ use Liquetsoft\Fias\Component\Pipeline\PipelineState;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAware;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAwareTrait;
-use Psr\Log\LogLevel;
 
 /**
  * Задача, которая проверяет доступность сервисов ФИАС.
@@ -34,8 +33,7 @@ final class FiasStatusCheckTask implements PipelineTaskLogAware
             return $state;
         }
 
-        $this->log(
-            LogLevel::INFO,
+        $this->logInfo(
             'There are some troubles on the FIAS side',
             [
                 'statuses' => $this->createLoggableStatuses($result),

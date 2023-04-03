@@ -50,4 +50,20 @@ final class PipelineStateArray implements PipelineState
     {
         return $this->params[$param->value] ?? null;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getString(PipelineStateParam $param): string
+    {
+        return (string) $this->get($param);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInt(PipelineStateParam $param): int
+    {
+        return (int) $this->get($param);
+    }
 }

@@ -30,4 +30,16 @@ interface PipelineState
      * Возвращает параметр состояния по его имени.
      */
     public function get(PipelineStateParam $param): mixed;
+
+    /**
+     * Возвращает параметр состояния по его имени
+     * и пробует привести его значение к строке.
+     */
+    public function getString(PipelineStateParam $param): string;
+
+    /**
+     * Возвращает параметр состояния по его имени
+     * и пробует привести его значение к целому числу.
+     */
+    public function getInt(PipelineStateParam $param): int;
 }
