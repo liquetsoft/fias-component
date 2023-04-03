@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Downloader;
 use Liquetsoft\Fias\Component\Downloader\DownloaderImpl;
 use Liquetsoft\Fias\Component\Exception\DownloaderException;
 use Liquetsoft\Fias\Component\HttpTransport\HttpTransportResponse;
+use Liquetsoft\Fias\Component\Tests\FileSystemCase;
 use Liquetsoft\Fias\Component\Tests\HttpTransportCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -17,6 +18,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class DownloaderImplTest extends HttpTransportCase
 {
+    use FileSystemCase;
+
     private const URL = 'https://test.ru/test.zip';
     private const METHOD_HEAD = 'head';
     private const METHOD_DOWNLOAD = 'download';
@@ -27,7 +30,7 @@ class DownloaderImplTest extends HttpTransportCase
     public function testDownload(): void
     {
         $path = $this->getPathToTestFile('testDownload.txt');
-        $destination = new \SplFileInfo($path);
+        $destination = $this->createSplFileInfoMock($path);
         $okResponse = $this->createOkResponseMock();
 
         $transport = $this->createTransportMock();
@@ -57,7 +60,7 @@ class DownloaderImplTest extends HttpTransportCase
     public function testDownloadWithRetry(): void
     {
         $path = $this->getPathToTestFile('testDownload.txt');
-        $destination = new \SplFileInfo($path);
+        $destination = $this->createSplFileInfoMock($path);
         $okResponse = $this->createOkResponseMock();
         $badResponse = $this->createBadResponseMock();
 
@@ -91,7 +94,7 @@ class DownloaderImplTest extends HttpTransportCase
     public function testDownloadWithRetryAndRange(): void
     {
         $path = $this->getPathToTestFile('testDownload.txt');
-        $destination = new \SplFileInfo($path);
+        $destination = $this->createSplFileInfoMock($path);
         $bytesFrom = 10;
         $bytesTo = 99;
         $headResponse = $this->createHeadResponseMock(true, $bytesTo + 1);
@@ -127,7 +130,7 @@ class DownloaderImplTest extends HttpTransportCase
     public function testDownloadWithRetryAndRangeNotSupported(): void
     {
         $path = $this->getPathToTestFile('testDownload.txt');
-        $destination = new \SplFileInfo($path);
+        $destination = $this->createSplFileInfoMock($path);
         $headResponse = $this->createHeadResponseMock();
         $okResponse = $this->createOkResponseMock();
         $badResponse = $this->createBadResponseMock();
@@ -165,7 +168,8 @@ class DownloaderImplTest extends HttpTransportCase
      */
     public function testDownloadHeadException(): void
     {
-        $destination = new \SplFileInfo($this->getPathToTestFile('testDownloadHeadException'));
+        $path = $this->getPathToTestFile('testDownloadHeadException');
+        $destination = $this->createSplFileInfoMock($path);
         $exception = new \RuntimeException('message for exception');
 
         $transport = $this->createTransportMock();
@@ -184,7 +188,8 @@ class DownloaderImplTest extends HttpTransportCase
      */
     public function testDownloadException(): void
     {
-        $destination = new \SplFileInfo($this->getPathToTestFile('testDownloadException'));
+        $path = $this->getPathToTestFile('testDownloadException');
+        $destination = $this->createSplFileInfoMock($path);
         $exception = new \RuntimeException('message for exception');
         $okResponse = $this->createOkResponseMock();
 
@@ -204,7 +209,8 @@ class DownloaderImplTest extends HttpTransportCase
      */
     public function testDownloadBadStatusException(): void
     {
-        $destination = new \SplFileInfo($this->getPathToTestFile('testDownloadBadStatusException'));
+        $path = $this->getPathToTestFile('testDownloadBadStatusException');
+        $destination = $this->createSplFileInfoMock($path);
         $okResponse = $this->createOkResponseMock();
         $badResponse = $this->createBadResponseMock();
 
@@ -217,6 +223,23 @@ class DownloaderImplTest extends HttpTransportCase
         $this->expectException(DownloaderException::class);
         $this->expectExceptionMessage((string) self::STATUS_SERVER_ERROR);
         $downloader->download(self::URL, $destination);
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение, если указана битая ссылка.
+     */
+    public function testDownloadMalformedUrlException(): void
+    {
+        $url = 'testhttp://test.test';
+        $path = $this->getPathToTestFile('testDownloadMalformedUrlException');
+        $destination = $this->createSplFileInfoMock($path);
+        $transport = $this->createTransportMock();
+
+        $downloader = new DownloaderImpl($transport);
+
+        $this->expectException(DownloaderException::class);
+        $this->expectExceptionMessage($url);
+        $downloader->download($url, $destination);
     }
 
     /**

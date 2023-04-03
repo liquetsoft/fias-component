@@ -33,6 +33,10 @@ final class DownloaderImpl implements Downloader
      */
     public function download(string $url, \SplFileInfo $localFile): void
     {
+        if (!preg_match('#^https?://\S+\.\S+#', $url)) {
+            throw DownloaderException::create("Empty or malformed url '%s' provided", $url);
+        }
+
         try {
             $headResponse = $this->transport->head($url);
         } catch (\Throwable $e) {
