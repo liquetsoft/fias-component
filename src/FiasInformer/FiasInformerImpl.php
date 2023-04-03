@@ -46,8 +46,11 @@ final class FiasInformerImpl implements FiasInformer
     public function getNextVersion(int|FiasInformerResponse $currentVersion): ?FiasInformerResponse
     {
         $currentVersionId = $currentVersion instanceof FiasInformerResponse ? $currentVersion->getVersion() : $currentVersion;
-        $deltas = $this->getAllVersions();
+        if ($currentVersionId <= 0) {
+            throw FiasInformerException::create('Version number must be more that 0');
+        }
 
+        $deltas = $this->getAllVersions();
         foreach ($deltas as $delta) {
             if ($delta->getVersion() > $currentVersionId) {
                 return $delta;

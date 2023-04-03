@@ -114,23 +114,31 @@ class FiasInformerImplTest extends HttpTransportCase
      *
      * @dataProvider provideGetNextVersion
      */
-    public function testGetNextVersion(array $responseArray, int|FiasInformerResponse $current, ?int $awaits): void
+    public function testGetNextVersion(?array $responseArray, int|FiasInformerResponse $current, int|null|\Exception $awaits): void
     {
         $allUrl = 'https://test.test/latest';
-        $response = $this->createOkResponseMock($responseArray);
 
         $transport = $this->createTransportMock();
-        $transport->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo($allUrl))
-            ->willReturn($response);
+        if ($responseArray === null) {
+            $transport->expects($this->never())->method('get');
+        } else {
+            $response = $this->createOkResponseMock($responseArray);
+            $transport->expects($this->once())
+                ->method('get')
+                ->with($this->equalTo($allUrl))
+                ->willReturn($response);
+        }
+
+        if ($awaits instanceof \Exception) {
+            $this->expectExceptionObject($awaits);
+        }
 
         $informer = new FiasInformerImpl($transport, $allUrl);
         $nextVersion = $informer->getNextVersion($current);
 
         if ($awaits === null) {
             $this->assertNull($nextVersion);
-        } else {
+        } elseif (!($awaits instanceof \Exception)) {
             $this->assertNotNull($nextVersion);
             $this->assertSame($awaits, $nextVersion->getVersion());
         }
@@ -183,6 +191,16 @@ class FiasInformerImplTest extends HttpTransportCase
                 [],
                 2,
                 null,
+            ],
+            'negative current version' => [
+                null,
+                -1,
+                FiasInformerException::create('Version number must be more that 0'),
+            ],
+            'zero current version' => [
+                null,
+                0,
+                FiasInformerException::create('Version number must be more that 0'),
             ],
         ];
     }
