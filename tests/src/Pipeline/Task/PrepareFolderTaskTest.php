@@ -58,7 +58,14 @@ class PrepareFolderTaskTest extends BaseCase
             )
             ->willReturn($newState);
 
-        $logger = $this->createLoggerMockExpectsMessage(LogLevel::INFO, $path);
+        $logger = $this->createLoggerMockExpectsMessage(
+            LogLevel::INFO,
+            'Temporary folder prepared',
+            [
+                PipelineStateParam::DOWNLOAD_TO_FILE->value => "{$path}/archive",
+                PipelineStateParam::EXTRACT_TO_FOLDER->value => "{$path}/extracted",
+            ]
+        );
 
         $task = new PrepareFolderTask($fs, $folder);
         $task->injectLogger($logger);

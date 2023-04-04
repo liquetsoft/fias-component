@@ -28,21 +28,19 @@ final class PrepareFolderTask implements PipelineTaskLogAware
      */
     public function run(PipelineState $state): PipelineState
     {
-        $this->logInfo("Preparing temporary folder '{$this->folder->getPathname()}'");
-
         $this->fs->mkdirIfNotExist($this->folder);
         $this->fs->emptyDir($this->folder);
-
         $downloadToFile = "{$this->folder->getRealPath()}/archive";
         $extractToFolder = "{$this->folder->getRealPath()}/extracted";
-
         $this->fs->mkdir($extractToFolder);
 
-        return $state->withList(
-            [
-                PipelineStateParam::DOWNLOAD_TO_FILE->value => $downloadToFile,
-                PipelineStateParam::EXTRACT_TO_FOLDER->value => $extractToFolder,
-            ]
-        );
+        $folderArray = [
+            PipelineStateParam::DOWNLOAD_TO_FILE->value => $downloadToFile,
+            PipelineStateParam::EXTRACT_TO_FOLDER->value => $extractToFolder,
+        ];
+
+        $this->logInfo('Temporary folder prepared', $folderArray);
+
+        return $state->withList($folderArray);
     }
 }

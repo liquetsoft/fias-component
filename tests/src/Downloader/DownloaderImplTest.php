@@ -227,10 +227,11 @@ class DownloaderImplTest extends HttpTransportCase
 
     /**
      * Проверяет, что объект выбросит исключение, если указана битая ссылка.
+     *
+     * @dataProvider provideDownloadMalformedUrlException
      */
-    public function testDownloadMalformedUrlException(): void
+    public function testDownloadMalformedUrlException(string $url): void
     {
-        $url = 'testhttp://test.test';
         $path = $this->getPathToTestFile('testDownloadMalformedUrlException');
         $destination = $this->createSplFileInfoMock($path);
         $transport = $this->createTransportMock();
@@ -238,8 +239,18 @@ class DownloaderImplTest extends HttpTransportCase
         $downloader = new DownloaderImpl($transport);
 
         $this->expectException(DownloaderException::class);
-        $this->expectExceptionMessage($url);
+        $this->expectExceptionMessage("Empty or malformed url '{$url}' provided");
         $downloader->download($url, $destination);
+    }
+
+    public function provideDownloadMalformedUrlException(): array
+    {
+        return [
+            'malformed url' => ['testhttp://test.test'],
+            'no protocol' => ['test.test/test'],
+            'simple text' => ['text'],
+            'empty url' => [''],
+        ];
     }
 
     /**
