@@ -9,6 +9,7 @@ infection.log
 tests/coverage
 docker/.env
 test.php
+test_download
 
 generator/extracted
 generator/archive

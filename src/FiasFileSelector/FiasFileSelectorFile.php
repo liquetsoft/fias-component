@@ -17,6 +17,11 @@ interface FiasFileSelectorFile
     public function getPath(): string;
 
     /**
+     * Возвращает только имя файла.
+     */
+    public function getFileName(): string;
+
+    /**
      * Возвращает размер файла.
      */
     public function getSize(): int;

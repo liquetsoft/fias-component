@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
-use Liquetsoft\Fias\Component\Pipeline\Task\FiasVersionInformDelta;
+use Liquetsoft\Fias\Component\Pipeline\Task\FiasVersionInformDeltaTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\LoggerCase;
 use Liquetsoft\Fias\Component\Tests\PipelineCase;
@@ -19,7 +19,7 @@ use Psr\Log\LogLevel;
  *
  * @internal
  */
-class FiasVersionInformDeltaTest extends BaseCase
+class FiasVersionInformDeltaTaskTest extends BaseCase
 {
     use PipelineCase;
     use LoggerCase;
@@ -76,7 +76,7 @@ class FiasVersionInformDeltaTest extends BaseCase
             ]
         );
 
-        $task = new FiasVersionInformDelta($informer);
+        $task = new FiasVersionInformDeltaTask($informer);
         $task->injectLogger($logger);
         $stateToTest = $task->run($state);
 
@@ -118,7 +118,7 @@ class FiasVersionInformDeltaTest extends BaseCase
             'up to date'
         );
 
-        $task = new FiasVersionInformDelta($informer);
+        $task = new FiasVersionInformDeltaTask($informer);
         $task->injectLogger($logger);
         $stateToTest = $task->run($state);
 

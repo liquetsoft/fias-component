@@ -35,7 +35,7 @@ class FiasFileSelectorImplTest extends BaseCase
 
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $sourceName
+            fn (string $path): bool => $path === $this->getBaseName($sourceName)
         );
         $binder = $this->createFiasEntityBinderMockWithList([$entity]);
 
@@ -67,10 +67,10 @@ class FiasFileSelectorImplTest extends BaseCase
 
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $archivedFiles[0]
+            fn (string $path): bool => $path === $this->getBaseName($archivedFiles[0])
         );
         $entity->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $archivedFiles[1]
+            fn (string $path): bool => $path === $this->getBaseName($archivedFiles[1])
         );
         $binder = $this->createFiasEntityBinderMockWithList([$entity]);
 
@@ -103,19 +103,21 @@ class FiasFileSelectorImplTest extends BaseCase
 
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[0]
+            fn (string $path): bool => $path === $this->getBaseName($fileNames[0])
         );
         $entity->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[1]
+            fn (string $path): bool => $path === $this->getBaseName($fileNames[1])
         );
 
         $entity1 = $this->createFiasEntityMock();
         $entity1->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[3]
+            fn (string $path): bool => $path === $this->getBaseName($fileNames[3])
         );
         $entity1->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
             fn (string $path): bool => match ($path) {
-                $fileNames[0], $fileNames[1], $fileNames[3] => throw new \RuntimeException('This psth should be proceed by another entity'),
+                $this->getBaseName($fileNames[0]),
+                $this->getBaseName($fileNames[1]),
+                $this->getBaseName($fileNames[3]) => throw new \RuntimeException('This path should be proceed by another entity'),
                 default => false
             }
         );
@@ -159,10 +161,10 @@ class FiasFileSelectorImplTest extends BaseCase
         ];
         $entity = $this->createFiasEntityMock();
         $entity->method('isFileNameFitsXmlInsertFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[0]
+            fn (string $path): bool => $path === $this->getBaseName($fileNames[0])
         );
         $entity->method('isFileNameFitsXmlDeleteFileMask')->willReturnCallback(
-            fn (string $path): bool => $path === $fileNames[1] || $path === $fileNames[3]
+            fn (string $path): bool => $path === $this->getBaseName($fileNames[1]) || $path === $this->getBaseName($fileNames[3])
         );
         $binder = $this->createFiasEntityBinderMockWithList([$entity]);
 
@@ -208,5 +210,10 @@ class FiasFileSelectorImplTest extends BaseCase
         $this->expectException(FiasFileSelectorException::class);
         $this->expectExceptionMessage("doesn't exist or isn't readable");
         $selector->select($source);
+    }
+
+    private function getBaseName(string $path): string
+    {
+        return pathinfo($path)['basename'] ?? '';
     }
 }

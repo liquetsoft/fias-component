@@ -81,8 +81,8 @@ final class FiasFileSelectorImpl implements FiasFileSelector
             }
             foreach ($entites as $entity) {
                 if (
-                    $entity->isFileNameFitsXmlInsertFileMask($file->getPath())
-                    || $entity->isFileNameFitsXmlDeleteFileMask($file->getPath())
+                    $entity->isFileNameFitsXmlInsertFileMask($file->getFileName())
+                    || $entity->isFileNameFitsXmlDeleteFileMask($file->getFileName())
                 ) {
                     $result[] = $file;
                     break;

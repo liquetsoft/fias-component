@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
-use Liquetsoft\Fias\Component\Pipeline\Task\FiasVersionInformFull;
+use Liquetsoft\Fias\Component\Pipeline\Task\FiasVersionInformFullTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\LoggerCase;
 use Liquetsoft\Fias\Component\Tests\PipelineCase;
@@ -19,7 +19,7 @@ use Psr\Log\LogLevel;
  *
  * @internal
  */
-class FiasVersionInformFullTest extends BaseCase
+class FiasVersionInformFullTaskTest extends BaseCase
 {
     use PipelineCase;
     use LoggerCase;
@@ -64,7 +64,7 @@ class FiasVersionInformFullTest extends BaseCase
             ]
         );
 
-        $task = new FiasVersionInformFull($informer);
+        $task = new FiasVersionInformFullTask($informer);
         $task->injectLogger($logger);
         $stateToTest = $task->run($state);
 

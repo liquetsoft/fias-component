@@ -45,6 +45,14 @@ final class FiasFileSelectorFileImpl implements FiasFileSelectorFile
     /**
      * {@inheritdoc}
      */
+    public function getFileName(): string
+    {
+        return pathinfo($this->path)['basename'] ?? '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getSize(): int
     {
         return $this->size;

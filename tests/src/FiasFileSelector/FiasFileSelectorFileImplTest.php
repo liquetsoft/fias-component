@@ -59,6 +59,39 @@ class FiasFileSelectorFileImplTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект вернет путь до файла.
+     *
+     * @dataProvider provideFileName
+     */
+    public function testGetFileName(string $path, string $expected): void
+    {
+        $size = 10;
+
+        $file = new FiasFileSelectorFileImpl($path, $size);
+        $returnedFileName = $file->getFileName();
+
+        $this->assertSame($expected, $returnedFileName);
+    }
+
+    public function provideFileName(): array
+    {
+        return [
+            'correct path' => [
+                '/test/path.xml',
+                'path.xml',
+            ],
+            'correct path with dashes' => [
+                '/test/path-with-dashes.xml',
+                'path-with-dashes.xml',
+            ],
+            'correct path with two dots' => [
+                '/test/path.with.xml',
+                'path.with.xml',
+            ],
+        ];
+    }
+
+    /**
      * Проверяет, что объект вернет размер файла.
      *
      * @dataProvider provideGetSize

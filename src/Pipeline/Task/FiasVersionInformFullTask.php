@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAwareTrait;
 /**
  * Задача, которая получает информацию о полной версии ФИАС.
  */
-final class FiasVersionInformFull implements PipelineTaskLogAware
+final class FiasVersionInformFullTask implements PipelineTaskLogAware
 {
     use PipelineTaskLogAwareTrait;
 
