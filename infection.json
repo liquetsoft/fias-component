@@ -28,6 +28,11 @@
                 "Liquetsoft\\Fias\\Component\\Helper\\IdHelper::createUniqueId"
             ]
         },
-        "FunctionCallRemoval": false
+        "FunctionCallRemoval": {
+            "ignore": [
+                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl::openLocalFile",
+                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl::closeLocalFile"
+            ]
+        }
     }
 }
