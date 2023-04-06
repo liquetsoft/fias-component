@@ -12,6 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\LoggerCase;
 use Liquetsoft\Fias\Component\Tests\PipelineCase;
 use Psr\Log\LogLevel;
+use RuntimeException;
 
 /**
  * Тест для объекта, который содержит внутренний массив со списком операций для исполнения.
@@ -99,14 +100,14 @@ class PipelineArrayTest extends BaseCase
      */
     public function testRunTaskException(): void
     {
-        $message = 'exception message test';
+        $error = 'exception message test';
         $state = $this->createPipelineStateMock();
 
         $task1 = $this->createPipelineTaskMock();
         $task1->expects($this->once())
             ->method('run')
             ->with($this->identicalTo($state))
-            ->willThrowException(new \RuntimeException($message));
+            ->willThrowException(new \RuntimeException($error));
 
         $cleanUp = $this->createPipelineTaskMock();
         $cleanUp->expects($this->once())
@@ -115,12 +116,26 @@ class PipelineArrayTest extends BaseCase
             ->willReturn($state);
 
         $logger = $this->createLoggerMock();
-        $logger->expects($this->exactly(6))->method('log');
+        $logger->expects($this->exactly(6))
+            ->method('log')
+            ->willReturnCallback(
+                function (string $level, string $logMessage, array $ctx) use ($error, $task1): void {
+                    if (
+                        $logMessage === 'Task throwed an error'
+                        && (
+                            ($ctx['error'] ?? '') !== $error
+                            || ($ctx['task'] ?? '') !== get_class($task1)
+                        )
+                    ) {
+                        throw new RuntimeException("Wron error log message");
+                    }
+                }
+            );
 
         $pipeline = new PipelineArray([$task1], $cleanUp, $logger);
 
         $this->expectException(PipelineException::class);
-        $this->expectExceptionMessage($message);
+        $this->expectExceptionMessage($error);
         $pipeline->run($state);
     }
 
