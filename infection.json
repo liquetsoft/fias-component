@@ -20,7 +20,6 @@
         },
         "ConcatOperandRemoval": {
             "ignore": [
-                "Liquetsoft\\Fias\\Component\\XmlReader\\XmlReaderImpl::setReader",
                 "Liquetsoft\\Fias\\Component\\Helper\\IdHelper::createUniqueId"
             ]
         },
@@ -30,7 +29,6 @@
             ]
         },
         "FunctionCallRemoval": false,
-        "MethodCallRemoval": false,
         "ArrayItemRemoval": false,
         "ArrayItem": false
     }

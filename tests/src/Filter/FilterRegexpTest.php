@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\Tests\Filter;
 
 use Liquetsoft\Fias\Component\Filter\FilterRegexp;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Tests\Mock\ToStringObjectMock;
 
 /**
  * Тест для фильтра по регулярным выражениям.
@@ -58,7 +57,12 @@ class FilterRegexpTest extends BaseCase
                     '/rts_/',
                     '/_str/',
                 ],
-                new ToStringObjectMock('test_string'),
+                new class() {
+                    public function __toString(): string
+                    {
+                        return 'test_string';
+                    }
+                },
                 true,
             ],
             'filter non Stringable object' => [

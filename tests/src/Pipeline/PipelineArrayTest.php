@@ -51,12 +51,17 @@ class PipelineArrayTest extends BaseCase
         $state1 = $this->createPipelineStateMock([PipelineStateParam::INTERRUPT_PIPELINE->value => true]);
 
         $task1 = $this->createPipelineTaskMock();
-        $task1->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state1);
+        $task1->expects($this->once())->method('run')
+            ->with($this->identicalTo($state))
+            ->willReturn($state1);
 
         $task2 = $this->createPipelineTaskMock();
         $task2->expects($this->never())->method('run');
 
-        $pipeline = new PipelineArray([$task1, $task2]);
+        $logger = $this->createLoggerMock();
+        $logger->expects($this->exactly(6))->method('log');
+
+        $pipeline = new PipelineArray([$task1, $task2], null, $logger);
         $pipeline->run($state);
     }
 
@@ -86,12 +91,21 @@ class PipelineArrayTest extends BaseCase
         $state = $this->createPipelineStateMock();
 
         $task1 = $this->createPipelineTaskMock();
-        $task1->expects($this->once())->method('run')->with($this->identicalTo($state))->willThrowException(new \RuntimeException($message));
+        $task1->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo($state))
+            ->willThrowException(new \RuntimeException($message));
 
         $cleanUp = $this->createPipelineTaskMock();
-        $cleanUp->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state);
+        $cleanUp->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo($state))
+            ->willReturn($state);
 
-        $pipeline = new PipelineArray([$task1], $cleanUp);
+        $logger = $this->createLoggerMock();
+        $logger->expects($this->exactly(6))->method('log');
+
+        $pipeline = new PipelineArray([$task1], $cleanUp, $logger);
 
         $this->expectException(PipelineException::class);
         $this->expectExceptionMessage($message);

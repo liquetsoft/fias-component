@@ -5,49 +5,28 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\XmlReader;
 
 use Liquetsoft\Fias\Component\Exception\XmlException;
-use Liquetsoft\Fias\Component\XmlReader\XmlReader as XmlReaderInterface;
 
 /**
  * Объект, который читает данные из xml файла с помощью XmlReader.
+ *
+ * @internal
  */
-final class XmlReaderImpl implements XmlReaderInterface
+final class XmlReaderIteratorImpl implements XmlReaderIterator
 {
-    private const XML_READER_CHARSET = 'UTF-8';
-    private const XML_READER_OPTIONS = \LIBXML_COMPACT | \LIBXML_NONET | \LIBXML_NOBLANKS;
+    private readonly \XMLReader $phpXmlReader;
 
-    /**
-     * Файл, данные из которого нужно получить.
-     */
-    private ?\SplFileInfo $file = null;
+    private readonly string $xpath;
 
-    /**
-     * Путь до списка элементов в формате xpath.
-     */
-    private string $xpath = '';
+    private bool $inUse = false;
 
-    /**
-     * Объект XMLReader для чтения документа.
-     */
-    private ?\XMLReader $reader = null;
-
-    /**
-     * Текущее смещение внутри массива.
-     */
     private int $position = 0;
 
-    /**
-     * Массив с буфером, для isValid и current.
-     */
     private ?string $buffer = null;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function open(\SplFileInfo $file, string $xpath): void
+    public function __construct(\XMLReader $phpXmlReader, string $xpath)
     {
-        $this->file = $file;
+        $this->phpXmlReader = $phpXmlReader;
         $this->xpath = $this->checkAndPrepareXpath($xpath);
-        $this->unsetReader();
     }
 
     /**
@@ -55,9 +34,7 @@ final class XmlReaderImpl implements XmlReaderInterface
      */
     public function close(): void
     {
-        $this->file = null;
-        $this->xpath = '';
-        $this->unsetReader();
+        $this->phpXmlReader->close();
     }
 
     /**
@@ -68,14 +45,11 @@ final class XmlReaderImpl implements XmlReaderInterface
     public function rewind(): void
     {
         $this->resetReader();
-        $this->position = 0;
         $this->buffer = $this->getLine();
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @throws XmlException
      */
     public function current(): string
     {
@@ -103,12 +77,16 @@ final class XmlReaderImpl implements XmlReaderInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws XmlException
      */
     public function valid(): bool
     {
-        return $this->buffer !== null;
+        if ($this->buffer === null) {
+            $this->phpXmlReader->close();
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -116,58 +94,11 @@ final class XmlReaderImpl implements XmlReaderInterface
      */
     private function resetReader(): void
     {
-        $this->unsetReader();
-        $this->setReader();
+        if ($this->inUse) {
+            throw XmlException::create("This iterator can't be rewinded");
+        }
+        $this->inUse = true;
         $this->seekXmlRoot();
-    }
-
-    /**
-     * Закрывает текущий XmlReader и убирает ссылку на него.
-     */
-    private function unsetReader(): void
-    {
-        if ($this->reader !== null) {
-            $this->reader->close();
-            $this->reader = null;
-        }
-    }
-
-    /**
-     * Создает объект для чтения xml из указанного файла.
-     *
-     * @psalm-suppress InvalidPropertyAssignmentValue
-     */
-    private function setReader(): void
-    {
-        if ($this->file === null) {
-            throw XmlException::create("File wasn't opened");
-        }
-
-        try {
-            $this->reader = \XMLReader::open(
-                'file://' . $this->file->getPathname(),
-                self::XML_READER_CHARSET,
-                self::XML_READER_OPTIONS
-            );
-        } catch (\Throwable $e) {
-            throw XmlException::create(
-                "Can't open file '%s' for reading: %s",
-                $this->file->getPathname(),
-                $e->getMessage()
-            );
-        }
-    }
-
-    /**
-     * Возвращает объект для чтения xml файла или пытается создать новый.
-     */
-    private function getReader(): \XMLReader
-    {
-        if ($this->reader === null) {
-            throw XmlException::create("Iterator wasn't initialized");
-        }
-
-        return $this->reader;
     }
 
     /**
@@ -183,21 +114,20 @@ final class XmlReaderImpl implements XmlReaderInterface
      */
     private function seekXmlRoot(): void
     {
-        $reader = $this->getReader();
         $path = trim($this->xpath, '/');
         $currentPath = [];
         try {
-            $readResult = $reader->read();
+            $readResult = $this->phpXmlReader->read();
             while ($readResult) {
-                array_push($currentPath, $reader->name);
+                array_push($currentPath, $this->phpXmlReader->name);
                 $currentPathStr = implode('/', $currentPath);
                 if ($path === $currentPathStr) {
                     $readResult = false;
                 } elseif (strpos($path, $currentPathStr) !== 0) {
                     array_pop($currentPath);
-                    $readResult = $reader->next();
+                    $readResult = $this->phpXmlReader->next();
                 } else {
-                    $readResult = $reader->read();
+                    $readResult = $this->phpXmlReader->read();
                 }
             }
         } catch (\Throwable $e) {
@@ -215,19 +145,18 @@ final class XmlReaderImpl implements XmlReaderInterface
     {
         $return = null;
 
-        $reader = $this->getReader();
         $arPath = explode('/', $this->xpath);
         $nameFilter = array_pop($arPath);
-        $currentDepth = $reader->depth;
+        $currentDepth = $this->phpXmlReader->depth;
         try {
             $this->skipUselessXml($nameFilter, $currentDepth);
             // мы можем выйти из цикла, если найдем нужный элемент
             // или попадем на уровень выше - проверяем, что нашли нужный
-            if ($nameFilter === $reader->name) {
-                $return = $reader->readOuterXml();
+            if ($nameFilter === $this->phpXmlReader->name) {
+                $return = $this->phpXmlReader->readOuterXml();
                 // нужно передвинуть указатель, чтобы дважды не прочитать
                 // один и тот же элемент
-                $reader->next();
+                $this->phpXmlReader->next();
             }
         } catch (\Throwable $e) {
             throw XmlException::wrap($e);
@@ -242,11 +171,10 @@ final class XmlReaderImpl implements XmlReaderInterface
      */
     private function skipUselessXml(string $nodeName, int $nodeDepth): void
     {
-        $reader = $this->getReader();
         while (
-            $reader->depth === $nodeDepth
-            && $nodeName !== $reader->name
-            && $reader->next()
+            $this->phpXmlReader->depth === $nodeDepth
+            && $nodeName !== $this->phpXmlReader->name
+            && $this->phpXmlReader->next()
         ) {
             continue;
         }
