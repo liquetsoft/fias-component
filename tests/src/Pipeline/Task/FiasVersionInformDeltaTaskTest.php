@@ -68,7 +68,7 @@ class FiasVersionInformDeltaTaskTest extends BaseCase
 
         $logger = $this->createLoggerMockExpectsMessage(
             LogLevel::INFO,
-            'Delta version',
+            'Delta version was found',
             [
                 PipelineStateParam::ARCHIVE_URL->value => $archiveUrl,
                 PipelineStateParam::PROCESSING_VERSION->value => $version,
@@ -115,7 +115,7 @@ class FiasVersionInformDeltaTaskTest extends BaseCase
 
         $logger = $this->createLoggerMockExpectsMessage(
             LogLevel::INFO,
-            'up to date'
+            'Current version is up to date'
         );
 
         $task = new FiasVersionInformDeltaTask($informer);

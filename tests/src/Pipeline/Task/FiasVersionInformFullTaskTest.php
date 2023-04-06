@@ -57,7 +57,7 @@ class FiasVersionInformFullTaskTest extends BaseCase
 
         $logger = $this->createLoggerMockExpectsMessage(
             LogLevel::INFO,
-            'Full version',
+            'Full version was found',
             [
                 PipelineStateParam::ARCHIVE_URL->value => $archiveUrl,
                 PipelineStateParam::PROCESSING_VERSION->value => $version,

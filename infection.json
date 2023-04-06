@@ -28,7 +28,6 @@
                 "Liquetsoft\\Fias\\Component\\Helper\\IdHelper::createUniqueId"
             ]
         },
-        "FunctionCallRemoval": false,
-        "ArrayItemRemoval": false
+        "FunctionCallRemoval": false
     }
 }

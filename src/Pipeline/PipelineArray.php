@@ -59,7 +59,7 @@ final class PipelineArray implements Pipeline
                 throw PipelineException::wrap($e);
             }
             if ($state->get(PipelineStateParam::INTERRUPT_PIPELINE) === true) {
-                $this->log('Pipeline interrupted', ['task' => $taskName]);
+                $this->log('Pipeline interrupted by task', ['task' => $taskName]);
                 break;
             }
         }

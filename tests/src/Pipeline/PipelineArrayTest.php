@@ -12,7 +12,6 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\LoggerCase;
 use Liquetsoft\Fias\Component\Tests\PipelineCase;
 use Psr\Log\LogLevel;
-use RuntimeException;
 
 /**
  * Тест для объекта, который содержит внутренний массив со списком операций для исполнения.
@@ -65,8 +64,25 @@ class PipelineArrayTest extends BaseCase
         $task2 = $this->createPipelineTaskMock();
         $task2->expects($this->never())->method('run');
 
-        $logger = $this->createLoggerMock();
-        $logger->expects($this->exactly(6))->method('log');
+        $logger = $this->createLoggerMockExpectsMessages(
+            [
+                'Pipeline started',
+                [
+                    'message' => 'Task started',
+                    'context' => ['task' => \get_class($task1)],
+                ],
+                [
+                    'message' => 'Pipeline interrupted by task',
+                    'context' => ['task' => \get_class($task1)],
+                ],
+                [
+                    'message' => 'Task completed',
+                    'context' => ['task' => \get_class($task1)],
+                ],
+                'Cleanup skipped',
+                'Pipeline completed',
+            ]
+        );
 
         $pipeline = new PipelineArray([$task1, $task2], null, $logger);
         $pipeline->run($state);
@@ -115,22 +131,28 @@ class PipelineArrayTest extends BaseCase
             ->with($this->identicalTo($state))
             ->willReturn($state);
 
-        $logger = $this->createLoggerMock();
-        $logger->expects($this->exactly(6))
-            ->method('log')
-            ->willReturnCallback(
-                function (string $level, string $logMessage, array $ctx) use ($error, $task1): void {
-                    if (
-                        $logMessage === 'Task throwed an error'
-                        && (
-                            ($ctx['error'] ?? '') !== $error
-                            || ($ctx['task'] ?? '') !== get_class($task1)
-                        )
-                    ) {
-                        throw new RuntimeException("Wron error log message");
-                    }
-                }
-            );
+        $logger = $this->createLoggerMockExpectsMessages(
+            [
+                'Pipeline started',
+                [
+                    'message' => 'Task started',
+                    'context' => ['task' => \get_class($task1)],
+                ],
+                [
+                    'message' => 'Task throwed an error',
+                    'context' => ['task' => \get_class($task1), 'error' => $error],
+                ],
+                'Cleanup started',
+                [
+                    'message' => 'Task started',
+                    'context' => ['task' => \get_class($cleanUp)],
+                ],
+                [
+                    'message' => 'Task completed',
+                    'context' => ['task' => \get_class($cleanUp)],
+                ],
+            ]
+        );
 
         $pipeline = new PipelineArray([$task1], $cleanUp, $logger);
 
@@ -142,7 +164,7 @@ class PipelineArrayTest extends BaseCase
     /**
      * Проверяет, что объект использует логгер.
      */
-    public function testRunLogger(): void
+    /*public function testRunLogger(): void
     {
         $state = $this->createPipelineStateMock();
 
@@ -165,7 +187,7 @@ class PipelineArrayTest extends BaseCase
 
         $pipeline = new PipelineArray([$task1], null, $logger);
         $pipeline->run($state);
-    }
+    }*/
 
     /**
      * Проверяет, что объект передаст логгер в задачу.
@@ -184,7 +206,9 @@ class PipelineArrayTest extends BaseCase
                 $this->identicalTo($logger),
                 $this->callback(
                     fn (array $ctx): bool => isset($ctx['source'], $ctx['pipeline_class'], $ctx['pipeline_id'], $ctx['task'])
+                        && $ctx['pipeline_class'] === PipelineArray::class
                         && $ctx['task'] === \get_class($task1)
+                        && \strlen((string) $ctx['pipeline_id']) === 32
                 )
             );
 

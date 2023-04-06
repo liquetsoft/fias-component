@@ -56,7 +56,7 @@ class CleanupTaskTest extends BaseCase
                 $this->identicalTo('Path cleaned'),
                 $this->callback(
                     fn (array $params): bool => isset($params['path'])
-                        && in_array($params['path'], [$pathDownloadFile, $pathExtractToFolder])
+                        && \in_array($params['path'], [$pathDownloadFile, $pathExtractToFolder])
                 )
             );
 

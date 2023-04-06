@@ -72,8 +72,8 @@ class SelectFilesFromArchiveTaskTest extends BaseCase
             LogLevel::INFO,
             'Files selected from archive',
             [
-                'archive' => $archivePath,
                 'files' => [$selecteFilePath],
+                'archive' => $archivePath,
             ]
         );
 
