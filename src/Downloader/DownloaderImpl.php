@@ -48,16 +48,16 @@ final class DownloaderImpl implements Downloader
             try {
                 $response = $this->transport->download($url, $fileHandler, $bytesFrom ?? null, $bytesTo ?? null);
                 if ($response->isOk()) {
-                    $this->closeLocalFile($fileHandler);
                     break;
                 } else {
                     throw DownloaderException::create("Url '%s' returned status: %s", $url, $response->getStatusCode());
                 }
             } catch (\Throwable $e) {
-                $this->closeLocalFile($fileHandler);
                 if ($try === $this->maxAttempts) {
                     throw DownloaderException::wrap($e);
                 }
+            } finally {
+                $this->closeLocalFile($fileHandler);
             }
             // php запоминает описания файлов, поэтому чтобы получить
             // реальный размер, нужно очистить кэш

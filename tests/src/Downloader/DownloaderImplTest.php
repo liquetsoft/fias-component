@@ -52,6 +52,8 @@ class DownloaderImplTest extends HttpTransportCase
 
         $downloader = new DownloaderImpl($transport, 1);
         $downloader->download(self::URL, $destination);
+
+        $this->assertPathHasNoOpenedResources($path);
     }
 
     /**

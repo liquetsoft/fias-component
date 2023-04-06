@@ -88,4 +88,25 @@ trait FileSystemCase
 
         return $file;
     }
+
+    /**
+     * Проверяет, что для указанного пути нет открытых ресурсов.
+     */
+    public function assertPathHasNoOpenedResources(string $path): void
+    {
+        $localFileHandler = null;
+        foreach (get_resources() as $resource) {
+            try {
+                $options = stream_get_meta_data($resource);
+            } catch (\Throwable $e) {
+                $options = [];
+            }
+            if (isset($options['uri']) && $options['uri'] === $path) {
+                $localFileHandler = $resource;
+                break;
+            }
+        }
+
+        $this->assertNull($localFileHandler, 'Local file resource must be closed');
+    }
 }
