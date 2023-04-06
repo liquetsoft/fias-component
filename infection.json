@@ -31,7 +31,6 @@
         },
         "FunctionCallRemoval": false,
         "MethodCallRemoval": false,
-        "NullSafeMethodCall": false,
         "ArrayItemRemoval": false,
         "ArrayItem": false
     }

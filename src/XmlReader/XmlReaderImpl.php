@@ -201,11 +201,7 @@ final class XmlReaderImpl implements XmlReaderInterface
                 }
             }
         } catch (\Throwable $e) {
-            throw XmlException::create(
-                "Reading error in '%s' file: %s",
-                $this->file?->getPathname(),
-                $e->getMessage()
-            );
+            throw XmlException::wrap($e);
         }
     }
 
@@ -234,11 +230,7 @@ final class XmlReaderImpl implements XmlReaderInterface
                 $reader->next();
             }
         } catch (\Throwable $e) {
-            throw XmlException::create(
-                "Reading error in '%s' file: %s",
-                $this->file?->getPathname(),
-                $e->getMessage()
-            );
+            throw XmlException::wrap($e);
         }
 
         return $return;
