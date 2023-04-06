@@ -33,10 +33,16 @@ class PipelineArrayTest extends BaseCase
         $state2 = $this->createPipelineStateMock();
 
         $task1 = $this->createPipelineTaskMock();
-        $task1->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state1);
+        $task1->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo($state))
+            ->willReturn($state1);
 
         $task2 = $this->createPipelineTaskMock();
-        $task2->expects($this->once())->method('run')->with($this->identicalTo($state1))->willReturn($state2);
+        $task2->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo($state1))
+            ->willReturn($state2);
 
         $pipeline = new PipelineArray([$task1, $task2]);
         $pipeline->run($state);
@@ -73,10 +79,16 @@ class PipelineArrayTest extends BaseCase
         $state = $this->createPipelineStateMock();
 
         $task1 = $this->createPipelineTaskMock();
-        $task1->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state);
+        $task1->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo($state))
+            ->willReturn($state);
 
         $cleanUp = $this->createPipelineTaskMock();
-        $cleanUp->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state);
+        $cleanUp->expects($this->once())
+            ->method('run')
+            ->with($this->identicalTo($state))
+            ->willReturn($state);
 
         $pipeline = new PipelineArray([$task1], $cleanUp);
         $pipeline->run($state);
