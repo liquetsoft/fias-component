@@ -53,7 +53,11 @@ class CleanupTaskTest extends BaseCase
             ->method('log')
             ->with(
                 $this->identicalTo(LogLevel::INFO),
-                $this->identicalTo('Path cleaned')
+                $this->identicalTo('Path cleaned'),
+                $this->callback(
+                    fn (array $params): bool => isset($params['path'])
+                        && in_array($params['path'], [$pathDownloadFile, $pathExtractToFolder])
+                )
             );
 
         $task = new CleanupTask($fs);

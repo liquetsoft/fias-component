@@ -29,7 +29,6 @@
             ]
         },
         "FunctionCallRemoval": false,
-        "ArrayItemRemoval": false,
-        "ArrayItem": false
+        "ArrayItemRemoval": false
     }
 }
