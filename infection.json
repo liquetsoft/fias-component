@@ -30,8 +30,7 @@
         },
         "FunctionCallRemoval": {
             "ignore": [
-                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl::openLocalFile",
-                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl::closeLocalFile"
+                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl"
             ]
         }
     }
