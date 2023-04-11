@@ -35,6 +35,8 @@ trait LoggerCase
      * Создает мок для объекта лога, который ожидает одно сообщение из списка.
      *
      * @return LoggerInterface&MockObject
+     *
+     * @psalm-suppress MixedArrayAccess
      */
     public function createLoggerMockExpectsMessages(array $messages): LoggerInterface
     {
