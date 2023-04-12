@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Storage\Storage;
 /**
  * Задача, которая очищает все данные для сущностей в хранилище.
  */
-final class TrunkateStorageTask implements PipelineTaskLogAware
+final class TruncateStorageTask implements PipelineTaskLogAware
 {
     use PipelineTaskLogAwareTrait;
 

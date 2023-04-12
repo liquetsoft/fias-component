@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Pipeline\Task\TrunkateStorageTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\TruncateStorageTask;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\FiasEntityCase;
@@ -17,7 +17,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @internal
  */
-class TrunkateStorageTaskTest extends BaseCase
+class TruncateStorageTaskTest extends BaseCase
 {
     use PipelineCase;
     use LoggerCase;
@@ -73,7 +73,7 @@ class TrunkateStorageTaskTest extends BaseCase
 
         $state = $this->createPipelineStateMock();
 
-        $task = new TrunkateStorageTask($binder, $storage);
+        $task = new TruncateStorageTask($binder, $storage);
         $task->injectLogger($logger);
         $newState = $task->run($state);
 
