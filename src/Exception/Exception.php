@@ -42,6 +42,8 @@ class Exception extends \Exception
      */
     public static function wrap(\Throwable $e): static
     {
-        return new static($e->getMessage(), $e->getCode(), $e);
+        return $e instanceof static
+            ? $e
+            : new static($e->getMessage(), $e->getCode(), $e);
     }
 }

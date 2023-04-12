@@ -14,6 +14,9 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  */
 class ExceptionTest extends BaseCase
 {
+    /**
+     * Проеряет, что объект приведет код к числу.
+     */
     public function testConstructStringCode(): void
     {
         $message = 'test';
@@ -26,6 +29,8 @@ class ExceptionTest extends BaseCase
     }
 
     /**
+     * Проверяет, что объект создаст исключение с нужным сообщением.
+     *
      * @dataProvider provideCreate
      */
     public function testCreate(string $message, array $params, string $awaitsMessage): void
@@ -45,6 +50,9 @@ class ExceptionTest extends BaseCase
         ];
     }
 
+    /**
+     * Проверяет, что объект обернет исключение другого типа.
+     */
     public function testWrap(): void
     {
         $message = 'message';
@@ -56,5 +64,18 @@ class ExceptionTest extends BaseCase
         $this->assertSame($message, $exception->getMessage());
         $this->assertSame($code, $exception->getCode());
         $this->assertSame($wrappedException, $exception->getPrevious());
+    }
+
+    /**
+     * Проверяет, что объект вернет то же исключение,
+     * при попытке обернуть исключение того же класса.
+     */
+    public function testWrapWithObjectOfSameClass(): void
+    {
+        $wrappedException = new Exception();
+
+        $exception = Exception::wrap($wrappedException);
+
+        $this->assertSame($exception, $wrappedException);
     }
 }
