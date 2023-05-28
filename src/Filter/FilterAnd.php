@@ -10,16 +10,10 @@ namespace Liquetsoft\Fias\Component\Filter;
 final class FilterAnd implements Filter
 {
     /**
-     * @var Filter[]
-     */
-    private readonly array $filters;
-
-    /**
      * @param Filter[] $filters
      */
-    public function __construct(array $filters = [])
+    public function __construct(private readonly array $filters = [])
     {
-        $this->filters = $filters;
     }
 
     /**

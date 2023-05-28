@@ -11,16 +11,10 @@ namespace Liquetsoft\Fias\Component\Filter;
 final class FilterRegexp implements Filter
 {
     /**
-     * @var string[]
-     */
-    private readonly array $regexps;
-
-    /**
      * @param string[] $regexps
      */
-    public function __construct(array $regexps = [])
+    public function __construct(private readonly array $regexps = [])
     {
-        $this->regexps = $regexps;
     }
 
     /**

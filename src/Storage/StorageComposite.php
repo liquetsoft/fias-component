@@ -10,16 +10,10 @@ namespace Liquetsoft\Fias\Component\Storage;
 final class StorageComposite implements Storage
 {
     /**
-     * @var iterable<Storage>
-     */
-    private readonly iterable $internalStorages;
-
-    /**
      * @param iterable<Storage> $internalStorages
      */
-    public function __construct(iterable $internalStorages)
+    public function __construct(private readonly iterable $internalStorages)
     {
-        $this->internalStorages = $internalStorages;
     }
 
     /**

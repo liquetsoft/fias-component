@@ -13,14 +13,10 @@ use Liquetsoft\Fias\Component\HttpTransport\HttpTransport;
  */
 final class FiasStatusCheckerImpl implements FiasStatusChecker
 {
-    private readonly HttpTransport $transport;
-
-    private readonly FiasInformer $informer;
-
-    public function __construct(HttpTransport $transport, FiasInformer $informer)
-    {
-        $this->transport = $transport;
-        $this->informer = $informer;
+    public function __construct(
+        private readonly HttpTransport $transport,
+        private readonly FiasInformer $informer
+    ) {
     }
 
     /**

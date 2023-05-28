@@ -9,20 +9,13 @@ namespace Liquetsoft\Fias\Component\FiasStatusChecker;
  */
 final class FiasStatusCheckerResultImpl implements FiasStatusCheckerResult
 {
-    private readonly FiasStatusCheckerStatus $resultStatus;
-
-    /**
-     * @var FiasStatusCheckerResultForService[]
-     */
-    private readonly array $perServiceStatuses;
-
     /**
      * @param FiasStatusCheckerResultForService[] $perServiceStatuses
      */
-    public function __construct(FiasStatusCheckerStatus $resultStatus, array $perServiceStatuses)
-    {
-        $this->resultStatus = $resultStatus;
-        $this->perServiceStatuses = $perServiceStatuses;
+    public function __construct(
+        private readonly FiasStatusCheckerStatus $resultStatus,
+        private readonly array $perServiceStatuses
+    ) {
     }
 
     /**

@@ -16,16 +16,10 @@ final class DownloaderImpl implements Downloader
     private const FILE_MODE_NEW = 'wb';
     private const FILE_MODE_ADD = 'ab';
 
-    private readonly HttpTransport $transport;
-
-    private readonly int $maxAttempts;
-
     public function __construct(
-        HttpTransport $transport,
-        int $maxAttempts = self::DEFAULT_MAX_ATTEMPTS
+        private readonly HttpTransport $transport,
+        private readonly int $maxAttempts = self::DEFAULT_MAX_ATTEMPTS
     ) {
-        $this->transport = $transport;
-        $this->maxAttempts = $maxAttempts;
     }
 
     /**
