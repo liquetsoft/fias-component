@@ -13,7 +13,7 @@ class Exception extends \Exception
 {
     public const DEFAULT_CODE = 0;
 
-    public function __construct(string $message = '', int|string $code = self::DEFAULT_CODE, ?\Throwable $previous = null)
+    public function __construct(string $message = '', int|string $code = self::DEFAULT_CODE, \Throwable $previous = null)
     {
         parent::__construct($message, (int) $code, $previous);
     }

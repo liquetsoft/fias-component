@@ -75,7 +75,7 @@ abstract class BaseCase extends TestCase
     /**
      * Создает тестовый файл во временной директории.
      */
-    protected function getPathToTestFile(string $name = '', ?string $content = null): string
+    protected function getPathToTestFile(string $name = '', string $content = null): string
     {
         if ($name === '') {
             $name = IdHelper::createUniqueId() . '.txt';

@@ -32,5 +32,5 @@ interface HttpTransport
      *
      * @throws HttpTransportException
      */
-    public function download(string $url, $destination, ?int $bytesFrom = null, ?int $bytesTo = null): HttpTransportResponse;
+    public function download(string $url, $destination, int $bytesFrom = null, int $bytesTo = null): HttpTransportResponse;
 }

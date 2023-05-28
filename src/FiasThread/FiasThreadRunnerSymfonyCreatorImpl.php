@@ -24,7 +24,7 @@ final class FiasThreadRunnerSymfonyCreatorImpl implements FiasThreadRunnerSymfon
     public function __construct(
         string $pathToBin,
         string $commandName,
-        ?PhpExecutableFinder $phpExecutableFinder = null
+        PhpExecutableFinder $phpExecutableFinder = null
     ) {
         $this->pathToBin = trim($pathToBin);
         if ($this->pathToBin === '') {

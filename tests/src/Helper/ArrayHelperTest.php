@@ -19,7 +19,7 @@ class ArrayHelperTest extends BaseCase
      *
      * @dataProvider provideExtractStringFromArrayByName
      */
-    public function testExtractStringFromArrayByName(string $name, array $array, string $awaits, ?string $default = null): void
+    public function testExtractStringFromArrayByName(string $name, array $array, string $awaits, string $default = null): void
     {
         if ($default === null) {
             $res = ArrayHelper::extractStringFromArrayByName($name, $array);
@@ -62,7 +62,7 @@ class ArrayHelperTest extends BaseCase
      *
      * @dataProvider provideExtractIntFromArrayByName
      */
-    public function testExtractIntFromArrayByName(string $name, array $array, int $awaits, ?int $default = null): void
+    public function testExtractIntFromArrayByName(string $name, array $array, int $awaits, int $default = null): void
     {
         if ($default === null) {
             $res = ArrayHelper::extractIntFromArrayByName($name, $array);
@@ -105,7 +105,7 @@ class ArrayHelperTest extends BaseCase
      *
      * @dataProvider provideExtractBoolFromArrayByName
      */
-    public function testExtractBoolFromArrayByName(string $name, array $array, bool $awaits, ?bool $default = null): void
+    public function testExtractBoolFromArrayByName(string $name, array $array, bool $awaits, bool $default = null): void
     {
         if ($default === null) {
             $res = ArrayHelper::extractBoolFromArrayByName($name, $array);
@@ -148,7 +148,7 @@ class ArrayHelperTest extends BaseCase
      *
      * @dataProvider provideExtractArrayFromArrayByName
      */
-    public function testExtractArrayFromArrayByName(string $name, array $array, array $awaits, ?array $default = null): void
+    public function testExtractArrayFromArrayByName(string $name, array $array, array $awaits, array $default = null): void
     {
         if ($default === null) {
             $res = ArrayHelper::extractArrayFromArrayByName($name, $array);

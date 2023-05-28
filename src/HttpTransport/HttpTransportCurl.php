@@ -59,7 +59,7 @@ final class HttpTransportCurl implements HttpTransport
     /**
      * {@inheritdoc}
      */
-    public function download(string $url, $destination, ?int $bytesFrom = null, ?int $bytesTo = null): HttpTransportResponse
+    public function download(string $url, $destination, int $bytesFrom = null, int $bytesTo = null): HttpTransportResponse
     {
         $options = [
             \CURLOPT_FOLLOWLOCATION => true,

@@ -146,7 +146,7 @@ class FiasEntityRepositoryPhpFileTest extends BaseCase
      *
      * @dataProvider provideGetEntity
      */
-    public function testGetEntity(string $searchName, ?\Exception $exception = null): void
+    public function testGetEntity(string $searchName, \Exception $exception = null): void
     {
         $path = __DIR__ . '/_fixtures/FiasEntityRepositoryPhpFileTest/testGetEntity.php';
 

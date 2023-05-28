@@ -25,7 +25,7 @@ final class FiasSerializer extends Serializer
      * @param array<DenormalizerInterface|NormalizerInterface>|null $normalizers
      * @param array<DecoderInterface|EncoderInterface>|null         $encoders
      */
-    public function __construct(?array $normalizers = null, ?array $encoders = null)
+    public function __construct(array $normalizers = null, array $encoders = null)
     {
         if ($normalizers === null) {
             $normalizers = [
@@ -51,7 +51,7 @@ final class FiasSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return false;
     }
@@ -59,7 +59,7 @@ final class FiasSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $format !== null && strtolower($format) === 'xml';
     }
@@ -67,7 +67,7 @@ final class FiasSerializer extends Serializer
     /**
      * {@inheritdoc}
      */
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         if (\is_array($data)) {
             $data = $this->filterData($data);

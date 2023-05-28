@@ -28,7 +28,7 @@ final class PipelineArray implements Pipeline
     /**
      * @param iterable<PipelineTask> $tasks
      */
-    public function __construct(iterable $tasks, ?PipelineTask $cleanupTask = null, ?LoggerInterface $logger = null)
+    public function __construct(iterable $tasks, PipelineTask $cleanupTask = null, LoggerInterface $logger = null)
     {
         $this->id = IdHelper::createUniqueId();
         $this->tasks = $tasks;

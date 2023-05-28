@@ -15,7 +15,7 @@ final class FiasFileSelectorFileImpl implements FiasFileSelectorFile
     private readonly int $size;
     private readonly ?string $pathToArchive;
 
-    public function __construct(string $path, int $size, ?string $pathToArchive = null)
+    public function __construct(string $path, int $size, string $pathToArchive = null)
     {
         $this->path = trim($path);
         $this->size = $size;

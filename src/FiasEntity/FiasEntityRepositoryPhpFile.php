@@ -14,7 +14,7 @@ final class FiasEntityRepositoryPhpFile extends FiasEntityRepositoryAbstract
 {
     private readonly string $pathToSource;
 
-    public function __construct(?string $pathToSource = null)
+    public function __construct(string $pathToSource = null)
     {
         $this->pathToSource = $pathToSource ?: PathHelper::resource('fias_entities.php');
     }

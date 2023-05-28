@@ -21,7 +21,7 @@ class XmlReaderProviderImplTest extends BaseCase
      *
      * @dataProvider provideOpen
      */
-    public function testOpen(string $path, string $xpath, ?\Exception $awaited = null): void
+    public function testOpen(string $path, string $xpath, \Exception $awaited = null): void
     {
         $file = new \SplFileInfo($path);
 
