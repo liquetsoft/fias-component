@@ -27,7 +27,10 @@ final class FiasThreadRunnerSymfony implements FiasThreadRunner
     public function run(iterable $threads): void
     {
         try {
-            $processes = $this->threadCreator->create($threads);
+            $processes = [];
+            foreach ($threads as $thread) {
+                $processes[] = $this->threadCreator->create($thread);
+            }
             $this->startProcesses($processes);
             $this->waitTillProcessesComplete($processes);
             $this->handleProcessesResults($processes);

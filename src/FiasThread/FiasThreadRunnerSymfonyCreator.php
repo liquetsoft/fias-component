@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasThread;
 
 use Liquetsoft\Fias\Component\Exception\FiasThreadException;
+use Liquetsoft\Fias\Component\Pipeline\PipelineState;
 use Symfony\Component\Process\Process;
 
 /**
@@ -17,11 +18,7 @@ interface FiasThreadRunnerSymfonyCreator
     /**
      * Создает новый объект процесса для указанных параметров.
      *
-     * @param iterable<FiasThreadParams> $threads
-     *
-     * @return Process[]
-     *
      * @throws FiasThreadException
      */
-    public function create(iterable $threads): array;
+    public function create(PipelineState $processParams): Process;
 }

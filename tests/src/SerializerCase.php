@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Трэйт, который содержит методы для создания моков логгера.
@@ -67,5 +68,30 @@ trait SerializerCase
     public function createDenormalizerMock(): DenormalizerInterface
     {
         return $this->getMockBuilder(DenormalizerInterface::class)->getMock();
+    }
+
+    /**
+     * Создает мок для сериализатора, который ожидает один объект для сериализации.
+     *
+     * @return SerializerInterface&MockObject
+     */
+    public function createSerializerMockAwaitSerialization(mixed $data, string $format, mixed $result): SerializerInterface
+    {
+        $mock = $this->createSerializerMock();
+        $mock->method('serialize')->willReturnCallback(
+            fn (mixed $param, string $paramFormat): mixed => $param === $data && $paramFormat === $format ? $result : null
+        );
+
+        return $mock;
+    }
+
+    /**
+     * Создает мок для сериализатора.
+     *
+     * @return SerializerInterface&MockObject
+     */
+    public function createSerializerMock(): SerializerInterface
+    {
+        return $this->getMockBuilder(SerializerInterface::class)->getMock();
     }
 }

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FiasThread;
 
 use Liquetsoft\Fias\Component\Exception\FiasThreadException;
+use Liquetsoft\Fias\Component\Pipeline\PipelineState;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Объект, который создает symfony process.
@@ -19,11 +22,14 @@ final class FiasThreadRunnerSymfonyCreatorImpl implements FiasThreadRunnerSymfon
 
     private readonly string $commandName;
 
+    private readonly SerializerInterface $serializer;
+
     private readonly PhpExecutableFinder $phpExecutableFinder;
 
     public function __construct(
         string $pathToBin,
         string $commandName,
+        SerializerInterface $serializer,
         PhpExecutableFinder $phpExecutableFinder = null
     ) {
         $this->pathToBin = trim($pathToBin);
@@ -36,30 +42,30 @@ final class FiasThreadRunnerSymfonyCreatorImpl implements FiasThreadRunnerSymfon
             throw FiasThreadException::create("Command name can't be empty");
         }
 
+        $this->serializer = $serializer;
         $this->phpExecutableFinder = $phpExecutableFinder ?: new PhpExecutableFinder();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function create(iterable $threads): array
+    public function create(PipelineState $processParams): Process
     {
-        $pathToPhp = $this->getPathToPhp();
-        $processes = [];
-        foreach ($threads as $thread) {
-            $process = new Process(
-                [
-                    $pathToPhp,
-                    $this->pathToBin,
-                    $this->commandName,
-                ]
-            );
-            $process->setInput(json_encode($thread->all()));
-            $process->setTimeout(null);
-            $processes[] = $process;
-        }
+        $command = [
+            $this->getPathToPhp(),
+            $this->pathToBin,
+            $this->commandName,
+        ];
+        $input = $this->serializer->serialize(
+            $processParams,
+            JsonEncoder::FORMAT
+        );
 
-        return $processes;
+        $process = new Process($command);
+        $process->setInput($input);
+        $process->setTimeout(null);
+
+        return $process;
     }
 
     /**

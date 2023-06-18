@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\FiasThread;
 
 use Liquetsoft\Fias\Component\Exception\FiasThreadException;
-use Liquetsoft\Fias\Component\FiasThread\FiasThreadParams;
 use Liquetsoft\Fias\Component\FiasThread\FiasThreadRunnerSymfonyCreatorImpl;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Tests\PipelineCase;
+use Liquetsoft\Fias\Component\Tests\SerializerCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 /**
  * Тест для объекта, который создает symfony process.
@@ -19,6 +20,9 @@ use Symfony\Component\Process\Process;
  */
 class FiasThreadRunnerSymfonyCreatorImplTest extends BaseCase
 {
+    use SerializerCase;
+    use PipelineCase;
+
     /**
      * Проверяет, что объект выбросит исключение, если указан пустой путь до бинарника.
      */
@@ -26,7 +30,11 @@ class FiasThreadRunnerSymfonyCreatorImplTest extends BaseCase
     {
         $this->expectException(FiasThreadException::class);
         $this->expectExceptionMessage("Path to bin can't be empty");
-        new FiasThreadRunnerSymfonyCreatorImpl('   ', 'test');
+        new FiasThreadRunnerSymfonyCreatorImpl(
+            '   ',
+            'test',
+            $this->createSerializerMock()
+        );
     }
 
     /**
@@ -36,7 +44,11 @@ class FiasThreadRunnerSymfonyCreatorImplTest extends BaseCase
     {
         $this->expectException(FiasThreadException::class);
         $this->expectExceptionMessage("Command name can't be empty");
-        new FiasThreadRunnerSymfonyCreatorImpl('/artisan.php', '  ');
+        new FiasThreadRunnerSymfonyCreatorImpl(
+            '/artisan.php',
+            '  ',
+            $this->createSerializerMock()
+        );
     }
 
     /**
@@ -47,7 +59,7 @@ class FiasThreadRunnerSymfonyCreatorImplTest extends BaseCase
         $pathToBin = '/artisan.php';
         $command = 'test:test';
         $phpExcutablePath = '/test/php';
-        $params = ['test_param_name' => 'test param value'];
+        $jsonInput = '{test:"test"}';
 
         /** @var MockObject&PhpExecutableFinder */
         $phpExcutableFinder = $this->getMockBuilder(PhpExecutableFinder::class)
@@ -55,34 +67,38 @@ class FiasThreadRunnerSymfonyCreatorImplTest extends BaseCase
             ->getMock();
         $phpExcutableFinder->method('find')->willReturn($phpExcutablePath);
 
-        /** @var MockObject&FiasThreadParams */
-        $thread = $this->getMockBuilder(FiasThreadParams::class)->getMock();
-        $thread->method('all')->willReturn($params);
+        $thread = $this->createPipelineStateMock();
 
-        /** @var MockObject&FiasThreadParams */
-        $thread1 = $this->getMockBuilder(FiasThreadParams::class)->getMock();
-        $thread1->method('all')->willReturn([]);
+        $serializer = $this->createSerializerMockAwaitSerialization(
+            $thread,
+            JsonEncoder::FORMAT,
+            $jsonInput
+        );
 
-        $creator = new FiasThreadRunnerSymfonyCreatorImpl($pathToBin, $command, $phpExcutableFinder);
-        $processes = $creator->create([$thread, $thread1]);
+        $creator = new FiasThreadRunnerSymfonyCreatorImpl(
+            $pathToBin,
+            $command,
+            $serializer,
+            $phpExcutableFinder
+        );
+        $process = $creator->create($thread);
 
-        $this->assertCount(2, $processes);
-        $this->assertFalse($processes[0]->isOutputDisabled());
-        $this->assertNull($processes[0]->getTimeout());
-        $this->assertStringContainsString($pathToBin, $processes[0]->getCommandLine());
-        $this->assertStringContainsString($command, $processes[0]->getCommandLine());
-        $this->assertStringContainsString($phpExcutablePath, $processes[0]->getCommandLine());
-        $this->assertSame(json_encode($params), $processes[0]->getInput());
+        $this->assertFalse($process->isOutputDisabled());
+        $this->assertNull($process->getTimeout());
+        $this->assertStringContainsString($pathToBin, $process->getCommandLine());
+        $this->assertStringContainsString($command, $process->getCommandLine());
+        $this->assertStringContainsString($phpExcutablePath, $process->getCommandLine());
+        $this->assertSame($jsonInput, $process->getInput());
     }
 
     /**
-     * Проверяет, что объект выбросит исключение, если не найдет путь до php инарника.
+     * Проверяет, что объект выбросит исключение, если не найдет путь до php бинарника.
      */
-    public function testCreatePhpBinaryNotFountException(): void
+    public function testCreatePhpBinaryNotFoundException(): void
     {
         $pathToBin = '/artisan.php';
         $command = 'test:test';
-        $params = ['test_param_name' => 'test param value'];
+        $jsonInput = '{test:"test"}';
 
         /** @var MockObject&PhpExecutableFinder */
         $phpExcutableFinder = $this->getMockBuilder(PhpExecutableFinder::class)
@@ -90,14 +106,23 @@ class FiasThreadRunnerSymfonyCreatorImplTest extends BaseCase
             ->getMock();
         $phpExcutableFinder->method('find')->willReturn(false);
 
-        /** @var MockObject&FiasThreadParams */
-        $thread = $this->getMockBuilder(FiasThreadParams::class)->getMock();
-        $thread->method('all')->willReturn($params);
+        $thread = $this->createPipelineStateMock();
 
-        $creator = new FiasThreadRunnerSymfonyCreatorImpl($pathToBin, $command, $phpExcutableFinder);
+        $serializer = $this->createSerializerMockAwaitSerialization(
+            $thread,
+            JsonEncoder::FORMAT,
+            $jsonInput
+        );
+
+        $creator = new FiasThreadRunnerSymfonyCreatorImpl(
+            $pathToBin,
+            $command,
+            $serializer,
+            $phpExcutableFinder
+        );
 
         $this->expectException(FiasThreadException::class);
         $this->expectExceptionMessage("Can't find php binary");
-        $creator->create([$thread]);
+        $creator->create($thread);
     }
 }
