@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Filter;
 
 /**
- * Фильтр, который проверяет подходит ли указанная строка под одно из регулярных
- * выражения из набора.
+ * Фильтр, который проверяет подходит ли указанная строка под указанное регулярное выражение.
  */
 final class FilterRegexp implements Filter
 {
-    /**
-     * @param string[] $regexps
-     */
-    public function __construct(private readonly array $regexps = [])
+    public function __construct(private readonly string $regexp)
     {
     }
 
@@ -30,16 +26,6 @@ final class FilterRegexp implements Filter
             return false;
         }
 
-        if (empty($this->regexps)) {
-            return true;
-        }
-
-        foreach ($this->regexps as $regexp) {
-            if (preg_match($regexp, $testData)) {
-                return true;
-            }
-        }
-
-        return false;
+        return preg_match($this->regexp, $testData) === 1;
     }
 }

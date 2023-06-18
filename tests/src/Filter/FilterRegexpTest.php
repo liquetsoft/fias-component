@@ -17,13 +17,11 @@ class FilterRegexpTest extends BaseCase
     /**
      * Проверяет, что объет правильно отфильтрует данные.
      *
-     * @param string[] $regexps
-     *
      * @dataProvider provideTestData
      */
-    public function testTest(array $regexps, object|string|int $testedObject, bool $result): void
+    public function testTest(string $regexp, object|string|int $testedObject, bool $result): void
     {
-        $filter = new FilterRegexp($regexps);
+        $filter = new FilterRegexp($regexp);
         $testResult = $filter->test($testedObject);
 
         $this->assertSame($result, $testResult);
@@ -33,30 +31,17 @@ class FilterRegexpTest extends BaseCase
     {
         return [
             'filter is true' => [
-                [
-                    '/rts_/',
-                    '/_str/',
-                ],
+                '/_str/',
                 'test_string',
                 true,
             ],
             'filter is false' => [
-                [
-                    '/rts_/',
-                ],
+                '/rts_/',
                 'test_string',
                 false,
             ],
-            'empty filters' => [
-                [],
-                'test_string',
-                true,
-            ],
             'filter Stringable object' => [
-                [
-                    '/rts_/',
-                    '/_str/',
-                ],
+                '/_str/',
                 new class() {
                     public function __toString(): string
                     {
@@ -66,17 +51,12 @@ class FilterRegexpTest extends BaseCase
                 true,
             ],
             'filter non Stringable object' => [
-                [
-                    '/rts_/',
-                    '/_str/',
-                ],
+                '/_str/',
                 $this,
                 false,
             ],
             'filter int' => [
-                [
-                    '/12/',
-                ],
+                '/12/',
                 12345,
                 true,
             ],
