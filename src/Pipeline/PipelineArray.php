@@ -107,13 +107,11 @@ final class PipelineArray implements Pipeline
      */
     private function log(string $message, array $context = []): void
     {
-        if ($this->logger) {
-            $this->logger->log(
-                LogLevel::INFO,
-                $message,
-                $this->createLoggerContext($context)
-            );
-        }
+        $this->logger?->log(
+            LogLevel::INFO,
+            $message,
+            $this->createLoggerContext($context)
+        );
     }
 
     /**
