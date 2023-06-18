@@ -37,4 +37,16 @@ final class FiasFileSelectorFileFactory
             $file->getSize()
         );
     }
+
+    /**
+     * Создает описание из массива.
+     */
+    public static function createFromArray(array $data): FiasFileSelectorFile
+    {
+        return new FiasFileSelectorFileImpl(
+            (string) ($data['path'] ?? ''),
+            (int) ($data['size'] ?? 0),
+            isset($data['pathToArchive']) ? (string) $data['pathToArchive'] : null
+        );
+    }
 }

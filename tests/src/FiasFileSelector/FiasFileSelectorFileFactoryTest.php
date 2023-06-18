@@ -68,4 +68,53 @@ class FiasFileSelectorFileFactoryTest extends BaseCase
         $this->assertSame($path, $resultPath);
         $this->assertSame($size, $resultSize);
     }
+
+    /**
+     * Проверяет, что фабрика создаст объект из массива.
+     *
+     * @dataProvider provideCreateFromArray
+     */
+    public function testCreateFromArray(array $array, array $awaits): void
+    {
+        $file = FiasFileSelectorFileFactory::createFromArray($array);
+
+        $this->assertSame(
+            $awaits,
+            [
+                'path' => $file->getPath(),
+                'size' => $file->getSize(),
+                'pathToArchive' => $file->isArchived() ? $file->getPathToArchive() : null,
+            ]
+        );
+    }
+
+    public function provideCreateFromArray(): array
+    {
+        return [
+            'file' => [
+                ['path' => '/path', 'size' => 123, 'test' => 'test'],
+                ['path' => '/path', 'size' => 123, 'pathToArchive' => null],
+            ],
+            'archive' => [
+                ['path' => '/path', 'size' => 123, 'pathToArchive' => '/archive', 'test' => 'test'],
+                ['path' => '/path', 'size' => 123, 'pathToArchive' => '/archive'],
+            ],
+            'string size' => [
+                ['path' => '/path', 'size' => '123'],
+                ['path' => '/path', 'size' => 123, 'pathToArchive' => null],
+            ],
+            'empty size' => [
+                ['path' => '/path'],
+                ['path' => '/path', 'size' => 0, 'pathToArchive' => null],
+            ],
+            'int path' => [
+                ['path' => 123, 'size' => 123],
+                ['path' => '123', 'size' => 123, 'pathToArchive' => null],
+            ],
+            'int archive' => [
+                ['path' => '/path', 'size' => 123, 'pathToArchive' => 321],
+                ['path' => '/path', 'size' => 123, 'pathToArchive' => '321'],
+            ],
+        ];
+    }
 }

@@ -17,13 +17,20 @@ trait FiasFileSelectorCase
      *
      * @return FiasFileSelectorFile&MockObject
      */
-    public function createFiasFileSelectorFileMock(string $path = '', int $size = 0): FiasFileSelectorFile
+    public function createFiasFileSelectorFileMock(string $path = '', int $size = 0, string $pathToArchive = null): FiasFileSelectorFile
     {
         /** @var FiasFileSelectorFile&MockObject */
         $entity = $this->getMockBuilder(FiasFileSelectorFile::class)->getMock();
 
         $entity->method('getPath')->willReturn($path);
         $entity->method('getSize')->willReturn($size);
+        $entity->method('isArchived')->willReturn($pathToArchive !== null);
+
+        if ($pathToArchive !== null) {
+            $entity->method('getPathToArchive')->willReturn($pathToArchive);
+        } else {
+            $entity->method('getPathToArchive')->willThrowException(new \Exception());
+        }
 
         return $entity;
     }
