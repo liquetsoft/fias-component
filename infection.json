@@ -5,7 +5,8 @@
             "src"
         ],
         "excludes": [
-            "HttpTransportCurl.php"
+            "HttpTransportCurl.php",
+            "IdHelper.php"
         ]
     },
     "logs": {
@@ -16,16 +17,6 @@
         "Throw_": {
             "ignore": [
                 "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl::openLocalFile"
-            ]
-        },
-        "ConcatOperandRemoval": {
-            "ignore": [
-                "Liquetsoft\\Fias\\Component\\Helper\\IdHelper::createUniqueId"
-            ]
-        },
-        "Concat": {
-            "ignore": [
-                "Liquetsoft\\Fias\\Component\\Helper\\IdHelper::createUniqueId"
             ]
         },
         "FunctionCallRemoval": {

@@ -25,7 +25,7 @@ RUN docker-php-ext-install zip soap opcache \
     && echo 'xdebug.mode=coverage' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  --version=2.5.4 \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  --version=2.5.8 \
     && mkdir -p /.composer && chmod -Rf 777 /.composer
 
 

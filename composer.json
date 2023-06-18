@@ -24,7 +24,7 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "sebastian/phpcpd": "^6.0",
         "vimeo/psalm": "^5.0",
-        "infection/infection": "^0.26"
+        "infection/infection": "^0.27"
     },
     "autoload": {
         "psr-4": {
