@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\FiasSerializer;
 
 use Liquetsoft\Fias\Component\FiasFileSelector\FiasFileSelectorFile;
-use Liquetsoft\Fias\Component\FiasSerializer\FiasFileSelectorFileSerializer;
+use Liquetsoft\Fias\Component\FiasSerializer\SplFileInfoSerializer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Tests\FiasFileSelectorCase;
+use Liquetsoft\Fias\Component\Tests\FileSystemCase;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 /**
@@ -15,18 +15,18 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
  *
  * @internal
  */
-class FiasFileSelectorFileSerializerTest extends BaseCase
+class SplFileInfoSerializerTest extends BaseCase
 {
-    use FiasFileSelectorCase;
+    use FileSystemCase;
 
     /**
      * Проверяет, что объект правильно нормализует данные.
      *
      * @dataProvider provideNormalize
      */
-    public function testNormalize(mixed $object, array|\Exception $awaits): void
+    public function testNormalize(mixed $object, string|\Exception $awaits): void
     {
-        $serializer = new FiasFileSelectorFileSerializer();
+        $serializer = new SplFileInfoSerializer();
 
         if ($awaits instanceof \Exception) {
             $this->expectExceptionObject($awaits);
@@ -44,23 +44,11 @@ class FiasFileSelectorFileSerializerTest extends BaseCase
         return [
             'scalar target' => [
                 'test',
-                new InvalidArgumentException('Object must have ' . FiasFileSelectorFile::class . ' type'),
+                new InvalidArgumentException('Object must have ' . \SplFileInfo::class . ' type'),
             ],
             'file' => [
-                $this->createFiasFileSelectorFileMock('/path', 123),
-                [
-                    'path' => '/path',
-                    'size' => 123,
-                    'pathToArchive' => null,
-                ],
-            ],
-            'archive' => [
-                $this->createFiasFileSelectorFileMock('/path', 123, '/archive'),
-                [
-                    'path' => '/path',
-                    'size' => 123,
-                    'pathToArchive' => '/archive',
-                ],
+                $this->createSplFileInfoMock('/test'),
+                '/test',
             ],
         ];
     }
@@ -72,7 +60,7 @@ class FiasFileSelectorFileSerializerTest extends BaseCase
      */
     public function testSupportsNormalization(mixed $object, bool $awaits): void
     {
-        $serializer = new FiasFileSelectorFileSerializer();
+        $serializer = new SplFileInfoSerializer();
 
         $this->assertSame($awaits, $serializer->supportsNormalization($object));
     }
@@ -83,7 +71,7 @@ class FiasFileSelectorFileSerializerTest extends BaseCase
             'scalar' => ['test', false],
             'different object type' => [$this, false],
             'correct type' => [
-                $this->createFiasFileSelectorFileMock(),
+                $this->createSplFileInfoMock('/test'),
                 true,
             ],
         ];
@@ -94,9 +82,9 @@ class FiasFileSelectorFileSerializerTest extends BaseCase
      *
      * @dataProvider provideDeormalize
      */
-    public function testDeormalize(mixed $data, string $type, array|\Exception $awaits): void
+    public function testDeormalize(mixed $data, string $type, string|\Exception $awaits): void
     {
-        $serializer = new FiasFileSelectorFileSerializer();
+        $serializer = new SplFileInfoSerializer();
 
         if ($awaits instanceof \Exception) {
             $this->expectExceptionObject($awaits);
@@ -105,40 +93,33 @@ class FiasFileSelectorFileSerializerTest extends BaseCase
         $res = $serializer->denormalize($data, $type);
 
         if (!($awaits instanceof \Exception)) {
-            $this->assertInstanceOf(FiasFileSelectorFile::class, $res);
-            $this->assertSame(
-                $awaits,
-                [
-                    'path' => $res->getPath(),
-                    'size' => $res->getSize(),
-                    'pathToArchive' => $res->isArchived() ? $res->getPathToArchive() : null,
-                ]
-            );
+            $this->assertInstanceOf(\SplFileInfo::class, $res);
+            $this->assertSame($awaits, $res->getPathName());
         }
     }
 
     public function provideDeormalize(): array
     {
         return [
-            'non array data' => [
-                'test',
-                FiasFileSelectorFile::class,
-                new InvalidArgumentException('Data must be an array instance'),
+            'non string data' => [
+                [],
+                \SplFileInfo::class,
+                new InvalidArgumentException('Data must be a string instance'),
             ],
             'wrong type' => [
-                [],
+                'test',
                 self::class,
-                new InvalidArgumentException('Type must be ' . FiasFileSelectorFile::class),
+                new InvalidArgumentException('Type must be ' . \SplFileInfo::class),
             ],
             'scalar type' => [
-                [],
                 'test',
-                new InvalidArgumentException('Type must be ' . FiasFileSelectorFile::class),
+                'test',
+                new InvalidArgumentException('Type must be ' . \SplFileInfo::class),
             ],
             'correct' => [
-                ['path' => '/path', 'size' => 123, 'pathToArchive' => '/archive', 'test' => 'test'],
-                FiasFileSelectorFile::class,
-                ['path' => '/path', 'size' => 123, 'pathToArchive' => '/archive'],
+                '/test',
+                \SplFileInfo::class,
+                '/test',
             ],
         ];
     }
@@ -150,7 +131,7 @@ class FiasFileSelectorFileSerializerTest extends BaseCase
      */
     public function testSupportsDenormalization(mixed $data, string $type, bool $awaits): void
     {
-        $serializer = new FiasFileSelectorFileSerializer();
+        $serializer = new SplFileInfoSerializer();
 
         $this->assertSame($awaits, $serializer->supportsDenormalization($data, $type));
     }
@@ -158,10 +139,11 @@ class FiasFileSelectorFileSerializerTest extends BaseCase
     public function provideSupportsDenormalization(): array
     {
         return [
-            'scalar' => [[], 'test', false],
-            'different object type' => [[], self::class, false],
-            'correct type' => [[], FiasFileSelectorFile::class, true],
-            'correct type with slashes' => [[], '\\' . FiasFileSelectorFile::class . '\\', true],
+            'scalar type' => ['test', 'test', false],
+            'different object type' => ['test', self::class, false],
+            'non string data' => [[], \SplFileInfo::class, false],
+            'correct type' => ['test', \SplFileInfo::class, true],
+            'correct type with slashes' => ['test', '\\' . \SplFileInfo::class . '\\', true],
         ];
     }
 }

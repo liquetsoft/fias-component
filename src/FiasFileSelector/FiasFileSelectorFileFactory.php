@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasFileSelector;
 
+use Liquetsoft\Fias\Component\Helper\ArrayHelper;
 use Liquetsoft\Fias\Component\Unpacker\UnpackerEntity;
 
 /**
@@ -44,9 +45,9 @@ final class FiasFileSelectorFileFactory
     public static function createFromArray(array $data): FiasFileSelectorFile
     {
         return new FiasFileSelectorFileImpl(
-            (string) ($data['path'] ?? ''),
-            (int) ($data['size'] ?? 0),
-            isset($data['pathToArchive']) ? (string) $data['pathToArchive'] : null
+            ArrayHelper::extractStringFromArrayByName('path', $data),
+            ArrayHelper::extractIntFromArrayByName('size', $data),
+            ArrayHelper::extractStringFromArrayByName('pathToArchive', $data) ?: null
         );
     }
 }
