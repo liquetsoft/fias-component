@@ -59,7 +59,7 @@ class CleanFilesToProceedTaskTest extends BaseCase
         $logger = $this->createLoggerMockExpectsMessages(
             [
                 [
-                    'message' => 'Remove file',
+                    'message' => 'Removing file',
                     'context' => [
                         'file' => $file1Path,
                     ],

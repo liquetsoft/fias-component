@@ -40,7 +40,7 @@ final class CleanFilesToProceedTask implements PipelineTaskLogAware
             }
             if (!$file->isArchived()) {
                 $this->logInfo(
-                    'Remove file',
+                    'Removing file',
                     [
                         'file' => $file->getPath(),
                     ]
