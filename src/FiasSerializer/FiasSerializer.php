@@ -78,7 +78,7 @@ final class FiasSerializer extends Serializer
 
     /**
      * Убирает пустые строки из массива - сериалайзер не понимает как их преобразовывать в другие типы.
-     * 
+     *
      * @TODO согласовать это как-нибудь с симфониевским сериализатором
      */
     private function filterData(array $data): mixed

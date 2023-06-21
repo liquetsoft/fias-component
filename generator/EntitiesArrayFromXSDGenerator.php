@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Generator;
 /**
  * Объект, который генерирует файл с описаниями сущностей из xsd файлов,
  * поставляемых с ФИАС.
- * 
+ *
  * @TODO добавить проверку псалмом
  */
 class EntitiesArrayFromXSDGenerator
