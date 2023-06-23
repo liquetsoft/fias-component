@@ -17,7 +17,7 @@ use Marvin255\FileSystemHelper\FileSystemHelper;
 /**
  * Задача, которая распаковывает файлы из архива.
  */
-final class UnpackTask implements PipelineTaskLogAware
+final class UnpackFilesToProceedTask implements PipelineTaskLogAware
 {
     use PipelineTaskLogAwareTrait;
 

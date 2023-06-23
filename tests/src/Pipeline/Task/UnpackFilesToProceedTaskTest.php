@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasFileSelector\FiasFileSelectorFile;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
-use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\UnpackFilesToProceedTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\FiasFileSelectorCase;
 use Liquetsoft\Fias\Component\Tests\FileSystemCase;
@@ -20,7 +20,7 @@ use Liquetsoft\Fias\Component\Tests\UnpackerCase;
  *
  * @internal
  */
-class UnpackTaskTest extends BaseCase
+class UnpackFilesToProceedTaskTest extends BaseCase
 {
     use PipelineCase;
     use LoggerCase;
@@ -98,7 +98,7 @@ class UnpackTaskTest extends BaseCase
             ]
         );
 
-        $task = new UnpackTask($unpacker, $fs);
+        $task = new UnpackFilesToProceedTask($unpacker, $fs);
         $task->injectLogger($logger);
         $newState = $task->run($state);
 
@@ -132,7 +132,7 @@ class UnpackTaskTest extends BaseCase
             ]
         );
 
-        $task = new UnpackTask($unpacker, $fs);
+        $task = new UnpackFilesToProceedTask($unpacker, $fs);
 
         $this->expectExceptionObject(
             TaskException::create(
