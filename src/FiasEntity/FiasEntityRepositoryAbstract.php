@@ -9,6 +9,8 @@ use Liquetsoft\Fias\Component\Helper\StringHelper;
 
 /**
  * Абстрактный класс для объектов, которые хранят список всех сущностей во внутреннем массиве.
+ *
+ * @internal
  */
 abstract class FiasEntityRepositoryAbstract implements FiasEntityRepository
 {

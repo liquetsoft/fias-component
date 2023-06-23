@@ -8,6 +8,8 @@ use Liquetsoft\Fias\Component\Exception\FiasEntityException;
 
 /**
  * Объект, который хранит описание сущности ФИАС.
+ *
+ * @internal
  */
 final class FiasEntityImpl implements FiasEntity
 {

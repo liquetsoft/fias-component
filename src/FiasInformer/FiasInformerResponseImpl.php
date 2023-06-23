@@ -9,6 +9,8 @@ use Liquetsoft\Fias\Component\Exception\FiasInformerException;
 /**
  * Объект, который предоставляет результат со ссылкой на файлы
  * от сервиса ФИАС.
+ *
+ * @internal
  */
 final class FiasInformerResponseImpl implements FiasInformerResponse
 {

@@ -8,6 +8,8 @@ use Liquetsoft\Fias\Component\Exception\FiasEntityException;
 
 /**
  * Объект, который описывает поле сущности.
+ *
+ * @internal
  */
 final class FiasEntityFieldImpl implements FiasEntityField
 {

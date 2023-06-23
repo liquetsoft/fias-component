@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasFileSelector\FiasFileSelectorFile;
 use Liquetsoft\Fias\Component\FiasFileSelector\FiasFileSelectorFileFactory;
+use Liquetsoft\Fias\Component\Helper\ArrayHelper;
 use Liquetsoft\Fias\Component\Pipeline\PipelineState;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAware;
@@ -35,11 +35,14 @@ final class UnpackFilesToProceedTask implements PipelineTaskLogAware
         $targetFolder = $state->get(PipelineStateParam::EXTRACT_TO_FOLDER);
         $targetFolder = $this->fs->makeFileInfo($targetFolder);
 
-        $files = $state->get(PipelineStateParam::FILES_TO_PROCEED);
+        $files = ArrayHelper::ensureArrayElements(
+            $state->get(PipelineStateParam::FILES_TO_PROCEED),
+            FiasFileSelectorFile::class
+        );
 
         $unpackedFiles = array_map(
-            fn (mixed $file): FiasFileSelectorFile => $this->unpackFile($file, $targetFolder),
-            \is_array($files) ? $files : []
+            fn (FiasFileSelectorFile $file): FiasFileSelectorFile => $this->unpackFile($file, $targetFolder),
+            $files
         );
 
         return $state->with(PipelineStateParam::FILES_TO_PROCEED, $unpackedFiles);
@@ -48,15 +51,8 @@ final class UnpackFilesToProceedTask implements PipelineTaskLogAware
     /**
      * Распаковывает файлы, которые нуждаются в распаковке.
      */
-    private function unpackFile(mixed $file, \SplFileInfo $targetFolder): FiasFileSelectorFile
+    private function unpackFile(FiasFileSelectorFile $file, \SplFileInfo $targetFolder): FiasFileSelectorFile
     {
-        if (!($file instanceof FiasFileSelectorFile)) {
-            throw TaskException::create(
-                'File must be instance of %s',
-                FiasFileSelectorFile::class
-            );
-        }
-
         if (!$file->isArchived()) {
             return $file;
         }

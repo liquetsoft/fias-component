@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\Exception\Exception;
 use Liquetsoft\Fias\Component\FiasFileSelector\FiasFileSelectorFile;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackFilesToProceedTask;
@@ -135,8 +135,8 @@ class UnpackFilesToProceedTaskTest extends BaseCase
         $task = new UnpackFilesToProceedTask($unpacker, $fs);
 
         $this->expectExceptionObject(
-            TaskException::create(
-                'File must be instance of %s',
+            Exception::create(
+                'All items must be instances of %s',
                 FiasFileSelectorFile::class
             )
         );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Helper;
 
+use Liquetsoft\Fias\Component\Exception\Exception;
 use Liquetsoft\Fias\Component\Helper\ArrayHelper;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
@@ -182,6 +183,57 @@ class ArrayHelperTest extends BaseCase
                 'test_name',
                 ['test_name' => new \stdClass()],
                 [],
+            ],
+        ];
+    }
+
+    /**
+     * Проверяет, что метод проверит типы всех элементов массива.
+     *
+     * @psalm-param class-string $type
+     *
+     * @dataProvider provideEnsureArrayElements
+     */
+    public function testEnsureArrayElements(mixed $array, string $type, array|\Exception $awaits): void
+    {
+        if ($awaits instanceof \Exception) {
+            $this->expectExceptionObject($awaits);
+        }
+
+        $res = ArrayHelper::ensureArrayElements($array, $type);
+
+        if (!($awaits instanceof \Exception)) {
+            $this->assertSame($awaits, $res);
+        }
+    }
+
+    public function provideEnsureArrayElements(): array
+    {
+        return [
+            'empty array' => [
+                [],
+                self::class,
+                [],
+            ],
+            'array with correct items' => [
+                [$this, $this],
+                self::class,
+                [$this, $this],
+            ],
+            'array with correct child types' => [
+                [$this, $this],
+                BaseCase::class,
+                [$this, $this],
+            ],
+            'not an array' => [
+                'test',
+                self::class,
+                Exception::create('Data must be an instance of array'),
+            ],
+            'array with incorrect itemy' => [
+                [$this, 'test'],
+                self::class,
+                Exception::create('All items must be instances of %s', self::class),
             ],
         ];
     }

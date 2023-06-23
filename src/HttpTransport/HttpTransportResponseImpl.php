@@ -8,6 +8,8 @@ use Liquetsoft\Fias\Component\Exception\HttpTransportException;
 
 /**
  * Объект, содержащий http ответ.
+ *
+ * @internal
  */
 final class HttpTransportResponseImpl implements HttpTransportResponse
 {

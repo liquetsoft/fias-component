@@ -6,6 +6,8 @@ namespace Liquetsoft\Fias\Component\Helper;
 
 /**
  * Класс, который содержит функции для работы со строками.
+ *
+ * @internal
  */
 final class StringHelper
 {

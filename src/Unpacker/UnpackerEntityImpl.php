@@ -8,6 +8,8 @@ use Liquetsoft\Fias\Component\Exception\UnpackerException;
 
 /**
  * Объект, который представляет файл внутри архива.
+ *
+ * @internal
  */
 final class UnpackerEntityImpl implements UnpackerEntity
 {

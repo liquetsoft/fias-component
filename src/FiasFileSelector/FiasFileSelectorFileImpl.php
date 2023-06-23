@@ -8,6 +8,8 @@ use Liquetsoft\Fias\Component\Exception\FiasFileSelectorException;
 
 /**
  * Объект, который хранит описание файла для планировщика процессов.
+ *
+ * @internal
  */
 final class FiasFileSelectorFileImpl implements FiasFileSelectorFile
 {

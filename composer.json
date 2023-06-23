@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
-        "ext-soap": "*",
         "ext-libxml": "*",
         "ext-xmlreader": "*",
         "ext-zip": "*",
