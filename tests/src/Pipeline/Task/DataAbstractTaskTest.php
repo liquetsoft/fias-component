@@ -16,8 +16,7 @@ use Liquetsoft\Fias\Component\Tests\LoggerCase;
 use Liquetsoft\Fias\Component\Tests\PipelineCase;
 use Liquetsoft\Fias\Component\Tests\SerializerCase;
 use Liquetsoft\Fias\Component\Tests\StorageCase;
-use Liquetsoft\Fias\Component\XmlReader\XmlReaderIterator;
-use Liquetsoft\Fias\Component\XmlReader\XmlReaderProvider;
+use Liquetsoft\Fias\Component\Tests\XmlReaderCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -34,6 +33,7 @@ class DataAbstractTaskTest extends BaseCase
     use SerializerCase;
     use StorageCase;
     use FiasFileSelectorCase;
+    use XmlReaderCase;
 
     /**
      * Проверяет, что задача обработает указанный файл.
@@ -535,48 +535,5 @@ class DataAbstractTaskTest extends BaseCase
 
         $this->expectException(\Exception::class);
         $task->run($state);
-    }
-
-    /**
-     * Создает мок для объекта, который открывает xml файлы, с массивом данных для итерации.
-     *
-     * @return XmlReaderProvider&MockObject
-     */
-    private function createXmlReaderProviderMockIterator(string $fileName, string $xPath, array $stringsToRead): XmlReaderProvider
-    {
-        $it = (new \ArrayObject($stringsToRead))->getIterator();
-        $iterator = $this->getMockBuilder(XmlReaderIterator::class)->getMock();
-        $iterator->method('rewind')->willReturnCallback(function () use ($it): void { $it->rewind(); });
-        $iterator->method('next')->willReturnCallback(function () use ($it): void { $it->next(); });
-        $iterator->method('current')->willReturnCallback(fn (): mixed => $it->current());
-        $iterator->method('key')->willReturnCallback(fn (): mixed => $it->key());
-        $iterator->method('valid')->willReturnCallback(fn (): bool => $it->valid());
-        $iterator->expects($this->once())->method('close');
-
-        $provider = $this->createXmlReaderProviderMock();
-        $provider->expects($this->once())
-            ->method('open')
-            ->with(
-                $this->callback(
-                    fn (\SplFileInfo $f): bool => $f->getPathname() === $fileName
-                ),
-                $this->identicalTo($xPath)
-            )
-            ->willReturn($iterator);
-
-        return $provider;
-    }
-
-    /**
-     * Создает мок для объекта, который открывает xml файлы.
-     *
-     * @return XmlReaderProvider&MockObject
-     */
-    private function createXmlReaderProviderMock(): XmlReaderProvider
-    {
-        /** @var XmlReaderProvider&MockObject */
-        $provider = $this->getMockBuilder(XmlReaderProvider::class)->getMock();
-
-        return $provider;
     }
 }
