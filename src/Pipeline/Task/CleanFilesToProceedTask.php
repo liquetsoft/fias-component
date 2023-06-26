@@ -34,18 +34,15 @@ final class CleanFilesToProceedTask implements PipelineTaskLogAware
         );
 
         foreach ($files as $file) {
-            if ($file->isArchived()) {
-                continue;
+            if (!$file->isArchived()) {
+                $this->logInfo(
+                    'Removing file',
+                    [
+                        'file' => $file->getPath(),
+                    ]
+                );
+                $this->fs->removeIfExists($file->getPath());
             }
-
-            $this->logInfo(
-                'Removing file',
-                [
-                    'file' => $file->getPath(),
-                ]
-            );
-
-            $this->fs->removeIfExists($file->getPath());
         }
 
         return $state->without(PipelineStateParam::FILES_TO_PROCEED);

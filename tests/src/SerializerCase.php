@@ -86,6 +86,47 @@ trait SerializerCase
     }
 
     /**
+     * Создает мок для сериализатора, который ожидает список объектов для десериализации.
+     *
+     * @return SerializerInterface&MockObject
+     *
+     * @psalm-suppress MixedArrayAccess
+     */
+    public function createSerializerMockAwaitDeserialization(array $items): SerializerInterface
+    {
+        $preparedItems = [];
+        foreach ($items as $item) {
+            $preparedItems[] = [
+                'type' => (string) ($item['type'] ?? ''),
+                'format' => (string) ($item['format'] ?? 'xml'),
+                'data' => $item['data'] ?? null,
+                'result' => $item['result'] ?? null,
+            ];
+        }
+
+        $mock = $this->createSerializerMock();
+        $mock->expects($this->exactly(\count($preparedItems)))
+            ->method('deserialize')
+            ->willReturnCallback(
+                function (mixed $data, string $type, string $format) use ($preparedItems): mixed {
+                    $existedItems = array_filter(
+                        $preparedItems,
+                        fn (array $m): bool => $m['data'] === $data
+                            && $m['type'] === $type
+                            && $m['format'] === $format
+                    );
+                    if (empty($existedItems)) {
+                        throw new \RuntimeException("Serializing isn't allowed");
+                    }
+
+                    return $existedItems[0]['result'];
+                }
+            );
+
+        return $mock;
+    }
+
+    /**
      * Создает мок для сериализатора.
      *
      * @return SerializerInterface&MockObject

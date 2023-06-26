@@ -63,7 +63,7 @@ trait LoggerCase
                             && $this->contextesCompliment($m['context'], $context)
                     );
                     if (empty($existedMessage)) {
-                        throw new \RuntimeException("Log message not allowed: {$message}");
+                        throw new \RuntimeException("Log message is not allowed: {$message}");
                     }
                 }
             );

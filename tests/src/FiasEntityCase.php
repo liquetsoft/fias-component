@@ -19,12 +19,13 @@ trait FiasEntityCase
      *
      * @return FiasEntity&MockObject
      */
-    public function createFiasEntityMock(string $name = ''): FiasEntity
+    public function createFiasEntityMock(string $name = '', string $xmlPath = ''): FiasEntity
     {
         /** @var FiasEntity&MockObject */
         $entity = $this->getMockBuilder(FiasEntity::class)->getMock();
 
         $entity->method('getName')->willReturn($name);
+        $entity->method('getXmlPath')->willReturn($xmlPath);
 
         return $entity;
     }
