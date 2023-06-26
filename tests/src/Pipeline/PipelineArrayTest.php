@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline;
 
 use Liquetsoft\Fias\Component\Exception\PipelineException;
-use Liquetsoft\Fias\Component\Helper\IdHelper;
 use Liquetsoft\Fias\Component\Pipeline\PipelineArray;
 use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\LoggerCase;
 use Liquetsoft\Fias\Component\Tests\PipelineCase;
-use Psr\Log\LogLevel;
 
 /**
  * Тест для объекта, который содержит внутренний массив со списком операций для исполнения.
@@ -22,6 +20,17 @@ class PipelineArrayTest extends BaseCase
 {
     use PipelineCase;
     use LoggerCase;
+
+    /**
+     * Проверяет, что объект выбросит исключение, если задан пустой id.
+     */
+    public function testConstructEmptyIdException(): void
+    {
+        $this->expectExceptionObject(
+            PipelineException::create("Pipeline id can't be empty")
+        );
+        new PipelineArray([], null, null, '   ');
+    }
 
     /**
      * Проверяет, что объект запускает список задач на исполнение.
@@ -51,8 +60,10 @@ class PipelineArrayTest extends BaseCase
     /**
      * Проверяет, что объект прервет исполнение, если задача установит флаг.
      */
-    public function testRunWithInterraption(): void
+    public function testRunWithInterruption(): void
     {
+        $id = 'pipeline_id';
+
         $state = $this->createPipelineStateMock();
         $state1 = $this->createPipelineStateMock([PipelineStateParam::INTERRUPT_PIPELINE->value => true]);
 
@@ -69,22 +80,31 @@ class PipelineArrayTest extends BaseCase
                 'Pipeline started',
                 [
                     'message' => 'Task started',
-                    'context' => ['task' => \get_class($task1)],
+                    'context' => [
+                        'task' => \get_class($task1),
+                        'pipeline_id' => $id,
+                    ],
                 ],
                 [
                     'message' => 'Pipeline interrupted by task',
-                    'context' => ['task' => \get_class($task1)],
+                    'context' => [
+                        'task' => \get_class($task1),
+                        'pipeline_id' => $id,
+                    ],
                 ],
                 [
                     'message' => 'Task completed',
-                    'context' => ['task' => \get_class($task1)],
+                    'context' => [
+                        'task' => \get_class($task1),
+                        'pipeline_id' => $id,
+                    ],
                 ],
                 'Cleanup skipped',
                 'Pipeline completed',
             ]
         );
 
-        $pipeline = new PipelineArray([$task1, $task2], null, $logger);
+        $pipeline = new PipelineArray([$task1, $task2], null, $logger, $id);
         $pipeline->run($state);
     }
 
@@ -116,6 +136,8 @@ class PipelineArrayTest extends BaseCase
      */
     public function testRunTaskException(): void
     {
+        $id = 'pipeline_id';
+
         $error = 'exception message test';
         $state = $this->createPipelineStateMock();
 
@@ -136,58 +158,43 @@ class PipelineArrayTest extends BaseCase
                 'Pipeline started',
                 [
                     'message' => 'Task started',
-                    'context' => ['task' => \get_class($task1)],
+                    'context' => [
+                        'task' => \get_class($task1),
+                        'pipeline_id' => $id,
+                    ],
                 ],
                 [
                     'message' => 'Task throwed an error',
-                    'context' => ['task' => \get_class($task1), 'error' => $error],
+                    'context' => [
+                        'error' => $error,
+                        'task' => \get_class($task1),
+                        'pipeline_id' => $id,
+                    ],
                 ],
                 'Cleanup started',
                 [
                     'message' => 'Task started',
-                    'context' => ['task' => \get_class($cleanUp)],
+                    'context' => [
+                        'task' => \get_class($task1),
+                        'pipeline_id' => $id,
+                    ],
                 ],
                 [
                     'message' => 'Task completed',
-                    'context' => ['task' => \get_class($cleanUp)],
+                    'context' => [
+                        'task' => \get_class($task1),
+                        'pipeline_id' => $id,
+                    ],
                 ],
             ]
         );
 
-        $pipeline = new PipelineArray([$task1], $cleanUp, $logger);
+        $pipeline = new PipelineArray([$task1], $cleanUp, $logger, $id);
 
         $this->expectException(PipelineException::class);
         $this->expectExceptionMessage($error);
         $pipeline->run($state);
     }
-
-    /**
-     * Проверяет, что объект использует логгер.
-     */
-    /*public function testRunLogger(): void
-    {
-        $state = $this->createPipelineStateMock();
-
-        $task1 = $this->createPipelineTaskMock();
-        $task1->expects($this->once())->method('run')->with($this->identicalTo($state))->willReturn($state);
-
-        $logger = $this->createLoggerMock();
-        $logger->expects($this->exactly(5))
-            ->method('log')
-            ->with(
-                $this->equalTo(LogLevel::INFO),
-                $this->anything(),
-                $this->callback(
-                    fn (array $ctx): bool => isset($ctx['source'], $ctx['pipeline_class'], $ctx['pipeline_id'])
-                        && $ctx['source'] === IdHelper::getComponentId()
-                        && $ctx['pipeline_class'] === PipelineArray::class
-                        && \strlen((string) $ctx['pipeline_id']) === 32
-                )
-            );
-
-        $pipeline = new PipelineArray([$task1], null, $logger);
-        $pipeline->run($state);
-    }*/
 
     /**
      * Проверяет, что объект передаст логгер в задачу.

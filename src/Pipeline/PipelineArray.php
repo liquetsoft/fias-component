@@ -6,6 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline;
 
 use Liquetsoft\Fias\Component\Exception\PipelineException;
 use Liquetsoft\Fias\Component\Helper\IdHelper;
+use Liquetsoft\Fias\Component\Helper\StringHelper;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -16,24 +17,17 @@ final class PipelineArray implements Pipeline
 {
     private readonly string $id;
 
-    /**
-     * @var iterable<PipelineTask>
-     */
-    private readonly iterable $tasks;
-
-    private readonly ?PipelineTask $cleanupTask;
-
-    private readonly ?LoggerInterface $logger;
-
-    /**
-     * @param iterable<PipelineTask> $tasks
-     */
-    public function __construct(iterable $tasks, PipelineTask $cleanupTask = null, LoggerInterface $logger = null)
-    {
-        $this->id = IdHelper::createUniqueId();
-        $this->tasks = $tasks;
-        $this->cleanupTask = $cleanupTask;
-        $this->logger = $logger;
+    public function __construct(
+        /** @var iterable<PipelineTask> */
+        private readonly iterable $tasks,
+        private readonly ?PipelineTask $cleanupTask = null,
+        private readonly ?LoggerInterface $logger = null,
+        string $id = null
+    ) {
+        $this->id = StringHelper::normalize($id === null ? IdHelper::createUniqueId() : $id);
+        if ($this->id === '') {
+            throw PipelineException::create("Pipeline id can't be empty");
+        }
     }
 
     /**
