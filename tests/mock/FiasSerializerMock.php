@@ -24,7 +24,7 @@ class FiasSerializerMock
     /**
      * @var \DateTimeInterface|null
      */
-    private $testDate = null;
+    private $testDate;
 
     /**
      * @var string

@@ -4,65 +4,82 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
+use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Tests\FileSystemCase;
+use Liquetsoft\Fias\Component\Tests\LoggerCase;
+use Liquetsoft\Fias\Component\Tests\PipelineCase;
+use Psr\Log\LogLevel;
 
 /**
- * Тест для задачи, которая очищает все временные данные после завершения импорта.
+ * Тест для задачи, которая очищает временные файлы после работы пайплайна.
  *
  * @internal
  */
 class CleanupTaskTest extends BaseCase
 {
+    use PipelineCase;
+    use LoggerCase;
+    use FileSystemCase;
+
     /**
-     * Проверяет, что задача очищает все папки и файлы.
-     *
-     * @throws \Exception
+     * Проверяет, что объект удалит все временные файлы.
      */
     public function testRun(): void
     {
-        $downloadToPath = $this->getPathToTestFile('downloadTo.rar');
-        $downloadTo = new \SplFileInfo($downloadToPath);
+        $pathDownloadFile = '/test/download';
+        $pathExtractToFolder = '/test/extract';
+        $extractToFolder = $this->createSplDirInfoMock($pathExtractToFolder);
 
-        $extractToDir = $this->getPathToTestDir('extractTo');
-        $this->getPathToTestDir('extractTo/subDir');
-        $extractToPath = $this->getPathToTestFile('extractTo/subDir/downloadTo.rar');
-        $extractTo = new \SplFileInfo($extractToDir);
+        $fs = $this->createFileSystemMock();
+        $fs->expects($this->exactly(2))
+            ->method('removeIfExists')
+            ->with(
+                $this->callback(
+                    fn (string|\SplFileInfo $file): bool => $file === $pathDownloadFile || $file === $extractToFolder
+                )
+            );
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createPipelineStateMock(
             [
-                StateParameter::DOWNLOAD_TO_FILE => $downloadTo,
-                StateParameter::EXTRACT_TO_FOLDER => $extractTo,
+                PipelineStateParam::DOWNLOAD_TO_FILE->value => $pathDownloadFile,
+                PipelineStateParam::EXTRACT_TO_FOLDER->value => $extractToFolder,
             ]
         );
 
-        $task = new CleanupTask();
-        $task->run($state);
+        $logger = $this->createLoggerMock();
+        $logger->expects($this->exactly(2))
+            ->method('log')
+            ->with(
+                $this->identicalTo(LogLevel::INFO),
+                $this->identicalTo('Path cleaned'),
+                $this->callback(
+                    fn (array $params): bool => isset($params['path'])
+                        && \in_array($params['path'], [$pathDownloadFile, $pathExtractToFolder])
+                )
+            );
 
-        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
-        $this->assertFileDoesNotExist($extractToPath, 'Extracted files removed');
+        $task = new CleanupTask($fs);
+        $task->injectLogger($logger);
+        $stateToTest = $task->run($state);
+
+        $this->assertSame($state, $stateToTest);
     }
 
     /**
-     * Проверяет, что задача очищает все папки и файлы.
-     *
-     * @throws \Exception
+     * Проверяет, что объект не выбросит ошибки, если не указаны файлы на удаление.
      */
-    public function testRunEmptyFiles(): void
+    public function testRunNoParams(): void
     {
-        $downloadToPath = __DIR__ . '/test.rar';
-        $downloadTo = new \SplFileInfo($downloadToPath);
+        $fs = $this->createFileSystemMock();
+        $fs->expects($this->never())->method('removeIfExists');
 
-        $state = $this->createDefaultStateMock(
-            [
-                StateParameter::DOWNLOAD_TO_FILE => $downloadTo,
-            ]
-        );
+        $state = $this->createPipelineStateMock();
 
-        $task = new CleanupTask();
-        $task->run($state);
+        $task = new CleanupTask($fs);
+        $stateToTest = $task->run($state);
 
-        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
+        $this->assertSame($state, $stateToTest);
     }
 }

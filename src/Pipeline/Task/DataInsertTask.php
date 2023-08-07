@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
-use Liquetsoft\Fias\Component\Exception\StorageException;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntity;
+use Liquetsoft\Fias\Component\FiasEntity\FiasEntityRepository;
+use Liquetsoft\Fias\Component\Storage\Storage;
 
 /**
- * Задача, которая читает данные из xml и вставляет их в БД.
+ * Задача, которая вставляет данные в чистую БД.
  */
-class DataInsertTask extends DataAbstractTask
+final class DataInsertTask extends DataAbstractTask
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor
+    protected function getFiasEntityByFile(\SplFileInfo $file, FiasEntityRepository $enityRepository): ?FiasEntity
     {
-        return $this->entityManager->getDescriptorByInsertFile($file->getBasename());
+        foreach ($enityRepository->getAllEntities() as $entity) {
+            if ($entity->isFileNameFitsXmlInsertFileMask($file->getPathname())) {
+                return $entity;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @throws StorageException
+     * {@inheritdoc}
      */
-    protected function processItem(object $item): void
+    protected function processItem(object $item, Storage $storage): void
     {
-        $this->storage->insert($item);
+        $storage->insert($item);
     }
 }

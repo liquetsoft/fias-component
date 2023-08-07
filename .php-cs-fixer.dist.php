@@ -11,7 +11,7 @@ $rules = [
     'array_syntax' => ['syntax' => 'short'],
     'yoda_style' => false,
     'phpdoc_no_empty_return' => false,
-    'no_superfluous_phpdoc_tags' => false,
+    'no_superfluous_phpdoc_tags' => true,
     'single_line_throw' => false,
     'array_indentation' => true,
     'declare_strict_types' => true,
@@ -30,6 +30,7 @@ $rules = [
     'php_unit_mock_short_will_return' => true,
     'php_unit_strict' => true,
     'strict_comparison' => true,
+    'increment_style' => false,
 ];
 
 return (new Config())->setRules($rules)->setFinder($finder);

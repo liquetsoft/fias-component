@@ -5,105 +5,74 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Downloader\Downloader;
-use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
-use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
+use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
 use Liquetsoft\Fias\Component\Pipeline\Task\DownloadTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Tests\FileSystemCase;
+use Liquetsoft\Fias\Component\Tests\LoggerCase;
+use Liquetsoft\Fias\Component\Tests\PipelineCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LogLevel;
 
 /**
- * Тест для задачи, которая загружает архив ФИАС по ссылке.
+ * Тест для задачи, которая загружает файл по указанной ссылке.
  *
  * @internal
  */
 class DownloadTaskTest extends BaseCase
 {
+    use PipelineCase;
+    use LoggerCase;
+    use FileSystemCase;
+
     /**
-     * Проверяет, что объект верно загружает ссылку.
-     *
-     * @throws \Exception
+     * Проверяет, что объект удалит все временные файлы.
      */
     public function testRun(): void
     {
-        $url = $this->createFakeData()->url();
-
-        $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->willReturn(true);
-        $informerResult->method('getUrl')->willReturn($url);
-
-        $filePath = __DIR__ . '/test.file';
-        $file = new \SplFileInfo($filePath);
+        $archiveUrl = 'https://test.test/test';
+        $localFilePath = '/test/file.txt';
+        $localFile = $this->createSplFileInfoMock($localFilePath);
 
         /** @var MockObject&Downloader */
         $downloader = $this->getMockBuilder(Downloader::class)->getMock();
         $downloader->expects($this->once())
-            ->method('download')->with(
-                $this->equalTo($url),
+            ->method('download')
+            ->with(
+                $this->identicalTo($archiveUrl),
+                $this->identicalTo($localFile)
+            );
+
+        $fs = $this->createFileSystemMock();
+        $fs->expects($this->once())
+            ->method('makeFileInfo')
+            ->with($this->identicalTo($localFilePath))
+            ->willReturn($localFile);
+
+        $state = $this->createPipelineStateMock(
+            [
+                PipelineStateParam::ARCHIVE_URL->value => $archiveUrl,
+                PipelineStateParam::DOWNLOAD_TO_FILE->value => $localFilePath,
+            ]
+        );
+
+        $logger = $this->createLoggerMock();
+        $logger->expects($this->exactly(2))
+            ->method('log')
+            ->with(
+                $this->identicalTo(LogLevel::INFO),
+                $this->anything(),
                 $this->callback(
-                    function (\SplFileInfo $file) use ($filePath) {
-                        return $file->getPathname() === $filePath;
-                    }
+                    fn (array $p): bool => isset($p['download_url'], $p['download_local_file'])
+                        && $p['download_url'] === $archiveUrl
+                        && $p['download_local_file'] === $localFilePath
                 )
             );
 
-        $state = $this->createDefaultStateMock(
-            [
-                StateParameter::FIAS_INFO => $informerResult,
-                StateParameter::DOWNLOAD_TO_FILE => $file,
-            ]
-        );
+        $task = new DownloadTask($downloader, $fs);
+        $task->injectLogger($logger);
+        $stateToTest = $task->run($state);
 
-        $task = new DownloadTask($downloader);
-
-        $task->run($state);
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если в состоянии не указана ссылка на ФИАС.
-     *
-     * @throws \Exception
-     */
-    public function testRunNoFiasInfoException(): void
-    {
-        /** @var MockObject&Downloader */
-        $downloader = $this->getMockBuilder(Downloader::class)->getMock();
-
-        $state = $this->createDefaultStateMock(
-            [
-                StateParameter::DOWNLOAD_TO_FILE => new \SplFileInfo(__DIR__ . '/test.file'),
-            ]
-        );
-
-        $task = new DownloadTask($downloader);
-
-        $this->expectException(TaskException::class);
-        $task->run($state);
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если в состоянии не указан путь к локальному файлу.
-     *
-     * @throws \Exception
-     */
-    public function testRunNoDownloadToInfoException(): void
-    {
-        /** @var MockObject&Downloader */
-        $downloader = $this->getMockBuilder(Downloader::class)->getMock();
-
-        $informerResult = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $informerResult->method('hasResult')->willReturn(true);
-        $informerResult->method('getUrl')->willReturn($this->createFakeData()->url());
-
-        $state = $this->createDefaultStateMock(
-            [
-                StateParameter::FIAS_INFO => $informerResult,
-            ]
-        );
-
-        $task = new DownloadTask($downloader);
-
-        $this->expectException(TaskException::class);
-        $task->run($state);
+        $this->assertSame($state, $stateToTest);
     }
 }

@@ -1,0 +1,28 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ],
+        "excludes": [
+            "HttpTransportCurl.php",
+            "IdHelper.php"
+        ]
+    },
+    "logs": {
+        "text": "infection.log"
+    },
+    "mutators": {
+        "@default": true,
+        "Throw_": {
+            "ignore": [
+                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl::openLocalFile"
+            ]
+        },
+        "FunctionCallRemoval": {
+            "ignore": [
+                "Liquetsoft\\Fias\\Component\\Downloader\\DownloaderImpl"
+            ]
+        }
+    }
+}

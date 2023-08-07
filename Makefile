@@ -5,7 +5,6 @@ docker_compose_bin := $(shell command -v docker-compose 2> /dev/null) --file "do
 php_container_bin := $(docker_compose_bin) run --rm -u "$(user_id)" "php"
 php_composer_script := $(php_container_bin) composer run-script
 
-.PHONY : help build install shell fixer test coverage xsd entities
 .DEFAULT_GOAL := build
 
 # --- [ Development tasks ] -------------------------------------------------------------------------------------------
@@ -31,10 +30,14 @@ test: ## Run tests
 coverage: ## Run tests with coverage
 	$(php_composer_script) coverage
 
+infection: ## Run infection testing
+	$(php_composer_script) infection
+
 release: ## Run all tests and linters before release
 	$(php_composer_script) fixer
 	$(php_composer_script) linter
 	$(php_composer_script) test
+	$(php_composer_script) infection
 
 xsd: ## Build entities from yaml file with description
 	$(php_composer_script) xsd

@@ -4,60 +4,43 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Marvin255\FileSystemHelper\FileSystemFactory;
-use Marvin255\FileSystemHelper\FileSystemHelperInterface;
-use Psr\Log\LogLevel;
+use Liquetsoft\Fias\Component\Pipeline\PipelineState;
+use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
+use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAware;
+use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAwareTrait;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 
 /**
- * Задача, которая подготавливает все необходимые каталоги и файлы для процесса
- * установки/обновления.
+ * Задача, которая подготавливает каталог для загрузки и распаковки ФИАС.
  */
-class PrepareFolderTask implements LoggableTask, Task
+final class PrepareFolderTask implements PipelineTaskLogAware
 {
-    use LoggableTaskTrait;
+    use PipelineTaskLogAwareTrait;
 
-    protected \SplFileInfo $folder;
-
-    private FileSystemHelperInterface $fs;
-
-    /**
-     * @param string $folder
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __construct(string $folder)
-    {
-        $trimmedFolder = rtrim(trim($folder, " \t\n\r\0\x0B"), '/');
-        $parent = realpath(\dirname($trimmedFolder));
-
-        if (!$parent || !is_dir($parent) || !is_writable($parent)) {
-            throw new \InvalidArgumentException(
-                "'{$parent}' folder doesn't exist or isn't writable."
-            );
-        }
-
-        $this->folder = new \SplFileInfo($trimmedFolder);
-        $this->fs = FileSystemFactory::create();
+    public function __construct(
+        private readonly FileSystemHelper $fs,
+        private readonly \SplFileInfo $folder
+    ) {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function run(State $state): void
+    public function run(PipelineState $state): PipelineState
     {
-        $this->log(LogLevel::INFO, "Emptying '{$this->folder->getPathname()}' folder.");
         $this->fs->mkdirIfNotExist($this->folder);
         $this->fs->emptyDir($this->folder);
-
-        $downloadToFile = new \SplFileInfo($this->folder->getRealPath() . '/archive');
-        $extractToFolder = new \SplFileInfo($this->folder->getRealPath() . '/extracted');
-
-        $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder.");
+        $downloadToFile = "{$this->folder->getRealPath()}/archive";
+        $extractToFolder = "{$this->folder->getRealPath()}/extracted";
         $this->fs->mkdir($extractToFolder);
 
-        $state->setAndLockParameter(StateParameter::DOWNLOAD_TO_FILE, $downloadToFile);
-        $state->setAndLockParameter(StateParameter::EXTRACT_TO_FOLDER, $extractToFolder);
+        $folderArray = [
+            PipelineStateParam::DOWNLOAD_TO_FILE->value => $downloadToFile,
+            PipelineStateParam::EXTRACT_TO_FOLDER->value => $extractToFolder,
+        ];
+
+        $this->logInfo('Temporary folder prepared', $folderArray);
+
+        return $state->withList($folderArray);
     }
 }

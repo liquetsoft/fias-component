@@ -27,27 +27,14 @@ interface Storage
     public function stop(): void;
 
     /**
-     * Проверяет может ли хранилище работать с данным объектом.
+     * Проверяет может ли хранилище работать с данным объектом или классом.
      *
-     * @param object $entity
-     *
-     * @return bool
+     * @psalm-param object|class-string $entity
      */
-    public function supports(object $entity): bool;
-
-    /**
-     * Проверяет может ли хранилище работать с данным типом объектов.
-     *
-     * @param string $class
-     *
-     * @return bool
-     */
-    public function supportsClass(string $class): bool;
+    public function supports(object|string $entity): bool;
 
     /**
      * Отправляет объект на запись в хранилище.
-     *
-     * @param object $entity
      *
      * @throws StorageException
      */
@@ -55,8 +42,6 @@ interface Storage
 
     /**
      * Удаляет объект из хранилища.
-     *
-     * @param object $entity
      *
      * @throws StorageException
      */
@@ -66,8 +51,6 @@ interface Storage
      * Если запись уже имеется в БД, то обновляет ее из объекта, если записи нет,
      * то создает новую.
      *
-     * @param object $entity
-     *
      * @throws StorageException
      */
     public function upsert(object $entity): void;
@@ -75,7 +58,7 @@ interface Storage
     /**
      * Очищает хранилище для объектов с указанным в параметре классом.
      *
-     * @param string $entityClassName
+     * @psalm-param class-string $entityClassName
      *
      * @throws StorageException
      */

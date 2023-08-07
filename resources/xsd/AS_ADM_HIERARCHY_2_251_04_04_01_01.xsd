@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by TeaM DJiNN (TeaM DJiNN) -->
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by admin (GNIVC) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:usch="http://www.unisoftware.ru/schematron-extensions" xmlns:sql="urn:schemas-microsoft-com:mapping-schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ITEMS">
 		<xs:annotation>
@@ -169,6 +169,11 @@
 									<xs:enumeration value="1"/>
 								</xs:restriction>
 							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="PATH" use="required">
+							<xs:annotation>
+								<xs:documentation>Материализованный путь к объекту (полная иерархия)</xs:documentation>
+							</xs:annotation>
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>

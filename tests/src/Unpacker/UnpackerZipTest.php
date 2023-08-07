@@ -1,0 +1,197 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Liquetsoft\Fias\Component\Tests\Unpacker;
+
+use Liquetsoft\Fias\Component\Exception\UnpackerException;
+use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerEntity;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerZip;
+
+/**
+ * Тест для объекта, который распаковывает zip архив.
+ *
+ * @internal
+ */
+class UnpackerZipTest extends BaseCase
+{
+    /**
+     * Проверяет, что объект распакует zip архив.
+     *
+     * @throws UnpackerException
+     */
+    public function testUnpack(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
+        $testDestination = $this->getPathToTestDir('testUnpack');
+
+        $zipUnpack = new UnpackerZip();
+        $zipUnpack->unpack(
+            new \SplFileInfo($testArchive),
+            new \SplFileInfo($testDestination)
+        );
+
+        $this->assertFileExists($testDestination . '/test.txt');
+        $this->assertSame('test', trim(file_get_contents($testDestination . '/test.txt')));
+        $this->assertFileExists($testDestination . '/nested/nested_file.txt');
+        $this->assertSame('nested_file', trim(file_get_contents($testDestination . '/nested/nested_file.txt')));
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение при попытке открыть несуществующий архив.
+     */
+    public function testUnpackNonExistedArchiveException(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpackException.zip';
+        $testDestination = $this->getPathToTestDir('testUnpack');
+
+        $zipUnpack = new UnpackerZip();
+
+        $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't open");
+        $zipUnpack->unpack(
+            new \SplFileInfo($testArchive),
+            new \SplFileInfo($testDestination)
+        );
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение при попытке открыть несуществующий архив.
+     */
+    public function testUnpackNonExistedDestinationException(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
+        $testDestination = '/non-existed';
+
+        $zipUnpack = new UnpackerZip();
+
+        $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't unpack");
+        $zipUnpack->unpack(
+            new \SplFileInfo($testArchive),
+            new \SplFileInfo($testDestination)
+        );
+    }
+
+    /**
+     * Проверяет, что объект вернет список файлов в архиве.
+     */
+    public function testGetListOfFiles(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
+
+        $zipUnpack = new UnpackerZip();
+        $files = $zipUnpack->getListOfFiles(new \SplFileInfo($testArchive));
+
+        $this->assertCount(2, $files);
+        $this->assertArrayHasKey(0, $files);
+        $this->assertInstanceOf(UnpackerEntity::class, $files[0]);
+        $this->assertSame('nested/nested_file.txt', $files[0]->getName());
+        $this->assertArrayHasKey(1, $files);
+        $this->assertInstanceOf(UnpackerEntity::class, $files[1]);
+        $this->assertSame('test.txt', $files[1]->getName());
+    }
+
+    /**
+     * Проверяет, что объект перехватит исключение при возвращении списка.
+     */
+    public function testGetListOfFilesException(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpackException.zip';
+
+        $zipUnpack = new UnpackerZip();
+
+        $this->expectException(UnpackerException::class);
+        $zipUnpack->getListOfFiles(new \SplFileInfo($testArchive));
+    }
+
+    /**
+     * Проверяет, что объект сможет извлечь единичный файл.
+     */
+    public function testExtractEntityByFileName(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
+        $testDestination = $this->getPathToTestDir('testExtractEntity');
+        $entityName = 'nested/nested_file.txt';
+
+        $zipUnpack = new UnpackerZip();
+        $path = $zipUnpack->extractEntity(
+            new \SplFileInfo($testArchive),
+            $entityName,
+            new \SplFileInfo($testDestination)
+        );
+
+        $this->assertStringStartsWith($testDestination, $path);
+        $this->assertFileExists($path);
+        $this->assertSame('nested_file', trim(file_get_contents($path)));
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение при попытке распаковать несуществующий файл.
+     */
+    public function testExtractEntityNonExistedException(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
+        $testDestination = $this->getPathToTestDir('testExtractEntity');
+        $entityName = 'non_existed';
+
+        $zipUnpack = new UnpackerZip();
+
+        $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't find entity");
+        $zipUnpack->extractEntity(
+            new \SplFileInfo($testArchive),
+            $entityName,
+            new \SplFileInfo($testDestination)
+        );
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение при попытке распаковать файл в несуществующий каталог.
+     */
+    public function testExtractEntityBadDestinationException(): void
+    {
+        $testArchive = __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip';
+        $testDestination = '/unexisted';
+        $entityName = 'nested/nested_file.txt';
+
+        $zipUnpack = new UnpackerZip();
+
+        $this->expectException(UnpackerException::class);
+        $this->expectExceptionMessage("Can't extract entity");
+        $zipUnpack->extractEntity(
+            new \SplFileInfo($testArchive),
+            $entityName,
+            new \SplFileInfo($testDestination)
+        );
+    }
+
+    /**
+     * Проверяет, что объект правильно определит является ли файл архивом или нет.
+     *
+     * @dataProvider provideIsArchive
+     */
+    public function testIsArchive(string $file, bool $awaits): void
+    {
+        $zipUnpack = new UnpackerZip();
+
+        $isArchive = $zipUnpack->isArchive(new \SplFileInfo($file));
+
+        $this->assertSame($awaits, $isArchive);
+    }
+
+    public function provideIsArchive(): array
+    {
+        return [
+            'is archive' => [
+                __DIR__ . '/_fixtures/UnpackerZipTest/testUnpack.zip',
+                true,
+            ],
+            'is not archive' => [
+                __DIR__ . '/_fixtures/UnpackerZipTest/testIsArchive_notArchive.zip',
+                false,
+            ],
+        ];
+    }
+}

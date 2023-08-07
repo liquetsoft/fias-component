@@ -15,11 +15,28 @@ interface Unpacker
      * Извлекает данные из указанного в первом параметре архива по
      * указанному во втором параметре пути.
      *
-     * @param \SplFileInfo $source
-     * @param \SplFileInfo $destination
-     *
-     * @throws \InvalidArgumentException
      * @throws UnpackerException
      */
-    public function unpack(\SplFileInfo $source, \SplFileInfo $destination): void;
+    public function unpack(\SplFileInfo $archive, \SplFileInfo $destination): void;
+
+    /**
+     * Возвращает список файлов, содержащихсяв архиве.
+     *
+     * @return UnpackerEntity[]
+     *
+     * @throws UnpackerException
+     */
+    public function getListOfFiles(\SplFileInfo $archive): array;
+
+    /**
+     * Извлекает указанный файл или папку в указанную папку назначения и возвращает полный путь.
+     *
+     * @throws UnpackerException
+     */
+    public function extractEntity(\SplFileInfo $archive, string $entityName, \SplFileInfo $destination): string;
+
+    /**
+     * Возвращает правду, если файл является валидным архивом.
+     */
+    public function isArchive(\SplFileInfo $archive): bool;
 }

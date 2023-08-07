@@ -4,43 +4,43 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Pipeline\State\State;
-use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Marvin255\FileSystemHelper\FileSystemFactory;
-use Marvin255\FileSystemHelper\FileSystemHelperInterface;
-use Psr\Log\LogLevel;
+use Liquetsoft\Fias\Component\Pipeline\PipelineState;
+use Liquetsoft\Fias\Component\Pipeline\PipelineStateParam;
+use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAware;
+use Liquetsoft\Fias\Component\Pipeline\PipelineTaskLogAwareTrait;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 
 /**
- * Задача, которая удаляет все временные файлы, полученные во время импорта.
+ * Задача, которая очищает временные файлы после работы пайплайна.
  */
-class CleanupTask implements LoggableTask, Task
+final class CleanupTask implements PipelineTaskLogAware
 {
-    use LoggableTaskTrait;
+    use PipelineTaskLogAwareTrait;
 
-    private FileSystemHelperInterface $fs;
-
-    public function __construct()
+    public function __construct(private readonly FileSystemHelper $fs)
     {
-        $this->fs = FileSystemFactory::create();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function run(State $state): void
+    public function run(PipelineState $state): PipelineState
     {
         $toRemove = [
-            $state->getParameter(StateParameter::DOWNLOAD_TO_FILE),
-            $state->getParameter(StateParameter::EXTRACT_TO_FOLDER),
+            $state->get(PipelineStateParam::DOWNLOAD_TO_FILE),
+            $state->get(PipelineStateParam::EXTRACT_TO_FOLDER),
         ];
 
-        $toRemove = array_diff($toRemove, [null]);
-
-        foreach ($toRemove as $fileInfo) {
-            if ($fileInfo instanceof \SplFileInfo) {
-                $this->log(LogLevel::INFO, "Cleaning up '{$fileInfo->getPathname()}' folder.");
-                $this->fs->removeIfExists($fileInfo);
+        foreach ($toRemove as $path) {
+            if (\is_string($path)) {
+                $this->fs->removeIfExists($path);
+                $this->logInfo('Path cleaned', ['path' => $path]);
+            } elseif ($path instanceof \SplFileInfo) {
+                $this->fs->removeIfExists($path);
+                $this->logInfo('Path cleaned', ['path' => $path->getPathname()]);
             }
         }
+
+        return $state;
     }
 }
