@@ -383,6 +383,11 @@ class FiasEntityImplTest extends BaseCase
                 'AS_NORMATIVE_DOCS_PARAMS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML',
                 false,
             ],
+            'empty string' => [
+                '',
+                'AS_NORMATIVE_DOCS_PARAMS_20210909_04eb2443-d30d-4e39-8e69-78143490027f.XML',
+                false,
+            ],
         ];
     }
 

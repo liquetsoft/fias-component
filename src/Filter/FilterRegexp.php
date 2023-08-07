@@ -9,8 +9,10 @@ namespace Liquetsoft\Fias\Component\Filter;
  */
 final class FilterRegexp implements Filter
 {
-    public function __construct(private readonly string $regexp)
-    {
+    public function __construct(
+        /** @psalm-var non-empty-string */
+        private readonly string $regexp
+    ) {
     }
 
     /**

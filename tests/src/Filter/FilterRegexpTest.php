@@ -17,6 +17,8 @@ class FilterRegexpTest extends BaseCase
     /**
      * Проверяет, что объет правильно отфильтрует данные.
      *
+     * @psalm-param non-empty-string $regexp
+     *
      * @dataProvider provideTestData
      */
     public function testTest(string $regexp, object|string|int $testedObject, bool $result): void

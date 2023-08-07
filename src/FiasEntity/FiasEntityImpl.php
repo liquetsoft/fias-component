@@ -152,6 +152,10 @@ final class FiasEntityImpl implements FiasEntity
      */
     private function isFileNameFitsMask(string $fileName, string $mask): bool
     {
+        if (empty($mask)) {
+            return false;
+        }
+
         if (preg_match('/(^\/.+\/$)|(^#.*#$)/', $mask)) {
             $pattern = $mask;
         } else {
