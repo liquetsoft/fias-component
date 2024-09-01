@@ -52,7 +52,7 @@ class SaveFiasFilesTask implements LoggableTask, Task
         foreach ($this->movePaths as $paramName => $movePath) {
             $fileInfo = $state->getParameter($paramName);
             if ($fileInfo instanceof \SplFileInfo) {
-                $message = sprintf("Moving '%s' to '%s'.", $fileInfo->getRealPath(), $movePath);
+                $message = \sprintf("Moving '%s' to '%s'.", $fileInfo->getRealPath(), $movePath);
                 $this->log(LogLevel::INFO, $message);
                 $this->fs->rename($fileInfo, $movePath);
             }

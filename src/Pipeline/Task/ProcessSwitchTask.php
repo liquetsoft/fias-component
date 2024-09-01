@@ -36,7 +36,7 @@ class ProcessSwitchTask implements LoggableTask, Task
         FilesDispatcher $filesDispatcher,
         string $pathToBin,
         string $commandName,
-        int $numberOfParallel = 5
+        int $numberOfParallel = 5,
     ) {
         $this->filesDispatcher = $filesDispatcher;
         $this->pathToBin = $pathToBin;

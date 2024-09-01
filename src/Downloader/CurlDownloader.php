@@ -70,7 +70,7 @@ class CurlDownloader implements Downloader
         fclose($options[\CURLOPT_FILE]);
 
         if ($response->hasError()) {
-            $message = sprintf(
+            $message = \sprintf(
                 "There was an error while downloading '%s': %s.",
                 $url,
                 (string) $response->getError()
@@ -83,7 +83,7 @@ class CurlDownloader implements Downloader
             if ($response->getStatusCode() !== 0) {
                 $status = $response->getStatusCode();
             }
-            $message = sprintf(
+            $message = \sprintf(
                 "Url '%s' returned status: %s.",
                 $url,
                 $status
@@ -127,7 +127,7 @@ class CurlDownloader implements Downloader
         $hLocal = @fopen($localFile->getPathname(), $mode);
 
         if ($hLocal === false) {
-            $message = sprintf(
+            $message = \sprintf(
                 "Can't open local file for writing: %s.",
                 $localFile->getPathname()
             );

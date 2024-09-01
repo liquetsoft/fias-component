@@ -41,7 +41,7 @@ class ZipUnpacker implements Unpacker
             $zip->close();
         } else {
             throw new \RuntimeException(
-                sprintf("Can't open '%s' zip archive file.", $filePath)
+                \sprintf("Can't open '%s' zip archive file.", $filePath)
             );
         }
     }

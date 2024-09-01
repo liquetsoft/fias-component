@@ -98,7 +98,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
         $path = trim($this->pathToSource);
 
         if (!file_exists($path) || !is_readable($path)) {
-            $message = sprintf(
+            $message = \sprintf(
                 "File '%s' for php entity registry must exists and be readable.",
                 $this->pathToSource
             );
@@ -107,7 +107,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
 
         $extension = pathinfo($path, \PATHINFO_EXTENSION);
         if ($extension !== 'php') {
-            $message = sprintf(
+            $message = \sprintf(
                 "File '%s' must has 'php' extension, got '%s'.",
                 $this->pathToSource,
                 $extension

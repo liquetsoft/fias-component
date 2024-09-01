@@ -77,7 +77,7 @@ class ArrayPipe implements Pipe
      */
     protected function proceedStart(State $state): void
     {
-        $message = sprintf(
+        $message = \sprintf(
             "Start '%s' pipeline with '%s' state.",
             \get_class($this),
             \get_class($state)
