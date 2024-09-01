@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Liquetsoft\Fias\Component\Downloader\CurlDownloader;
 use Liquetsoft\Fias\Component\Downloader\DownloaderImpl;
 use Liquetsoft\Fias\Component\Helper\PathHelper;
 use Liquetsoft\Fias\Component\HttpTransport\HttpTransportCurl;
