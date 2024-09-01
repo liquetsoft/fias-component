@@ -36,7 +36,7 @@ class EntityFileDispatcherTest extends BaseCase
         $this->assertSame($expected, $dispatchedFiles);
     }
 
-    public function dispatchProvider(): array
+    public static function dispatchProvider(): array
     {
         $pathToFixtures = __DIR__ . '/_fixtures';
 

@@ -22,7 +22,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     public function __construct(?string $pathToSource = null)
     {
-        $this->pathToSource = $pathToSource ?: PathHelper::resource('fias_entities.php');
+        $this->pathToSource = $pathToSource ?? PathHelper::resource('fias_entities.php');
     }
 
     /**

@@ -116,7 +116,7 @@ class PhpArrayFileRegistryTest extends BaseCase
      */
     protected function createRegistry(?string $fileName = null): PhpArrayFileRegistry
     {
-        $fileName = $fileName ?: __DIR__ . '/_fixtures/registryTest.php';
+        $fileName = $fileName ?? __DIR__ . '/_fixtures/createRegistry.php';
 
         return new PhpArrayFileRegistry($fileName);
     }

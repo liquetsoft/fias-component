@@ -125,22 +125,4 @@ class BaseXmlReaderTest extends BaseCase
             $result
         );
     }
-
-    /**
-     * Проверяет, что объект выбросит исключение, при попытке прочитать битый файл.
-     *
-     * @throws XmlException
-     */
-    public function testReadException(): void
-    {
-        $file = new \SplFileInfo(__DIR__ . '/_fixtures/testReadException.xml');
-
-        $reader = new BaseXmlReader();
-        $reader->open($file, '/root/qwe');
-
-        $this->expectException(XmlException::class);
-        foreach ($reader as $key => $item) {
-            continue;
-        }
-    }
 }

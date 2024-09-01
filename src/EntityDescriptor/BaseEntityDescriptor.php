@@ -228,6 +228,10 @@ class BaseEntityDescriptor implements EntityDescriptor
      */
     protected function isFileNameFitsMask(string $fileName, string $mask): bool
     {
+        if ($mask === '') {
+            return false;
+        }
+
         if (preg_match('/^(\/.+\/)|(#.*#)[a-z]*$/', $mask)) {
             $pattern = $mask;
         } else {

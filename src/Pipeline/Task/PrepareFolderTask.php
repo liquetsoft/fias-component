@@ -32,7 +32,7 @@ class PrepareFolderTask implements LoggableTask, Task
         $trimmedFolder = rtrim(trim($folder, " \t\n\r\0\x0B"), '/');
         $parent = realpath(\dirname($trimmedFolder));
 
-        if (!$parent || !is_dir($parent) || !is_writable($parent)) {
+        if ($parent === false || !is_dir($parent) || !is_writable($parent)) {
             throw new \InvalidArgumentException(
                 "'{$parent}' folder doesn't exist or isn't writable."
             );

@@ -43,7 +43,7 @@ class RegexpFilter implements Filter
 
         $isTested = false;
         foreach ($this->regexps as $regexp) {
-            if (preg_match($regexp, $testData)) {
+            if ($regexp !== '' && preg_match($regexp, $testData)) {
                 $isTested = true;
                 break;
             }

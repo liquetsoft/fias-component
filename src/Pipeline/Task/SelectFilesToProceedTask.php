@@ -133,7 +133,7 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     {
         $descriptor = $this->entityManager->getDescriptorByInsertFile($fileInfo->getFilename());
 
-        return !empty($descriptor) && $this->entityManager->getClassByDescriptor($descriptor);
+        return $descriptor !== null && $this->entityManager->getClassByDescriptor($descriptor) !== null;
     }
 
     /**
@@ -147,6 +147,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     {
         $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileInfo->getFilename());
 
-        return !empty($descriptor) && $this->entityManager->getClassByDescriptor($descriptor);
+        return $descriptor !== null && $this->entityManager->getClassByDescriptor($descriptor) !== null;
     }
 }

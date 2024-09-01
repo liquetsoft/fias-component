@@ -90,7 +90,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
     protected function processFile(\SplFileInfo $fileInfo, EntityDescriptor $descriptor): void
     {
         $entityClass = $this->entityManager->getClassByDescriptor($descriptor);
-        if ($entityClass) {
+        if ($entityClass !== null && $entityClass !== '') {
             $this->processDataFromFile($fileInfo, $descriptor->getXmlPath(), $entityClass);
             gc_collect_cycles();
         }

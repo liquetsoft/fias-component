@@ -128,7 +128,9 @@ class BaseEntityManager implements EntityManager
             }
         }
 
-        return $entityName ? $this->getDescriptorByEntityName($entityName) : null;
+        return $entityName !== null && $entityName !== ''
+            ? $this->getDescriptorByEntityName($entityName)
+            : null;
     }
 
     /**

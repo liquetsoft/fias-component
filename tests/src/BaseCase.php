@@ -132,7 +132,7 @@ abstract class BaseCase extends TestCase
      */
     protected function tearDown(): void
     {
-        if ($this->tempDir) {
+        if ($this->tempDir !== null) {
             $this->fs()->remove($this->tempDir);
         }
 

@@ -40,9 +40,7 @@ class TruncateTaskTest extends BaseCase
         $storage->expects($this->once())->method('stop');
         $storage->method('supportsClass')
             ->willReturnCallback(
-                function (string $className) use (&$insertedData) {
-                    return $className === 'Test\Class2';
-                }
+                fn (string $className): bool => $className === 'Test\Class2'
             );
         $storage->method('truncate')
             ->willReturnCallback(
