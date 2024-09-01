@@ -166,4 +166,20 @@ abstract class BaseCase extends TestCase
 
         return $state;
     }
+
+    /**
+     * @template T
+     *
+     * @param class-string<T> $className
+     *
+     * @return MockObject&T
+     */
+    protected function mock(string $className): MockObject
+    {
+        $mock = $this->getMockBuilder($className)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        return $mock;
+    }
 }
