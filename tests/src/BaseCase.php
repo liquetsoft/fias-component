@@ -6,6 +6,8 @@ namespace Liquetsoft\Fias\Component\Tests;
 
 use Faker\Factory;
 use Faker\Generator;
+use Liquetsoft\Fias\Component\Exception\HttpTransportException;
+use Liquetsoft\Fias\Component\HttpTransport\HttpTransportResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Marvin255\FileSystemHelper\FileSystemException;
 use Marvin255\FileSystemHelper\FileSystemFactory;
@@ -18,6 +20,9 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class BaseCase extends TestCase
 {
+    protected const STATUS_OK = 200;
+    protected const STATUS_SERVER_ERROR = 500;
+
     private ?Generator $faker = null;
 
     private ?FileSystemHelperInterface $fs = null;
@@ -181,5 +186,50 @@ abstract class BaseCase extends TestCase
             ->getMock();
 
         return $mock;
+    }
+
+    /**
+     * Создает мок с ответом 200.
+     *
+     * @return HttpTransportResponse&MockObject
+     */
+    protected function createOkResponseMock(string|array $payload = '', bool $isJson = false): HttpTransportResponse
+    {
+        return $this->createResponseMock(self::STATUS_OK, [], $payload, $isJson);
+    }
+
+    /**
+     * Создает мок с ответом 200.
+     *
+     * @return HttpTransportResponse&MockObject
+     */
+    protected function createBadResponseMock(): HttpTransportResponse
+    {
+        return $this->createResponseMock(self::STATUS_SERVER_ERROR);
+    }
+
+    /**
+     * Создает для http ответа.
+     *
+     * @return HttpTransportResponse&MockObject
+     */
+    protected function createResponseMock(int $status, array $headers = [], string|array $payload = '', bool $isJson = false): HttpTransportResponse
+    {
+        $response = $this->mock(HttpTransportResponse::class);
+        $response->method('getStatusCode')->willReturn($status);
+        $response->method('isOk')->willReturn($status < 300 && $status >= 200);
+        $response->method('getHeaders')->willReturn($headers);
+        $response->method('isRangeSupported')->willReturn(($headers['accept-ranges'] ?? '') === 'bytes');
+        $response->method('getContentLength')->willReturn((int) ($headers['content-length'] ?? 0));
+        $response->method('getPayload')->willReturn(\is_string($payload) ? $payload : json_encode($payload));
+        if (\is_array($payload) || $isJson) {
+            $response->method('getJsonPayload')->willReturn($payload);
+        } else {
+            $response->method('getJsonPayload')->willThrowException(
+                new HttpTransportException('Malformed json')
+            );
+        }
+
+        return $response;
     }
 }

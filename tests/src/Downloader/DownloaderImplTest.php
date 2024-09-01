@@ -21,8 +21,6 @@ class DownloaderImplTest extends BaseCase
     private const URL = 'https://test.ru/test.zip';
     private const METHOD_HEAD = 'head';
     private const METHOD_DOWNLOAD = 'download';
-    private const STATUS_OK = 200;
-    private const STATUS_SERVER_ERROR = 500;
 
     /**
      * Проверяет обычную загрузку.
@@ -298,42 +296,5 @@ class DownloaderImplTest extends BaseCase
         }
 
         return $this->createResponseMock(200, $headers);
-    }
-
-    /**
-     * Создает мок с ответом 200.
-     *
-     * @return HttpTransportResponse&MockObject
-     */
-    private function createOkResponseMock(): HttpTransportResponse
-    {
-        return $this->createResponseMock(self::STATUS_OK);
-    }
-
-    /**
-     * Создает мок с ответом 200.
-     *
-     * @return HttpTransportResponse&MockObject
-     */
-    private function createBadResponseMock(): HttpTransportResponse
-    {
-        return $this->createResponseMock(self::STATUS_SERVER_ERROR);
-    }
-
-    /**
-     * Создает мок для http ответа.
-     *
-     * @return HttpTransportResponse&MockObject
-     */
-    private function createResponseMock(int $status, array $headers = []): HttpTransportResponse
-    {
-        $response = $this->mock(HttpTransportResponse::class);
-        $response->method('getStatusCode')->willReturn($status);
-        $response->method('isOk')->willReturn($status < 300 && $status >= 200);
-        $response->method('getHeaders')->willReturn($headers);
-        $response->method('isRangeSupported')->willReturn(($headers['accept-ranges'] ?? '') === 'bytes');
-        $response->method('getContentLength')->willReturn((int) ($headers['content-length'] ?? 0));
-
-        return $response;
     }
 }
