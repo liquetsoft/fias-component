@@ -17,17 +17,15 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
  *
  * @internal
  */
-class VersionGetTaskTest extends BaseCase
+final class VersionGetTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект получает версию ФИАС и записывает в состояние.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
-        $version = $this->createFakeData()->numberBetween(1, 123);
-        $url = $this->createFakeData()->url();
+        $version = 10;
+        $url = 'https://test.test/test';
 
         $response = $this->mock(FiasInformerResponse::class);
         $response->method('getVersion')->willReturn($version);
@@ -40,8 +38,9 @@ class VersionGetTaskTest extends BaseCase
 
         $task = new VersionGetTask($versionManager);
         $task->run($state);
+        $res = $state->getParameter(StateParameter::FIAS_VERSION_NUMBER);
 
-        $this->assertSame($version, $state->getParameter(StateParameter::FIAS_VERSION));
+        $this->assertSame($version, $res);
     }
 
     /**

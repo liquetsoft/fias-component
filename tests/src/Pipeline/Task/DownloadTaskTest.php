@@ -15,7 +15,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class DownloadTaskTest extends BaseCase
+final class DownloadTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно загружает ссылку.

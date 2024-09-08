@@ -16,6 +16,14 @@ final class FiasInformerResponseFactory
     }
 
     /**
+     * Создает объект для версии, используя данные версии.
+     */
+    public static function create(int $version, string $fullUrl = '', string $deltaUrl = ''): FiasInformerResponse
+    {
+        return new FiasInformerResponseImpl($version, $fullUrl, $deltaUrl);
+    }
+
+    /**
      * Создает объект для версии, используя json ответ от сервиса.
      */
     public static function createFromJson(array $data): FiasInformerResponse

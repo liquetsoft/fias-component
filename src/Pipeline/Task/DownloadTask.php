@@ -14,7 +14,7 @@ use Psr\Log\LogLevel;
  * Задача, которая скачивает архив из текущего состояния по ссылке
  * в указанный в состоянии локальный файл.
  */
-class DownloadTask implements LoggableTask, Task
+final class DownloadTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 

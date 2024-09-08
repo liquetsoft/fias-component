@@ -14,8 +14,24 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class FiasInformerResponseFactoryTest extends BaseCase
+final class FiasInformerResponseFactoryTest extends BaseCase
 {
+    /**
+     * Проверяет метод, который создает ответ по данным версии.
+     */
+    public function testCreate(): void
+    {
+        $version = 123;
+        $fullUrl = 'https://test.test/full';
+        $deltaUrl = 'https://test.test/delta';
+
+        $res = FiasInformerResponseFactory::create($version, $fullUrl, $deltaUrl);
+
+        $this->assertSame($version, $res->getVersion());
+        $this->assertSame($fullUrl, $res->getFullUrl());
+        $this->assertSame($deltaUrl, $res->getDeltaUrl());
+    }
+
     /**
      * Проверяет метод, который создает ответ по массиву из json ответа.
      *

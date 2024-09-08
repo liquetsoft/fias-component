@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
 /**
  * Задача, которая получает текущую версию ФИАС из менеджера версий.
  */
-class VersionGetTask implements Task
+final class VersionGetTask implements Task
 {
     public function __construct(private readonly VersionManager $versionManager)
     {
@@ -29,6 +29,6 @@ class VersionGetTask implements Task
             throw TaskException::create('There is no version of FIAS installed');
         }
 
-        $state->setAndLockParameter(StateParameter::FIAS_VERSION, $version->getVersion());
+        $state->setAndLockParameter(StateParameter::FIAS_VERSION_NUMBER, $version->getVersion());
     }
 }

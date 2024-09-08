@@ -15,25 +15,18 @@ use Liquetsoft\Fias\Component\VersionManager\VersionManager;
  *
  * @internal
  */
-class VersionSetTaskTest extends BaseCase
+final class VersionSetTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект получает версию ФИАС и передает в менеджер версий.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
-        $version = $this->createFakeData()->numberBetween(1, 123);
-        $url = $this->createFakeData()->url();
-
-        $response = $this->mock(FiasInformerResponse::class);
-        $response->method('getVersion')->willReturn($version);
-        $response->method('getFullUrl')->willReturn($url);
+        $version = 123;
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::FIAS_INFO => $response,
+                StateParameter::FIAS_VERSION_NUMBER->value => $version,
             ]
         );
 
@@ -41,7 +34,9 @@ class VersionSetTaskTest extends BaseCase
         $versionManager->expects($this->once())
             ->method('setCurrentVersion')
             ->with(
-                $this->equalTo($response)
+                $this->callback(
+                    fn (FiasInformerResponse $r): bool => $r->getVersion() === $version
+                )
             );
 
         $task = new VersionSetTask($versionManager);
@@ -51,8 +46,6 @@ class VersionSetTaskTest extends BaseCase
 
     /**
      * Проверяет, что объект ничего не запишет, если параметра с результатом нет.
-     *
-     * @throws \Exception
      */
     public function testRunNoResultParameter(): void
     {
