@@ -20,8 +20,6 @@ final class InformFullTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно получает ссылку.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
