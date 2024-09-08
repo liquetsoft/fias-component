@@ -13,12 +13,10 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class SaveFiasFilesTaskTest extends BaseCase
+final class SaveFiasFilesTaskTest extends BaseCase
 {
     /**
      * Проверяет, что задача создает все папки и передает в состояние.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -32,8 +30,8 @@ class SaveFiasFilesTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::DOWNLOAD_TO_FILE => new \SplFileInfo($sourceFile),
-                StateParameter::EXTRACT_TO_FOLDER => new \SplFileInfo($sourceDir),
+                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourceFile,
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $sourceDir,
             ]
         );
 

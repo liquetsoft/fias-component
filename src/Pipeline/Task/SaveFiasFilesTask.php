@@ -14,29 +14,16 @@ use Psr\Log\LogLevel;
  * Задача, которая перемещает загруженные и распакованные файлы ФИАС
  * по указанному адресу.
  */
-class SaveFiasFilesTask implements LoggableTask, Task
+final class SaveFiasFilesTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    /**
-     * @var array<string, string>
-     */
-    protected array $movePaths;
+    private readonly FileSystemHelperInterface $fs;
 
-    private FileSystemHelperInterface $fs;
-
-    public function __construct(?string $moveArchiveTo, ?string $moveExtractedTo)
-    {
-        $this->movePaths = [];
-
-        if ($moveArchiveTo !== null) {
-            $this->movePaths[StateParameter::DOWNLOAD_TO_FILE] = $moveArchiveTo;
-        }
-
-        if ($moveExtractedTo !== null) {
-            $this->movePaths[StateParameter::EXTRACT_TO_FOLDER] = $moveExtractedTo;
-        }
-
+    public function __construct(
+        private readonly ?string $moveArchiveTo,
+        private readonly ?string $moveExtractedTo,
+    ) {
         $this->fs = FileSystemFactory::create();
     }
 
@@ -45,13 +32,18 @@ class SaveFiasFilesTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        foreach ($this->movePaths as $paramName => $movePath) {
-            $fileInfo = $state->getParameter($paramName);
-            if ($fileInfo instanceof \SplFileInfo) {
-                $message = \sprintf("Moving '%s' to '%s'.", $fileInfo->getRealPath(), $movePath);
-                $this->log(LogLevel::INFO, $message);
-                $this->fs->rename($fileInfo, $movePath);
-            }
+        $movePaths = [];
+        if ($this->moveArchiveTo !== null) {
+            $movePaths[StateParameter::PATH_TO_DOWNLOAD_FILE->value] = $this->moveArchiveTo;
+        }
+        if ($this->moveExtractedTo !== null) {
+            $movePaths[StateParameter::PATH_TO_EXTRACT_FOLDER->value] = $this->moveExtractedTo;
+        }
+
+        foreach ($movePaths as $paramName => $moveTo) {
+            $moveFrom = $state->getParameter(StateParameter::from($paramName));
+            $this->log(LogLevel::INFO, "Moving '{$moveFrom}' to '{$moveTo}'");
+            $this->fs->rename($moveFrom, $moveTo);
         }
     }
 }
