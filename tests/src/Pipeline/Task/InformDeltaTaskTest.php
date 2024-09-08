@@ -26,11 +26,13 @@ final class InformDeltaTaskTest extends BaseCase
     {
         $oldVersion = 122;
         $version = 123;
-        $url = 'http://test.test/test';
+        $fullUrl = 'https://test.test/full';
+        $deltaUrl = 'https://test.test/delta';
 
         $informerResult = $this->mock(FiasInformerResponse::class);
         $informerResult->expects($this->any())->method('getVersion')->willReturn($version);
-        $informerResult->expects($this->any())->method('getDeltaUrl')->willReturn($url);
+        $informerResult->expects($this->any())->method('getDeltaUrl')->willReturn($deltaUrl);
+        $informerResult->expects($this->any())->method('getFullUrl')->willReturn($fullUrl);
 
         $informer = $this->mock(FiasInformer::class);
         $informer->expects($this->once())
@@ -49,7 +51,7 @@ final class InformDeltaTaskTest extends BaseCase
         $resUrl = $state->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
 
         $this->assertSame($version, $resVersion);
-        $this->assertSame($url, $resUrl);
+        $this->assertSame($deltaUrl, $resUrl);
     }
 
     /**
