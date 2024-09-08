@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Downloader\Downloader;
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
@@ -15,18 +14,12 @@ use Psr\Log\LogLevel;
  * Задача, которая скачивает архив из текущего состояния по ссылке
  * в указанный в состоянии локальный файл.
  */
-class DownloadTask implements LoggableTask, Task
+final class DownloadTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected Downloader $downloader;
-
-    /**
-     * @param Downloader $downloader
-     */
-    public function __construct(Downloader $downloader)
+    public function __construct(private readonly Downloader $downloader)
     {
-        $this->downloader = $downloader;
     }
 
     /**
@@ -34,25 +27,18 @@ class DownloadTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $info = $state->getParameter(StateParameter::FIAS_INFO);
-        if (!($info instanceof InformerResponse)) {
-            throw new TaskException(
-                "State parameter '" . StateParameter::FIAS_INFO . "' must be an '" . InformerResponse::class . "' instance for '" . self::class . "'."
-            );
+        $url = $state->getParameterString(StateParameter::FIAS_VERSION_ARCHIVE_URL);
+        if ($url === '') {
+            throw TaskException::create("FIAS archive url isn't set");
         }
 
-        $localFile = $state->getParameter(StateParameter::DOWNLOAD_TO_FILE);
-        if (!($localFile instanceof \SplFileInfo)) {
-            throw new TaskException(
-                "State parameter '" . StateParameter::DOWNLOAD_TO_FILE . "' must be an '" . \SplFileInfo::class . "' instance for '" . self::class . "'."
-            );
+        $filePath = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
+        if ($filePath === '') {
+            throw TaskException::create("Download file path isn't set");
         }
 
-        $this->log(
-            LogLevel::INFO,
-            "Downloading '{$info->getUrl()}' to '{$localFile->getPathname()}'."
-        );
+        $this->log(LogLevel::INFO, "Downloading '{$url}' to '{$filePath}'");
 
-        $this->downloader->download($info->getUrl(), $localFile);
+        $this->downloader->download($url, new \SplFileInfo($filePath));
     }
 }

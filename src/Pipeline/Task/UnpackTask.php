@@ -13,18 +13,12 @@ use Psr\Log\LogLevel;
 /**
  * Задача, которая распаковывает архив из файла в папку, указанные в состоянии.
  */
-class UnpackTask implements LoggableTask, Task
+final class UnpackTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected Unpacker $unpacker;
-
-    /**
-     * @param Unpacker $unpacker
-     */
-    public function __construct(Unpacker $unpacker)
+    public function __construct(private readonly Unpacker $unpacker)
     {
-        $this->unpacker = $unpacker;
     }
 
     /**
@@ -32,25 +26,21 @@ class UnpackTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $source = $state->getParameter(StateParameter::DOWNLOAD_TO_FILE);
-        if (!($source instanceof \SplFileInfo)) {
-            throw new TaskException(
-                "State parameter '" . StateParameter::DOWNLOAD_TO_FILE . "' must be an '" . \SplFileInfo::class . "' instance for '" . self::class . "'."
-            );
+        $source = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
+        if ($source === '') {
+            throw new TaskException('Source path must be a non empty string');
         }
 
-        $destination = $state->getParameter(StateParameter::EXTRACT_TO_FOLDER);
-        if (!($destination instanceof \SplFileInfo)) {
-            throw new TaskException(
-                "State parameter '" . StateParameter::EXTRACT_TO_FOLDER . "' must be an '" . \SplFileInfo::class . "' instance for '" . self::class . "'."
-            );
+        $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
+        if ($destination === '') {
+            throw new TaskException('Destination path must be a non empty string');
         }
 
-        $this->log(
-            LogLevel::INFO,
-            "Extracting '{$source->getRealPath()}' to '{$destination->getPathname()}'."
+        $this->log(LogLevel::INFO, "Extracting '{$source}' to '{$destination}'");
+
+        $this->unpacker->unpack(
+            new \SplFileInfo($source),
+            new \SplFileInfo($destination)
         );
-
-        $this->unpacker->unpack($source, $destination);
     }
 }

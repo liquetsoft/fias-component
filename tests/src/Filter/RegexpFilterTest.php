@@ -26,7 +26,6 @@ class RegexpFilterTest extends BaseCase
     /**
      * @param string[]      $regexps
      * @param object|string $testedObject
-     * @param bool          $result
      *
      * @dataProvider provideTestData
      */
@@ -38,7 +37,7 @@ class RegexpFilterTest extends BaseCase
         $this->assertSame($result, $testResult);
     }
 
-    public function provideTestData(): array
+    public static function provideTestData(): array
     {
         return [
             'positive case' => [

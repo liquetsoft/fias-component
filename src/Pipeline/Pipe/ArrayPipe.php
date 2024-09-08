@@ -72,12 +72,10 @@ class ArrayPipe implements Pipe
 
     /**
      * Обработка запуска очереди.
-     *
-     * @param State $state
      */
     protected function proceedStart(State $state): void
     {
-        $message = sprintf(
+        $message = \sprintf(
             "Start '%s' pipeline with '%s' state.",
             \get_class($this),
             \get_class($state)
@@ -88,9 +86,6 @@ class ArrayPipe implements Pipe
 
     /**
      * Запускает задачу на исполнение.
-     *
-     * @param State $state
-     * @param Task  $task
      *
      * @throws \Exception
      */
@@ -121,10 +116,6 @@ class ArrayPipe implements Pipe
     /**
      * Обрабатывает исключение во время работы очереди.
      *
-     * @param Task       $task
-     * @param State      $state
-     * @param \Throwable $e
-     *
      * @throws PipeException
      */
     protected function proceedException(State $state, Task $task, \Throwable $e): void
@@ -148,8 +139,6 @@ class ArrayPipe implements Pipe
     /**
      * Обработка завершения задачи.
      *
-     * @param State $state
-     *
      * @throws \Exception
      */
     protected function proceedCleanup(State $state): void
@@ -164,8 +153,6 @@ class ArrayPipe implements Pipe
 
     /**
      * Обработка завершения очереди.
-     *
-     * @param State $state
      */
     protected function proceedComplete(State $state): void
     {
@@ -175,10 +162,6 @@ class ArrayPipe implements Pipe
 
     /**
      * Записывает в лог данные.
-     *
-     * @param string $level
-     * @param string $message
-     * @param array  $context
      */
     protected function log(string $level, string $message, array $context = []): void
     {
@@ -190,8 +173,6 @@ class ArrayPipe implements Pipe
 
     /**
      * Добавляет объект для записи логов в операцию, если операция это поддерживает.
-     *
-     * @param Task $task
      */
     protected function injectLoggerToTask(Task $task): void
     {
@@ -209,10 +190,6 @@ class ArrayPipe implements Pipe
 
     /**
      * Возвращает контекст для записи логов по умолчанию.
-     *
-     * @param array $currentContext
-     *
-     * @return array
      */
     protected function createLoggerContext(array $currentContext = []): array
     {
@@ -226,8 +203,6 @@ class ArrayPipe implements Pipe
 
     /**
      * Проверяет все объекты массива на типы и возвращает его.
-     *
-     * @param iterable $tasks
      *
      * @return Task[]
      *
@@ -251,10 +226,6 @@ class ArrayPipe implements Pipe
 
     /**
      * Возвращает идентификатор операции.
-     *
-     * @param Task $task
-     *
-     * @return string
      */
     protected function getTaskId(Task $task): string
     {

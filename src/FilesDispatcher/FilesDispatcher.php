@@ -13,7 +13,6 @@ interface FilesDispatcher
      * Разбивает список файлов по потокам.
      *
      * @param string[] $files
-     * @param int      $processesCount
      *
      * @return string[][]
      */

@@ -14,57 +14,33 @@ interface EntityManager
 {
     /**
      * Возвращает дескриптор для сущности по имени сущности из ФИАС.
-     *
-     * @param string $entityName
-     *
-     * @return EntityDescriptor|null
      */
     public function getDescriptorByEntityName(string $entityName): ?EntityDescriptor;
 
     /**
      * Ищет класс реализации сущности для указанного дескриптора.
-     *
-     * @param EntityDescriptor $descriptor
-     *
-     * @return string|null
      */
     public function getClassByDescriptor(EntityDescriptor $descriptor): ?string;
 
     /**
      * Возвращает дескриптор сущности, которая соответствует файлу с данными для загрузки.
-     *
-     * @param string $insertFileName
-     *
-     * @return EntityDescriptor|null
      */
     public function getDescriptorByInsertFile(string $insertFileName): ?EntityDescriptor;
 
     /**
      * Возвращает дескриптор сущности, которая соответствует файлу с данными для удаления.
-     *
-     * @param string $insertFileName
-     *
-     * @return EntityDescriptor|null
      */
     public function getDescriptorByDeleteFile(string $insertFileName): ?EntityDescriptor;
 
     /**
      * Возвращает дескриптор сущности, к которой относится указанный класс.
-     *
-     * @param string $className
-     *
-     * @return EntityDescriptor|null
      */
     public function getDescriptorByClass(string $className): ?EntityDescriptor;
 
     /**
      * Возвращает дескриптор сущности, к которой относится указанный объект.
-     *
-     * @param mixed $object
-     *
-     * @return EntityDescriptor|null
      */
-    public function getDescriptorByObject($object): ?EntityDescriptor;
+    public function getDescriptorByObject(mixed $object): ?EntityDescriptor;
 
     /**
      * Возвращает список имен классов, у которых есть отношения к сущностям ФИАС.

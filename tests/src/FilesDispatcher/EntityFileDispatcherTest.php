@@ -21,7 +21,6 @@ class EntityFileDispatcherTest extends BaseCase
      * Проверяет, что объект правильно разбивает на потоки файлы.
      *
      * @param string[]   $files
-     * @param int        $processCount
      * @param string[][] $expected
      *
      * @dataProvider dispatchProvider
@@ -36,7 +35,7 @@ class EntityFileDispatcherTest extends BaseCase
         $this->assertSame($expected, $dispatchedFiles);
     }
 
-    public function dispatchProvider(): array
+    public static function dispatchProvider(): array
     {
         $pathToFixtures = __DIR__ . '/_fixtures';
 

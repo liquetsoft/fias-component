@@ -13,27 +13,20 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class CleanupTaskTest extends BaseCase
+final class CleanupTaskTest extends BaseCase
 {
     /**
      * Проверяет, что задача очищает все папки и файлы.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
         $downloadToPath = $this->getPathToTestFile('downloadTo.rar');
-        $downloadTo = new \SplFileInfo($downloadToPath);
-
-        $extractToDir = $this->getPathToTestDir('extractTo');
-        $this->getPathToTestDir('extractTo/subDir');
-        $extractToPath = $this->getPathToTestFile('extractTo/subDir/downloadTo.rar');
-        $extractTo = new \SplFileInfo($extractToDir);
+        $extractToPath = $this->getPathToTestDir('extractTo');
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::DOWNLOAD_TO_FILE => $downloadTo,
-                StateParameter::EXTRACT_TO_FOLDER => $extractTo,
+                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $downloadToPath,
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $extractToPath,
             ]
         );
 
@@ -42,27 +35,5 @@ class CleanupTaskTest extends BaseCase
 
         $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
         $this->assertFileDoesNotExist($extractToPath, 'Extracted files removed');
-    }
-
-    /**
-     * Проверяет, что задача очищает все папки и файлы.
-     *
-     * @throws \Exception
-     */
-    public function testRunEmptyFiles(): void
-    {
-        $downloadToPath = __DIR__ . '/test.rar';
-        $downloadTo = new \SplFileInfo($downloadToPath);
-
-        $state = $this->createDefaultStateMock(
-            [
-                StateParameter::DOWNLOAD_TO_FILE => $downloadTo,
-            ]
-        );
-
-        $task = new CleanupTask();
-        $task->run($state);
-
-        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
     }
 }

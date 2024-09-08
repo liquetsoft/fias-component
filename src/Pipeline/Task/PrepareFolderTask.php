@@ -14,28 +14,21 @@ use Psr\Log\LogLevel;
  * Задача, которая подготавливает все необходимые каталоги и файлы для процесса
  * установки/обновления.
  */
-class PrepareFolderTask implements LoggableTask, Task
+final class PrepareFolderTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected \SplFileInfo $folder;
+    private readonly \SplFileInfo $folder;
 
-    private FileSystemHelperInterface $fs;
+    private readonly FileSystemHelperInterface $fs;
 
-    /**
-     * @param string $folder
-     *
-     * @throws \InvalidArgumentException
-     */
     public function __construct(string $folder)
     {
         $trimmedFolder = rtrim(trim($folder, " \t\n\r\0\x0B"), '/');
         $parent = realpath(\dirname($trimmedFolder));
 
-        if (!$parent || !is_dir($parent) || !is_writable($parent)) {
-            throw new \InvalidArgumentException(
-                "'{$parent}' folder doesn't exist or isn't writable."
-            );
+        if ($parent === false || !is_dir($parent) || !is_writable($parent)) {
+            throw new \InvalidArgumentException("'{$parent}' folder doesn't exist or isn't writable");
         }
 
         $this->folder = new \SplFileInfo($trimmedFolder);
@@ -47,17 +40,17 @@ class PrepareFolderTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $this->log(LogLevel::INFO, "Emptying '{$this->folder->getPathname()}' folder.");
+        $this->log(LogLevel::INFO, "Emptying '{$this->folder->getPathname()}' folder");
         $this->fs->mkdirIfNotExist($this->folder);
         $this->fs->emptyDir($this->folder);
 
         $downloadToFile = new \SplFileInfo($this->folder->getRealPath() . '/archive');
         $extractToFolder = new \SplFileInfo($this->folder->getRealPath() . '/extracted');
 
-        $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder.");
+        $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder");
         $this->fs->mkdir($extractToFolder);
 
-        $state->setAndLockParameter(StateParameter::DOWNLOAD_TO_FILE, $downloadToFile);
-        $state->setAndLockParameter(StateParameter::EXTRACT_TO_FOLDER, $extractToFolder);
+        $state->setAndLockParameter(StateParameter::PATH_TO_DOWNLOAD_FILE, $downloadToFile->getPathname());
+        $state->setAndLockParameter(StateParameter::PATH_TO_EXTRACT_FOLDER, $extractToFolder->getPathname());
     }
 }

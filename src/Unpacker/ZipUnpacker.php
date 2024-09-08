@@ -27,9 +27,6 @@ class ZipUnpacker implements Unpacker
     /**
      * Распаковывает архив в указанную папку.
      *
-     * @param \SplFileInfo $source
-     * @param \SplFileInfo $destination
-     *
      * @throws \RuntimeException
      */
     private function runUnZip(\SplFileInfo $source, \SplFileInfo $destination): void
@@ -41,7 +38,7 @@ class ZipUnpacker implements Unpacker
             $zip->close();
         } else {
             throw new \RuntimeException(
-                sprintf("Can't open '%s' zip archive file.", $filePath)
+                \sprintf("Can't open '%s' zip archive file.", $filePath)
             );
         }
     }

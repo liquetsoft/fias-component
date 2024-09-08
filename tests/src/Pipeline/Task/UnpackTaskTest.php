@@ -9,48 +9,38 @@ use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая распаковывает архив из параметра в состоянии.
  *
  * @internal
  */
-class UnpackTaskTest extends BaseCase
+final class UnpackTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно загружает ссылку.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
-        $sourcePath = __DIR__ . '/test.file';
-        $source = new \SplFileInfo($sourcePath);
-        $destinationPath = __DIR__;
-        $destination = new \SplFileInfo($destinationPath);
+        $sourcePath = '/test.file';
+        $destinationPath = '/test_path';
 
-        /** @var MockObject&Unpacker */
-        $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
+        $unpack = $this->mock(Unpacker::class);
         $unpack->expects($this->once())
             ->method('unpack')
             ->with(
                 $this->callback(
-                    function (\SplFileInfo $source) use ($sourcePath) {
-                        return $source->getPathname() === $sourcePath;
-                    }
+                    fn (\SplFileInfo $source): bool => $source->getPathname() === $sourcePath
                 ),
                 $this->callback(
-                    function (\SplFileInfo $destination) use ($destinationPath) {
-                        return $destination->getPathname() === $destinationPath;
-                    }
+                    fn (\SplFileInfo $destination): bool => $destination->getPathname() === $destinationPath
                 )
             );
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::DOWNLOAD_TO_FILE => $source,
-                StateParameter::EXTRACT_TO_FOLDER => $destination,
+                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourcePath,
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
             ]
         );
 
@@ -66,14 +56,12 @@ class UnpackTaskTest extends BaseCase
      */
     public function testRunNoSourceException(): void
     {
-        $destination = new \SplFileInfo(__DIR__);
-
-        /** @var MockObject&Unpacker */
-        $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
+        $destinationPath = '/test_path';
+        $unpack = $this->mock(Unpacker::class);
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::EXTRACT_TO_FOLDER => $destination,
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
             ]
         );
 
@@ -90,14 +78,12 @@ class UnpackTaskTest extends BaseCase
      */
     public function testRunNoDestinationException(): void
     {
-        $source = new \SplFileInfo(__DIR__ . '/test.file');
-
-        /** @var MockObject&Unpacker */
-        $unpack = $this->getMockBuilder(Unpacker::class)->getMock();
+        $sourcePath = '/test.file';
+        $unpack = $this->mock(Unpacker::class);
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::DOWNLOAD_TO_FILE => $source,
+                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourcePath,
             ]
         );
 

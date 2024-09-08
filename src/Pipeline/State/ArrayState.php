@@ -7,31 +7,29 @@ namespace Liquetsoft\Fias\Component\Pipeline\State;
 /**
  * Объект, который хранит состояние во внутреннем массиве.
  */
-class ArrayState implements State
+final class ArrayState implements State
 {
     private array $parameters = [];
 
     private bool $isCompleted = false;
 
     /**
-     * @var string[]
+     * @var StateParameter[]
      */
     private array $lockedParams = [];
 
     /**
      * {@inheritdoc}
      */
-    public function setParameter(string $parameterName, $parameterValue): State
+    public function setParameter(StateParameter $parameter, mixed $parameterValue): State
     {
-        $unifiedName = $this->unifyParameterName($parameterName);
-
-        if (\in_array($unifiedName, $this->lockedParams)) {
+        if (\in_array($parameter, $this->lockedParams, true)) {
             throw new \InvalidArgumentException(
-                "Parameter with name '{$parameterName}' is locked."
+                "Parameter with name '{$parameter->value}' is locked"
             );
         }
 
-        $this->parameters[$unifiedName] = $parameterValue;
+        $this->parameters[$parameter->value] = $parameterValue;
 
         return $this;
     }
@@ -39,10 +37,10 @@ class ArrayState implements State
     /**
      * {@inheritdoc}
      */
-    public function setAndLockParameter(string $parameterName, $parameterValue): State
+    public function setAndLockParameter(StateParameter $parameter, mixed $parameterValue): State
     {
-        $this->setParameter($parameterName, $parameterValue);
-        $this->lockedParams[] = $this->unifyParameterName($parameterName);
+        $this->setParameter($parameter, $parameterValue);
+        $this->lockedParams[] = $parameter;
 
         return $this;
     }
@@ -50,19 +48,31 @@ class ArrayState implements State
     /**
      * {@inheritdoc}
      */
-    public function getParameter(string $parameterName)
+    public function getParameter(StateParameter $parameter, mixed $default = null): mixed
     {
-        $unifiedName = $this->unifyParameterName($parameterName);
-
-        return isset($this->parameters[$unifiedName])
-            ? $this->parameters[$unifiedName]
-            : null;
+        return $this->parameters[$parameter->value] ?? $default;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function complete(): State
+    public function getParameterInt(StateParameter $parameter, int $default = 0): int
+    {
+        return (int) $this->getParameter($parameter, $default);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParameterString(StateParameter $parameter, string $default = ''): string
+    {
+        return (string) $this->getParameter($parameter, $default);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function complete(): self
     {
         $this->isCompleted = true;
 
@@ -75,17 +85,5 @@ class ArrayState implements State
     public function isCompleted(): bool
     {
         return $this->isCompleted;
-    }
-
-    /**
-     * Приводит имя параметра к общему виду, чтобы не плодить разные варианты имен.
-     *
-     * @param string $parameterName
-     *
-     * @return string
-     */
-    protected function unifyParameterName(string $parameterName): string
-    {
-        return preg_replace('/[^a-z0-9_]+/', '_', strtolower(trim($parameterName)));
     }
 }

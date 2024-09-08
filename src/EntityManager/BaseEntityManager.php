@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
  * Объект, который содержит соответствия между сущностями ФИАС и их реализациями
  * в конкретном проекте.
  */
-class BaseEntityManager implements EntityManager
+final class BaseEntityManager implements EntityManager
 {
     protected EntityRegistry $registry;
 
@@ -22,7 +22,6 @@ class BaseEntityManager implements EntityManager
     protected array $bindings;
 
     /**
-     * @param EntityRegistry        $registry
      * @param array<string, string> $bindings
      *
      * @throws \InvalidArgumentException
@@ -128,7 +127,9 @@ class BaseEntityManager implements EntityManager
             }
         }
 
-        return $entityName ? $this->getDescriptorByEntityName($entityName) : null;
+        return $entityName !== null && $entityName !== ''
+            ? $this->getDescriptorByEntityName($entityName)
+            : null;
     }
 
     /**
@@ -136,7 +137,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByObject($object): ?EntityDescriptor
+    public function getDescriptorByObject(mixed $object): ?EntityDescriptor
     {
         $return = null;
 
@@ -157,10 +158,6 @@ class BaseEntityManager implements EntityManager
 
     /**
      * Приводит имя сущности к единообразному виду.
-     *
-     * @param string $entityName
-     *
-     * @return string
      */
     protected function normalizeEntityName(string $entityName): string
     {
@@ -169,10 +166,6 @@ class BaseEntityManager implements EntityManager
 
     /**
      * Приводит имя класса к единообразному виду.
-     *
-     * @param string $className
-     *
-     * @return string
      */
     protected function normalizeClassName(string $className): string
     {

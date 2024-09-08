@@ -12,48 +12,40 @@ interface State
     /**
      * Задает параметр состояния по его имени.
      *
-     * @param string $parameterName
-     * @param mixed  $parameterValue
-     *
-     * @return State
-     *
      * @throws \InvalidArgumentException
      */
-    public function setParameter(string $parameterName, $parameterValue): State;
+    public function setParameter(StateParameter $parameter, mixed $parameterValue): self;
 
     /**
      * Задает константу состояния по его имени и запрещает изменение.
      *
-     * @param string $parameterName
-     * @param mixed  $parameterValue
-     *
-     * @return State
-     *
      * @throws \InvalidArgumentException
      */
-    public function setAndLockParameter(string $parameterName, $parameterValue): State;
+    public function setAndLockParameter(StateParameter $parameter, mixed $parameterValue): self;
 
     /**
      * Возвращает параметр состояния по его имени.
-     *
-     * @param string $parameterName
-     *
-     * @return mixed
      */
-    public function getParameter(string $parameterName);
+    public function getParameter(StateParameter $parameter, mixed $default = null): mixed;
+
+    /**
+     * Возвращает параметр состояния по его имени и приводит к целому типу.
+     */
+    public function getParameterInt(StateParameter $parameter, int $default = 0): int;
+
+    /**
+     * Возвращает параметр состояния по его имени и приводит к строковому типу.
+     */
+    public function getParameterString(StateParameter $parameter, string $default = ''): string;
 
     /**
      * Команда, которая отмечает, что нужно мягко прервать цепочку операций.
-     *
-     * @return State
      */
-    public function complete(): State;
+    public function complete(): self;
 
     /**
      * Метод, который указывает, что цепочка должна быть прервана после текущей
      * операции.
-     *
-     * @return bool
      */
     public function isCompleted(): bool;
 }

@@ -8,25 +8,19 @@ namespace Liquetsoft\Fias\Component\Filter;
  * Фильтр, который проверяет подходит ли указанная строка под одно из регулярных
  * выражения из набора.
  */
-class RegexpFilter implements Filter
+final class RegexpFilter implements Filter
 {
-    /**
-     * @var string[]
-     */
-    private array $regexps;
-
     /**
      * @param string[] $regexps
      */
-    public function __construct(array $regexps = [])
+    public function __construct(private readonly array $regexps = [])
     {
-        $this->regexps = $regexps;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function test($testData): bool
+    public function test(mixed $testData): bool
     {
         if (\is_scalar($testData)) {
             $testData = (string) $testData;
@@ -43,7 +37,7 @@ class RegexpFilter implements Filter
 
         $isTested = false;
         foreach ($this->regexps as $regexp) {
-            if (preg_match($regexp, $testData)) {
+            if ($regexp !== '' && preg_match($regexp, $testData)) {
                 $isTested = true;
                 break;
             }

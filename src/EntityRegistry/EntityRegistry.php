@@ -24,20 +24,12 @@ interface EntityRegistry
     /**
      * Проверяет существует ли описание сущности с указанным псевдонимом.
      *
-     * @param string $entityName
-     *
-     * @return bool
-     *
      * @throws EntityRegistryException
      */
     public function hasDescriptor(string $entityName): bool;
 
     /**
      * Возвращает описание сущности с указанным псевдонимом.
-     *
-     * @param string $entityName
-     *
-     * @return EntityDescriptor
      *
      * @throws \InvalidArgumentException
      * @throws EntityRegistryException

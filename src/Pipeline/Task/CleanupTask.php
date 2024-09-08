@@ -13,11 +13,11 @@ use Psr\Log\LogLevel;
 /**
  * Задача, которая удаляет все временные файлы, полученные во время импорта.
  */
-class CleanupTask implements LoggableTask, Task
+final class CleanupTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    private FileSystemHelperInterface $fs;
+    private readonly FileSystemHelperInterface $fs;
 
     public function __construct()
     {
@@ -30,16 +30,14 @@ class CleanupTask implements LoggableTask, Task
     public function run(State $state): void
     {
         $toRemove = [
-            $state->getParameter(StateParameter::DOWNLOAD_TO_FILE),
-            $state->getParameter(StateParameter::EXTRACT_TO_FOLDER),
+            $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE),
+            $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER),
         ];
 
-        $toRemove = array_diff($toRemove, [null]);
-
-        foreach ($toRemove as $fileInfo) {
-            if ($fileInfo instanceof \SplFileInfo) {
-                $this->log(LogLevel::INFO, "Cleaning up '{$fileInfo->getPathname()}' folder.");
-                $this->fs->removeIfExists($fileInfo);
+        foreach ($toRemove as $path) {
+            if ($path !== '') {
+                $this->log(LogLevel::INFO, "Cleaning up '{$path}'");
+                $this->fs->removeIfExists($path);
             }
         }
     }

@@ -14,34 +14,16 @@ use Symfony\Component\Process\Process;
 /**
  * Задача, которая распределяет файлы в обработку для symfony/process.
  */
-class ProcessSwitchTask implements LoggableTask, Task
+final class ProcessSwitchTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected FilesDispatcher $filesDispatcher;
-
-    protected string $pathToBin;
-
-    protected string $commandName;
-
-    protected int $numberOfParallel;
-
-    /**
-     * @param FilesDispatcher $filesDispatcher
-     * @param string          $pathToBin
-     * @param string          $commandName
-     * @param int             $numberOfParallel
-     */
     public function __construct(
-        FilesDispatcher $filesDispatcher,
-        string $pathToBin,
-        string $commandName,
-        int $numberOfParallel = 5
+        private readonly FilesDispatcher $filesDispatcher,
+        private readonly string $pathToBin,
+        private readonly string $commandName,
+        private readonly int $numberOfParallel = 5,
     ) {
-        $this->filesDispatcher = $filesDispatcher;
-        $this->pathToBin = $pathToBin;
-        $this->commandName = $commandName;
-        $this->numberOfParallel = $numberOfParallel;
     }
 
     /**
@@ -155,8 +137,6 @@ class ProcessSwitchTask implements LoggableTask, Task
      * Создает новый процесс для списка файлов.
      *
      * @param string[] $dispatchedFiles
-     *
-     * @return Process
      */
     protected function createProcess(array $dispatchedFiles): Process
     {

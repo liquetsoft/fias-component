@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\State;
 
 use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -15,17 +16,62 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
 class ArrayStateTest extends BaseCase
 {
     /**
-     * Проверяем запись и получение параметра.
+     * Проверяет запись и получение параметра.
      */
     public function testSetAndGetParameter(): void
     {
-        $parameterName = $this->createFakeData()->word();
-        $parameterValue = $this->createFakeData()->word();
+        $parameter = StateParameter::TEST;
+        $parameterValue = new \stdClass();
 
         $state = new ArrayState();
-        $state->setParameter($parameterName, $parameterValue);
+        $state->setParameter($parameter, $parameterValue);
+        $res = $state->getParameter($parameter);
 
-        $this->assertSame($parameterValue, $state->getParameter($parameterName));
+        $this->assertSame($parameterValue, $res);
+    }
+
+    /**
+     * Проверяет, что объект вернет значение по умолчанию, если параметр не указан.
+     */
+    public function testGetParameterDefault(): void
+    {
+        $parameter = StateParameter::TEST;
+        $defaultValue = 123;
+
+        $state = new ArrayState();
+        $res = $state->getParameter($parameter, $defaultValue);
+
+        $this->assertSame($defaultValue, $res);
+    }
+
+    /**
+     * Проверяет запись и получение int параметра.
+     */
+    public function testSetAndGetParameterInt(): void
+    {
+        $parameter = StateParameter::TEST;
+        $parameterValue = 123;
+
+        $state = new ArrayState();
+        $state->setParameter($parameter, $parameterValue);
+        $res = $state->getParameterInt($parameter);
+
+        $this->assertSame($parameterValue, $res);
+    }
+
+    /**
+     * Проверяет запись и получение string параметра.
+     */
+    public function testSetAndGetParameterString(): void
+    {
+        $parameter = StateParameter::TEST;
+        $parameterValue = 'string';
+
+        $state = new ArrayState();
+        $state->setParameter($parameter, $parameterValue);
+        $res = $state->getParameterString($parameter);
+
+        $this->assertSame($parameterValue, $res);
     }
 
     /**
@@ -33,13 +79,13 @@ class ArrayStateTest extends BaseCase
      */
     public function testSetAndLockParameter(): void
     {
-        $parameterName = $this->createFakeData()->word();
-        $parameterValue = $this->createFakeData()->word();
+        $parameter = StateParameter::TEST;
+        $parameterValue = 'test';
 
         $state = new ArrayState();
-        $state->setAndLockParameter($parameterName, $parameterValue);
+        $state->setAndLockParameter($parameter, $parameterValue);
 
-        $this->assertSame($parameterValue, $state->getParameter($parameterName));
+        $this->assertSame($parameterValue, $state->getParameter($parameter));
     }
 
     /**
@@ -48,14 +94,14 @@ class ArrayStateTest extends BaseCase
      */
     public function testSetParameterLockedException(): void
     {
-        $parameterName = $this->createFakeData()->word();
-        $parameterValue = $this->createFakeData()->word();
+        $parameter = StateParameter::TEST;
+        $parameterValue = 'test';
 
         $state = new ArrayState();
-        $state->setAndLockParameter($parameterName, $parameterValue);
+        $state->setAndLockParameter($parameter, $parameterValue);
 
         $this->expectException(\InvalidArgumentException::class);
-        $state->setParameter($parameterName, $parameterValue);
+        $state->setParameter($parameter, $parameterValue);
     }
 
     /**

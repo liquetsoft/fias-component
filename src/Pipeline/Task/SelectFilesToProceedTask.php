@@ -11,21 +11,18 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
 
-class SelectFilesToProceedTask implements LoggableTask, Task
+/**
+ * Задание, которое проверяет все файлы в распакованном архиве ФИАС
+ * и выбирает только те, которые можно обработать.
+ */
+final class SelectFilesToProceedTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    private EntityManager $entityManager;
-
-    private ?Filter $filter;
-
-    /**
-     * @param EntityManager $entityManager
-     */
-    public function __construct(EntityManager $entityManager, ?Filter $filter = null)
-    {
-        $this->entityManager = $entityManager;
-        $this->filter = $filter;
+    public function __construct(
+        private readonly EntityManager $entityManager,
+        private readonly ?Filter $filter = null,
+    ) {
     }
 
     /**
@@ -33,12 +30,12 @@ class SelectFilesToProceedTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $folderParameter = $state->getParameter(StateParameter::EXTRACT_TO_FOLDER);
-        $extractToFolder = $this->checkDirectory($folderParameter);
+        $extractToFolderPath = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
+        $extractToFolder = $this->checkDirectory($extractToFolderPath);
 
         $this->log(
             LogLevel::INFO,
-            "Searching for files to proceed in '{$extractToFolder->getRealPath()}' folder."
+            "Searching for files to proceed in '{$extractToFolder->getRealPath()}' folder"
         );
 
         $files = $this->getFilesForProceedFromFolder($extractToFolder);
@@ -56,33 +53,23 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * Проверяет, что параметр директории для поиска файлов задан верно.
      *
-     * @param mixed $parameterValue
-     *
-     * @return \SplFileInfo
-     *
      * @throws TaskException
      */
-    private function checkDirectory($parameterValue): \SplFileInfo
+    private function checkDirectory(string $path): \SplFileInfo
     {
-        if (!($parameterValue instanceof \SplFileInfo)) {
+        $dir = new \SplFileInfo($path);
+
+        if (!$dir->isDir()) {
             throw new TaskException(
-                "State parameter '" . StateParameter::EXTRACT_TO_FOLDER . "' must be an '" . \SplFileInfo::class . "' instance for '" . self::class . "'."
+                "Path '{$dir->getPathname()}' must be an existed directory"
             );
         }
 
-        if (!$parameterValue->isDir()) {
-            throw new TaskException(
-                "Path '{$parameterValue->getRealPath()}' must be an existed directory."
-            );
-        }
-
-        return $parameterValue;
+        return $dir;
     }
 
     /**
      * Возвращает список файлов для обработки из указанной директории.
-     *
-     * @param \SplFileInfo $filesFolder
      *
      * @return string[]
      */
@@ -110,10 +97,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
     /**
      * Проверяет следует ли добавлять файл к списку.
-     *
-     * @param \SplFileInfo $fileInfo
-     *
-     * @return bool
      */
     private function isFileAllowed(\SplFileInfo $fileInfo): bool
     {
@@ -124,29 +107,21 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
     /**
      * Проверяет нужно ли файл обрабатывать для создания и обновления в рамках данного процесса.
-     *
-     * @param \SplFileInfo $fileInfo
-     *
-     * @return bool
      */
     private function isFileAllowedToInsert(\SplFileInfo $fileInfo): bool
     {
         $descriptor = $this->entityManager->getDescriptorByInsertFile($fileInfo->getFilename());
 
-        return !empty($descriptor) && $this->entityManager->getClassByDescriptor($descriptor);
+        return $descriptor !== null && $this->entityManager->getClassByDescriptor($descriptor) !== null;
     }
 
     /**
      * Проверяет нужно ли файл обрабатывать для удаления в рамках данного процесса.
-     *
-     * @param \SplFileInfo $fileInfo
-     *
-     * @return bool
      */
     private function isFileAllowedToDelete(\SplFileInfo $fileInfo): bool
     {
         $descriptor = $this->entityManager->getDescriptorByDeleteFile($fileInfo->getFilename());
 
-        return !empty($descriptor) && $this->entityManager->getClassByDescriptor($descriptor);
+        return $descriptor !== null && $this->entityManager->getClassByDescriptor($descriptor) !== null;
     }
 }

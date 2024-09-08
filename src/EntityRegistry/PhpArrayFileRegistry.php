@@ -22,7 +22,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      */
     public function __construct(?string $pathToSource = null)
     {
-        $this->pathToSource = $pathToSource ?: PathHelper::resource('fias_entities.php');
+        $this->pathToSource = $pathToSource ?? PathHelper::resource('fias_entities.php');
     }
 
     /**
@@ -53,8 +53,6 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      *
      * @param mixed[] $entity
      *
-     * @return EntityDescriptor
-     *
      * @throws \InvalidArgumentException
      */
     private function createEntityDescriptor(array $entity): EntityDescriptor
@@ -77,10 +75,6 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
     /**
      * Создает поле из массива, который был записан в файле.
      *
-     * @param array $field
-     *
-     * @return EntityField
-     *
      * @throws \InvalidArgumentException
      */
     private function createEntityField(array $field): EntityField
@@ -90,15 +84,13 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
 
     /**
      * Проверяет, что путь до файла с описанием сущностей существует и возвращает его.
-     *
-     * @return string
      */
     private function checkAndReturnPath(): string
     {
         $path = trim($this->pathToSource);
 
         if (!file_exists($path) || !is_readable($path)) {
-            $message = sprintf(
+            $message = \sprintf(
                 "File '%s' for php entity registry must exists and be readable.",
                 $this->pathToSource
             );
@@ -107,7 +99,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
 
         $extension = pathinfo($path, \PATHINFO_EXTENSION);
         if ($extension !== 'php') {
-            $message = sprintf(
+            $message = \sprintf(
                 "File '%s' must has 'php' extension, got '%s'.",
                 $this->pathToSource,
                 $extension

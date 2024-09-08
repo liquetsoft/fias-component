@@ -6,34 +6,31 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\StatusCheckerException;
 use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusChecker;
-use Liquetsoft\Fias\Component\FiasStatusChecker\StatusCheckerResult;
+use Liquetsoft\Fias\Component\FiasStatusChecker\FiasStatusCheckerResult;
 use Liquetsoft\Fias\Component\Pipeline\Task\CheckStatusTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая проверяет текущий статус ФИАС.
  *
  * @internal
  */
-class CheckStatusTaskTest extends BaseCase
+final class CheckStatusTaskTest extends BaseCase
 {
     /**
      * Проверяет, что задача проверит статус ФИАС.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
-        $checkerResult = $this->getMockBuilder(StatusCheckerResult::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $checkerResult->method('getResultStatus')
-            ->willReturn(FiasStatusChecker::STATUS_AVAILABLE);
+        $checkerResult = $this->mock(FiasStatusCheckerResult::class);
+        $checkerResult->expects($this->any())
+            ->method('canProceed')
+            ->willReturn(true);
 
-        /** @var MockObject&FiasStatusChecker */
-        $statusChecker = $this->getMockBuilder(FiasStatusChecker::class)->getMock();
-        $statusChecker->expects($this->once())->method('check')->willReturn($checkerResult);
+        $statusChecker = $this->mock(FiasStatusChecker::class);
+        $statusChecker->expects($this->once())
+            ->method('check')
+            ->willReturn($checkerResult);
 
         $state = $this->createDefaultStateMock();
 
@@ -44,20 +41,21 @@ class CheckStatusTaskTest extends BaseCase
     /**
      * Проверяет, что задача проверит статус ФИАС и выбросит исключение,
      * если он недоступен.
-     *
-     * @throws \Exception
      */
     public function testRunException(): void
     {
-        $checkerResult = $this->getMockBuilder(StatusCheckerResult::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $checkerResult->method('getResultStatus')
-            ->willReturn(FiasStatusChecker::STATUS_NOT_AVAILABLE);
+        $checkerResult = $this->mock(FiasStatusCheckerResult::class);
+        $checkerResult->expects($this->any())
+            ->method('canProceed')
+            ->willReturn(false);
+        $checkerResult->expects($this->any())
+            ->method('getPerServiceStatuses')
+            ->willReturn([]);
 
-        /** @var MockObject&FiasStatusChecker */
-        $statusChecker = $this->getMockBuilder(FiasStatusChecker::class)->getMock();
-        $statusChecker->expects($this->once())->method('check')->willReturn($checkerResult);
+        $statusChecker = $this->mock(FiasStatusChecker::class);
+        $statusChecker->expects($this->once())
+            ->method('check')
+            ->willReturn($checkerResult);
 
         $state = $this->createDefaultStateMock();
 

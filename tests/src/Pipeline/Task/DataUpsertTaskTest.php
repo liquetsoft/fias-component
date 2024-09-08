@@ -13,34 +13,34 @@ use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\DataUpsertTaskMock;
 use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая обновляет данные данные из файла в БД.
  *
  * @internal
  */
-class DataUpsertTaskTest extends BaseCase
+final class DataUpsertTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект читает и записывает данные.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
-        $descriptor = $this->getMockBuilder(EntityDescriptor::class)->getMock();
-        $descriptor->method('getXmlPath')->willReturn('/ActualStatuses/ActualStatus');
+        $descriptor = $this->mock(EntityDescriptor::class);
+        $descriptor->expects($this->any())
+            ->method('getXmlPath')
+            ->willReturn('/ActualStatuses/ActualStatus');
 
-        /** @var MockObject&EntityManager */
-        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
-        $entityManager->method('getDescriptorByInsertFile')
+        $entityManager = $this->mock(EntityManager::class);
+        $entityManager->expects($this->any())
+            ->method('getDescriptorByInsertFile')
             ->willReturnCallback(
                 function (string $file) use ($descriptor) {
                     return $file === 'data.xml' ? $descriptor : null;
                 }
             );
-        $entityManager->method('getClassByDescriptor')
+        $entityManager->expects($this->any())
+            ->method('getClassByDescriptor')
             ->willReturnCallback(
                 function (EntityDescriptor $testDescriptor) use ($descriptor) {
                     return $testDescriptor === $descriptor ? DataUpsertTaskMock::class : null;
@@ -48,8 +48,7 @@ class DataUpsertTaskTest extends BaseCase
             );
 
         $insertedData = [];
-        /** @var MockObject&Storage */
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
         $storage->method('supports')
@@ -67,7 +66,7 @@ class DataUpsertTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::FILES_TO_PROCEED => [__DIR__ . '/_fixtures/data.xml'],
+                StateParameter::FILES_TO_PROCEED->value => [__DIR__ . '/_fixtures/data.xml'],
             ]
         );
 

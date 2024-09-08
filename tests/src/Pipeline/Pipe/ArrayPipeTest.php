@@ -10,7 +10,6 @@ use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\ArrayPipeTestLoggableMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -18,12 +17,10 @@ use Psr\Log\LoggerInterface;
  *
  * @internal
  */
-class ArrayPipeTest extends BaseCase
+final class ArrayPipeTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение при попытке передать неверный параметр.
-     *
-     * @throws \Exception
      */
     public function testConstructNoTaskInstanceException(): void
     {
@@ -41,8 +38,6 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -62,8 +57,6 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что задачи добавляются в очередь и запускаются, а после задач запускается задача очистки.
-     *
-     * @throws \Exception
      */
     public function testRunWithCleanup(): void
     {
@@ -86,14 +79,10 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что задачи могут остановить выполнения цепочки
      * с помощью объекта состояния.
-     *
-     * @throws PipeException
-     * @throws \Exception
      */
     public function testRunWithCompleted(): void
     {
-        /** @var MockObject&State */
-        $state = $this->getMockBuilder(State::class)->getMock();
+        $state = $this->mock(State::class);
         $stateCounter = 0;
         $state->method('isCompleted')->willReturnCallback(
             function () use (&$stateCounter) {
@@ -123,8 +112,6 @@ class ArrayPipeTest extends BaseCase
     /**
      * Проверяет, что объект приложения перехватит любое исключение и выбросит
      * унифицированный тип.
-     *
-     * @throws \Exception
      */
     public function testRunException(): void
     {
@@ -147,16 +134,13 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что очередь пишет данные в лог.
-     *
-     * @throws \Exception
      */
     public function testLogger(): void
     {
         $state = $this->createDefaultStateMock([], true);
         $task = $this->createTaskMock($state);
 
-        /** @var MockObject&LoggerInterface */
-        $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+        $logger = $this->mock(LoggerInterface::class);
         $logger->expects($this->atLeastOnce())
             ->method('log')
             ->with(
@@ -181,17 +165,14 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Проверяет, что очередь передаст объект лога в задачу, если требуется.
-     *
-     * @throws \Exception
      */
     public function testLoggableTaskLoggerInjected(): void
     {
         $state = $this->createDefaultStateMock([], true);
 
-        /** @var MockObject&LoggerInterface */
-        $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+        $logger = $this->mock(LoggerInterface::class);
 
-        $task = $this->getMockBuilder(ArrayPipeTestLoggableMock::class)->getMock();
+        $task = $this->mock(ArrayPipeTestLoggableMock::class);
         $task->expects($this->once())
             ->method('injectLogger')
             ->with(
@@ -216,16 +197,10 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Создает мок для новой задачи.
-     *
-     * @param mixed           $with
-     * @param \Throwable|null $exception
-     *
-     * @return Task
      */
-    private function createTaskMock($with = null, ?\Throwable $exception = null): Task
+    private function createTaskMock(mixed $with = null, ?\Throwable $exception = null): Task
     {
-        /** @var MockObject&Task */
-        $task = $this->getMockBuilder(Task::class)->getMock();
+        $task = $this->mock(Task::class);
 
         if ($with !== null || $exception !== null) {
             $expects = $with === false ? $this->never() : $this->once();
