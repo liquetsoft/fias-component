@@ -13,7 +13,7 @@ enum StateParameter: string
     case FIAS_VERSION_ARCHIVE_URL = 'fias_version_archive_url';
 
     case PATH_TO_DOWNLOAD_FILE = 'path_to_download_file';
-    case EXTRACT_TO_FOLDER = 'extract_to';
+    case PATH_TO_EXTRACT_FOLDER = 'path_to_extract_folder';
 
     case FILES_TO_PROCEED = 'files_to_proceed';
     case FIAS_INFO = 'fias_info';
