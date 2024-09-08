@@ -8,19 +8,16 @@ use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Pipeline\Task\TruncateTask;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая очищает таблицы для всех сущностей из менеджера сущностей.
  *
  * @internal
  */
-class TruncateTaskTest extends BaseCase
+final class TruncateTaskTest extends BaseCase
 {
     /**
      * Проверяет, что объект читает и записывает данные.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
@@ -29,13 +26,11 @@ class TruncateTaskTest extends BaseCase
             'Test\Class2',
         ];
 
-        /** @var MockObject&EntityManager */
-        $entityManager = $this->getMockBuilder(EntityManager::class)->getMock();
+        $entityManager = $this->mock(EntityManager::class);
         $entityManager->method('getBindedClasses')->willReturn($classes);
 
         $truncated = [];
-        /** @var MockObject&Storage */
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())->method('start');
         $storage->expects($this->once())->method('stop');
         $storage->method('supportsClass')

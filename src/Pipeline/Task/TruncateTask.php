@@ -13,18 +13,14 @@ use Psr\Log\LogLevel;
  * Задача, которая очищает хранилища, для всех сущностей, которые привязаны к
  * сущностям ФИАС.
  */
-class TruncateTask implements LoggableTask, Task
+final class TruncateTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected EntityManager $entityManager;
-
-    protected Storage $storage;
-
-    public function __construct(EntityManager $entityManager, Storage $storage)
-    {
-        $this->entityManager = $entityManager;
-        $this->storage = $storage;
+    public function __construct(
+        private readonly EntityManager $entityManager,
+        private readonly Storage $storage,
+    ) {
     }
 
     /**
@@ -37,9 +33,12 @@ class TruncateTask implements LoggableTask, Task
             if (!$this->storage->supportsClass($className)) {
                 continue;
             }
-            $this->log(LogLevel::INFO, "Truncating '{$className}' entity.", [
-                'entity' => $className,
-            ]);
+            $this->log(
+                LogLevel::INFO, "Truncating '{$className}' entity",
+                [
+                    'entity' => $className,
+                ]
+            );
             $this->storage->truncate($className);
         }
         $this->storage->stop();
