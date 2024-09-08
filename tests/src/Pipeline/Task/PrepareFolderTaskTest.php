@@ -28,8 +28,8 @@ final class PrepareFolderTaskTest extends BaseCase
 
         $task = new PrepareFolderTask($pathToPrepare);
         $task->run($state);
-        $downloadFile = $state->getParameter(StateParameter::PATH_TO_DOWNLOAD_FILE);
-        $extractToFolder = $state->getParameter(StateParameter::PATH_TO_EXTRACT_FOLDER);
+        $downloadFile = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
+        $extractToFolder = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
 
         $this->assertStringEndsWith("{$folder}/archive", $downloadFile);
         $this->assertStringEndsWith("{$folder}/extracted", $extractToFolder);

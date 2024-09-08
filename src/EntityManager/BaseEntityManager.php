@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Exception\EntityRegistryException;
  * Объект, который содержит соответствия между сущностями ФИАС и их реализациями
  * в конкретном проекте.
  */
-class BaseEntityManager implements EntityManager
+final class BaseEntityManager implements EntityManager
 {
     protected EntityRegistry $registry;
 
@@ -137,7 +137,7 @@ class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
-    public function getDescriptorByObject($object): ?EntityDescriptor
+    public function getDescriptorByObject(mixed $object): ?EntityDescriptor
     {
         $return = null;
 

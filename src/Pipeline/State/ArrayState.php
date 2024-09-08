@@ -21,7 +21,7 @@ final class ArrayState implements State
     /**
      * {@inheritdoc}
      */
-    public function setParameter(StateParameter $parameter, $parameterValue): State
+    public function setParameter(StateParameter $parameter, mixed $parameterValue): State
     {
         if (\in_array($parameter, $this->lockedParams, true)) {
             throw new \InvalidArgumentException(
@@ -37,7 +37,7 @@ final class ArrayState implements State
     /**
      * {@inheritdoc}
      */
-    public function setAndLockParameter(StateParameter $parameter, $parameterValue): State
+    public function setAndLockParameter(StateParameter $parameter, mixed $parameterValue): State
     {
         $this->setParameter($parameter, $parameterValue);
         $this->lockedParams[] = $parameter;

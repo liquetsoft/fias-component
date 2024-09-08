@@ -41,7 +41,7 @@ final class SaveFiasFilesTask implements LoggableTask, Task
         }
 
         foreach ($movePaths as $paramName => $moveTo) {
-            $moveFrom = $state->getParameter(StateParameter::from($paramName));
+            $moveFrom = $state->getParameterString(StateParameter::from($paramName));
             $this->log(LogLevel::INFO, "Moving '{$moveFrom}' to '{$moveTo}'");
             $this->fs->rename($moveFrom, $moveTo);
         }
