@@ -12,15 +12,12 @@ use Psr\Log\LogLevel;
 /**
  * Задача, которая проверяет статус ФИАС.
  */
-class CheckStatusTask implements LoggableTask, Task
+final class CheckStatusTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected FiasStatusChecker $checker;
-
-    public function __construct(FiasStatusChecker $checker)
+    public function __construct(private readonly FiasStatusChecker $checker)
     {
-        $this->checker = $checker;
     }
 
     /**
@@ -30,7 +27,7 @@ class CheckStatusTask implements LoggableTask, Task
     {
         $status = $this->checker->check();
 
-        if ($status->getResultStatus() !== FiasStatusChecker::STATUS_AVAILABLE) {
+        if (!$status->canProceed()) {
             $message = 'There are some troubles on the FIAS side. Please try again later.';
             $this->log(
                 LogLevel::ERROR,
