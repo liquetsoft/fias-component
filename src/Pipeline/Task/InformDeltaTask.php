@@ -14,15 +14,12 @@ use Psr\Log\LogLevel;
  * Задача, которая получает ссылку на архив с обновлениями ФИАС
  * относительно указанной в состоянии версии.
  */
-class InformDeltaTask implements LoggableTask, Task
+final class InformDeltaTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected FiasInformer $informer;
-
-    public function __construct(FiasInformer $informer)
+    public function __construct(private readonly FiasInformer $informer)
     {
-        $this->informer = $informer;
     }
 
     /**
@@ -30,19 +27,17 @@ class InformDeltaTask implements LoggableTask, Task
      */
     public function run(State $state): void
     {
-        $version = (int) $state->getParameter(StateParameter::FIAS_VERSION);
-        if (!$version) {
-            throw new TaskException(
-                "State parameter '" . StateParameter::FIAS_VERSION . "' is required for '" . self::class . "'."
-            );
+        $version = $state->getParameterInt(StateParameter::FIAS_VERSION_NUMBER);
+        if ($version <= 0) {
+            throw new TaskException('Version parameter must exist and be greater than zero');
         }
 
-        $info = $this->informer->getDeltaInfo($version);
-        if (!$info->hasResult()) {
+        $info = $this->informer->getNextVersion($version);
+        if ($info === null) {
             $state->complete();
             $this->log(
                 LogLevel::INFO,
-                "Current version '{$version}' is up to date.",
+                "Current version '{$version}' is up to date",
                 [
                     'current_version' => $version,
                 ]
@@ -50,15 +45,15 @@ class InformDeltaTask implements LoggableTask, Task
         } else {
             $this->log(
                 LogLevel::INFO,
-                "Current version of FIAS is '{$version}', next version is '{$info->getVersion()}' and can be downloaded from '{$info->getUrl()}'.",
+                "Current version of FIAS is '{$version}', next version is '{$info->getVersion()}' and can be downloaded from '{$info->getDeltaUrl()}'",
                 [
                     'current_version' => $version,
                     'next_version' => $info->getVersion(),
-                    'url' => $info->getUrl(),
+                    'url' => $info->getDeltaUrl(),
                 ]
             );
+            $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER, $info->getVersion());
+            $state->setAndLockParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL, $info->getDeltaUrl());
         }
-
-        $state->setAndLockParameter(StateParameter::FIAS_INFO, $info);
     }
 }

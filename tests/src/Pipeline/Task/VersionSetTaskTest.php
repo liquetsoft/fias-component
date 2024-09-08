@@ -26,7 +26,7 @@ final class VersionSetTaskTest extends BaseCase
 
         $state = $this->createDefaultStateMock(
             [
-                StateParameter::FIAS_VERSION_NUMBER->value => $version,
+                StateParameter::FIAS_NEXT_VERSION_NUMBER->value => $version,
             ]
         );
 
