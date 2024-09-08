@@ -11,9 +11,9 @@ use Psr\Log\LoggerInterface;
  */
 trait LoggableTaskTrait
 {
-    protected ?LoggerInterface $logger = null;
+    private ?LoggerInterface $logger = null;
 
-    protected array $defaultContext = [];
+    private array $defaultContext = [];
 
     /**
      * Добавляет ссылку на объект для записи логов в объект операции.

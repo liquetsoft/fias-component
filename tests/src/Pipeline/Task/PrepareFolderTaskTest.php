@@ -14,28 +14,26 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class PrepareFolderTaskTest extends BaseCase
+final class PrepareFolderTaskTest extends BaseCase
 {
     /**
      * Проверяет, что задача создает все папки и передает в состояние.
-     *
-     * @throws \Exception
      */
     public function testRun(): void
     {
-        $pathToPrepare = $this->getPathToTestDir('prepare');
-        $this->getPathToTestFile('prepare/test.txt');
+        $folder = 'prepare';
+        $pathToPrepare = $this->getPathToTestDir($folder);
 
         $state = new ArrayState();
 
         $task = new PrepareFolderTask($pathToPrepare);
         $task->run($state);
-        $downloadFile = $state->getParameter(StateParameter::DOWNLOAD_TO_FILE);
-        $extractToFolder = $state->getParameter(StateParameter::EXTRACT_TO_FOLDER);
+        $downloadFile = $state->getParameter(StateParameter::PATH_TO_DOWNLOAD_FILE);
+        $extractToFolder = $state->getParameter(StateParameter::PATH_TO_EXTRACT_FOLDER);
 
-        $this->assertInstanceOf(\SplFileInfo::class, $downloadFile);
-        $this->assertInstanceOf(\SplFileInfo::class, $extractToFolder);
-        $this->assertTrue($extractToFolder->isDir());
+        $this->assertStringEndsWith("{$folder}/archive", $downloadFile);
+        $this->assertStringEndsWith("{$folder}/extracted", $extractToFolder);
+        $this->assertDirectoryExists($extractToFolder);
     }
 
     /**
@@ -45,6 +43,6 @@ class PrepareFolderTaskTest extends BaseCase
     public function testConstructBadFolderException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        new PrepareFolderTask(__DIR__ . '/empty/empty');
+        new PrepareFolderTask('/empty/empty');
     }
 }
