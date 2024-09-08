@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\FiasInformer\InformerResponse;
+use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionSetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\VersionManager\VersionManager;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Тест для задачи, которая сохраняет текущую версию ФИАС.
@@ -28,10 +27,9 @@ class VersionSetTaskTest extends BaseCase
         $version = $this->createFakeData()->numberBetween(1, 123);
         $url = $this->createFakeData()->url();
 
-        $response = $this->getMockBuilder(InformerResponse::class)->getMock();
+        $response = $this->mock(FiasInformerResponse::class);
         $response->method('getVersion')->willReturn($version);
-        $response->method('getUrl')->willReturn($url);
-        $response->method('hasResult')->willReturn(true);
+        $response->method('getFullUrl')->willReturn($url);
 
         $state = $this->createDefaultStateMock(
             [
@@ -39,38 +37,12 @@ class VersionSetTaskTest extends BaseCase
             ]
         );
 
-        /** @var MockObject&VersionManager */
-        $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
+        $versionManager = $this->mock(VersionManager::class);
         $versionManager->expects($this->once())
             ->method('setCurrentVersion')
             ->with(
                 $this->equalTo($response)
             );
-
-        $task = new VersionSetTask($versionManager);
-
-        $task->run($state);
-    }
-
-    /**
-     * Проверяет, что объект ничего не запишет, если результата в ответе нет.
-     *
-     * @throws \Exception
-     */
-    public function testRunNoResult(): void
-    {
-        $response = $this->getMockBuilder(InformerResponse::class)->getMock();
-        $response->method('hasResult')->willReturn(false);
-
-        $state = $this->createDefaultStateMock(
-            [
-                StateParameter::FIAS_INFO => $response,
-            ]
-        );
-
-        /** @var MockObject&VersionManager */
-        $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
-        $versionManager->expects($this->never())->method('setCurrentVersion');
 
         $task = new VersionSetTask($versionManager);
 
@@ -86,8 +58,7 @@ class VersionSetTaskTest extends BaseCase
     {
         $state = $this->createDefaultStateMock();
 
-        /** @var MockObject&VersionManager */
-        $versionManager = $this->getMockBuilder(VersionManager::class)->getMock();
+        $versionManager = $this->mock(VersionManager::class);
         $versionManager->expects($this->never())->method('setCurrentVersion');
 
         $task = new VersionSetTask($versionManager);

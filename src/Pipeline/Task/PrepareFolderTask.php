@@ -23,8 +23,6 @@ class PrepareFolderTask implements LoggableTask, Task
     private FileSystemHelperInterface $fs;
 
     /**
-     * @param string $folder
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct(string $folder)

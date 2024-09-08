@@ -20,9 +20,6 @@ class InformDeltaTask implements LoggableTask, Task
 
     protected FiasInformer $informer;
 
-    /**
-     * @param FiasInformer $informer
-     */
     public function __construct(FiasInformer $informer)
     {
         $this->informer = $informer;

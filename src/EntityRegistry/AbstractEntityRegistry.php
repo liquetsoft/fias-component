@@ -86,10 +86,6 @@ abstract class AbstractEntityRegistry implements EntityRegistry
 
     /**
      * Приводит имена сущностей к единообразному виду.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     public function normalizeEntityName(string $name): string
     {

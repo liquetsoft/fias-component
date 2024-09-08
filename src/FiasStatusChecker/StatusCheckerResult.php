@@ -17,7 +17,6 @@ class StatusCheckerResult
     private array $perServiceStatuses;
 
     /**
-     * @param string            $resultStatus
      * @param array<int, array> $perServiceStatuses
      */
     public function __construct(string $resultStatus, array $perServiceStatuses)
@@ -28,8 +27,6 @@ class StatusCheckerResult
 
     /**
      * Возвращает статус общего сосотояния ФИАС.
-     *
-     * @return string
      */
     public function getResultStatus(): string
     {

@@ -18,8 +18,6 @@ interface FiasStatusChecker
 
     /**
      * Проверяет статусы всех компонентов ФИАС.
-     *
-     * @return StatusCheckerResult
      */
     public function check(): StatusCheckerResult;
 }

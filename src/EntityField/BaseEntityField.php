@@ -126,12 +126,6 @@ class BaseEntityField implements EntityField
     /**
      * Получает указанную строку из набора опций.
      *
-     * @param array  $options
-     * @param string $name
-     * @param bool   $required
-     *
-     * @return string
-     *
      * @throws \InvalidArgumentException
      */
     protected function extractStringFromOptions(array $options, string $name, bool $required = false): string

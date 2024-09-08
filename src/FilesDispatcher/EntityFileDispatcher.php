@@ -13,9 +13,6 @@ class EntityFileDispatcher implements FilesDispatcher
 {
     private EntityManager $entityManager;
 
-    /**
-     * @param EntityManager $entityManager
-     */
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;

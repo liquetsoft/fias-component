@@ -17,8 +17,6 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
     protected array $arrayRegistry;
 
     /**
-     * @param array $registry
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct(array $registry)

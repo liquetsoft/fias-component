@@ -159,12 +159,6 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * Получает указанную строку из набора опций.
      *
-     * @param array  $options
-     * @param string $name
-     * @param bool   $required
-     *
-     * @return string
-     *
      * @throws \InvalidArgumentException
      */
     protected function extractStringFromOptions(array $options, string $name, bool $required = false): string
@@ -184,8 +178,6 @@ class BaseEntityDescriptor implements EntityDescriptor
 
     /**
      * Возвращает список полей из массива опций.
-     *
-     * @param array $options
      *
      * @return EntityField[]
      *
@@ -220,11 +212,6 @@ class BaseEntityDescriptor implements EntityDescriptor
 
     /**
      * Сравнивает маску имени файла с именем.
-     *
-     * @param string $fileName
-     * @param string $mask
-     *
-     * @return bool
      */
     protected function isFileNameFitsMask(string $fileName, string $mask): bool
     {

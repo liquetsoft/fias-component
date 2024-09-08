@@ -102,10 +102,6 @@ class CurlStatusChecker implements FiasStatusChecker
 
     /**
      * Отправляет HEAD запрос на указанный url и проверяет, что в ответ пришел статус 200.
-     *
-     * @param string $url
-     *
-     * @return bool
      */
     private function sendHeadRequest(string $url): bool
     {

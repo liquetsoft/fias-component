@@ -19,9 +19,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
     private ?Filter $filter;
 
-    /**
-     * @param EntityManager $entityManager
-     */
     public function __construct(EntityManager $entityManager, ?Filter $filter = null)
     {
         $this->entityManager = $entityManager;
@@ -56,10 +53,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * Проверяет, что параметр директории для поиска файлов задан верно.
      *
-     * @param mixed $parameterValue
-     *
-     * @return \SplFileInfo
-     *
      * @throws TaskException
      */
     private function checkDirectory($parameterValue): \SplFileInfo
@@ -81,8 +74,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
     /**
      * Возвращает список файлов для обработки из указанной директории.
-     *
-     * @param \SplFileInfo $filesFolder
      *
      * @return string[]
      */
@@ -110,10 +101,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
     /**
      * Проверяет следует ли добавлять файл к списку.
-     *
-     * @param \SplFileInfo $fileInfo
-     *
-     * @return bool
      */
     private function isFileAllowed(\SplFileInfo $fileInfo): bool
     {
@@ -124,10 +111,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
     /**
      * Проверяет нужно ли файл обрабатывать для создания и обновления в рамках данного процесса.
-     *
-     * @param \SplFileInfo $fileInfo
-     *
-     * @return bool
      */
     private function isFileAllowedToInsert(\SplFileInfo $fileInfo): bool
     {
@@ -138,10 +121,6 @@ class SelectFilesToProceedTask implements LoggableTask, Task
 
     /**
      * Проверяет нужно ли файл обрабатывать для удаления в рамках данного процесса.
-     *
-     * @param \SplFileInfo $fileInfo
-     *
-     * @return bool
      */
     private function isFileAllowedToDelete(\SplFileInfo $fileInfo): bool
     {

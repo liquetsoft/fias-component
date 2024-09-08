@@ -19,19 +19,12 @@ interface XmlReader extends \Iterator
      * путь найден, то открывает файл и возвращает правду, если не найден, то
      * возвращает ложь.
      *
-     * @param \SplFileInfo $file
-     * @param string       $xpath
-     *
-     * @return bool
-     *
      * @throws XmlException
      */
     public function open(\SplFileInfo $file, string $xpath): bool;
 
     /**
      * Закрывает открытый файл, если такой был.
-     *
-     * @return void
      */
     public function close(): void;
 }

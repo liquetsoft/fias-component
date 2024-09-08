@@ -25,10 +25,6 @@ class SaveFiasFilesTask implements LoggableTask, Task
 
     private FileSystemHelperInterface $fs;
 
-    /**
-     * @param string|null $moveArchiveTo
-     * @param string|null $moveExtractedTo
-     */
     public function __construct(?string $moveArchiveTo, ?string $moveExtractedTo)
     {
         $this->movePaths = [];

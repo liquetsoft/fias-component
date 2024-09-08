@@ -31,12 +31,6 @@ abstract class DataAbstractTask implements LoggableTask, Task
 
     protected SerializerInterface $serializer;
 
-    /**
-     * @param EntityManager       $entityManager
-     * @param XmlReader           $xmlReader
-     * @param Storage             $storage
-     * @param SerializerInterface $serializer
-     */
     public function __construct(EntityManager $entityManager, XmlReader $xmlReader, Storage $storage, SerializerInterface $serializer)
     {
         $this->entityManager = $entityManager;
@@ -47,17 +41,11 @@ abstract class DataAbstractTask implements LoggableTask, Task
 
     /**
      * Пробует найти дескриптор для указанного файла.
-     *
-     * @param \SplFileInfo $file
-     *
-     * @return EntityDescriptor|null
      */
     abstract protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor;
 
     /**
      * Обрабатывает одиночную запись из файла.
-     *
-     * @param object $item
      */
     abstract protected function processItem(object $item): void;
 
@@ -80,9 +68,6 @@ abstract class DataAbstractTask implements LoggableTask, Task
     /**
      * Обрабатывает указанный файл.
      *
-     * @param \SplFileInfo     $fileInfo
-     * @param EntityDescriptor $descriptor
-     *
      * @throws TaskException
      * @throws StorageException
      * @throws XmlException
@@ -98,10 +83,6 @@ abstract class DataAbstractTask implements LoggableTask, Task
 
     /**
      * Обрабатывает данные из файла и передает в хранилище.
-     *
-     * @param \SplFileInfo $fileInfo
-     * @param string       $xpath
-     * @param string       $entityClass
      *
      * @throws TaskException
      * @throws StorageException
@@ -148,11 +129,6 @@ abstract class DataAbstractTask implements LoggableTask, Task
 
     /**
      * Преобразует xml строку в объект указанного класса.
-     *
-     * @param string|null $xml
-     * @param string      $entityClass
-     *
-     * @return object
      *
      * @throws TaskException
      */

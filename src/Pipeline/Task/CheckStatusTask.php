@@ -18,9 +18,6 @@ class CheckStatusTask implements LoggableTask, Task
 
     protected FiasStatusChecker $checker;
 
-    /**
-     * @param FiasStatusChecker $checker
-     */
     public function __construct(FiasStatusChecker $checker)
     {
         $this->checker = $checker;

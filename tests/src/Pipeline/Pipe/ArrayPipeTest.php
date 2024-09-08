@@ -216,11 +216,6 @@ class ArrayPipeTest extends BaseCase
 
     /**
      * Создает мок для новой задачи.
-     *
-     * @param mixed           $with
-     * @param \Throwable|null $exception
-     *
-     * @return Task
      */
     private function createTaskMock($with = null, ?\Throwable $exception = null): Task
     {

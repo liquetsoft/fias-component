@@ -351,10 +351,6 @@ class BaseEntityDescriptorTest extends BaseCase
 
     /**
      * Создает объект по умолчанию.
-     *
-     * @param array $options
-     *
-     * @return BaseEntityDescriptor
      */
     protected function createDescriptor(array $options = []): BaseEntityDescriptor
     {

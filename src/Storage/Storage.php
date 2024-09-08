@@ -28,26 +28,16 @@ interface Storage
 
     /**
      * Проверяет может ли хранилище работать с данным объектом.
-     *
-     * @param object $entity
-     *
-     * @return bool
      */
     public function supports(object $entity): bool;
 
     /**
      * Проверяет может ли хранилище работать с данным типом объектов.
-     *
-     * @param string $class
-     *
-     * @return bool
      */
     public function supportsClass(string $class): bool;
 
     /**
      * Отправляет объект на запись в хранилище.
-     *
-     * @param object $entity
      *
      * @throws StorageException
      */
@@ -55,8 +45,6 @@ interface Storage
 
     /**
      * Удаляет объект из хранилища.
-     *
-     * @param object $entity
      *
      * @throws StorageException
      */
@@ -66,16 +54,12 @@ interface Storage
      * Если запись уже имеется в БД, то обновляет ее из объекта, если записи нет,
      * то создает новую.
      *
-     * @param object $entity
-     *
      * @throws StorageException
      */
     public function upsert(object $entity): void;
 
     /**
      * Очищает хранилище для объектов с указанным в параметре классом.
-     *
-     * @param string $entityClassName
      *
      * @throws StorageException
      */

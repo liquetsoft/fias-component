@@ -9,10 +9,5 @@ namespace Liquetsoft\Fias\Component\Filter;
  */
 interface Filter
 {
-    /**
-     * @param mixed $testData
-     *
-     * @return bool
-     */
     public function test($testData): bool;
 }
