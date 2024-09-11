@@ -9,13 +9,10 @@ use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 /**
  * Объект, который разбивает файлы на потоки по именам сущностей, к которым файлы относятся.
  */
-class EntityFileDispatcher implements FilesDispatcher
+final class EntityFileDispatcher implements FilesDispatcher
 {
-    private EntityManager $entityManager;
-
-    public function __construct(EntityManager $entityManager)
+    public function __construct(private readonly EntityManager $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**

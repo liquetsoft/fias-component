@@ -15,18 +15,18 @@ use Ramsey\Uuid\Uuid;
 /**
  * Объект, который содержит внутренний массив со списком операций для исполнения.
  */
-class ArrayPipe implements Pipe
+final class ArrayPipe implements Pipe
 {
-    protected string $id;
+    private readonly string $id;
 
     /**
      * @var Task[]
      */
-    protected array $tasks;
+    private readonly array $tasks;
 
-    protected ?Task $cleanupTask;
+    private readonly ?Task $cleanupTask;
 
-    protected ?LoggerInterface $logger;
+    private readonly ?LoggerInterface $logger;
 
     /**
      * @param iterable             $tasks       Список задач, которые должны быть исполнены данной очередью
@@ -76,7 +76,7 @@ class ArrayPipe implements Pipe
     protected function proceedStart(State $state): void
     {
         $message = \sprintf(
-            "Start '%s' pipeline with '%s' state.",
+            "Start '%s' pipeline with '%s' state",
             \get_class($this),
             \get_class($state)
         );
@@ -95,7 +95,7 @@ class ArrayPipe implements Pipe
 
         $this->log(
             LogLevel::INFO,
-            "Start '{$taskName}' task.",
+            "Start '{$taskName}' task",
             [
                 'task' => $taskName,
             ]
@@ -106,7 +106,7 @@ class ArrayPipe implements Pipe
 
         $this->log(
             LogLevel::INFO,
-            "Complete '{$taskName}' task.",
+            "Complete '{$taskName}' task",
             [
                 'task' => $taskName,
             ]
@@ -121,7 +121,7 @@ class ArrayPipe implements Pipe
     protected function proceedException(State $state, Task $task, \Throwable $e): void
     {
         $taskName = $this->getTaskId($task);
-        $message = "There was an error while running '{$taskName}' task. Pipeline was interrupted.";
+        $message = "There was an error while running '{$taskName}' task. Pipeline was interrupted";
 
         $this->log(
             LogLevel::INFO,
@@ -144,10 +144,10 @@ class ArrayPipe implements Pipe
     protected function proceedCleanup(State $state): void
     {
         if ($this->cleanupTask) {
-            $this->log(LogLevel::INFO, 'Start cleaning up.');
+            $this->log(LogLevel::INFO, 'Start cleaning up');
             $this->proceedTask($state, $this->cleanupTask);
         } else {
-            $this->log(LogLevel::INFO, 'Skip cleaning up.');
+            $this->log(LogLevel::INFO, 'Skip cleaning up');
         }
     }
 
@@ -157,7 +157,7 @@ class ArrayPipe implements Pipe
     protected function proceedComplete(State $state): void
     {
         $state->complete();
-        $this->log(LogLevel::INFO, "Pipeline '" . \get_class($this) . "' was completed.");
+        $this->log(LogLevel::INFO, "Pipeline '" . \get_class($this) . "' was completed");
     }
 
     /**
