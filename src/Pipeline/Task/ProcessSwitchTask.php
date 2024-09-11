@@ -35,9 +35,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
         $files = [];
         if (\is_array($rawFiles)) {
             $files = array_map(
-                function ($file): string {
-                    return (string) $file;
-                },
+                fn ($file): string => (string) $file,
                 $rawFiles
             );
         }
@@ -56,9 +54,9 @@ final class ProcessSwitchTask implements LoggableTask, Task
     protected function runProcesses(array $processes): void
     {
         $this->startProcesses($processes);
-        $this->log(LogLevel::INFO, 'All process started.');
+        $this->log(LogLevel::INFO, 'All processes started');
         $this->waitTillProcessesComplete($processes);
-        $this->log(LogLevel::INFO, 'All process completed.');
+        $this->log(LogLevel::INFO, 'All processes completed');
         $this->handleProcessesResults($processes);
     }
 
@@ -106,7 +104,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
             if (!$process->isSuccessful()) {
                 $this->log(
                     LogLevel::ERROR,
-                    'Process complete with error: ' . $process->getErrorOutput()
+                    "Process completed with error: '{$process->getErrorOutput()}'"
                 );
             }
         }
@@ -145,7 +143,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
 
         $this->log(
             LogLevel::INFO,
-            'Creating new process.',
+            'Creating new process',
             [
                 'files' => $dispatchedFiles,
                 'path_to_php' => $phpBinaryPath,
