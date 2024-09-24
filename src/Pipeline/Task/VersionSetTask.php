@@ -26,7 +26,11 @@ final class VersionSetTask implements Task
         $version = $state->getParameterInt(StateParameter::FIAS_NEXT_VERSION_NUMBER);
 
         if ($version > 0) {
-            $version = FiasInformerResponseFactory::create($version);
+            $version = FiasInformerResponseFactory::create(
+                $version,
+                $state->getParameterString(StateParameter::FIAS_NEXT_VERSION_FULL_URL),
+                $state->getParameterString(StateParameter::FIAS_NEXT_VERSION_DELTA_URL)
+            );
             $this->versionManager->setCurrentVersion($version);
         }
     }
