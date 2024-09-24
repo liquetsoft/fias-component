@@ -41,8 +41,12 @@ final class InformFullTaskTest extends BaseCase
         $task->run($state);
         $resVersion = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER);
         $resUrl = $state->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
+        $resFullUrl = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL);
+        $resDeltaUrl = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL);
 
         $this->assertSame($version, $resVersion);
         $this->assertSame($fullUrl, $resUrl);
+        $this->assertSame($fullUrl, $resFullUrl);
+        $this->assertSame($deltaUrl, $resDeltaUrl);
     }
 }
