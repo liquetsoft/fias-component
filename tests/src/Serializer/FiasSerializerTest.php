@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
  *
  * @internal
  */
-class FiasSerializerTest extends BaseCase
+final class FiasSerializerTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно разберет данные их xml в объект.

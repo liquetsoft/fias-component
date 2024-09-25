@@ -9,32 +9,17 @@ namespace Liquetsoft\Fias\Component\Tests\Mock;
  *
  * @internal
  */
-class FiasSerializerMock
+final class FiasSerializerMock
 {
-    /**
-     * @var int
-     */
-    private $ACTSTATID = 0;
+    private int $ACTSTATID = 0;
 
-    /**
-     * @var string
-     */
-    private $name = '';
+    private string $name = '';
 
-    /**
-     * @var \DateTimeInterface|null
-     */
-    private $testDate;
+    private ?\DateTimeInterface $testDate;
 
-    /**
-     * @var string
-     */
-    private $kodtst = '';
+    private string $kodtst = '';
 
-    /**
-     * @var int
-     */
-    private $emptyStringInt = 0;
+    private int $emptyStringInt = 0;
 
     public function setActstatid(int $ACTSTATID): void
     {
