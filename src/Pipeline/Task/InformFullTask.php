@@ -37,6 +37,8 @@ final class InformFullTask implements LoggableTask, Task
         );
 
         $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER, $info->getVersion());
+        $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL, $info->getFullUrl());
+        $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL, $info->getDeltaUrl());
         $state->setAndLockParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL, $info->getFullUrl());
     }
 }

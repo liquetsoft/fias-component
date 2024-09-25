@@ -23,10 +23,14 @@ final class VersionSetTaskTest extends BaseCase
     public function testRun(): void
     {
         $version = 123;
+        $fullUrl = 'https://test.test/full';
+        $deltaUrl = 'https://test.test/delta';
 
         $state = $this->createDefaultStateMock(
             [
                 StateParameter::FIAS_NEXT_VERSION_NUMBER->value => $version,
+                StateParameter::FIAS_NEXT_VERSION_FULL_URL->value => $fullUrl,
+                StateParameter::FIAS_NEXT_VERSION_DELTA_URL->value => $deltaUrl,
             ]
         );
 
@@ -36,6 +40,8 @@ final class VersionSetTaskTest extends BaseCase
             ->with(
                 $this->callback(
                     fn (FiasInformerResponse $r): bool => $r->getVersion() === $version
+                        && $r->getFullUrl() === $fullUrl
+                        && $r->getDeltaUrl() === $deltaUrl
                 )
             );
 
