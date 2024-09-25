@@ -13,14 +13,15 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Объект для преобразования xml-строк из ФИАС в объекты.
- *
- * @psalm-suppress DeprecatedInterface
  */
-class FiasSerializer extends Serializer
+final class FiasSerializer implements SerializerInterface
 {
+    private readonly Serializer $nestedSerializer;
+
     /**
      * @param array<DenormalizerInterface|NormalizerInterface>|null $normalizers
      * @param array<DecoderInterface|EncoderInterface>|null         $encoders
@@ -31,18 +32,16 @@ class FiasSerializer extends Serializer
             $normalizers = [
                 new DateTimeNormalizer(),
                 new ObjectNormalizer(
-                    null,
-                    new FiasNameConverter(),
-                    null,
-                    new ReflectionExtractor(),
-                    null,
-                    null,
-                    [
+                    nameConverter: new FiasNameConverter(),
+                    propertyTypeExtractor: new ReflectionExtractor(),
+                    defaultContext: [
                         ObjectNormalizer::DISABLE_TYPE_ENFORCEMENT => true,
                     ]
                 ),
             ];
         }
+
+        array_unshift($normalizers, new FilterEmptyStringsDenormalizer());
 
         if ($encoders === null) {
             $encoders = [
@@ -50,35 +49,24 @@ class FiasSerializer extends Serializer
             ];
         }
 
-        parent::__construct($normalizers, $encoders);
+        $this->nestedSerializer = new Serializer($normalizers, $encoders);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    public function serialize(mixed $data, string $format, array $context = []): string
     {
-        $data = $this->filterData($data);
-
-        return parent::denormalize($data, $type, $format, $context);
+        return $this->nestedSerializer->serialize($data, $format, $context);
     }
 
     /**
-     * Removes items from with empty string in value from array.
+     * {@inheritdoc}
+     *
+     * @psalm-suppress MixedReturnStatement
      */
-    private function filterData(mixed $data): mixed
+    public function deserialize(mixed $data, string $type, string $format, array $context = []): mixed
     {
-        if (!\is_array($data)) {
-            return $data;
-        }
-
-        $filteredData = [];
-        foreach ($data as $name => $value) {
-            if (\is_string($name) && ($value !== '' || strpos($name, '@') !== 0)) {
-                $filteredData[$name] = $value;
-            }
-        }
-
-        return $filteredData;
+        return $this->nestedSerializer->deserialize($data, $type, $format, $context);
     }
 }
