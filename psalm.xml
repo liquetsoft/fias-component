@@ -16,6 +16,7 @@
 
     <issueHandlers>
         <MixedAssignment errorLevel="suppress"/>
+        <MissingClassConstType errorLevel="suppress"/>
         <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
                 <directory name="./tests" />
