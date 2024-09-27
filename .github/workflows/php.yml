@@ -32,7 +32,7 @@ jobs:
       run: composer validate
 
     - name: Set up Symfony components versions
-      run: "sed -i -e \"s#fias#${{ matrix.symfony-components-versions }}#g\" composer.json"
+      run: "sed -i -e \"s#\"symfony/serializer\"#${{ matrix.symfony-components-versions }}#g\" composer.json"
 
     - name: Set up Symfony components versions
       run: cat composer.json
