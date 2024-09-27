@@ -34,7 +34,7 @@ jobs:
     - name: Set up Symfony components versions
       run: "sed -i -E \"s#\\\"(symfony/.+)\\\".*:.*\\\"(.+)\\\"#\\\"\\1\\\":\\\"${{ matrix.symfony-components-versions }}\\\"#g\" composer.json"
 
-    - name: Set up Symfony components versions
+    - name: Show composer.json
       run: cat composer.json
 
     - name: Cache Composer packages
