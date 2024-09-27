@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['8.2']
+        php-versions: ['8.2', '8.3']
         symfony-components-versions: ['^5.0', '^6.0', '^7.0']
 
     steps:
@@ -37,17 +37,7 @@ jobs:
     - name: Show composer.json
       run: cat composer.json
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ matrix.php-versions }}-symfony-${{ matrix.symfony-components-versions }}-${{ hashFiles('**/composer.json') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run test suite

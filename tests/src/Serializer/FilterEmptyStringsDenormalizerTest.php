@@ -20,7 +20,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      *
      * @dataProvider provideDenormalize
      */
-    public function testDenormalize(mixed $data, mixed $format, mixed $expected): void
+    public function testDenormalize(mixed $data, string $format, mixed $expected): void
     {
         $denormalizer = new FilterEmptyStringsDenormalizer();
 
@@ -95,7 +95,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      *
      * @dataProvider provideSupportsDenormalization
      */
-    public function testSupportsDenormalization(mixed $data, mixed $format, bool $expected): void
+    public function testSupportsDenormalization(mixed $data, string $format, bool $expected): void
     {
         $denormalizer = new FilterEmptyStringsDenormalizer();
 
@@ -140,7 +140,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      *
      * @dataProvider provideGetSupportedTypesXML
      */
-    public function testGetSupportedTypes(mixed $format, array $expected): void
+    public function testGetSupportedTypes(string $format, array $expected): void
     {
         $denormalizer = new FilterEmptyStringsDenormalizer();
 
