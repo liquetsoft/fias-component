@@ -137,6 +137,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
                 FiasSerializerFormat::XML->value,
                 [
                     FiasSerializerContextParam::FIAS_FLAG->value => true,
+                    FiasSerializerContextParam::FIAS_ENTITY->value => $entityClass,
                 ]
             );
         } catch (\Throwable $e) {

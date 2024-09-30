@@ -10,4 +10,5 @@ namespace Liquetsoft\Fias\Component\Serializer;
 enum FiasSerializerContextParam: string
 {
     case FIAS_FLAG = 'is_fias';
+    case FIAS_ENTITY = 'fias_entity';
 }
