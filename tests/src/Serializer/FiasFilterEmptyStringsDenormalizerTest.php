@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
+use Liquetsoft\Fias\Component\Serializer\FiasFilterEmptyStringsDenormalizer;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
-use Liquetsoft\Fias\Component\Serializer\FilterEmptyStringsDenormalizer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  *
  * @internal
  */
-final class FilterEmptyStringsDenormalizerTest extends BaseCase
+final class FiasFilterEmptyStringsDenormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно денормализует данные.
@@ -23,7 +23,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      */
     public function testDenormalize(mixed $data, string $format, mixed $expected): void
     {
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
 
         $res = $denormalizer->denormalize($data, 'test_type', $format);
 
@@ -78,7 +78,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
             )
             ->willReturn($nestedReturn);
 
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
         $denormalizer->setDenormalizer($nestedDenormalizer);
 
         $res = $denormalizer->denormalize($data, $type, $format, $context);
@@ -93,7 +93,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      */
     public function testSupportsDenormalization(mixed $data, string $format, bool $expected): void
     {
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
 
         $res = $denormalizer->supportsDenormalization($data, 'test_type', $format);
 
@@ -133,7 +133,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      */
     public function testGetSupportedTypes(string $format, array $expected): void
     {
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
 
         $res = $denormalizer->getSupportedTypes($format);
 

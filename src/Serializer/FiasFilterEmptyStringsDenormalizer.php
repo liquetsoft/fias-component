@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 /**
  * Денормалайзер, который фильтрует пустые строки и передает оставшиеся для дальнейшей обработки.
  */
-final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface, DenormalizerInterface
+final class FiasFilterEmptyStringsDenormalizer implements DenormalizerAwareInterface, DenormalizerInterface
 {
     private ?DenormalizerInterface $denormalizer = null;
 
