@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Serializer;
 /**
  * Список параметров контекста, которые поддерживает сериализатор.
  */
-enum SerializerContextParam: string
+enum FiasSerializerContextParam: string
 {
     case FIAS_FLAG = 'is_fias';
 }
