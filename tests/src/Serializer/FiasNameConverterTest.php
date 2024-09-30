@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
 use Liquetsoft\Fias\Component\Serializer\FiasNameConverter;
-use Liquetsoft\Fias\Component\Serializer\SerializerFormat;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -33,12 +33,12 @@ class FiasNameConverterTest extends BaseCase
         return [
             'name without @' => [
                 'test',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 '@test',
             ],
             'name without @ and with spaces' => [
                 '   test   ',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 '@test',
             ],
             'not an xml' => [
@@ -48,7 +48,7 @@ class FiasNameConverterTest extends BaseCase
             ],
             'name with @' => [
                 '@test',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 '@test',
             ],
         ];
@@ -72,12 +72,12 @@ class FiasNameConverterTest extends BaseCase
         return [
             'name without @' => [
                 'test',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 'test',
             ],
             'name without @ and with spaces' => [
                 '   test   ',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 'test',
             ],
             'not an xml' => [
@@ -87,7 +87,7 @@ class FiasNameConverterTest extends BaseCase
             ],
             'name with @' => [
                 '@test',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 'test',
             ],
         ];

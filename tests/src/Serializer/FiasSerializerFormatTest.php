@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
-use Liquetsoft\Fias\Component\Serializer\SerializerFormat;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-final class SerializerFormatTest extends BaseCase
+final class FiasSerializerFormatTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно сравнит предоставленную строку с форматом.
@@ -21,7 +21,7 @@ final class SerializerFormatTest extends BaseCase
      */
     public function testIsEqual(mixed $format, bool $expected): void
     {
-        $res = SerializerFormat::TEST->isEqual($format);
+        $res = FiasSerializerFormat::TEST->isEqual($format);
 
         $this->assertSame($expected, $res);
     }
@@ -30,15 +30,15 @@ final class SerializerFormatTest extends BaseCase
     {
         return [
             'correct format' => [
-                SerializerFormat::TEST->value,
+                FiasSerializerFormat::TEST->value,
                 true,
             ],
             'correct format in different case' => [
-                strtoupper(SerializerFormat::TEST->value),
+                strtoupper(FiasSerializerFormat::TEST->value),
                 true,
             ],
             'correct format with leading spaces' => [
-                '       ' . SerializerFormat::TEST->value,
+                '       ' . FiasSerializerFormat::TEST->value,
                 true,
             ],
             'incorrect format' => [

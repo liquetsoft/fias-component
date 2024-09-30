@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
-use Liquetsoft\Fias\Component\Serializer\SerializerFormat;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
 
@@ -35,7 +35,7 @@ EOT;
         $object = $serializer->deserialize(
             $data,
             FiasSerializerMock::class,
-            SerializerFormat::XML->value
+            FiasSerializerFormat::XML->value
         );
 
         $this->assertInstanceOf(FiasSerializerMock::class, $object);

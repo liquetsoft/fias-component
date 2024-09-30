@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Serializer\FilterEmptyStringsDenormalizer;
-use Liquetsoft\Fias\Component\Serializer\SerializerFormat;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -35,17 +35,17 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
         return [
             'xml and array' => [
                 ['test' => ''],
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 [],
             ],
             'xml and not an array' => [
                 'test',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 'test',
             ],
             'xml and array without empty strings' => [
                 ['test' => 'qwe'],
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 ['test' => 'qwe'],
             ],
             'json' => [
@@ -63,7 +63,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
     {
         $data = ['test_key_data' => 'test_value_data'];
         $type = 'test_type';
-        $format = SerializerFormat::XML->value;
+        $format = FiasSerializerFormat::XML->value;
         $context = ['test_key_context' => 'test_value_context'];
         $nestedReturn = 'test_return';
 
@@ -105,17 +105,17 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
         return [
             'xml and array' => [
                 ['test' => ''],
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 true,
             ],
             'xml and not an array' => [
                 'test',
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 false,
             ],
             'xml and array without empty strings' => [
                 ['test' => 'qwe'],
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 false,
             ],
             'json' => [
@@ -144,7 +144,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
     {
         return [
             'xml' => [
-                SerializerFormat::XML->value,
+                FiasSerializerFormat::XML->value,
                 ['*' => false],
             ],
             'json' => [

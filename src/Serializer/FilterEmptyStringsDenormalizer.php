@@ -27,7 +27,7 @@ final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface
      */
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        if (SerializerFormat::XML->isEqual($format) && \is_array($data)) {
+        if (FiasSerializerFormat::XML->isEqual($format) && \is_array($data)) {
             $filteredData = [];
             foreach ($data as $key => $value) {
                 if ($value !== '') {
@@ -50,7 +50,7 @@ final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface
      */
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        if (SerializerFormat::XML->isEqual($format) && \is_array($data)) {
+        if (FiasSerializerFormat::XML->isEqual($format) && \is_array($data)) {
             foreach ($data as $value) {
                 if ($value === '') {
                     return true;
@@ -66,7 +66,7 @@ final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface
      */
     public function getSupportedTypes(?string $format): array
     {
-        if (SerializerFormat::XML->isEqual($format)) {
+        if (FiasSerializerFormat::XML->isEqual($format)) {
             return [
                 '*' => false,
             ];

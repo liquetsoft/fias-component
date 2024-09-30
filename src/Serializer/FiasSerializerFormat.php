@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Serializer;
 /**
  * Список форматов, которые поддерживает сериализатор.
  */
-enum SerializerFormat: string
+enum FiasSerializerFormat: string
 {
     case XML = 'xml';
     case TEST = 'test';
