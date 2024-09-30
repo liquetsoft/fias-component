@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
 use Liquetsoft\Fias\Component\Serializer\FiasSerializer;
+use Liquetsoft\Fias\Component\Serializer\SerializerFormat;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\FiasSerializerMock;
 
@@ -29,9 +30,13 @@ final class FiasSerializerTest extends BaseCase
     EMPTYSTRINGINT=""
 />
 EOT;
-        $serializer = new FiasSerializer();
 
-        $object = $serializer->deserialize($data, FiasSerializerMock::class, 'xml');
+        $serializer = new FiasSerializer();
+        $object = $serializer->deserialize(
+            $data,
+            FiasSerializerMock::class,
+            SerializerFormat::XML->value
+        );
 
         $this->assertInstanceOf(FiasSerializerMock::class, $object);
         $this->assertSame(2, $object->getActstatid());

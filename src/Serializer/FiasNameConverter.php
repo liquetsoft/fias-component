@@ -11,27 +11,37 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  */
 class FiasNameConverter implements NameConverterInterface
 {
-    public function normalize(string $propertyName): string
+    /**
+     * {@inheritdoc}
+     */
+    public function normalize(string $propertyName, ?string $class = null, ?string $format = null, array $context = []): string
     {
-        $propertyName = trim($propertyName);
-        $return = $propertyName;
-
-        if (strpos($propertyName, '@') !== 0) {
-            $return = '@' . $propertyName;
+        if (!SerializerFormat::XML->isEqual($format)) {
+            return $propertyName;
         }
 
-        return $return;
+        $propertyName = trim($propertyName);
+        if (strpos($propertyName, '@') !== 0) {
+            return '@' . $propertyName;
+        }
+
+        return $propertyName;
     }
 
-    public function denormalize(string $propertyName): string
+    /**
+     * {@inheritdoc}
+     */
+    public function denormalize(string $propertyName, ?string $class = null, ?string $format = null, array $context = []): string
     {
-        $propertyName = trim($propertyName);
-        $return = $propertyName;
-
-        if (strpos($propertyName, '@') === 0) {
-            $return = substr($propertyName, 1);
+        if (!SerializerFormat::XML->isEqual($format)) {
+            return $propertyName;
         }
 
-        return $return;
+        $propertyName = trim($propertyName);
+        if (strpos($propertyName, '@') === 0) {
+            return substr($propertyName, 1);
+        }
+
+        return $propertyName;
     }
 }

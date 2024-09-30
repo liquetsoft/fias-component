@@ -27,7 +27,7 @@ final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface
      */
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        if ($this->isXML($format) && \is_array($data)) {
+        if (SerializerFormat::XML->isEqual($format) && \is_array($data)) {
             $filteredData = [];
             foreach ($data as $key => $value) {
                 if ($value !== '') {
@@ -38,7 +38,7 @@ final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface
             $filteredData = $data;
         }
 
-        if ($this->denormalizer) {
+        if ($this->denormalizer !== null) {
             return $this->denormalizer->denormalize($filteredData, $type, $format, $context);
         } else {
             return $filteredData;
@@ -50,7 +50,7 @@ final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface
      */
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        if ($this->isXML($format) && \is_array($data)) {
+        if (SerializerFormat::XML->isEqual($format) && \is_array($data)) {
             foreach ($data as $value) {
                 if ($value === '') {
                     return true;
@@ -66,20 +66,12 @@ final class FilterEmptyStringsDenormalizer implements DenormalizerAwareInterface
      */
     public function getSupportedTypes(?string $format): array
     {
-        if ($this->isXML($format)) {
+        if (SerializerFormat::XML->isEqual($format)) {
             return [
-                '*' => true,
+                '*' => false,
             ];
         }
 
         return [];
-    }
-
-    /**
-     * Возвращает правду, если указанный формат - XML.
-     */
-    private function isXML(mixed $format): bool
-    {
-        return \is_string($format) && strtolower(trim($format)) === 'xml';
     }
 }
