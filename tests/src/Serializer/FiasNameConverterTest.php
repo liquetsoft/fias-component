@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
 use Liquetsoft\Fias\Component\Serializer\FiasNameConverter;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 
 /**
@@ -16,29 +17,79 @@ class FiasNameConverterTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует имя.
+     *
+     * @dataProvider provideNormalize
      */
-    public function testNormalize(): void
+    public function testNormalize(string $name, string $format, string $expected): void
     {
-        $name = ' @TEST';
-        $name1 = 'tEst1 ';
-
         $converter = new FiasNameConverter();
+        $res = $converter->normalize($name, \stdClass::class, $format);
 
-        $this->assertSame('@TEST', $converter->normalize($name));
-        $this->assertSame('@tEst1', $converter->normalize($name1));
+        $this->assertSame($expected, $res);
+    }
+
+    public static function provideNormalize(): array
+    {
+        return [
+            'name without @' => [
+                'test',
+                FiasSerializerFormat::XML->value,
+                '@test',
+            ],
+            'name without @ and with spaces' => [
+                '   test   ',
+                FiasSerializerFormat::XML->value,
+                '@test',
+            ],
+            'not an xml' => [
+                'test',
+                'json',
+                'test',
+            ],
+            'name with @' => [
+                '@test',
+                FiasSerializerFormat::XML->value,
+                '@test',
+            ],
+        ];
     }
 
     /**
      * Проверяет, что объект верно преобразует имя из XML.
+     *
+     * @dataProvider provideDenormalize
      */
-    public function testDenormalize(): void
+    public function testDenormalize(string $name, string $format, string $expected): void
     {
-        $name = ' @TEST';
-        $name1 = 'tEst1 ';
-
         $converter = new FiasNameConverter();
+        $res = $converter->denormalize($name, \stdClass::class, $format);
 
-        $this->assertSame('TEST', $converter->denormalize($name));
-        $this->assertSame('tEst1', $converter->denormalize($name1));
+        $this->assertSame($expected, $res);
+    }
+
+    public static function provideDenormalize(): array
+    {
+        return [
+            'name without @' => [
+                'test',
+                FiasSerializerFormat::XML->value,
+                'test',
+            ],
+            'name without @ and with spaces' => [
+                '   test   ',
+                FiasSerializerFormat::XML->value,
+                'test',
+            ],
+            'not an xml' => [
+                '@test',
+                'json',
+                '@test',
+            ],
+            'name with @' => [
+                '@test',
+                FiasSerializerFormat::XML->value,
+                'test',
+            ],
+        ];
     }
 }

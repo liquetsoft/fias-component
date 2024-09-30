@@ -41,7 +41,7 @@ final class FiasSerializer implements SerializerInterface
             ];
         }
 
-        array_unshift($normalizers, new FilterEmptyStringsDenormalizer());
+        array_unshift($normalizers, new FiasFilterEmptyStringsDenormalizer());
 
         if ($encoders === null) {
             $encoders = [

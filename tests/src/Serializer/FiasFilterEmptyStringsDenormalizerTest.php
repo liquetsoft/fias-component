@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
-use Liquetsoft\Fias\Component\Serializer\FilterEmptyStringsDenormalizer;
+use Liquetsoft\Fias\Component\Serializer\FiasFilterEmptyStringsDenormalizer;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  *
  * @internal
  */
-final class FilterEmptyStringsDenormalizerTest extends BaseCase
+final class FiasFilterEmptyStringsDenormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно денормализует данные.
@@ -22,7 +23,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      */
     public function testDenormalize(mixed $data, string $format, mixed $expected): void
     {
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
 
         $res = $denormalizer->denormalize($data, 'test_type', $format);
 
@@ -34,23 +35,18 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
         return [
             'xml and array' => [
                 ['test' => ''],
-                'xml',
+                FiasSerializerFormat::XML->value,
                 [],
             ],
             'xml and not an array' => [
                 'test',
-                'xml',
+                FiasSerializerFormat::XML->value,
                 'test',
             ],
             'xml and array without empty strings' => [
                 ['test' => 'qwe'],
-                'xml',
+                FiasSerializerFormat::XML->value,
                 ['test' => 'qwe'],
-            ],
-            'XML and array' => [
-                ['test' => ''],
-                'XML',
-                [],
             ],
             'json' => [
                 ['test' => ''],
@@ -67,7 +63,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
     {
         $data = ['test_key_data' => 'test_value_data'];
         $type = 'test_type';
-        $format = 'test_format';
+        $format = FiasSerializerFormat::XML->value;
         $context = ['test_key_context' => 'test_value_context'];
         $nestedReturn = 'test_return';
 
@@ -82,7 +78,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
             )
             ->willReturn($nestedReturn);
 
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
         $denormalizer->setDenormalizer($nestedDenormalizer);
 
         $res = $denormalizer->denormalize($data, $type, $format, $context);
@@ -97,7 +93,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      */
     public function testSupportsDenormalization(mixed $data, string $format, bool $expected): void
     {
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
 
         $res = $denormalizer->supportsDenormalization($data, 'test_type', $format);
 
@@ -109,23 +105,18 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
         return [
             'xml and array' => [
                 ['test' => ''],
-                'xml',
+                FiasSerializerFormat::XML->value,
                 true,
             ],
             'xml and not an array' => [
                 'test',
-                'xml',
+                FiasSerializerFormat::XML->value,
                 false,
             ],
             'xml and array without empty strings' => [
                 ['test' => 'qwe'],
-                'xml',
+                FiasSerializerFormat::XML->value,
                 false,
-            ],
-            'XML and array' => [
-                ['test' => ''],
-                'XML',
-                true,
             ],
             'json' => [
                 ['test' => ''],
@@ -142,7 +133,7 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
      */
     public function testGetSupportedTypes(string $format, array $expected): void
     {
-        $denormalizer = new FilterEmptyStringsDenormalizer();
+        $denormalizer = new FiasFilterEmptyStringsDenormalizer();
 
         $res = $denormalizer->getSupportedTypes($format);
 
@@ -153,12 +144,8 @@ final class FilterEmptyStringsDenormalizerTest extends BaseCase
     {
         return [
             'xml' => [
-                'xml',
-                ['*' => true],
-            ],
-            'XML' => [
-                'XML',
-                ['*' => true],
+                FiasSerializerFormat::XML->value,
+                ['*' => false],
             ],
             'json' => [
                 'json',

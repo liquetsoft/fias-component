@@ -11,6 +11,8 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerContextParam;
+use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Psr\Log\LogLevel;
@@ -18,25 +20,19 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Абстрактная задача, которая переносит данные из xml в хранилище данных.
+ *
+ * @internal
  */
 abstract class DataAbstractTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    protected EntityManager $entityManager;
-
-    protected XmlReader $xmlReader;
-
-    protected Storage $storage;
-
-    protected SerializerInterface $serializer;
-
-    public function __construct(EntityManager $entityManager, XmlReader $xmlReader, Storage $storage, SerializerInterface $serializer)
-    {
-        $this->entityManager = $entityManager;
-        $this->xmlReader = $xmlReader;
-        $this->storage = $storage;
-        $this->serializer = $serializer;
+    public function __construct(
+        protected readonly EntityManager $entityManager,
+        protected readonly XmlReader $xmlReader,
+        protected readonly Storage $storage,
+        protected readonly SerializerInterface $serializer,
+    ) {
     }
 
     /**
@@ -92,7 +88,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
     {
         $this->log(
             LogLevel::INFO,
-            "Start processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity.",
+            "Start processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity",
             [
                 'entity' => $entityClass,
                 'path' => $fileInfo->getRealPath(),
@@ -119,7 +115,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
 
         $this->log(
             LogLevel::INFO,
-            "Complete processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity. {$total} items processed.",
+            "Completed processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity. {$total} items processed",
             [
                 'entity' => $entityClass,
                 'path' => $fileInfo->getRealPath(),
@@ -135,14 +131,24 @@ abstract class DataAbstractTask implements LoggableTask, Task
     protected function deserializeXmlStringToObject(?string $xml, string $entityClass): object
     {
         try {
-            $entity = $this->serializer->deserialize($xml, $entityClass, 'xml');
+            $entity = $this->serializer->deserialize(
+                $xml,
+                $entityClass,
+                FiasSerializerFormat::XML->value,
+                [
+                    FiasSerializerContextParam::FIAS_FLAG->value => true,
+                    FiasSerializerContextParam::FIAS_ENTITY->value => $entityClass,
+                ]
+            );
         } catch (\Throwable $e) {
-            $message = "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class.";
-            throw new TaskException($message, 0, $e);
+            throw new TaskException(
+                message: "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class",
+                previous: $e
+            );
         }
 
         if (!\is_object($entity)) {
-            throw new TaskException('Serializer must returns an object instance.');
+            throw new TaskException('Serializer must returns an object instance');
         }
 
         return $entity;
