@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
 
 use Liquetsoft\Fias\Component\Exception\PipeException;
+use Liquetsoft\Fias\Component\Helper\IdHelper;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Объект, который содержит внутренний массив со списком операций для исполнения.
@@ -38,7 +38,7 @@ final class ArrayPipe implements Pipe
      */
     public function __construct(iterable $tasks, ?Task $cleanupTask = null, ?LoggerInterface $logger = null)
     {
-        $this->id = Uuid::uuid4()->toString();
+        $this->id = IdHelper::createUniqueId();
         $this->tasks = $this->checkAndReturnTaskArray($tasks);
         $this->cleanupTask = $cleanupTask;
         $this->logger = $logger;
