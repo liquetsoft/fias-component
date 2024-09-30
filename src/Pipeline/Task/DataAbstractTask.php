@@ -11,6 +11,7 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Exception\XmlException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
+use Liquetsoft\Fias\Component\Serializer\SerializerContextParam;
 use Liquetsoft\Fias\Component\Serializer\SerializerFormat;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader;
@@ -130,7 +131,14 @@ abstract class DataAbstractTask implements LoggableTask, Task
     protected function deserializeXmlStringToObject(?string $xml, string $entityClass): object
     {
         try {
-            $entity = $this->serializer->deserialize($xml, $entityClass, SerializerFormat::XML->value);
+            $entity = $this->serializer->deserialize(
+                $xml,
+                $entityClass,
+                SerializerFormat::XML->value,
+                [
+                    SerializerContextParam::FIAS_FLAG->value => true,
+                ]
+            );
         } catch (\Throwable $e) {
             throw new TaskException(
                 message: "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class",
