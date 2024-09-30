@@ -114,7 +114,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
 
         $this->log(
             LogLevel::INFO,
-            "Complete processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity. {$total} items processed",
+            "Completed processing '{$fileInfo->getRealPath()}' file for '{$entityClass}' entity. {$total} items processed",
             [
                 'entity' => $entityClass,
                 'path' => $fileInfo->getRealPath(),
@@ -132,8 +132,10 @@ abstract class DataAbstractTask implements LoggableTask, Task
         try {
             $entity = $this->serializer->deserialize($xml, $entityClass, SerializerFormat::XML->value);
         } catch (\Throwable $e) {
-            $message = "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class";
-            throw new TaskException($message, 0, $e);
+            throw new TaskException(
+                message: "Deserialization error while deserialization of '{$xml}' string to object with '{$entityClass}' class",
+                previous: $e
+            );
         }
 
         if (!\is_object($entity)) {
