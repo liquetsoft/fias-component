@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Объект, который преобразует имена полей ФИАС при трансформации xml строки в объект.
- * 
+ *
  * @internal
  */
 final class FiasNameConverter implements NameConverterInterface
