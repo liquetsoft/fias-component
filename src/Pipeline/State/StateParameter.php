@@ -9,6 +9,8 @@ namespace Liquetsoft\Fias\Component\Pipeline\State;
  */
 enum StateParameter: string
 {
+    case PIPELINE_ID = 'pipeline_id';
+
     case FIAS_VERSION_NUMBER = 'fias_version_number';
     case FIAS_NEXT_VERSION_NUMBER = 'fias_next_version_number';
     case FIAS_NEXT_VERSION_FULL_URL = 'fias_next_version_full_url';

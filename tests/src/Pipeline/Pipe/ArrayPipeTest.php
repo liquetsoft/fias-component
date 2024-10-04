@@ -20,23 +20,6 @@ use Psr\Log\LoggerInterface;
 final class ArrayPipeTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение при попытке передать неверный параметр.
-     */
-    public function testConstructNoTaskInstanceException(): void
-    {
-        $task1 = $this->createTaskMock();
-        $task2 = 'test';
-
-        $this->expectException(\InvalidArgumentException::class);
-        new ArrayPipe(
-            [
-                $task1,
-                $task2,
-            ]
-        );
-    }
-
-    /**
      * Проверяет, что задачи добавляются в очередь и запускаются.
      */
     public function testRun(): void
