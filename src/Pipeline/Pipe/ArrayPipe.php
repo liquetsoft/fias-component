@@ -142,12 +142,10 @@ final class ArrayPipe implements Pipe
      */
     private function log(State $state, string $message, array $context = []): void
     {
-        if ($this->logger === null) {
-            return;
+        if ($this->logger !== null) {
+            $context = $this->createLoggerContext($state, $context);
+            $this->logger->log(LogLevel::INFO, $message, $context);
         }
-
-        $context = $this->createLoggerContext($state, $context);
-        $this->logger->log(LogLevel::INFO, $message, $context);
     }
 
     /**
@@ -155,14 +153,11 @@ final class ArrayPipe implements Pipe
      */
     private function logException(State $state, \Throwable $e, array $context = []): void
     {
-        if ($this->logger === null) {
-            return;
+        if ($this->logger !== null) {
+            $context[self::LOG_PARAM_NAME_EXCEPTION] = $e;
+            $context = $this->createLoggerContext($state, $context);
+            $this->logger->log(LogLevel::ERROR, $e->getMessage(), $context);
         }
-
-        $context[self::LOG_PARAM_NAME_EXCEPTION] = $e;
-        $context = $this->createLoggerContext($state, $context);
-
-        $this->logger->log(LogLevel::INFO, $e->getMessage(), $context);
     }
 
     /**

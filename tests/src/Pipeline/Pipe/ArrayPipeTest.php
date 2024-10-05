@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Pipe;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use Liquetsoft\Fias\Component\Pipeline\Pipe\ArrayPipe;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Tests\Mock\ArrayPipeTestLoggableMock;
@@ -36,6 +37,25 @@ final class ArrayPipeTest extends BaseCase
         );
 
         $pipe->run($state);
+    }
+
+    /**
+     * Проверяет, что состояние будет использовать предустановленный id.
+     */
+    public function testRunWithPreDefinedId(): void
+    {
+        $id = 'test_id';
+        $state = $this->createDefaultStateMock(
+            [
+                StateParameter::PIPELINE_ID->value => $id,
+            ]
+        );
+
+        $pipe = new ArrayPipe([$this->createTaskMock($state)]);
+        $pipe->run($state);
+        $res = $state->getParameterString(StateParameter::PIPELINE_ID);
+
+        $this->assertSame($id, $res);
     }
 
     /**
@@ -103,12 +123,16 @@ final class ArrayPipeTest extends BaseCase
         $task1 = $this->createTaskMock($state);
         $task2 = $this->createTaskMock($state, new \InvalidArgumentException());
 
+        $logger = $this->mock(LoggerInterface::class);
+        $logger->expects($this->exactly(8))->method('log');
+
         $pipe = new ArrayPipe(
             [
                 $task1,
                 $task2,
             ],
-            $cleanUp
+            $cleanUp,
+            $logger
         );
 
         $this->expectException(PipeException::class);
@@ -121,10 +145,9 @@ final class ArrayPipeTest extends BaseCase
     public function testLogger(): void
     {
         $state = $this->createDefaultStateMock([], true);
-        $task = $this->createTaskMock($state);
 
         $logger = $this->mock(LoggerInterface::class);
-        $logger->expects($this->atLeastOnce())
+        $logger->expects($this->exactly(5))
             ->method('log')
             ->with(
                 $this->anything(),
@@ -137,7 +160,7 @@ final class ArrayPipeTest extends BaseCase
 
         $pipe = new ArrayPipe(
             [
-                $task,
+                $this->createTaskMock($state),
             ],
             null,
             $logger
