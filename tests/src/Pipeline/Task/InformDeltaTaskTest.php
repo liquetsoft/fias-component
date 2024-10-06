@@ -65,7 +65,7 @@ final class InformDeltaTaskTest extends BaseCase
     {
         $informer = $this->mock(FiasInformer::class);
 
-        $state = $this->createDefaultStateMock();
+        $state = $this->createStateMock();
 
         $task = new InformDeltaTask($informer);
 

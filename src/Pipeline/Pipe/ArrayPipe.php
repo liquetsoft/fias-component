@@ -36,14 +36,14 @@ final class ArrayPipe implements Pipe
     /**
      * {@inheritdoc}
      */
-    public function run(State $state): Pipe
+    public function run(State $state): State
     {
-        $this->checkAndSetPipelineId($state);
+        $state = $this->checkAndSetPipelineId($state);
         $this->proceedStart($state);
 
         foreach ($this->tasks as $task) {
             try {
-                $this->proceedTask($state, $task);
+                $state = $this->proceedTask($state, $task);
             } catch (\Throwable $e) {
                 $this->proceedException($state, $task, $e);
             }
@@ -52,23 +52,25 @@ final class ArrayPipe implements Pipe
             }
         }
 
-        $this->proceedComplete($state);
+        $state = $this->proceedComplete($state);
         $this->proceedCleanup($state);
 
-        return $this;
+        return $state;
     }
 
     /**
      * Добавить pipeline id в состояние, если id еще не указан.
      */
-    private function checkAndSetPipelineId(State $state): void
+    private function checkAndSetPipelineId(State $state): State
     {
         if ($state->getParameterString(StateParameter::PIPELINE_ID) === '') {
-            $state->setAndLockParameter(
+            return $state->setParameter(
                 StateParameter::PIPELINE_ID,
                 IdHelper::createUniqueId()
             );
         }
+
+        return $state;
     }
 
     /**
@@ -82,7 +84,7 @@ final class ArrayPipe implements Pipe
     /**
      * Запускает задачу на исполнение.
      */
-    private function proceedTask(State $state, Task $task): void
+    private function proceedTask(State $state, Task $task): State
     {
         $taskName = $this->getTaskId($task);
 
@@ -91,11 +93,13 @@ final class ArrayPipe implements Pipe
         ]);
 
         $this->injectLoggerToTask($state, $task);
-        $task->run($state);
+        $state = $task->run($state);
 
         $this->log($state, 'Task completed', [
             self::LOG_PARAM_NAME_TASK => $taskName,
         ]);
+
+        return $state;
     }
 
     /**
@@ -131,10 +135,11 @@ final class ArrayPipe implements Pipe
     /**
      * Обработка завершения очереди.
      */
-    private function proceedComplete(State $state): void
+    private function proceedComplete(State $state): State
     {
-        $state->complete();
         $this->log($state, 'Pipeline completed');
+
+        return $state->complete();
     }
 
     /**

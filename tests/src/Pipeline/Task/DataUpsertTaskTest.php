@@ -64,7 +64,7 @@ final class DataUpsertTaskTest extends BaseCase
                 }
             );
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::FILES_TO_PROCEED->value => [__DIR__ . '/_fixtures/data.xml'],
             ]

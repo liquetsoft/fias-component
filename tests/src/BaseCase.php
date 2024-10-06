@@ -132,10 +132,27 @@ abstract class BaseCase extends TestCase
 
     /**
      * Создает мок для объекта состояния.
+     *
+     * @return MockObject&State
      */
-    protected function createDefaultStateMock(array $params = [], ?bool $needCompleting = null): State
+    protected function createStateMock(array $params = [], bool $isCompleted = false): State
     {
         $state = $this->mock(State::class);
+
+        $state->expects($this->any())
+            ->method('complete')
+            ->willReturnCallback(
+                fn (): mixed => $this->createStateMock($params, true)
+            );
+
+        $state->expects($this->any())
+            ->method('setParameter')
+            ->willReturnCallback(
+                fn (StateParameter $param, mixed $value): mixed => $this->createStateMock(
+                    array_merge($params, [$param->value => $value]),
+                    $isCompleted
+                )
+            );
 
         $state->expects($this->any())
             ->method('getParameter')
@@ -155,10 +172,7 @@ abstract class BaseCase extends TestCase
                 fn (StateParameter $param, string $default): string => (string) ($params[$param->value] ?? $default)
             );
 
-        if ($needCompleting !== null) {
-            $expects = $needCompleting ? $this->once() : $this->never();
-            $state->expects($expects)->method('complete');
-        }
+        $state->expects($this->any())->method('isCompleted')->willReturn($isCompleted);
 
         return $state;
     }

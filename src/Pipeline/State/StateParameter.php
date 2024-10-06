@@ -22,6 +22,4 @@ enum StateParameter: string
 
     case FILES_TO_PROCEED = 'files_to_proceed';
     case FIAS_INFO = 'fias_info';
-
-    case TEST = 'test';
 }

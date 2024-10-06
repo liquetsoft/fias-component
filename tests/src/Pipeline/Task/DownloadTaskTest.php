@@ -34,7 +34,7 @@ final class DownloadTaskTest extends BaseCase
                 )
             );
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::FIAS_VERSION_ARCHIVE_URL->value => $url,
                 StateParameter::PATH_TO_DOWNLOAD_FILE->value => $filePath,
@@ -53,7 +53,7 @@ final class DownloadTaskTest extends BaseCase
     {
         $downloader = $this->mock(Downloader::class);
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::PATH_TO_DOWNLOAD_FILE->value => '/test.file',
             ]
@@ -72,7 +72,7 @@ final class DownloadTaskTest extends BaseCase
     {
         $downloader = $this->mock(Downloader::class);
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::FIAS_VERSION_ARCHIVE_URL->value => 'https://test.test/test',
             ]

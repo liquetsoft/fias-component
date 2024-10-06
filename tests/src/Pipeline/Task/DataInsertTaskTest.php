@@ -66,7 +66,7 @@ final class DataInsertTaskTest extends BaseCase
                 }
             );
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::FILES_TO_PROCEED->value => [__DIR__ . '/_fixtures/data.xml'],
             ]
@@ -121,7 +121,7 @@ final class DataInsertTaskTest extends BaseCase
                 }
             );
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::FILES_TO_PROCEED->value => [__DIR__ . '/_fixtures/data.xml'],
             ]
@@ -183,7 +183,7 @@ final class DataInsertTaskTest extends BaseCase
                 }
             );
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::FILES_TO_PROCEED->value => [__DIR__ . '/_fixtures/data.xml'],
             ]

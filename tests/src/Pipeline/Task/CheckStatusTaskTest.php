@@ -32,7 +32,7 @@ final class CheckStatusTaskTest extends BaseCase
             ->method('check')
             ->willReturn($checkerResult);
 
-        $state = $this->createDefaultStateMock();
+        $state = $this->createStateMock();
 
         $task = new CheckStatusTask($statusChecker);
         $task->run($state);
@@ -57,7 +57,7 @@ final class CheckStatusTaskTest extends BaseCase
             ->method('check')
             ->willReturn($checkerResult);
 
-        $state = $this->createDefaultStateMock();
+        $state = $this->createStateMock();
 
         $task = new CheckStatusTask($statusChecker);
 

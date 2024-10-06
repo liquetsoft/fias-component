@@ -26,7 +26,7 @@ final class VersionSetTaskTest extends BaseCase
         $fullUrl = 'https://test.test/full';
         $deltaUrl = 'https://test.test/delta';
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::FIAS_NEXT_VERSION_NUMBER->value => $version,
                 StateParameter::FIAS_NEXT_VERSION_FULL_URL->value => $fullUrl,
@@ -55,7 +55,7 @@ final class VersionSetTaskTest extends BaseCase
      */
     public function testRunNoResultParameter(): void
     {
-        $state = $this->createDefaultStateMock();
+        $state = $this->createStateMock();
 
         $versionManager = $this->mock(VersionManager::class);
         $versionManager->expects($this->never())->method('setCurrentVersion');

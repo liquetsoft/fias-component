@@ -11,8 +11,6 @@ interface State
 {
     /**
      * Задает параметр состояния по его имени.
-     *
-     * @throws \InvalidArgumentException
      */
     public function setParameter(StateParameter $parameter, mixed $parameterValue): self;
 

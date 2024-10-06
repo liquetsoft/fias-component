@@ -26,7 +26,7 @@ final class SelectFilesToProceedTaskTest extends BaseCase
     public function testRunEmptyUnpackToException(): void
     {
         $entityManager = $this->mock(EntityManager::class);
-        $state = $this->createDefaultStateMock();
+        $state = $this->createStateMock();
 
         $task = new SelectFilesToProceedTask($entityManager);
 
@@ -41,7 +41,7 @@ final class SelectFilesToProceedTaskTest extends BaseCase
     {
         $entityManager = $this->mock(EntityManager::class);
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::PATH_TO_EXTRACT_FOLDER->value => __DIR__ . '/test',
             ]

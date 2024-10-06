@@ -53,7 +53,7 @@ final class VersionGetTaskTest extends BaseCase
         $versionManager = $this->mock(VersionManager::class);
         $versionManager->method('getCurrentVersion')->willReturn(null);
 
-        $state = $this->createDefaultStateMock();
+        $state = $this->createStateMock();
 
         $task = new VersionGetTask($versionManager);
 
