@@ -141,7 +141,10 @@ final class ProcessSwitchTask implements LoggableTask, Task
     {
         $phpBinaryFinder = new PhpExecutableFinder();
         $phpBinaryPath = $phpBinaryFinder->find();
-        $input = $this->serializer->serialize($state, 'json');
+        $input = $this->serializer->serialize(
+            $state->setParameter(StateParameter::FILES_TO_PROCEED, $dispatchedFiles),
+            'json'
+        );
 
         $this->log(
             LogLevel::INFO,
