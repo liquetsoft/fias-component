@@ -14,8 +14,6 @@ interface Task
 {
     /**
      * Запускает задачу на исполнение.
-     *
-     * @throws \Exception
      */
-    public function run(State $state): void;
+    public function run(State $state): State;
 }

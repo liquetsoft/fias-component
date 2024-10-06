@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Pipe;
 use Liquetsoft\Fias\Component\Exception\PipeException;
 use Liquetsoft\Fias\Component\Helper\IdHelper;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
+use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\LoggableTask;
 use Liquetsoft\Fias\Component\Pipeline\Task\Task;
 use Psr\Log\LoggerInterface;
@@ -17,45 +18,32 @@ use Psr\Log\LogLevel;
  */
 final class ArrayPipe implements Pipe
 {
-    private readonly string $id;
+    private const LOG_PARAM_NAME_TASK = 'task';
+    private const LOG_PARAM_NAME_EXCEPTION = 'exception';
+    private const LOG_PARAM_NAME_PIPELINE_ID = 'pipeline_id';
+    private const LOG_PARAM_NAME_PIPELINE_CLASS = 'pipeline_class';
 
     /**
-     * @var Task[]
+     * @param iterable<Task> $tasks
      */
-    private readonly array $tasks;
-
-    private readonly ?Task $cleanupTask;
-
-    private readonly ?LoggerInterface $logger;
-
-    /**
-     * @param iterable             $tasks       Список задач, которые должны быть исполнены данной очередью
-     * @param Task|null            $cleanupTask Задача, которая будет выполнена после исключения или по успешному завершению очереди
-     * @param LoggerInterface|null $logger      PSR-3 совместимый объект для записи логов
-     *
-     * @throws \InvalidArgumentException
-     * @throws \Exception
-     */
-    public function __construct(iterable $tasks, ?Task $cleanupTask = null, ?LoggerInterface $logger = null)
-    {
-        $this->id = IdHelper::createUniqueId();
-        $this->tasks = $this->checkAndReturnTaskArray($tasks);
-        $this->cleanupTask = $cleanupTask;
-        $this->logger = $logger;
+    public function __construct(
+        private readonly iterable $tasks,
+        private readonly ?Task $cleanupTask = null,
+        private readonly ?LoggerInterface $logger = null,
+    ) {
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
      */
-    public function run(State $state): Pipe
+    public function run(State $state): State
     {
+        $state = $this->checkAndSetPipelineId($state);
         $this->proceedStart($state);
 
         foreach ($this->tasks as $task) {
             try {
-                $this->proceedTask($state, $task);
+                $state = $this->proceedTask($state, $task);
             } catch (\Throwable $e) {
                 $this->proceedException($state, $task, $e);
             }
@@ -64,170 +52,152 @@ final class ArrayPipe implements Pipe
             }
         }
 
-        $this->proceedComplete($state);
+        $state = $this->proceedComplete($state);
         $this->proceedCleanup($state);
 
-        return $this;
+        return $state;
+    }
+
+    /**
+     * Добавить pipeline id в состояние, если id еще не указан.
+     */
+    private function checkAndSetPipelineId(State $state): State
+    {
+        if ($state->getParameterString(StateParameter::PIPELINE_ID) === '') {
+            return $state->setParameter(
+                StateParameter::PIPELINE_ID,
+                IdHelper::createUniqueId()
+            );
+        }
+
+        return $state;
     }
 
     /**
      * Обработка запуска очереди.
      */
-    protected function proceedStart(State $state): void
+    private function proceedStart(State $state): void
     {
-        $message = \sprintf(
-            "Start '%s' pipeline with '%s' state",
-            \get_class($this),
-            \get_class($state)
-        );
-
-        $this->log(LogLevel::INFO, $message);
+        $this->log($state, 'Pipeline started');
     }
 
     /**
      * Запускает задачу на исполнение.
-     *
-     * @throws \Exception
      */
-    protected function proceedTask(State $state, Task $task): void
+    private function proceedTask(State $state, Task $task): State
     {
         $taskName = $this->getTaskId($task);
 
-        $this->log(
-            LogLevel::INFO,
-            "Start '{$taskName}' task",
-            [
-                'task' => $taskName,
-            ]
-        );
+        $this->log($state, 'Task started', [
+            self::LOG_PARAM_NAME_TASK => $taskName,
+        ]);
 
-        $this->injectLoggerToTask($task);
-        $task->run($state);
+        $this->injectLoggerToTask($state, $task);
+        $state = $task->run($state);
 
-        $this->log(
-            LogLevel::INFO,
-            "Complete '{$taskName}' task",
-            [
-                'task' => $taskName,
-            ]
-        );
+        $this->log($state, 'Task completed', [
+            self::LOG_PARAM_NAME_TASK => $taskName,
+        ]);
+
+        return $state;
     }
 
     /**
      * Обрабатывает исключение во время работы очереди.
-     *
-     * @throws PipeException
      */
-    protected function proceedException(State $state, Task $task, \Throwable $e): void
+    private function proceedException(State $state, Task $task, \Throwable $e): void
     {
-        $taskName = $this->getTaskId($task);
-        $message = "There was an error while running '{$taskName}' task. Pipeline was interrupted";
-
-        $this->log(
-            LogLevel::INFO,
-            $message,
-            [
-                'task' => $taskName,
-            ]
-        );
+        $this->logException($state, $e, [
+            self::LOG_PARAM_NAME_TASK => $this->getTaskId($task),
+        ]);
 
         $this->proceedCleanup($state);
 
-        throw new PipeException($message, 0, $e);
+        throw new PipeException(
+            message: $e->getMessage(),
+            previous: $e
+        );
     }
 
     /**
      * Обработка завершения задачи.
-     *
-     * @throws \Exception
      */
-    protected function proceedCleanup(State $state): void
+    private function proceedCleanup(State $state): void
     {
         if ($this->cleanupTask) {
-            $this->log(LogLevel::INFO, 'Start cleaning up');
+            $this->log($state, 'Clean up started');
             $this->proceedTask($state, $this->cleanupTask);
         } else {
-            $this->log(LogLevel::INFO, 'Skip cleaning up');
+            $this->log($state, 'Clean up skipped');
         }
     }
 
     /**
      * Обработка завершения очереди.
      */
-    protected function proceedComplete(State $state): void
+    private function proceedComplete(State $state): State
     {
-        $state->complete();
-        $this->log(LogLevel::INFO, "Pipeline '" . \get_class($this) . "' was completed");
+        $this->log($state, 'Pipeline completed');
+
+        return $state->complete();
     }
 
     /**
      * Записывает в лог данные.
      */
-    protected function log(string $level, string $message, array $context = []): void
+    private function log(State $state, string $message, array $context = []): void
     {
-        if ($this->logger) {
-            $context = $this->createLoggerContext($context);
-            $this->logger->log($level, $message, $context);
+        if ($this->logger !== null) {
+            $context = $this->createLoggerContext($state, $context);
+            $this->logger->log(LogLevel::INFO, $message, $context);
+        }
+    }
+
+    /**
+     * Записывает в лог исключение.
+     */
+    private function logException(State $state, \Throwable $e, array $context = []): void
+    {
+        if ($this->logger !== null) {
+            $context[self::LOG_PARAM_NAME_EXCEPTION] = $e;
+            $context = $this->createLoggerContext($state, $context);
+            $this->logger->log(LogLevel::ERROR, $e->getMessage(), $context);
         }
     }
 
     /**
      * Добавляет объект для записи логов в операцию, если операция это поддерживает.
      */
-    protected function injectLoggerToTask(Task $task): void
+    private function injectLoggerToTask(State $state, Task $task): void
     {
         if ($task instanceof LoggableTask && $this->logger) {
-            $task->injectLogger(
-                $this->logger,
-                $this->createLoggerContext(
-                    [
-                        'task' => $this->getTaskId($task),
-                    ]
-                )
+            $context = $this->createLoggerContext(
+                $state,
+                [
+                    self::LOG_PARAM_NAME_TASK => $this->getTaskId($task),
+                ]
             );
+            $task->injectLogger($this->logger, $context);
         }
     }
 
     /**
      * Возвращает контекст для записи логов по умолчанию.
      */
-    protected function createLoggerContext(array $currentContext = []): array
+    private function createLoggerContext(State $state, array $currentContext = []): array
     {
         $defaultContext = [
-            'pipeline_class' => \get_class($this),
-            'pipeline_id' => $this->id,
+            self::LOG_PARAM_NAME_PIPELINE_ID => $state->getParameterString(StateParameter::PIPELINE_ID),
+            self::LOG_PARAM_NAME_PIPELINE_CLASS => \get_class($this),
         ];
 
         return array_merge($defaultContext, $currentContext);
     }
 
     /**
-     * Проверяет все объекты массива на типы и возвращает его.
-     *
-     * @return Task[]
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function checkAndReturnTaskArray(iterable $tasks): array
-    {
-        $return = [];
-
-        foreach ($tasks as $key => $task) {
-            if (!($task instanceof Task)) {
-                throw new \InvalidArgumentException(
-                    "Task with key '{$key}' must be an '" . Task::class . "' instance."
-                );
-            }
-            $return[] = $task;
-        }
-
-        return $return;
-    }
-
-    /**
      * Возвращает идентификатор операции.
      */
-    protected function getTaskId(Task $task): string
+    private function getTaskId(Task $task): string
     {
         return \get_class($task);
     }

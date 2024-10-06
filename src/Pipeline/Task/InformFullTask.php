@@ -23,7 +23,7 @@ final class InformFullTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $info = $this->informer->getLatestVersion();
 
@@ -36,9 +36,9 @@ final class InformFullTask implements LoggableTask, Task
             ]
         );
 
-        $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER, $info->getVersion());
-        $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL, $info->getFullUrl());
-        $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL, $info->getDeltaUrl());
-        $state->setAndLockParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL, $info->getFullUrl());
+        return $state->setParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER, $info->getVersion())
+            ->setParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL, $info->getFullUrl())
+            ->setParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL, $info->getDeltaUrl())
+            ->setParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL, $info->getFullUrl());
     }
 }

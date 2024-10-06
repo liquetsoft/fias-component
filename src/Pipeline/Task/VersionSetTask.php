@@ -21,7 +21,7 @@ final class VersionSetTask implements Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $version = $state->getParameterInt(StateParameter::FIAS_NEXT_VERSION_NUMBER);
 
@@ -33,5 +33,7 @@ final class VersionSetTask implements Task
             );
             $this->versionManager->setCurrentVersion($version);
         }
+
+        return $state;
     }
 }

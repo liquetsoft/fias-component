@@ -27,7 +27,7 @@ final class CleanupTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $toRemove = [
             $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE),
@@ -40,5 +40,7 @@ final class CleanupTask implements LoggableTask, Task
                 $this->fs->removeIfExists($path);
             }
         }
+
+        return $state;
     }
 }

@@ -23,12 +23,12 @@ final class CheckStatusTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $status = $this->checker->check();
 
         if (!$status->canProceed()) {
-            $message = 'There are some troubles on the FIAS side. Please try again later.';
+            $message = 'There are some troubles on the FIAS side. Please try again later';
             $this->log(
                 LogLevel::ERROR,
                 $message,
@@ -38,5 +38,7 @@ final class CheckStatusTask implements LoggableTask, Task
             );
             throw new StatusCheckerException($message);
         }
+
+        return $state;
     }
 }

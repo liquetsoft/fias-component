@@ -11,17 +11,13 @@ interface State
 {
     /**
      * Задает параметр состояния по его имени.
-     *
-     * @throws \InvalidArgumentException
      */
     public function setParameter(StateParameter $parameter, mixed $parameterValue): self;
 
     /**
-     * Задает константу состояния по его имени и запрещает изменение.
-     *
-     * @throws \InvalidArgumentException
+     * Команда, которая отмечает, что нужно мягко прервать цепочку операций.
      */
-    public function setAndLockParameter(StateParameter $parameter, mixed $parameterValue): self;
+    public function complete(): self;
 
     /**
      * Возвращает параметр состояния по его имени.
@@ -37,11 +33,6 @@ interface State
      * Возвращает параметр состояния по его имени и приводит к строковому типу.
      */
     public function getParameterString(StateParameter $parameter, string $default = ''): string;
-
-    /**
-     * Команда, которая отмечает, что нужно мягко прервать цепочку операций.
-     */
-    public function complete(): self;
 
     /**
      * Метод, который указывает, что цепочка должна быть прервана после текущей

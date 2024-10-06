@@ -28,7 +28,7 @@ final class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $extractToFolderPath = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
         $extractToFolder = $this->checkDirectory($extractToFolderPath);
@@ -39,7 +39,6 @@ final class SelectFilesToProceedTask implements LoggableTask, Task
         );
 
         $files = $this->getFilesForProceedFromFolder($extractToFolder);
-        $state->setAndLockParameter(StateParameter::FILES_TO_PROCEED, $files);
 
         $this->log(
             LogLevel::INFO,
@@ -48,6 +47,8 @@ final class SelectFilesToProceedTask implements LoggableTask, Task
                 'files' => $files,
             ]
         );
+
+        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $files);
     }
 
     /**

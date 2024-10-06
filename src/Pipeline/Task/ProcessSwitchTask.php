@@ -10,6 +10,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Задача, которая распределяет файлы в обработку для symfony/process.
@@ -20,6 +21,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
 
     public function __construct(
         private readonly FilesDispatcher $filesDispatcher,
+        private readonly SerializerInterface $serializer,
         private readonly string $pathToBin,
         private readonly string $commandName,
         private readonly int $numberOfParallel = 5,
@@ -29,21 +31,20 @@ final class ProcessSwitchTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $rawFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);
-        $files = [];
-        if (\is_array($rawFiles)) {
-            $files = array_map(
-                fn ($file): string => (string) $file,
-                $rawFiles
-            );
-        }
+        $files = array_map(
+            fn ($file): string => (string) $file,
+            \is_array($rawFiles) ? $rawFiles : []
+        );
 
         $dispatchedFiles = $this->filesDispatcher->dispatch($files, $this->numberOfParallel);
 
-        $processes = $this->createProcessesList($dispatchedFiles);
+        $processes = $this->createProcessesList($state, $dispatchedFiles);
         $this->runProcesses($processes);
+
+        return $state;
     }
 
     /**
@@ -51,7 +52,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
      *
      * @param Process[] $processes
      */
-    protected function runProcesses(array $processes): void
+    private function runProcesses(array $processes): void
     {
         $this->startProcesses($processes);
         $this->log(LogLevel::INFO, 'All processes started');
@@ -65,7 +66,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
      *
      * @param Process[] $processes
      */
-    protected function startProcesses(array $processes): void
+    private function startProcesses(array $processes): void
     {
         foreach ($processes as $process) {
             $process->enableOutput();
@@ -79,10 +80,10 @@ final class ProcessSwitchTask implements LoggableTask, Task
      *
      * @param Process[] $processes
      */
-    protected function waitTillProcessesComplete(array $processes): void
+    private function waitTillProcessesComplete(array $processes): void
     {
         do {
-            sleep(1);
+            sleep(5);
             $isProcessesFinished = true;
             foreach ($processes as $process) {
                 if ($process->isRunning()) {
@@ -98,7 +99,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
      *
      * @param Process[] $processes
      */
-    protected function handleProcessesResults(array $processes): void
+    private function handleProcessesResults(array $processes): void
     {
         foreach ($processes as $process) {
             if (!$process->isSuccessful()) {
@@ -117,14 +118,14 @@ final class ProcessSwitchTask implements LoggableTask, Task
      *
      * @return Process[]
      */
-    protected function createProcessesList(array $dispatchedFiles): array
+    private function createProcessesList(State $state, array $dispatchedFiles): array
     {
         $processes = [];
 
         for ($i = 0; $i < $this->numberOfParallel; ++$i) {
             $dispatchedFilesForProcess = $dispatchedFiles[$i] ?? [];
             if (!empty($dispatchedFilesForProcess)) {
-                $processes[] = $this->createProcess($dispatchedFilesForProcess);
+                $processes[] = $this->createProcess($state, $dispatchedFilesForProcess);
             }
         }
 
@@ -136,10 +137,11 @@ final class ProcessSwitchTask implements LoggableTask, Task
      *
      * @param string[] $dispatchedFiles
      */
-    protected function createProcess(array $dispatchedFiles): Process
+    private function createProcess(State $state, array $dispatchedFiles): Process
     {
         $phpBinaryFinder = new PhpExecutableFinder();
         $phpBinaryPath = $phpBinaryFinder->find();
+        $input = $this->serializer->serialize($state, 'json');
 
         $this->log(
             LogLevel::INFO,
@@ -159,7 +161,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
                 $this->commandName,
             ]
         );
-        $process->setInput(json_encode($dispatchedFiles));
+        $process->setInput($input);
 
         return $process;
     }

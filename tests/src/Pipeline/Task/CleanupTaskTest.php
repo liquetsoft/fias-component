@@ -23,7 +23,7 @@ final class CleanupTaskTest extends BaseCase
         $downloadToPath = $this->getPathToTestFile('downloadTo.rar');
         $extractToPath = $this->getPathToTestDir('extractTo');
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::PATH_TO_DOWNLOAD_FILE->value => $downloadToPath,
                 StateParameter::PATH_TO_EXTRACT_FOLDER->value => $extractToPath,

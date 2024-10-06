@@ -25,7 +25,7 @@ final class DownloadTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $url = $state->getParameterString(StateParameter::FIAS_VERSION_ARCHIVE_URL);
         if ($url === '') {
@@ -40,5 +40,7 @@ final class DownloadTask implements LoggableTask, Task
         $this->log(LogLevel::INFO, "Downloading '{$url}' to '{$filePath}'");
 
         $this->downloader->download($url, new \SplFileInfo($filePath));
+
+        return $state;
     }
 }

@@ -21,7 +21,7 @@ final class VersionGetTask implements Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $version = $this->versionManager->getCurrentVersion();
 
@@ -29,6 +29,6 @@ final class VersionGetTask implements Task
             throw TaskException::create('There is no version of FIAS installed');
         }
 
-        $state->setAndLockParameter(StateParameter::FIAS_VERSION_NUMBER, $version->getVersion());
+        return $state->setParameter(StateParameter::FIAS_VERSION_NUMBER, $version->getVersion());
     }
 }

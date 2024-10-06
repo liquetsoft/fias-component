@@ -13,18 +13,67 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class ArrayStateTest extends BaseCase
+final class ArrayStateTest extends BaseCase
 {
     /**
-     * Проверяет запись и получение параметра.
+     * Проверяет, что конструктор не позволит задачать параметр с неправильным именем.
      */
-    public function testSetAndGetParameter(): void
+    public function testConstructWrongNameException(): void
     {
-        $parameter = StateParameter::TEST;
-        $parameterValue = new \stdClass();
+        $parameter = 'qwe';
+        $parameterValue = 123;
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($parameter);
+        new ArrayState(
+            [
+                $parameter => $parameterValue,
+            ]
+        );
+    }
+
+    /**
+     * Проверяет запись параметра.
+     */
+    public function testSetParameter(): void
+    {
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
+        $paramValue = new \stdClass();
 
         $state = new ArrayState();
-        $state->setParameter($parameter, $parameterValue);
+        $newState = $state->setParameter($parameter, $paramValue);
+        $newStateParamValue = $newState->getParameter($parameter);
+
+        $this->assertNotSame($state, $newState);
+        $this->assertSame($paramValue, $newStateParamValue);
+    }
+
+    /**
+     * Проверяет прерывание исполнения операций.
+     */
+    public function testComplete(): void
+    {
+        $state = new ArrayState();
+        $newState = $state->complete();
+        $isCompleted = $newState->isCompleted();
+
+        $this->assertNotSame($state, $newState);
+        $this->assertTrue($isCompleted);
+    }
+
+    /**
+     * Проверяет получение параметра.
+     */
+    public function testGetParameter(): void
+    {
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
+        $parameterValue = new \stdClass();
+
+        $state = new ArrayState(
+            [
+                $parameter->value => $parameterValue,
+            ]
+        );
         $res = $state->getParameter($parameter);
 
         $this->assertSame($parameterValue, $res);
@@ -35,7 +84,7 @@ class ArrayStateTest extends BaseCase
      */
     public function testGetParameterDefault(): void
     {
-        $parameter = StateParameter::TEST;
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
         $defaultValue = 123;
 
         $state = new ArrayState();
@@ -45,76 +94,63 @@ class ArrayStateTest extends BaseCase
     }
 
     /**
-     * Проверяет запись и получение int параметра.
+     * Проверяет получение int параметра.
      */
-    public function testSetAndGetParameterInt(): void
+    public function testGetParameterInt(): void
     {
-        $parameter = StateParameter::TEST;
-        $parameterValue = 123;
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
+        $parameterValue = '123';
 
-        $state = new ArrayState();
-        $state->setParameter($parameter, $parameterValue);
+        $state = new ArrayState(
+            [
+                $parameter->value => $parameterValue,
+            ]
+        );
         $res = $state->getParameterInt($parameter);
 
-        $this->assertSame($parameterValue, $res);
+        $this->assertSame((int) $parameterValue, $res);
     }
 
     /**
-     * Проверяет запись и получение string параметра.
+     * Проверяет получение string параметра.
      */
-    public function testSetAndGetParameterString(): void
+    public function testGetParameterString(): void
     {
-        $parameter = StateParameter::TEST;
-        $parameterValue = 'string';
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
+        $parameterValue = 123;
 
-        $state = new ArrayState();
-        $state->setParameter($parameter, $parameterValue);
+        $state = new ArrayState(
+            [
+                $parameter->value => $parameterValue,
+            ]
+        );
         $res = $state->getParameterString($parameter);
 
-        $this->assertSame($parameterValue, $res);
+        $this->assertSame((string) $parameterValue, $res);
     }
 
     /**
-     * Проверяет, что объект правильно задает константы.
+     * Проверяет флаг, который мягко прерывает исполнение операций.
+     *
+     * @dataProvider provideIsCompleted
      */
-    public function testSetAndLockParameter(): void
+    public function testIsCompleted(bool $isCompleted): void
     {
-        $parameter = StateParameter::TEST;
-        $parameterValue = 'test';
+        $state = new ArrayState(isCompleted: $isCompleted);
+        $res = $state->isCompleted();
 
-        $state = new ArrayState();
-        $state->setAndLockParameter($parameter, $parameterValue);
-
-        $this->assertSame($parameterValue, $state->getParameter($parameter));
+        $this->assertSame($isCompleted, $res);
     }
 
-    /**
-     * Проверяет, что объект выбросит исключение при попытке изменить
-     * заблокированный параметр.
-     */
-    public function testSetParameterLockedException(): void
+    public static function provideIsCompleted(): array
     {
-        $parameter = StateParameter::TEST;
-        $parameterValue = 'test';
-
-        $state = new ArrayState();
-        $state->setAndLockParameter($parameter, $parameterValue);
-
-        $this->expectException(\InvalidArgumentException::class);
-        $state->setParameter($parameter, $parameterValue);
-    }
-
-    /**
-     * Проверяем флаг, который мягко прерывает исполнение операций.
-     */
-    public function testComplete(): void
-    {
-        $state = new ArrayState();
-
-        $stateCompleted = new ArrayState();
-        $stateCompleted->complete();
-
-        $this->assertFalse($state->isCompleted());
-        $this->assertTrue($stateCompleted->isCompleted());
+        return [
+            'is completed' => [
+                true,
+            ],
+            'is not completed' => [
+                false,
+            ],
+        ];
     }
 }

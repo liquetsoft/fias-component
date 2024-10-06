@@ -28,7 +28,7 @@ final class SaveFiasFilesTaskTest extends BaseCase
 
         file_put_contents("{$sourceDir}/extracted_file.txt", 'test');
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourceFile,
                 StateParameter::PATH_TO_EXTRACT_FOLDER->value => $sourceDir,

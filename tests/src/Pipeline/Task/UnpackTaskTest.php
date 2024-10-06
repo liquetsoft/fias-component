@@ -37,7 +37,7 @@ final class UnpackTaskTest extends BaseCase
                 )
             );
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourcePath,
                 StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
@@ -59,7 +59,7 @@ final class UnpackTaskTest extends BaseCase
         $destinationPath = '/test_path';
         $unpack = $this->mock(Unpacker::class);
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
             ]
@@ -81,7 +81,7 @@ final class UnpackTaskTest extends BaseCase
         $sourcePath = '/test.file';
         $unpack = $this->mock(Unpacker::class);
 
-        $state = $this->createDefaultStateMock(
+        $state = $this->createStateMock(
             [
                 StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourcePath,
             ]

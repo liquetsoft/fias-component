@@ -7,42 +7,37 @@ namespace Liquetsoft\Fias\Component\Pipeline\State;
 /**
  * Объект, который хранит состояние во внутреннем массиве.
  */
-final class ArrayState implements State
+final readonly class ArrayState implements State
 {
-    private array $parameters = [];
-
-    private bool $isCompleted = false;
-
-    /**
-     * @var StateParameter[]
-     */
-    private array $lockedParams = [];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setParameter(StateParameter $parameter, mixed $parameterValue): State
-    {
-        if (\in_array($parameter, $this->lockedParams, true)) {
-            throw new \InvalidArgumentException(
-                "Parameter with name '{$parameter->value}' is locked"
-            );
+    public function __construct(
+        /** @var array<string, mixed> */
+        private readonly array $parameters = [],
+        private readonly bool $isCompleted = false,
+    ) {
+        foreach ($this->parameters as $name => $value) {
+            if (!StateParameter::tryFrom($name)) {
+                throw new \InvalidArgumentException("'{$name}' isn't found in " . StateParameter::class);
+            }
         }
-
-        $this->parameters[$parameter->value] = $parameterValue;
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setAndLockParameter(StateParameter $parameter, mixed $parameterValue): State
+    public function setParameter(StateParameter $parameter, mixed $parameterValue): self
     {
-        $this->setParameter($parameter, $parameterValue);
-        $this->lockedParams[] = $parameter;
+        $parameters = $this->parameters;
+        $parameters[$parameter->value] = $parameterValue;
 
-        return $this;
+        return new self($parameters, $this->isCompleted);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function complete(): self
+    {
+        return new self($this->parameters, true);
     }
 
     /**
@@ -67,16 +62,6 @@ final class ArrayState implements State
     public function getParameterString(StateParameter $parameter, string $default = ''): string
     {
         return (string) $this->getParameter($parameter, $default);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function complete(): self
-    {
-        $this->isCompleted = true;
-
-        return $this;
     }
 
     /**

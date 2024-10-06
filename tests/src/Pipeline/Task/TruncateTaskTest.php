@@ -44,7 +44,7 @@ final class TruncateTaskTest extends BaseCase
                 }
             );
 
-        $state = $this->createDefaultStateMock();
+        $state = $this->createStateMock();
 
         $task = new TruncateTask($entityManager, $storage);
         $task->run($state);

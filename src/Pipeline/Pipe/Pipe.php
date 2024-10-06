@@ -21,5 +21,5 @@ interface Pipe
      *
      * @throws PipeException
      */
-    public function run(State $state): Pipe;
+    public function run(State $state): State;
 }
