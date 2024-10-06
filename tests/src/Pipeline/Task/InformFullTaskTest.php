@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformFullTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -35,14 +34,14 @@ final class InformFullTaskTest extends BaseCase
         $informer = $this->mock(FiasInformer::class);
         $informer->expects($this->any())->method('getLatestVersion')->willReturn($informerResult);
 
-        $state = new ArrayState();
+        $state = $this->createStateMock();
 
         $task = new InformFullTask($informer);
-        $task->run($state);
-        $resVersion = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER);
-        $resUrl = $state->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
-        $resFullUrl = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL);
-        $resDeltaUrl = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL);
+        $newState = $task->run($state);
+        $resVersion = $newState->getParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER);
+        $resUrl = $newState->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
+        $resFullUrl = $newState->getParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL);
+        $resDeltaUrl = $newState->getParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL);
 
         $this->assertSame($version, $resVersion);
         $this->assertSame($fullUrl, $resUrl);

@@ -24,7 +24,7 @@ final class UnpackTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $source = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
         if ($source === '') {
@@ -42,5 +42,7 @@ final class UnpackTask implements LoggableTask, Task
             new \SplFileInfo($source),
             new \SplFileInfo($destination)
         );
+
+        return $state;
     }
 }

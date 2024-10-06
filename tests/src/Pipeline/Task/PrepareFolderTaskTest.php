@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\PrepareFolderTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -24,12 +23,12 @@ final class PrepareFolderTaskTest extends BaseCase
         $folder = 'prepare';
         $pathToPrepare = $this->getPathToTestDir($folder);
 
-        $state = new ArrayState();
+        $state = $this->createStateMock();
 
         $task = new PrepareFolderTask($pathToPrepare);
-        $task->run($state);
-        $downloadFile = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
-        $extractToFolder = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
+        $newState = $task->run($state);
+        $downloadFile = $newState->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
+        $extractToFolder = $newState->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
 
         $this->assertStringEndsWith("{$folder}/archive", $downloadFile);
         $this->assertStringEndsWith("{$folder}/extracted", $extractToFolder);

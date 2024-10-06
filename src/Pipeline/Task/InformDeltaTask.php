@@ -25,7 +25,7 @@ final class InformDeltaTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $version = $state->getParameterInt(StateParameter::FIAS_VERSION_NUMBER);
         if ($version <= 0) {
@@ -34,7 +34,7 @@ final class InformDeltaTask implements LoggableTask, Task
 
         $info = $this->informer->getNextVersion($version);
         if ($info === null) {
-            $state->complete();
+            $state = $state->complete();
             $this->log(
                 LogLevel::INFO,
                 "Current version '{$version}' is up to date",
@@ -52,10 +52,12 @@ final class InformDeltaTask implements LoggableTask, Task
                     'url' => $info->getDeltaUrl(),
                 ]
             );
-            $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER, $info->getVersion());
-            $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL, $info->getFullUrl());
-            $state->setAndLockParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL, $info->getDeltaUrl());
-            $state->setAndLockParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL, $info->getDeltaUrl());
+            $state = $state->setParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER, $info->getVersion())
+                ->setParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL, $info->getFullUrl())
+                ->setParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL, $info->getDeltaUrl())
+                ->setParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL, $info->getDeltaUrl());
         }
+
+        return $state;
     }
 }

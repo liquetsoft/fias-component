@@ -6,7 +6,6 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\VersionGetTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -34,19 +33,17 @@ final class VersionGetTaskTest extends BaseCase
         $versionManager = $this->mock(VersionManager::class);
         $versionManager->method('getCurrentVersion')->willReturn($response);
 
-        $state = new ArrayState();
+        $state = $this->createStateMock();
 
         $task = new VersionGetTask($versionManager);
-        $task->run($state);
-        $res = $state->getParameter(StateParameter::FIAS_VERSION_NUMBER);
+        $newState = $task->run($state);
+        $res = $newState->getParameter(StateParameter::FIAS_VERSION_NUMBER);
 
         $this->assertSame($version, $res);
     }
 
     /**
      * Проверяет, что объект выбросит исключение, если ФИАС не установлен.
-     *
-     * @throws \Exception
      */
     public function testRunNoResultException(): void
     {

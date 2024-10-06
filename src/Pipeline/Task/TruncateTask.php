@@ -26,7 +26,7 @@ final class TruncateTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $this->storage->start();
         foreach ($this->entityManager->getBindedClasses() as $className) {
@@ -42,5 +42,7 @@ final class TruncateTask implements LoggableTask, Task
             $this->storage->truncate($className);
         }
         $this->storage->stop();
+
+        return $state;
     }
 }

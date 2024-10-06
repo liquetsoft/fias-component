@@ -7,7 +7,6 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformer;
 use Liquetsoft\Fias\Component\FiasInformer\FiasInformerResponse;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\InformDeltaTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -42,15 +41,18 @@ final class InformDeltaTaskTest extends BaseCase
             )
             ->willReturn($informerResult);
 
-        $state = new ArrayState();
-        $state->setAndLockParameter(StateParameter::FIAS_VERSION_NUMBER, $oldVersion);
+        $state = $this->createStateMock(
+            [
+                StateParameter::FIAS_VERSION_NUMBER->value => $oldVersion,
+            ]
+        );
 
         $task = new InformDeltaTask($informer);
-        $task->run($state);
-        $resVersion = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER);
-        $resUrl = $state->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
-        $resFullUrl = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL);
-        $resDeltaUrl = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL);
+        $newState = $task->run($state);
+        $resVersion = $newState->getParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER);
+        $resUrl = $newState->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
+        $resFullUrl = $newState->getParameter(StateParameter::FIAS_NEXT_VERSION_FULL_URL);
+        $resDeltaUrl = $newState->getParameter(StateParameter::FIAS_NEXT_VERSION_DELTA_URL);
 
         $this->assertSame($version, $resVersion);
         $this->assertSame($deltaUrl, $resUrl);
@@ -84,19 +86,24 @@ final class InformDeltaTaskTest extends BaseCase
         $informer->expects($this->any())
             ->method('getNextVersion')
             ->with(
-                $this->equalTo($version)
+                $this->identicalTo($version)
             )
             ->willReturn(null);
 
-        $state = new ArrayState();
-        $state->setAndLockParameter(StateParameter::FIAS_VERSION_NUMBER, $version);
+        $state = $this->createStateMock(
+            [
+                StateParameter::FIAS_VERSION_NUMBER->value => $version,
+            ]
+        );
 
         $task = new InformDeltaTask($informer);
-        $task->run($state);
-        $resVersion = $state->getParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER);
-        $resUrl = $state->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
+        $newState = $task->run($state);
+        $resVersion = $newState->getParameter(StateParameter::FIAS_NEXT_VERSION_NUMBER);
+        $resUrl = $newState->getParameter(StateParameter::FIAS_VERSION_ARCHIVE_URL);
+        $resIsCompleted = $newState->isCompleted();
 
         $this->assertNull($resVersion);
         $this->assertNull($resUrl);
+        $this->assertTrue($resIsCompleted);
     }
 }

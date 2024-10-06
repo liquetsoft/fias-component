@@ -8,7 +8,6 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Filter\Filter;
-use Liquetsoft\Fias\Component\Pipeline\State\ArrayState;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\SelectFilesToProceedTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -88,11 +87,14 @@ final class SelectFilesToProceedTaskTest extends BaseCase
                 ]
             );
 
-        $state = new ArrayState();
-        $state->setAndLockParameter(StateParameter::PATH_TO_EXTRACT_FOLDER, $fixturesFolder);
+        $state = $this->createStateMock(
+            [
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $fixturesFolder,
+            ]
+        );
 
         $task = new SelectFilesToProceedTask($entityManager);
-        $task->run($state);
+        $newState = $task->run($state);
 
         $this->assertSame(
             [
@@ -101,7 +103,7 @@ final class SelectFilesToProceedTaskTest extends BaseCase
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_delete.xml',
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
             ],
-            $state->getParameter(StateParameter::FILES_TO_PROCEED)
+            $newState->getParameter(StateParameter::FILES_TO_PROCEED)
         );
     }
 
@@ -138,17 +140,20 @@ final class SelectFilesToProceedTaskTest extends BaseCase
                 }
             );
 
-        $state = new ArrayState();
-        $state->setAndLockParameter(StateParameter::PATH_TO_EXTRACT_FOLDER, $fixturesFolder);
+        $state = $this->createStateMock(
+            [
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $fixturesFolder,
+            ]
+        );
 
         $task = new SelectFilesToProceedTask($entityManager, $filter);
-        $task->run($state);
+        $newState = $task->run($state);
 
         $this->assertSame(
             [
                 $fixturesFolder . '/nested/SelectFilesToProceedTaskTest_nested_insert.xml',
             ],
-            $state->getParameter(StateParameter::FILES_TO_PROCEED)
+            $newState->getParameter(StateParameter::FILES_TO_PROCEED)
         );
     }
 }

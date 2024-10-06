@@ -30,7 +30,7 @@ final class SaveFiasFilesTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $movePaths = [];
         if ($this->moveArchiveTo !== null) {
@@ -45,5 +45,7 @@ final class SaveFiasFilesTask implements LoggableTask, Task
             $this->log(LogLevel::INFO, "Moving '{$moveFrom}' to '{$moveTo}'");
             $this->fs->rename($moveFrom, $moveTo);
         }
+
+        return $state;
     }
 }

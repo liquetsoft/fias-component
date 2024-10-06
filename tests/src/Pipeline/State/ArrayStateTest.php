@@ -37,7 +37,7 @@ final class ArrayStateTest extends BaseCase
      */
     public function testSetParameter(): void
     {
-        $parameter = StateParameter::TEST;
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
         $paramValue = new \stdClass();
 
         $state = new ArrayState();
@@ -66,7 +66,7 @@ final class ArrayStateTest extends BaseCase
      */
     public function testGetParameter(): void
     {
-        $parameter = StateParameter::TEST;
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
         $parameterValue = new \stdClass();
 
         $state = new ArrayState(
@@ -84,7 +84,7 @@ final class ArrayStateTest extends BaseCase
      */
     public function testGetParameterDefault(): void
     {
-        $parameter = StateParameter::TEST;
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
         $defaultValue = 123;
 
         $state = new ArrayState();
@@ -98,7 +98,7 @@ final class ArrayStateTest extends BaseCase
      */
     public function testGetParameterInt(): void
     {
-        $parameter = StateParameter::TEST;
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
         $parameterValue = '123';
 
         $state = new ArrayState(
@@ -116,7 +116,7 @@ final class ArrayStateTest extends BaseCase
      */
     public function testGetParameterString(): void
     {
-        $parameter = StateParameter::TEST;
+        $parameter = StateParameter::FIAS_VERSION_NUMBER;
         $parameterValue = 123;
 
         $state = new ArrayState(
@@ -145,8 +145,12 @@ final class ArrayStateTest extends BaseCase
     public static function provideIsCompleted(): array
     {
         return [
-            'is completed' => [true],
-            'is not completed' => [false],
+            'is completed' => [
+                true,
+            ],
+            'is not completed' => [
+                false,
+            ],
         ];
     }
 }

@@ -38,7 +38,7 @@ final class PrepareFolderTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $this->log(LogLevel::INFO, "Emptying '{$this->folder->getPathname()}' folder");
         $this->fs->mkdirIfNotExist($this->folder);
@@ -50,7 +50,7 @@ final class PrepareFolderTask implements LoggableTask, Task
         $this->log(LogLevel::INFO, "Creating '{$this->folder->getRealPath()}/extracted' folder");
         $this->fs->mkdir($extractToFolder);
 
-        $state->setAndLockParameter(StateParameter::PATH_TO_DOWNLOAD_FILE, $downloadToFile->getPathname());
-        $state->setAndLockParameter(StateParameter::PATH_TO_EXTRACT_FOLDER, $extractToFolder->getPathname());
+        return $state->setParameter(StateParameter::PATH_TO_DOWNLOAD_FILE, $downloadToFile->getPathname())
+            ->setParameter(StateParameter::PATH_TO_EXTRACT_FOLDER, $extractToFolder->getPathname());
     }
 }

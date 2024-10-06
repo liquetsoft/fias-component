@@ -31,7 +31,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
-    public function run(State $state): void
+    public function run(State $state): State
     {
         $rawFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);
         $files = [];
@@ -46,6 +46,8 @@ final class ProcessSwitchTask implements LoggableTask, Task
 
         $processes = $this->createProcessesList($state, $dispatchedFiles);
         $this->runProcesses($processes);
+
+        return $state;
     }
 
     /**
