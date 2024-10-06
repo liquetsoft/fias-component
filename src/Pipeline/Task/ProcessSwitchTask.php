@@ -10,7 +10,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Задача, которая распределяет файлы в обработку для symfony/process.
@@ -21,7 +21,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
 
     public function __construct(
         private readonly FilesDispatcher $filesDispatcher,
-        private readonly Serializer $serializer,
+        private readonly SerializerInterface $serializer,
         private readonly string $pathToBin,
         private readonly string $commandName,
         private readonly int $numberOfParallel = 5,
@@ -34,13 +34,10 @@ final class ProcessSwitchTask implements LoggableTask, Task
     public function run(State $state): State
     {
         $rawFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);
-        $files = [];
-        if (\is_array($rawFiles)) {
-            $files = array_map(
-                fn ($file): string => (string) $file,
-                $rawFiles
-            );
-        }
+        $files = array_map(
+            fn ($file): string => (string) $file,
+            \is_array($rawFiles) ? $rawFiles : []
+        );
 
         $dispatchedFiles = $this->filesDispatcher->dispatch($files, $this->numberOfParallel);
 
@@ -144,6 +141,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
     {
         $phpBinaryFinder = new PhpExecutableFinder();
         $phpBinaryPath = $phpBinaryFinder->find();
+        $input = $this->serializer->serialize($state, 'json');
 
         $this->log(
             LogLevel::INFO,
@@ -163,7 +161,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
                 $this->commandName,
             ]
         );
-        $process->setInput(json_encode($dispatchedFiles));
+        $process->setInput($input);
 
         return $process;
     }
