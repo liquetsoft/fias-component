@@ -107,7 +107,7 @@ class FiasPipelineStateNormalizerTest extends BaseCase
         );
         $format = FiasSerializerFormat::XML->value;
         $context = [
-            'test_key_context' => 'test_value_context'
+            'test_key_context' => 'test_value_context',
         ];
         $nestedReturn = 'nested_return';
         $expectedReturn = [
