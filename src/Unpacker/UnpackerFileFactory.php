@@ -18,6 +18,19 @@ final class UnpackerFileFactory
     /**
      * Создает сущность из описания для zip архива.
      */
+    public static function create(\SplFileInfo $archiveFile, string $name, int $index, int $size): UnpackerFile
+    {
+        return new UnpackerFileImpl(
+            $archiveFile,
+            $name,
+            $index,
+            $size
+        );
+    }
+
+    /**
+     * Создает сущность из описания для zip архива.
+     */
     public static function createFromZipStats(\SplFileInfo $archiveFile, array $stats): UnpackerFile
     {
         return new UnpackerFileImpl(

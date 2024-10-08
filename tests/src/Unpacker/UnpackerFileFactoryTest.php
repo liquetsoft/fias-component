@@ -15,6 +15,24 @@ use Liquetsoft\Fias\Component\Unpacker\UnpackerFileFactory;
 final class UnpackerFileFactoryTest extends BaseCase
 {
     /**
+     * Проверяет, что объект правильно возвращает.
+     */
+    public function testCreate(): void
+    {
+        $archive = $this->mock(\SplFileInfo::class);
+        $name = 'test.txt';
+        $size = 123;
+        $index = 2;
+
+        $res = UnpackerFileFactory::create($archive, $name, $index, $size);
+
+        $this->assertSame($archive, $res->getArchiveFile());
+        $this->assertSame($name, $res->getName());
+        $this->assertSame($size, $res->getSize());
+        $this->assertSame($index, $res->getIndex());
+    }
+
+    /**
      * Проверяет, что объект правильно возвращает сущность из описания для zip архива.
      */
     public function testCreateFromZipStats(): void

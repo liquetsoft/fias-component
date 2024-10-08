@@ -32,6 +32,7 @@ final class FiasSerializer implements SerializerInterface
             $normalizers = [
                 new FiasPipelineStateNormalizer(),
                 new FiasPipelineStateDenormalizer(),
+                new FiasUnpackerFileNormalizer(),
                 new DateTimeNormalizer(),
                 new ObjectNormalizer(
                     nameConverter: new FiasNameConverter(),
