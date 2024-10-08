@@ -66,6 +66,19 @@ final class UnpackerFileImplTest extends BaseCase
         $this->assertSame($expected, $res);
     }
 
+    /**
+     * Проверяет, что объект возвращает имя файла ри преобразовании в строку.
+     */
+    public function testToString(): void
+    {
+        $expected = 'test.txt';
+
+        $file = $this->createUnpackerFileImpl(name: $expected);
+        $res = (string) $file;
+
+        $this->assertSame($expected, $res);
+    }
+
     private function createUnpackerFileImpl(?\SplFileInfo $archiveFile = null, string $name = '', int $index = 0, int $size = 0): UnpackerFileImpl
     {
         $archiveFile = $archiveFile ?? new \SplFileInfo('test');

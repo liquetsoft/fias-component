@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\Unpacker;
 /**
  * Интерфейс для объекта, который представляет файл внутри архива.
  */
-interface UnpackerFile
+interface UnpackerFile extends \Stringable
 {
     /**
      * Возвращает путь к архиву, в котором хранится объект.

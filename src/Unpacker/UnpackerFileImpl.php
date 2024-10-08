@@ -50,4 +50,12 @@ final readonly class UnpackerFileImpl implements UnpackerFile
     {
         return $this->name;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }
