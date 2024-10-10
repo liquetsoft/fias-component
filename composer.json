@@ -15,7 +15,7 @@
         "symfony/property-info": "^5.0|^6.0|^7.0",
         "symfony/process": "^5.0|^6.0|^7.0",
         "psr/log": "^1.0|^2.0|^3.0",
-        "marvin255/file-system-helper": "^1.1"
+        "marvin255/file-system-helper": "^1.1 || ^5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
