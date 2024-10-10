@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
+use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\FilesDispatcher\FilesDispatcher;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -24,7 +26,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
         private readonly SerializerInterface $serializer,
         private readonly string $pathToBin,
         private readonly string $commandName,
-        private readonly int $numberOfParallel = 5,
+        private readonly int $numberOfParallel = 6,
     ) {
     }
 
@@ -34,10 +36,17 @@ final class ProcessSwitchTask implements LoggableTask, Task
     public function run(State $state): State
     {
         $rawFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);
-        $files = array_map(
-            fn ($file): string => (string) $file,
-            \is_array($rawFiles) ? $rawFiles : []
-        );
+        if (!\is_array($rawFiles)) {
+            throw TaskException::create("'%s' param must be an array", StateParameter::FILES_TO_PROCEED->value);
+        }
+
+        $files = [];
+        foreach ($rawFiles as $rawFile) {
+            if (!($rawFile instanceof UnpackerFile)) {
+                throw TaskException::create("File item has a wrong type, required '%s'", UnpackerFile::class);
+            }
+            $files[] = $rawFile;
+        }
 
         $dispatchedFiles = $this->filesDispatcher->dispatch($files, $this->numberOfParallel);
 
@@ -114,7 +123,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
     /**
      * Создает список процессов для параллельного запуска.
      *
-     * @param string[][] $dispatchedFiles
+     * @param UnpackerFile[][] $dispatchedFiles
      *
      * @return Process[]
      */
@@ -135,7 +144,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
     /**
      * Создает новый процесс для списка файлов.
      *
-     * @param string[] $dispatchedFiles
+     * @param UnpackerFile[] $dispatchedFiles
      */
     private function createProcess(State $state, array $dispatchedFiles): Process
     {
