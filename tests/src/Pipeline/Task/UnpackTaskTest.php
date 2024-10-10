@@ -19,7 +19,7 @@ use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 final class UnpackTaskTest extends BaseCase
 {
     /**
-     * Проверяет, что объект верно загружает ссылку.
+     * Проверяет, что объект верно распаковывает файлы.
      */
     public function testRun(): void
     {
