@@ -44,11 +44,24 @@ final class SelectFilesToProceedTask implements LoggableTask, Task
 
         $files = $this->fiasFileSelector->selectFiles($archive);
 
+        if (\count($files) === 0) {
+            $this->log(
+                LogLevel::INFO,
+                'No files from archive selected',
+                [
+                    'archive' => $pathToArchive,
+                    'files' => 0,
+                ]
+            );
+
+            return $state->complete();
+        }
+
         $this->log(
             LogLevel::INFO,
             'Files from archive selected',
             [
-                'path' => $pathToArchive,
+                'archive' => $pathToArchive,
                 'files' => \count($files),
             ]
         );

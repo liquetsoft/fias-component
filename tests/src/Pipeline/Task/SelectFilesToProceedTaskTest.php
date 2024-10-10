@@ -67,4 +67,26 @@ final class SelectFilesToProceedTaskTest extends BaseCase
 
         $this->assertSame($expectedFiles, $res);
     }
+
+    /**
+     * Проверяет, что объект завергит процесс, если не найдет файлов для обработки.
+     */
+    public function testRunNothingFound(): void
+    {
+        $pathToArchive = __DIR__ . '/_fixtures/SelectFilesToProceedTaskTest/testRun.zip';
+
+        $selector = $this->mock(FiasFileSelector::class);
+        $selector->expects($this->any())->method('selectFiles')->willReturn([]);
+
+        $state = $this->createStateMock(
+            [
+                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $pathToArchive,
+            ]
+        );
+
+        $task = new SelectFilesToProceedTask($selector);
+        $newState = $task->run($state);
+
+        $this->assertTrue($newState->isCompleted());
+    }
 }
