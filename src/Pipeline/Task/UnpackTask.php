@@ -8,6 +8,7 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 use Psr\Log\LogLevel;
 
 /**
@@ -26,9 +27,17 @@ final class UnpackTask implements LoggableTask, Task
      */
     public function run(State $state): State
     {
-        $source = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
-        if ($source === '') {
-            throw new TaskException('Source path must be a non empty string');
+        $rawFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);
+        if (!\is_array($rawFiles)) {
+            throw TaskException::create("'%s' param must be an array", StateParameter::FILES_TO_PROCEED->value);
+        }
+
+        $files = [];
+        foreach ($rawFiles as $rawFile) {
+            if (!($rawFile instanceof UnpackerFile)) {
+                throw TaskException::create("File item has a wrong type, required '%s'", UnpackerFile::class);
+            }
+            $files[] = $rawFile;
         }
 
         $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
@@ -36,13 +45,26 @@ final class UnpackTask implements LoggableTask, Task
             throw new TaskException('Destination path must be a non empty string');
         }
 
-        $this->log(LogLevel::INFO, "Extracting '{$source}' to '{$destination}'");
+        $unpackedFiles = [];
+        foreach ($files as $file) {
+            $res = $this->unpacker->unpackFile(
+                $file->getArchiveFile(),
+                $file->getName(),
+                new \SplFileInfo($destination)
+            );
+            $unpackedFiles[] = $res->getRealPath();
+            $this->log(
+                LogLevel::INFO,
+                'File is unpacked',
+                [
+                    'name' => $file->getName(),
+                    'archive' => $file->getArchiveFile()->getPathname(),
+                    'destination' => $destination,
+                    'path' => $res->getRealPath(),
+                ]
+            );
+        }
 
-        $this->unpacker->unpack(
-            new \SplFileInfo($source),
-            new \SplFileInfo($destination)
-        );
-
-        return $state;
+        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $unpackedFiles);
     }
 }

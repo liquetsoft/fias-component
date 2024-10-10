@@ -36,8 +36,14 @@ final class CleanupTask implements LoggableTask, Task
 
         foreach ($toRemove as $path) {
             if ($path !== '') {
-                $this->log(LogLevel::INFO, "Cleaning up '{$path}'");
                 $this->fs->removeIfExists($path);
+                $this->log(
+                    LogLevel::INFO,
+                    'Item is cleaned up',
+                    [
+                        'path' => $path,
+                    ]
+                );
             }
         }
 
