@@ -9,6 +9,7 @@ use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\UnpackTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 
 /**
  * Тест для задачи, которая распаковывает архив из параметра в состоянии.
@@ -22,74 +23,123 @@ final class UnpackTaskTest extends BaseCase
      */
     public function testRun(): void
     {
-        $sourcePath = '/test.file';
+        $fileName = 'test.file';
         $destinationPath = '/test_path';
+        $pathToUnpackedFile = '/test_path/test.file';
+
+        $archive = $this->mock(\SplFileInfo::class);
+        $archive->expects($this->any())->method('getPathname')->willReturn('archive.zip');
+        $archive->expects($this->any())->method('getRealPath')->willReturn('archive.zip');
+
+        $unpackerResult = $this->mock(\SplFileInfo::class);
+        $unpackerResult->expects($this->any())->method('getPathname')->willReturn($pathToUnpackedFile);
+        $unpackerResult->expects($this->any())->method('getRealPath')->willReturn($pathToUnpackedFile);
+
+        $unpackerFile = $this->mock(UnpackerFile::class);
+        $unpackerFile->expects($this->any())->method('getArchiveFile')->willReturn($archive);
+        $unpackerFile->expects($this->any())->method('getName')->willReturn($fileName);
 
         $unpack = $this->mock(Unpacker::class);
         $unpack->expects($this->once())
-            ->method('unpack')
+            ->method('unpackFile')
             ->with(
-                $this->callback(
-                    fn (\SplFileInfo $source): bool => $source->getPathname() === $sourcePath
-                ),
+                $this->identicalTo($archive),
+                $this->identicalTo($fileName),
                 $this->callback(
                     fn (\SplFileInfo $destination): bool => $destination->getPathname() === $destinationPath
                 )
-            );
+            )
+            ->willReturn($unpackerResult);
 
         $state = $this->createStateMock(
             [
-                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourcePath,
+                StateParameter::FILES_TO_PROCEED->value => [
+                    $unpackerFile,
+                ],
                 StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
             ]
         );
 
         $task = new UnpackTask($unpack);
+        $res = $task->run($state)->getParameter(StateParameter::FILES_TO_PROCEED);
 
-        $task->run($state);
-    }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если в состоянии не указан путь к архиву.
-     *
-     * @throws \Exception
-     */
-    public function testRunNoSourceException(): void
-    {
-        $destinationPath = '/test_path';
-        $unpack = $this->mock(Unpacker::class);
-
-        $state = $this->createStateMock(
+        $this->assertSame(
             [
-                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
-            ]
+                $pathToUnpackedFile,
+            ],
+            $res
         );
-
-        $task = new UnpackTask($unpack);
-
-        $this->expectException(TaskException::class);
-        $task->run($state);
     }
 
     /**
      * Проверяет, что объект выбросит исключение, если в состоянии не указан путь куда распаковать файл.
-     *
-     * @throws \Exception
      */
     public function testRunNoDestinationException(): void
     {
-        $sourcePath = '/test.file';
-        $unpack = $this->mock(Unpacker::class);
+        $files = [
+            $this->mock(UnpackerFile::class),
+        ];
+
+        $unpacker = $this->mock(Unpacker::class);
 
         $state = $this->createStateMock(
             [
-                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $sourcePath,
+                StateParameter::FILES_TO_PROCEED->value => $files,
             ]
         );
 
-        $task = new UnpackTask($unpack);
+        $task = new UnpackTask($unpacker);
 
         $this->expectException(TaskException::class);
+        $this->expectExceptionMessage('Destination path must be a non empty string');
+        $task->run($state);
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение, если в состоянии не указаны файлы для распаковки.
+     */
+    public function testRunFilesParamIsNotArrayException(): void
+    {
+        $destinationPath = '/test_path';
+
+        $unpacker = $this->mock(Unpacker::class);
+
+        $state = $this->createStateMock(
+            [
+                StateParameter::FILES_TO_PROCEED->value => '',
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
+            ]
+        );
+
+        $task = new UnpackTask($unpacker);
+
+        $this->expectException(TaskException::class);
+        $this->expectExceptionMessage('param must be an array');
+        $task->run($state);
+    }
+
+    /**
+     * Проверяет, что объект выбросит исключение, если в состоянии не указаны файлы для распаковки.
+     */
+    public function testRunFilesParamWrongFileTypeException(): void
+    {
+        $destinationPath = '/test_path';
+
+        $unpacker = $this->mock(Unpacker::class);
+
+        $state = $this->createStateMock(
+            [
+                StateParameter::FILES_TO_PROCEED->value => [
+                    '',
+                ],
+                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
+            ]
+        );
+
+        $task = new UnpackTask($unpacker);
+
+        $this->expectException(TaskException::class);
+        $this->expectExceptionMessage('item has a wrong type');
         $task->run($state);
     }
 }
