@@ -5,34 +5,32 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
-use Liquetsoft\Fias\Component\Pipeline\Pipe\Pipe;
-use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Liquetsoft\Fias\Component\Pipeline\Task\ApplyNestedPipelineToFileTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\CleanUpFilesToProceedTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Marvin255\FileSystemHelper\FileSystemHelperInterface;
 
 /**
- * Тест для задачи, которая применяет вложенную цепочку задач для каждого файла из состояния.
+ * Тест для задачи, которая удаляет по одному только те файлы, которые были в обработке.
  *
  * @internal
  */
-final class ApplyNestedPipelineToFileTaskTest extends BaseCase
+final class CleanUpFilesToProceedTaskTest extends BaseCase
 {
     /**
-     * Проверяет, что объект верно примеяет пайплайн.
+     * Проверяет, что объект верно удали файлы.
      */
     public function testRun(): void
     {
         $file = 'test.txt';
         $file1 = 'test1.txt';
 
-        $pipe = $this->mock(Pipe::class);
-        $pipe->expects($this->exactly(2))
-            ->method('run')
+        $fs = $this->mock(FileSystemHelperInterface::class);
+        $fs->expects($this->exactly(2))
+            ->method('removeIfExists')
             ->with(
                 $this->callback(
-                    fn (State $s): bool => $s->getParameter(StateParameter::FILES_TO_PROCEED) === [$file]
-                        || $s->getParameter(StateParameter::FILES_TO_PROCEED) === [$file1]
+                    fn (string $s): bool => $s === $file || $s === $file1
                 )
             )
             ->willReturnArgument(0);
@@ -46,7 +44,7 @@ final class ApplyNestedPipelineToFileTaskTest extends BaseCase
             ]
         );
 
-        $task = new ApplyNestedPipelineToFileTask($pipe);
+        $task = new CleanUpFilesToProceedTask($fs);
         $task->run($state);
     }
 
@@ -55,7 +53,7 @@ final class ApplyNestedPipelineToFileTaskTest extends BaseCase
      */
     public function testRunFilesParamIsNotArrayException(): void
     {
-        $pipe = $this->mock(Pipe::class);
+        $fs = $this->mock(FileSystemHelperInterface::class);
 
         $state = $this->createStateMock(
             [
@@ -63,7 +61,7 @@ final class ApplyNestedPipelineToFileTaskTest extends BaseCase
             ]
         );
 
-        $task = new ApplyNestedPipelineToFileTask($pipe);
+        $task = new CleanUpFilesToProceedTask($fs);
 
         $this->expectException(TaskException::class);
         $this->expectExceptionMessage('param must be an array');
