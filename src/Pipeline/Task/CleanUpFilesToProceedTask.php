@@ -20,7 +20,7 @@ final class CleanUpFilesToProceedTask implements LoggableTask, Task
 
     private readonly FileSystemHelperInterface $fs;
 
-    public function __construct(?FileSystemHelperInterface $fs)
+    public function __construct(?FileSystemHelperInterface $fs = null)
     {
         $this->fs = $fs ?? FileSystemFactory::create();
     }
