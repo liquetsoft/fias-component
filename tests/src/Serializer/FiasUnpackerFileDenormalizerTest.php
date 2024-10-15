@@ -100,12 +100,8 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
     public static function provideSupportsDenormalization(): array
     {
         return [
-            'interface heir' => [
+            'implementation' => [
                 UnpackerFileImpl::class,
-                true,
-            ],
-            'interface' => [
-                UnpackerFile::class,
                 true,
             ],
             'random class' => [
@@ -139,13 +135,13 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
             'xml' => [
                 FiasSerializerFormat::XML->value,
                 [
-                    UnpackerFile::class => true,
+                    UnpackerFileImpl::class => true,
                 ],
             ],
             'json' => [
                 'json',
                 [
-                    UnpackerFile::class => true,
+                    UnpackerFileImpl::class => true,
                 ],
             ],
         ];

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Serializer;
 
 use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerFileImpl;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -44,7 +45,7 @@ final class FiasUnpackerFileNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
-            UnpackerFile::class => true,
+            UnpackerFileImpl::class => true,
         ];
     }
 }

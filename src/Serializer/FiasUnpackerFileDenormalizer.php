@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Serializer;
 use Liquetsoft\Fias\Component\Helper\ArrayHelper;
 use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 use Liquetsoft\Fias\Component\Unpacker\UnpackerFileFactory;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerFileImpl;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -48,7 +49,7 @@ final class FiasUnpackerFileDenormalizer implements DenormalizerInterface
      */
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return UnpackerFile::class === $type || is_a($type, UnpackerFile::class, true);
+        return is_a($type, UnpackerFile::class, true);
     }
 
     /**
@@ -57,7 +58,7 @@ final class FiasUnpackerFileDenormalizer implements DenormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
-            UnpackerFile::class => true,
+            UnpackerFileImpl::class => true,
         ];
     }
 }

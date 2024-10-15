@@ -9,6 +9,7 @@ use Liquetsoft\Fias\Component\Serializer\FiasUnpackerFileNormalizer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 use Liquetsoft\Fias\Component\Unpacker\UnpackerFileFactory;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerFileImpl;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 /**
@@ -119,13 +120,13 @@ class FiasUnpackerFileNormalizerTest extends BaseCase
             'xml' => [
                 FiasSerializerFormat::XML->value,
                 [
-                    UnpackerFile::class => true,
+                    UnpackerFileImpl::class => true,
                 ],
             ],
             'json' => [
                 'json',
                 [
-                    UnpackerFile::class => true,
+                    UnpackerFileImpl::class => true,
                 ],
             ],
         ];
