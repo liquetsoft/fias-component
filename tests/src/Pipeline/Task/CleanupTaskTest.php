@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanupTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 
 /**
  * Тест для задачи, которая очищает все временные данные после завершения импорта.
@@ -20,8 +21,18 @@ final class CleanupTaskTest extends BaseCase
      */
     public function testRun(): void
     {
-        $downloadToPath = $this->getPathToTestFile('downloadTo.rar');
-        $extractToPath = $this->getPathToTestDir('extractTo');
+        $downloadToPath = '/downloadTo.zip';
+        $extractToPath = '/extractTo';
+
+        $fs = $this->mock(FileSystemHelper::class);
+        $fs->expects($this->exactly(2))
+            ->method('removeIfExists')
+            ->with(
+                $this->callback(
+                    fn (string $f): bool => $f === $downloadToPath
+                        || $f === $extractToPath
+                )
+            );
 
         $state = $this->createStateMock(
             [
@@ -30,10 +41,7 @@ final class CleanupTaskTest extends BaseCase
             ]
         );
 
-        $task = new CleanupTask();
+        $task = new CleanupTask($fs);
         $task->run($state);
-
-        $this->assertFileDoesNotExist($downloadToPath, 'Downloaded file removed');
-        $this->assertFileDoesNotExist($extractToPath, 'Extracted files removed');
     }
 }

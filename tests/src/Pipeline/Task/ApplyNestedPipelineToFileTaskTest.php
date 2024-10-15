@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
 use Liquetsoft\Fias\Component\Pipeline\Pipe\Pipe;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
@@ -26,13 +27,18 @@ final class ApplyNestedPipelineToFileTaskTest extends BaseCase
         $file = 'test.txt';
         $file1 = 'test1.txt';
 
+        $file2Name = 'file3.txt';
+        $file2 = $this->mock(FiasFile::class);
+        $file2->expects($this->any())->method('getName')->willReturn($file2Name);
+
         $pipe = $this->mock(Pipe::class);
-        $pipe->expects($this->exactly(2))
+        $pipe->expects($this->exactly(3))
             ->method('run')
             ->with(
                 $this->callback(
                     fn (State $s): bool => $s->getParameter(StateParameter::FILES_TO_PROCEED) === [$file]
                         || $s->getParameter(StateParameter::FILES_TO_PROCEED) === [$file1]
+                        || $s->getParameter(StateParameter::FILES_TO_PROCEED) === [$file2Name]
                 )
             )
             ->willReturnArgument(0);
@@ -42,6 +48,7 @@ final class ApplyNestedPipelineToFileTaskTest extends BaseCase
                 StateParameter::FILES_TO_PROCEED->value => [
                     $file,
                     $file1,
+                    $file2,
                 ],
             ]
         );

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Unpacker;
 
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
+
 /**
  * Интерфейс для объекта, который представляет файл внутри архива.
  */
-interface UnpackerFile extends \Stringable
+interface UnpackerFile extends FiasFile
 {
     /**
      * Возвращает путь к архиву, в котором хранится объект.
@@ -18,14 +20,4 @@ interface UnpackerFile extends \Stringable
      * Возвращает индекс заархивированного объекта.
      */
     public function getIndex(): int;
-
-    /**
-     * Возвращает размер заархивированного объекта.
-     */
-    public function getSize(): int;
-
-    /**
-     * Возвращает имя заархивированного объекта.
-     */
-    public function getName(): string;
 }

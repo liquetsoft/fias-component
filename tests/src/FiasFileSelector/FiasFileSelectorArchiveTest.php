@@ -6,7 +6,7 @@ namespace Liquetsoft\Fias\Component\Tests\FiasFileSelector;
 
 use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\FiasFileSelector\FiasFileSelectorImpl;
+use Liquetsoft\Fias\Component\FiasFileSelector\FiasFileSelectorArchive;
 use Liquetsoft\Fias\Component\Filter\Filter;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Liquetsoft\Fias\Component\Unpacker\Unpacker;
@@ -19,7 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @internal
  */
-class FiasFileSelectorImplTest extends BaseCase
+final class FiasFileSelectorArchiveTest extends BaseCase
 {
     /**
      * Проверяет, что объект вернет все файлы, которые подходят.
@@ -43,7 +43,7 @@ class FiasFileSelectorImplTest extends BaseCase
         );
         $entityManager = $this->createEntityManagerMock([$archiveFileName], [$archiveFile1Name]);
 
-        $selector = new FiasFileSelectorImpl($unpacker, $entityManager);
+        $selector = new FiasFileSelectorArchive($unpacker, $entityManager);
         $res = $selector->selectFiles($archive);
 
         $this->assertSame([$archiveFile, $archiveFile1], $res);
@@ -59,7 +59,7 @@ class FiasFileSelectorImplTest extends BaseCase
         $unpacker = $this->createUnpackerMock();
         $entityManager = $this->createEntityManagerMock();
 
-        $selector = new FiasFileSelectorImpl($unpacker, $entityManager);
+        $selector = new FiasFileSelectorArchive($unpacker, $entityManager);
         $res = $selector->selectFiles($archive);
 
         $this->assertSame([], $res);
@@ -82,7 +82,7 @@ class FiasFileSelectorImplTest extends BaseCase
         );
         $entityManager = $this->createEntityManagerMock();
 
-        $selector = new FiasFileSelectorImpl($unpacker, $entityManager);
+        $selector = new FiasFileSelectorArchive($unpacker, $entityManager);
         $res = $selector->selectFiles($archive);
 
         $this->assertSame([], $res);
@@ -106,7 +106,7 @@ class FiasFileSelectorImplTest extends BaseCase
         );
         $entityManager = $this->createEntityManagerMock([$archiveFileName]);
 
-        $selector = new FiasFileSelectorImpl($unpacker, $entityManager);
+        $selector = new FiasFileSelectorArchive($unpacker, $entityManager);
         $res = $selector->selectFiles($archive);
 
         $this->assertSame([], $res);
@@ -142,7 +142,7 @@ class FiasFileSelectorImplTest extends BaseCase
                 fn (mixed $t): bool => $t === $archiveFile1
             );
 
-        $selector = new FiasFileSelectorImpl($unpacker, $entityManager, $filter);
+        $selector = new FiasFileSelectorArchive($unpacker, $entityManager, $filter);
         $res = $selector->selectFiles($archive);
 
         $this->assertSame([$archiveFile1], $res);

@@ -32,39 +32,47 @@ final class UnpackTask implements LoggableTask, Task
             throw TaskException::create("'%s' param must be an array", StateParameter::FILES_TO_PROCEED->value);
         }
 
-        $files = [];
-        foreach ($rawFiles as $rawFile) {
-            if (!($rawFile instanceof UnpackerFile)) {
-                throw TaskException::create("File item has a wrong type, required '%s'", UnpackerFile::class);
-            }
-            $files[] = $rawFile;
-        }
-
         $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
         if ($destination === '') {
             throw new TaskException('Destination path must be a non empty string');
+        } else {
+            $destination = new \SplFileInfo($destination);
         }
 
-        $unpackedFiles = [];
-        foreach ($files as $file) {
-            $res = $this->unpacker->unpackFile(
-                $file->getArchiveFile(),
-                $file->getName(),
-                new \SplFileInfo($destination)
-            );
-            $unpackedFiles[] = $res->getRealPath();
-            $this->log(
-                LogLevel::INFO,
-                'File is unpacked',
-                [
-                    'name' => $file->getName(),
-                    'archive' => $file->getArchiveFile()->getPathname(),
-                    'destination' => $destination,
-                    'path' => $res->getRealPath(),
-                ]
-            );
+        $files = [];
+        foreach ($rawFiles as $rawFile) {
+            if ($rawFile instanceof UnpackerFile) {
+                $files[] = $this->unpackFile($rawFile, $destination);
+            } else {
+                $files[] = $rawFile;
+            }
         }
 
-        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $unpackedFiles);
+        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $files);
+    }
+
+    /**
+     * Распаковывает файл и возвращает путь к нему.
+     */
+    private function unpackFile(UnpackerFile $file, \SplFileInfo $destination): string
+    {
+        $res = $this->unpacker->unpackFile(
+            $file->getArchiveFile(),
+            $file->getName(),
+            $destination
+        );
+
+        $this->log(
+            LogLevel::INFO,
+            'File is unpacked',
+            [
+                'name' => $file->getName(),
+                'archive' => $file->getArchiveFile()->getPathname(),
+                'destination' => $destination->getPathname(),
+                'path' => $res->getRealPath(),
+            ]
+        );
+
+        return $res->getRealPath();
     }
 }

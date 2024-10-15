@@ -4,29 +4,27 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Serializer;
 
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFileImpl;
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
+use Liquetsoft\Fias\Component\FiasFile\FiasFileImpl;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * Нормалайзер, который преобразует объект файла из архива в массив.
+ * Нормалайзер, который преобразует объект файла в массив.
  */
-final class FiasUnpackerFileNormalizer implements NormalizerInterface
+final class FiasFileNormalizer implements NormalizerInterface
 {
     /**
      * {@inheritdoc}
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        if (!($object instanceof UnpackerFile)) {
-            throw new InvalidArgumentException("Instance of '" . UnpackerFile::class . "' is expected");
+        if (!($object instanceof FiasFile)) {
+            throw new InvalidArgumentException("Instance of '" . FiasFile::class . "' is expected");
         }
 
         return [
-            'archiveFile' => $object->getArchiveFile()->getPathname(),
             'name' => $object->getName(),
-            'index' => $object->getIndex(),
             'size' => $object->getSize(),
         ];
     }
@@ -36,7 +34,7 @@ final class FiasUnpackerFileNormalizer implements NormalizerInterface
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return $data instanceof UnpackerFile;
+        return $data instanceof FiasFile;
     }
 
     /**
@@ -45,7 +43,7 @@ final class FiasUnpackerFileNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
-            UnpackerFileImpl::class => true,
+            FiasFileImpl::class => true,
         ];
     }
 }

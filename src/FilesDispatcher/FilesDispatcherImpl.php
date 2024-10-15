@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\FilesDispatcher;
 
 use Liquetsoft\Fias\Component\EntityManager\EntityManager;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
 
 /**
  * Объект, который разбивает файлы на потоки по именам сущностей, к которым файлы относятся.
@@ -55,15 +55,15 @@ final class FilesDispatcherImpl implements FilesDispatcher
     /**
      * Сортирует файлы по размеру по убыванию, чтобы было легче балансировать количество данных в потоках.
      *
-     * @param UnpackerFile[] $files
+     * @param FiasFile[] $files
      *
-     * @return UnpackerFile[]
+     * @return FiasFile[]
      */
     private function sortBySizeDesc(array $files): array
     {
         usort(
             $files,
-            fn (UnpackerFile $a, UnpackerFile $b): int => $b->getSize() <=> $a->getSize()
+            fn (FiasFile $a, FiasFile $b): int => $b->getSize() <=> $a->getSize()
         );
 
         return $files;
@@ -72,7 +72,7 @@ final class FilesDispatcherImpl implements FilesDispatcher
     /**
      * Возвращает имя сущности, к которой привязан указанный файл, если такая сущность указана.
      */
-    private function getEntityNameToInsert(UnpackerFile $file): ?string
+    private function getEntityNameToInsert(FiasFile $file): ?string
     {
         return $this->entityManager->getDescriptorByInsertFile($file->getName())?->getName();
     }
@@ -80,7 +80,7 @@ final class FilesDispatcherImpl implements FilesDispatcher
     /**
      * Возвращает имя сущности, к которой привязан указанный файл, если такая сущность указана.
      */
-    private function getEntityNameToDelete(UnpackerFile $file): ?string
+    private function getEntityNameToDelete(FiasFile $file): ?string
     {
         return $this->entityManager->getDescriptorByDeleteFile($file->getName())?->getName();
     }
@@ -88,7 +88,7 @@ final class FilesDispatcherImpl implements FilesDispatcher
     /**
      * Возвращает номер региона для указанного имени файла.
      */
-    private function getRegionNumberForFile(UnpackerFile $file): ?int
+    private function getRegionNumberForFile(FiasFile $file): ?int
     {
         if (preg_match("#^/?(\d+)/.*#", $file->getName(), $matches)) {
             return (int) $matches[1];

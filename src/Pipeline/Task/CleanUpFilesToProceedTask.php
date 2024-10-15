@@ -7,8 +7,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Marvin255\FileSystemHelper\FileSystemFactory;
-use Marvin255\FileSystemHelper\FileSystemHelperInterface;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 use Psr\Log\LogLevel;
 
 /**
@@ -18,11 +17,8 @@ final class CleanUpFilesToProceedTask implements LoggableTask, Task
 {
     use LoggableTaskTrait;
 
-    private readonly FileSystemHelperInterface $fs;
-
-    public function __construct(?FileSystemHelperInterface $fs = null)
+    public function __construct(private readonly FileSystemHelper $fs)
     {
-        $this->fs = $fs ?? FileSystemFactory::create();
     }
 
     /**

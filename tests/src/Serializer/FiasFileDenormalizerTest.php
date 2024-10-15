@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
+use Liquetsoft\Fias\Component\FiasFile\FiasFileImpl;
+use Liquetsoft\Fias\Component\Serializer\FiasFileDenormalizer;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
-use Liquetsoft\Fias\Component\Serializer\FiasUnpackerFileDenormalizer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFileImpl;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 /**
- * Тест для объекта, который преобразует массив в объект файла из архива.
+ * Тест для объекта, который преобразует массив в объект файла.
  *
  * @internal
  */
-final class FiasUnpackerFileDenormalizerTest extends BaseCase
+final class FiasFileDenormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно денормализует данные.
@@ -25,22 +25,20 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
      */
     public function testDenormalize(mixed $data, array|\Exception $expected): void
     {
-        $denormalizer = new FiasUnpackerFileDenormalizer();
+        $denormalizer = new FiasFileDenormalizer();
 
         if ($expected instanceof \Exception) {
             $this->expectExceptionObject($expected);
         }
 
-        $res = $denormalizer->denormalize($data, UnpackerFile::class);
+        $res = $denormalizer->denormalize($data, FiasFile::class);
 
         if (!($expected instanceof \Exception)) {
-            $this->assertInstanceOf(UnpackerFile::class, $res);
+            $this->assertInstanceOf(FiasFile::class, $res);
             $this->assertSame(
                 $expected,
                 [
-                    'archiveFile' => $res->getArchiveFile()->getPathname(),
                     'name' => $res->getName(),
-                    'index' => $res->getIndex(),
                     'size' => $res->getSize(),
                 ]
             );
@@ -52,30 +50,16 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
         return [
             'correct params' => [
                 [
-                    'archiveFile' => '/test.zip',
                     'name' => 'test.txt',
-                    'index' => 10,
                     'size' => 213,
                 ],
                 [
-                    'archiveFile' => '/test.zip',
                     'name' => 'test.txt',
-                    'index' => 10,
                     'size' => 213,
                 ],
-            ],
-            'no archiveFile' => [
-                [
-                    'name' => 'test.txt',
-                    'index' => 10,
-                    'size' => 213,
-                ],
-                new InvalidArgumentException("'archiveFile' param isn't set"),
             ],
             'no name' => [
                 [
-                    'archiveFile' => '/test.zip',
-                    'index' => 10,
                     'size' => 213,
                 ],
                 new InvalidArgumentException("'name' param isn't set"),
@@ -90,7 +74,7 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
      */
     public function testSupportsDenormalization(string $type, bool $expected): void
     {
-        $denormalizer = new FiasUnpackerFileDenormalizer();
+        $denormalizer = new FiasFileDenormalizer();
 
         $res = $denormalizer->supportsDenormalization([], $type, 'json', []);
 
@@ -101,7 +85,7 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
     {
         return [
             'implementation' => [
-                UnpackerFileImpl::class,
+                FiasFileImpl::class,
                 true,
             ],
             'random class' => [
@@ -122,7 +106,7 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
      */
     public function testGetSupportedTypes(string $format, array $expected): void
     {
-        $denormalizer = new FiasUnpackerFileDenormalizer();
+        $denormalizer = new FiasFileDenormalizer();
 
         $res = $denormalizer->getSupportedTypes($format);
 
@@ -135,13 +119,13 @@ final class FiasUnpackerFileDenormalizerTest extends BaseCase
             'xml' => [
                 FiasSerializerFormat::XML->value,
                 [
-                    UnpackerFileImpl::class => true,
+                    FiasFileImpl::class => true,
                 ],
             ],
             'json' => [
                 'json',
                 [
-                    UnpackerFileImpl::class => true,
+                    FiasFileImpl::class => true,
                 ],
             ],
         ];
