@@ -26,6 +26,7 @@ final class UnpackTaskTest extends BaseCase
         $fileName = 'test.file';
         $destinationPath = '/test_path';
         $pathToUnpackedFile = '/test_path/test.file';
+        $pathToRandomFile = '/test/random_file.txt';
 
         $archive = $this->mock(\SplFileInfo::class);
         $archive->expects($this->any())->method('getPathname')->willReturn('archive.zip');
@@ -55,6 +56,7 @@ final class UnpackTaskTest extends BaseCase
             [
                 StateParameter::FILES_TO_PROCEED->value => [
                     $unpackerFile,
+                    $pathToRandomFile,
                 ],
                 StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
             ]
@@ -66,6 +68,7 @@ final class UnpackTaskTest extends BaseCase
         $this->assertSame(
             [
                 $pathToUnpackedFile,
+                $pathToRandomFile,
             ],
             $res
         );
