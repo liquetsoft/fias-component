@@ -50,8 +50,8 @@ final class FiasFileSelectorDir implements FiasFileSelector
         return $file->getSize() > 0
             && $this->filter?->test($file) !== false
             && (
-                $this->isFileAllowedToInsert($file->getFilename())
-                || $this->isFileAllowedToDelete($file->getFilename())
+                $this->isFileAllowedToInsert($file->getPathname())
+                || $this->isFileAllowedToDelete($file->getPathname())
             );
     }
 
