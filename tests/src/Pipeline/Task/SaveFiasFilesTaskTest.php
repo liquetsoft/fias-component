@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\SaveFiasFilesTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 
 /**
  * Тест для задачи, которая сохраняет файлы ФИАС после обработки.
@@ -20,13 +21,23 @@ final class SaveFiasFilesTaskTest extends BaseCase
      */
     public function testRun(): void
     {
-        $sourceFile = $this->getPathToTestFile('SaveFiasFilesTaskTest_source.txt');
-        $sourceDir = $this->getPathToTestDir('SaveFiasFilesTaskTest_source');
+        $moveArchiveTo = 'moveArchiveTo.zip';
+        $moveExtractedTo = '/moveExtractedTo';
 
-        $destinationFile = $this->getTempDir() . '/SaveFiasFilesTaskTest_dest.txt';
-        $destinationDir = $this->getTempDir() . '/SaveFiasFilesTaskTest_dest';
+        $sourceFile = 'source.zip';
+        $sourceDir = '/source';
 
-        file_put_contents("{$sourceDir}/extracted_file.txt", 'test');
+        $fs = $this->mock(FileSystemHelper::class);
+        $fs->expects($this->exactly(2))
+            ->method('rename')
+            ->with(
+                $this->callback(
+                    fn (string $f): bool => $f === $sourceFile || $f === $sourceDir
+                ),
+                $this->callback(
+                    fn (string $f): bool => $f === $moveExtractedTo || $f === $moveArchiveTo
+                )
+            );
 
         $state = $this->createStateMock(
             [
@@ -35,12 +46,7 @@ final class SaveFiasFilesTaskTest extends BaseCase
             ]
         );
 
-        $task = new SaveFiasFilesTask($destinationFile, $destinationDir);
+        $task = new SaveFiasFilesTask($moveExtractedTo, $moveArchiveTo, $fs);
         $task->run($state);
-
-        $this->assertFileExists($destinationFile);
-        $this->assertFileExists($destinationDir);
-        $this->assertFileDoesNotExist($sourceFile);
-        $this->assertFileDoesNotExist($sourceDir);
     }
 }

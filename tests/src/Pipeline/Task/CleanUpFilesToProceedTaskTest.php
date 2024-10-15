@@ -8,7 +8,7 @@ use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
 use Liquetsoft\Fias\Component\Pipeline\Task\CleanUpFilesToProceedTask;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Marvin255\FileSystemHelper\FileSystemHelperInterface;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 
 /**
  * Тест для задачи, которая удаляет по одному только те файлы, которые были в обработке.
@@ -25,7 +25,7 @@ final class CleanUpFilesToProceedTaskTest extends BaseCase
         $file = 'test.txt';
         $file1 = 'test1.txt';
 
-        $fs = $this->mock(FileSystemHelperInterface::class);
+        $fs = $this->mock(FileSystemHelper::class);
         $fs->expects($this->exactly(2))
             ->method('removeIfExists')
             ->with(
@@ -53,7 +53,7 @@ final class CleanUpFilesToProceedTaskTest extends BaseCase
      */
     public function testRunFilesParamIsNotArrayException(): void
     {
-        $fs = $this->mock(FileSystemHelperInterface::class);
+        $fs = $this->mock(FileSystemHelper::class);
 
         $state = $this->createStateMock(
             [

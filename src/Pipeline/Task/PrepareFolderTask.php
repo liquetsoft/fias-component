@@ -6,8 +6,7 @@ namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Marvin255\FileSystemHelper\FileSystemFactory;
-use Marvin255\FileSystemHelper\FileSystemHelperInterface;
+use Marvin255\FileSystemHelper\FileSystemHelper;
 use Psr\Log\LogLevel;
 
 /**
@@ -20,19 +19,12 @@ final class PrepareFolderTask implements LoggableTask, Task
 
     private readonly \SplFileInfo $folder;
 
-    private readonly FileSystemHelperInterface $fs;
-
-    public function __construct(string $folder)
-    {
+    public function __construct(
+        string $folder,
+        private readonly FileSystemHelper $fs,
+    ) {
         $trimmedFolder = rtrim(trim($folder, " \t\n\r\0\x0B"), '/');
-        $parent = realpath(\dirname($trimmedFolder));
-
-        if ($parent === false || !is_dir($parent) || !is_writable($parent)) {
-            throw new \InvalidArgumentException("'{$parent}' folder doesn't exist or isn't writable");
-        }
-
         $this->folder = new \SplFileInfo($trimmedFolder);
-        $this->fs = FileSystemFactory::create();
     }
 
     /**
