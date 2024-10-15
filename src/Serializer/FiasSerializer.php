@@ -30,11 +30,12 @@ final class FiasSerializer implements SerializerInterface
     {
         if ($normalizers === null) {
             $normalizers = [
+                new DateTimeNormalizer(),
                 new FiasPipelineStateNormalizer(),
                 new FiasPipelineStateDenormalizer(),
                 new FiasUnpackerFileNormalizer(),
                 new FiasUnpackerFileDenormalizer(),
-                new DateTimeNormalizer(),
+                new FiasFileDenormalizer(),
                 new ObjectNormalizer(
                     nameConverter: new FiasNameConverter(),
                     propertyTypeExtractor: new ReflectionExtractor(),
