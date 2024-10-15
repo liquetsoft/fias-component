@@ -32,38 +32,47 @@ final class UnpackTask implements LoggableTask, Task
             throw TaskException::create("'%s' param must be an array", StateParameter::FILES_TO_PROCEED->value);
         }
 
+        $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
+        if ($destination === '') {
+            throw new TaskException('Destination path must be a non empty string');
+        } else {
+            $destination = new \SplFileInfo($destination);
+        }
+
         $files = [];
         foreach ($rawFiles as $rawFile) {
             if ($rawFile instanceof UnpackerFile) {
+                $files[] = $this->unpackFile($rawFile, $destination);
+            } else {
                 $files[] = $rawFile;
             }
         }
 
-        $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
-        if ($destination === '') {
-            throw new TaskException('Destination path must be a non empty string');
-        }
+        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $files);
+    }
 
-        $unpackedFiles = [];
-        foreach ($files as $file) {
-            $res = $this->unpacker->unpackFile(
-                $file->getArchiveFile(),
-                $file->getName(),
-                new \SplFileInfo($destination)
-            );
-            $unpackedFiles[] = $res->getRealPath();
-            $this->log(
-                LogLevel::INFO,
-                'File is unpacked',
-                [
-                    'name' => $file->getName(),
-                    'archive' => $file->getArchiveFile()->getPathname(),
-                    'destination' => $destination,
-                    'path' => $res->getRealPath(),
-                ]
-            );
-        }
+    /**
+     * Распаковывает файл и возвращает путь к нему.
+     */
+    private function unpackFile(UnpackerFile $file, \SplFileInfo $destination): string
+    {
+        $res = $this->unpacker->unpackFile(
+            $file->getArchiveFile(),
+            $file->getName(),
+            $destination
+        );
 
-        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $unpackedFiles);
+        $this->log(
+            LogLevel::INFO,
+            'File is unpacked',
+            [
+                'name' => $file->getName(),
+                'archive' => $file->getArchiveFile()->getPathname(),
+                'destination' => $destination->getPathname(),
+                'path' => $res->getRealPath(),
+            ]
+        );
+
+        return $res->getRealPath();
     }
 }
