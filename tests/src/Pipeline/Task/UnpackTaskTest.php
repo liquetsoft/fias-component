@@ -117,29 +117,4 @@ final class UnpackTaskTest extends BaseCase
         $this->expectExceptionMessage('param must be an array');
         $task->run($state);
     }
-
-    /**
-     * Проверяет, что объект выбросит исключение, если в состоянии не указаны файлы для распаковки.
-     */
-    public function testRunFilesParamWrongFileTypeException(): void
-    {
-        $destinationPath = '/test_path';
-
-        $unpacker = $this->mock(Unpacker::class);
-
-        $state = $this->createStateMock(
-            [
-                StateParameter::FILES_TO_PROCEED->value => [
-                    '',
-                ],
-                StateParameter::PATH_TO_EXTRACT_FOLDER->value => $destinationPath,
-            ]
-        );
-
-        $task = new UnpackTask($unpacker);
-
-        $this->expectException(TaskException::class);
-        $this->expectExceptionMessage('item has a wrong type');
-        $task->run($state);
-    }
 }

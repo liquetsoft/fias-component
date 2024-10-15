@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
  * Базовая реализация объекта, который выбирает файлы из архива
  * для последующей обработки.
  */
-final class FiasFileSelectorImpl implements FiasFileSelector
+final class FiasFileSelectorArchive implements FiasFileSelector
 {
     public function __construct(
         private readonly Unpacker $unpacker,
@@ -25,14 +25,14 @@ final class FiasFileSelectorImpl implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
-    public function selectFiles(\SplFileInfo $archive): array
+    public function selectFiles(\SplFileInfo $source): array
     {
-        if (!$this->unpacker->isArchive($archive)) {
+        if (!$this->unpacker->isArchive($source)) {
             return [];
         }
 
         $selectedFiles = [];
-        foreach ($this->unpacker->getListOfFiles($archive) as $file) {
+        foreach ($this->unpacker->getListOfFiles($source) as $file) {
             if ($this->isFileAllowedForSelect($file)) {
                 $selectedFiles[] = $file;
             }

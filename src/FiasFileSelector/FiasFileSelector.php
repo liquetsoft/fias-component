@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\FiasFileSelector;
 
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
 
 /**
  * Интерфейс для объекта, который выбирает файлы из архива
@@ -15,7 +15,7 @@ interface FiasFileSelector
     /**
      * Выбирает файлы из архива для последующей обработки.
      *
-     * @return UnpackerFile[]
+     * @return FiasFile[]
      */
-    public function selectFiles(\SplFileInfo $archive): array;
+    public function selectFiles(\SplFileInfo $source): array;
 }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
 use Liquetsoft\Fias\Component\FilesDispatcher\FilesDispatcher;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 use Psr\Log\LogLevel;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -42,8 +42,8 @@ final class ProcessSwitchTask implements LoggableTask, Task
 
         $files = [];
         foreach ($rawFiles as $rawFile) {
-            if (!($rawFile instanceof UnpackerFile)) {
-                throw TaskException::create("File item has a wrong type, required '%s'", UnpackerFile::class);
+            if (!($rawFile instanceof FiasFile)) {
+                throw TaskException::create("File item has a wrong type, required '%s'", FiasFile::class);
             }
             $files[] = $rawFile;
         }
@@ -123,7 +123,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
     /**
      * Создает список процессов для параллельного запуска.
      *
-     * @param UnpackerFile[][] $dispatchedFiles
+     * @param FiasFile[][] $dispatchedFiles
      *
      * @return Process[]
      */
@@ -144,7 +144,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
     /**
      * Создает новый процесс для списка файлов.
      *
-     * @param UnpackerFile[] $dispatchedFiles
+     * @param FiasFile[] $dispatchedFiles
      */
     private function createProcess(State $state, array $dispatchedFiles): Process
     {

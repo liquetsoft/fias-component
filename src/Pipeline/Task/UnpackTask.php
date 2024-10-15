@@ -34,10 +34,9 @@ final class UnpackTask implements LoggableTask, Task
 
         $files = [];
         foreach ($rawFiles as $rawFile) {
-            if (!($rawFile instanceof UnpackerFile)) {
-                throw TaskException::create("File item has a wrong type, required '%s'", UnpackerFile::class);
+            if ($rawFile instanceof UnpackerFile) {
+                $files[] = $rawFile;
             }
-            $files[] = $rawFile;
         }
 
         $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
