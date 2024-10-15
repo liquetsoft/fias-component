@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Serializer;
 
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
+use Liquetsoft\Fias\Component\FiasFile\FiasFileFactory;
+use Liquetsoft\Fias\Component\FiasFile\FiasFileImpl;
+use Liquetsoft\Fias\Component\Serializer\FiasFileNormalizer;
 use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
-use Liquetsoft\Fias\Component\Serializer\FiasUnpackerFileNormalizer;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFileFactory;
-use Liquetsoft\Fias\Component\Unpacker\UnpackerFileImpl;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
  *
  * @internal
  */
-final class FiasUnpackerFileNormalizerTest extends BaseCase
+final class FiasFileNormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует состояние.
@@ -26,7 +26,7 @@ final class FiasUnpackerFileNormalizerTest extends BaseCase
      */
     public function testNormalize(object $object, array|\Exception $expected): void
     {
-        $normalizer = new FiasUnpackerFileNormalizer();
+        $normalizer = new FiasFileNormalizer();
 
         if ($expected instanceof \Exception) {
             $this->expectExceptionObject($expected);
@@ -44,19 +44,15 @@ final class FiasUnpackerFileNormalizerTest extends BaseCase
         return [
             'wrong object type exception' => [
                 new \stdClass(),
-                new InvalidArgumentException(UnpackerFile::class),
+                new InvalidArgumentException(FiasFile::class),
             ],
             'file' => [
-                UnpackerFileFactory::create(
-                    new \SplFileInfo('/test'),
+                FiasFileFactory::create(
                     'test.txt',
-                    10,
                     20
                 ),
                 [
-                    'archiveFile' => '/test',
                     'name' => 'test.txt',
-                    'index' => 10,
                     'size' => 20,
                 ],
             ],
@@ -70,7 +66,7 @@ final class FiasUnpackerFileNormalizerTest extends BaseCase
      */
     public function testSupportsNormalization(mixed $data, bool $expected): void
     {
-        $normalizer = new FiasUnpackerFileNormalizer();
+        $normalizer = new FiasFileNormalizer();
 
         $res = $normalizer->supportsNormalization($data, 'json', []);
 
@@ -81,10 +77,8 @@ final class FiasUnpackerFileNormalizerTest extends BaseCase
     {
         return [
             'file object' => [
-                UnpackerFileFactory::create(
-                    new \SplFileInfo('/test'),
+                FiasFileFactory::create(
                     'test.txt',
-                    10,
                     10
                 ),
                 true,
@@ -107,7 +101,7 @@ final class FiasUnpackerFileNormalizerTest extends BaseCase
      */
     public function testGetSupportedTypes(string $format, array $expected): void
     {
-        $denormalizer = new FiasUnpackerFileNormalizer();
+        $denormalizer = new FiasFileNormalizer();
 
         $res = $denormalizer->getSupportedTypes($format);
 
@@ -120,13 +114,13 @@ final class FiasUnpackerFileNormalizerTest extends BaseCase
             'xml' => [
                 FiasSerializerFormat::XML->value,
                 [
-                    UnpackerFileImpl::class => true,
+                    FiasFileImpl::class => true,
                 ],
             ],
             'json' => [
                 'json',
                 [
-                    UnpackerFileImpl::class => true,
+                    FiasFileImpl::class => true,
                 ],
             ],
         ];

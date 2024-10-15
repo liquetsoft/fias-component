@@ -35,6 +35,7 @@ final class FiasSerializer implements SerializerInterface
                 new FiasPipelineStateDenormalizer(),
                 new FiasUnpackerFileNormalizer(),
                 new FiasUnpackerFileDenormalizer(),
+                new FiasFileNormalizer(),
                 new FiasFileDenormalizer(),
                 new ObjectNormalizer(
                     nameConverter: new FiasNameConverter(),
