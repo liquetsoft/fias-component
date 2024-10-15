@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Exception\TaskException;
+use Liquetsoft\Fias\Component\FiasFile\FiasFile;
 use Liquetsoft\Fias\Component\Pipeline\Pipe\Pipe;
 use Liquetsoft\Fias\Component\Pipeline\State\State;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
+use Liquetsoft\Fias\Component\Unpacker\UnpackerFile;
 
 /**
  * Задача, которая применяет вложенную цепочку задач для каждого файла из состояния.
@@ -31,13 +33,27 @@ final class ApplyNestedPipelineToFileTask implements Task
         foreach ($files as $file) {
             $fileState = $state->setParameter(
                 StateParameter::FILES_TO_PROCEED,
-                [
-                    $file,
-                ]
+                $this->createNewFilesArrayFromFile($file)
             );
             $this->pipe->run($fileState);
         }
 
         return $state;
+    }
+
+    /**
+     * Превращает файл в новый массив для StateParameter::FILES_TO_PROCEED.
+     */
+    private function createNewFilesArrayFromFile(mixed $file): array
+    {
+        if (($file instanceof FiasFile) && !($file instanceof UnpackerFile)) {
+            return [
+                $file->getName(),
+            ];
+        }
+
+        return [
+            $file,
+        ];
     }
 }
