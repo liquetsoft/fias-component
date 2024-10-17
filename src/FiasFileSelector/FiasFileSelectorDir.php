@@ -25,12 +25,16 @@ final class FiasFileSelectorDir implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    public function supportSource(\SplFileInfo $source): bool
+    {
+        return $source->isDir();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function selectFiles(\SplFileInfo $source): array
     {
-        if (!$source->isDir()) {
-            return [];
-        }
-
         $selectedFiles = [];
         $iterator = $this->fs->createDirectoryIterator($source);
         foreach ($iterator as $object) {

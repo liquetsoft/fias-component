@@ -21,6 +21,37 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class FiasFileSelectorDirTest extends BaseCase
 {
     /**
+     * Проверяет, что объект определит подходит ли источник данных.
+     *
+     * @dataProvider provideSupportSource
+     */
+    public function testSupportSource(bool $isDir): void
+    {
+        $source = $this->mock(\SplFileInfo::class);
+        $source->expects($this->any())->method('isDir')->willReturn($isDir);
+
+        $entityManager = $this->createEntityManagerMock();
+        $fs = $this->createFileSystemHelperMock($source);
+
+        $selector = new FiasFileSelectorDir($entityManager, $fs);
+        $res = $selector->supportSource($source);
+
+        $this->assertSame($isDir, $res);
+    }
+
+    public static function provideSupportSource(): array
+    {
+        return [
+            'is dir' => [
+                true,
+            ],
+            'is not dir' => [
+                false,
+            ],
+        ];
+    }
+
+    /**
      * Проверяет, что объект вернет все файлы, которые подходят.
      */
     public function testSelectFiles(): void
@@ -54,23 +85,6 @@ final class FiasFileSelectorDirTest extends BaseCase
         $this->assertSame($res[0]->getSize(), $fileSize);
         $this->assertSame($res[1]->getName(), $file1Name);
         $this->assertSame($res[1]->getSize(), $file1Size);
-    }
-
-    /**
-     * Проверяет, что объект вернет пустой массив, если передан не архив.
-     */
-    public function testSelectFilesNotADir(): void
-    {
-        $dir = $this->mock(\SplFileInfo::class);
-        $dir->expects($this->any())->method('isDir')->willReturn(true);
-
-        $fs = $this->createFileSystemHelperMock($dir);
-        $entityManager = $this->createEntityManagerMock();
-
-        $selector = new FiasFileSelectorDir($entityManager, $fs);
-        $res = $selector->selectFiles($dir);
-
-        $this->assertSame([], $res);
     }
 
     /**

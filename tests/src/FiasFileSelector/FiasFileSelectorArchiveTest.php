@@ -22,6 +22,42 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class FiasFileSelectorArchiveTest extends BaseCase
 {
     /**
+     * Проверяет, что объект определит подходит ли источник данных.
+     *
+     * @dataProvider provideSupportSource
+     */
+    public function testSupportSource(bool $isArchive): void
+    {
+        $source = $this->mock(\SplFileInfo::class);
+        $entityManager = $this->createEntityManagerMock();
+
+        $unpacker = $this->mock(Unpacker::class);
+        $unpacker->expects($this->any())
+            ->method('isArchive')
+            ->with(
+                $this->identicalTo($source)
+            )
+            ->willReturn($isArchive);
+
+        $selector = new FiasFileSelectorArchive($unpacker, $entityManager);
+        $res = $selector->supportSource($source);
+
+        $this->assertSame($isArchive, $res);
+    }
+
+    public static function provideSupportSource(): array
+    {
+        return [
+            'is archive' => [
+                true,
+            ],
+            'is not archive' => [
+                false,
+            ],
+        ];
+    }
+
+    /**
      * Проверяет, что объект вернет все файлы, которые подходят.
      */
     public function testSelectFiles(): void
@@ -47,22 +83,6 @@ final class FiasFileSelectorArchiveTest extends BaseCase
         $res = $selector->selectFiles($archive);
 
         $this->assertSame([$archiveFile, $archiveFile1], $res);
-    }
-
-    /**
-     * Проверяет, что объект вернет пустой массив, если передан не архив.
-     */
-    public function testSelectFilesNotAnArchive(): void
-    {
-        $archive = $this->mock(\SplFileInfo::class);
-
-        $unpacker = $this->createUnpackerMock();
-        $entityManager = $this->createEntityManagerMock();
-
-        $selector = new FiasFileSelectorArchive($unpacker, $entityManager);
-        $res = $selector->selectFiles($archive);
-
-        $this->assertSame([], $res);
     }
 
     /**
