@@ -59,13 +59,15 @@ final class FiasFileSelectorDirTest extends BaseCase
         $dir = $this->mock(\SplFileInfo::class);
         $dir->expects($this->any())->method('isDir')->willReturn(true);
 
-        $fileName = 'fileName';
+        $fileName = 'fileName.txt';
+        $filePath = "/path/to/{$fileName}";
         $fileSize = 10;
-        $file = $this->createSplFileInfoMock($fileName, $fileSize);
+        $file = $this->createSplFileInfoMock($filePath, $fileSize);
 
-        $file1Name = 'file1Name';
+        $file1Name = 'file1Name.txt';
+        $file1Path = "/path/to/{$file1Name}";
         $file1Size = 20;
-        $file1 = $this->createSplFileInfoMock($file1Name, $file1Size);
+        $file1 = $this->createSplFileInfoMock($file1Path, $file1Size);
 
         $fs = $this->createFileSystemHelperMock(
             $dir,
@@ -81,9 +83,9 @@ final class FiasFileSelectorDirTest extends BaseCase
         $res = $selector->selectFiles($dir);
 
         $this->assertCount(2, $res);
-        $this->assertSame($res[0]->getName(), $fileName);
+        $this->assertSame($res[0]->getName(), $filePath);
         $this->assertSame($res[0]->getSize(), $fileSize);
-        $this->assertSame($res[1]->getName(), $file1Name);
+        $this->assertSame($res[1]->getName(), $file1Path);
         $this->assertSame($res[1]->getSize(), $file1Size);
     }
 
@@ -95,9 +97,10 @@ final class FiasFileSelectorDirTest extends BaseCase
         $dir = $this->mock(\SplFileInfo::class);
         $dir->expects($this->any())->method('isDir')->willReturn(true);
 
-        $fileName = 'fileName';
+        $fileName = 'fileName.txt';
+        $filePath = "/path/to/{$fileName}";
         $fileSize = 10;
-        $file = $this->createSplFileInfoMock($fileName, $fileSize);
+        $file = $this->createSplFileInfoMock($filePath, $fileSize);
 
         $fs = $this->createFileSystemHelperMock(
             $dir,
@@ -121,9 +124,10 @@ final class FiasFileSelectorDirTest extends BaseCase
         $dir = $this->mock(\SplFileInfo::class);
         $dir->expects($this->any())->method('isDir')->willReturn(true);
 
-        $fileName = 'fileName';
+        $fileName = 'fileName.txt';
+        $filePath = "/path/to/{$fileName}";
         $fileSize = 0;
-        $file = $this->createSplFileInfoMock($fileName, $fileSize);
+        $file = $this->createSplFileInfoMock($filePath, $fileSize);
 
         $fs = $this->createFileSystemHelperMock(
             $dir,
@@ -147,13 +151,15 @@ final class FiasFileSelectorDirTest extends BaseCase
         $dir = $this->mock(\SplFileInfo::class);
         $dir->expects($this->any())->method('isDir')->willReturn(true);
 
-        $fileName = 'fileName';
+        $fileName = 'fileName.txt';
+        $filePath = "/path/to/{$fileName}";
         $fileSize = 10;
-        $file = $this->createSplFileInfoMock($fileName, $fileSize);
+        $file = $this->createSplFileInfoMock($filePath, $fileSize);
 
-        $file1Name = 'file1Name';
+        $file1Name = 'file1Name.txt';
+        $file1Path = "/path/to/{$file1Name}";
         $file1Size = 20;
-        $file1 = $this->createSplFileInfoMock($file1Name, $file1Size);
+        $file1 = $this->createSplFileInfoMock($file1Path, $file1Size);
 
         $fs = $this->createFileSystemHelperMock(
             $dir,
@@ -176,7 +182,7 @@ final class FiasFileSelectorDirTest extends BaseCase
         $res = $selector->selectFiles($dir);
 
         $this->assertCount(1, $res);
-        $this->assertSame($res[0]->getName(), $file1Name);
+        $this->assertSame($res[0]->getName(), $file1Path);
     }
 
     /**
@@ -189,8 +195,8 @@ final class FiasFileSelectorDirTest extends BaseCase
             ->method('getPathname')
             ->willReturn($name);
         $file->expects($this->any())
-            ->method('getFileName')
-            ->willReturn($name);
+            ->method('getBasename')
+            ->willReturn(pathinfo($name, \PATHINFO_BASENAME));
         $file->expects($this->any())
             ->method('getSize')
             ->willReturn($size);
