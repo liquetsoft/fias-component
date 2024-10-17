@@ -189,6 +189,9 @@ final class FiasFileSelectorDirTest extends BaseCase
             ->method('getPathname')
             ->willReturn($name);
         $file->expects($this->any())
+            ->method('getFileName')
+            ->willReturn($name);
+        $file->expects($this->any())
             ->method('getSize')
             ->willReturn($size);
         $file->expects($this->any())
