@@ -50,8 +50,8 @@ final class FiasFileSelectorArchive implements FiasFileSelector
      */
     private function isFileAllowedForSelect(UnpackerFile $file): bool
     {
-        $fileName = pathinfo($file->getName(), PATHINFO_BASENAME);
-    
+        $fileName = pathinfo($file->getName(), \PATHINFO_BASENAME);
+
         return $file->getSize() > 0
             && $this->filter?->test($file) !== false
             && (
