@@ -40,15 +40,17 @@ final class UnpackTask implements LoggableTask, Task
         }
 
         $files = [];
+        $filesUnpacked = [];
         foreach ($rawFiles as $rawFile) {
             if ($rawFile instanceof UnpackerFile) {
-                $files[] = $this->unpackFile($rawFile, $destination);
+                $files[] = $filesUnpacked[] = $this->unpackFile($rawFile, $destination);
             } else {
                 $files[] = $rawFile;
             }
         }
 
-        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $files);
+        return $state->setParameter(StateParameter::FILES_TO_PROCEED, $files)
+            ->setParameter(StateParameter::FILES_UNPACKED, $filesUnpacked);
     }
 
     /**

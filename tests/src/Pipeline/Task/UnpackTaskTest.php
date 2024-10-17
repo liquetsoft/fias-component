@@ -63,14 +63,22 @@ final class UnpackTaskTest extends BaseCase
         );
 
         $task = new UnpackTask($unpack);
-        $res = $task->run($state)->getParameter(StateParameter::FILES_TO_PROCEED);
+        $res = $task->run($state);
+        $resFiles = $res->getParameter(StateParameter::FILES_TO_PROCEED);
+        $resFilesUnpacked = $res->getParameter(StateParameter::FILES_UNPACKED);
 
         $this->assertSame(
             [
                 $pathToUnpackedFile,
                 $pathToRandomFile,
             ],
-            $res
+            $resFiles
+        );
+        $this->assertSame(
+            [
+                $pathToUnpackedFile,
+            ],
+            $resFilesUnpacked
         );
     }
 
