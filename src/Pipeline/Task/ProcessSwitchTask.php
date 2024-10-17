@@ -159,7 +159,7 @@ final class ProcessSwitchTask implements LoggableTask, Task
             LogLevel::INFO,
             'Creating new process',
             [
-                'files' => $dispatchedFiles,
+                'files' => \count($dispatchedFiles),
                 'path_to_php' => $phpBinaryPath,
                 'path_to_bin' => $this->pathToBin,
                 'command' => $this->commandName,

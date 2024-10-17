@@ -184,7 +184,7 @@ final class FilesDispatcherImplTest extends BaseCase
             ->willReturnCallback(
                 function (string $f) use ($descriptors): ?EntityDescriptor {
                     foreach (self::ENTITY_TO_FILES_MAP as $entityName => $files) {
-                        if (str_ends_with($f, $files['insert'])) {
+                        if ($f === $files['insert']) {
                             return $descriptors[$entityName] ?? null;
                         }
                     }
@@ -198,7 +198,7 @@ final class FilesDispatcherImplTest extends BaseCase
             ->willReturnCallback(
                 function (string $f) use ($descriptors): ?EntityDescriptor {
                     foreach (self::ENTITY_TO_FILES_MAP as $entityName => $files) {
-                        if (str_ends_with($f, $files['delete'])) {
+                        if ($f === $files['delete']) {
                             return $descriptors[$entityName] ?? null;
                         }
                     }
