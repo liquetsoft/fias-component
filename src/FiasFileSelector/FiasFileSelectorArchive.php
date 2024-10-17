@@ -50,11 +50,13 @@ final class FiasFileSelectorArchive implements FiasFileSelector
      */
     private function isFileAllowedForSelect(UnpackerFile $file): bool
     {
+        $fileName = pathinfo($file->getName(), \PATHINFO_BASENAME);
+
         return $file->getSize() > 0
             && $this->filter?->test($file) !== false
             && (
-                $this->isFileAllowedToInsert($file->getName())
-                || $this->isFileAllowedToDelete($file->getName())
+                $this->isFileAllowedToInsert($fileName)
+                || $this->isFileAllowedToDelete($fileName)
             );
     }
 

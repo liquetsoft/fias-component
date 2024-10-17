@@ -65,10 +65,12 @@ final class FiasFileSelectorArchiveTest extends BaseCase
         $archive = $this->mock(\SplFileInfo::class);
 
         $archiveFileName = 'archiveFileName';
-        $archiveFile = $this->createUnpackerFileMock($archiveFileName, 10);
+        $archiveFilePath = "path/to/{$archiveFileName}";
+        $archiveFile = $this->createUnpackerFileMock($archiveFilePath, 10);
 
         $archiveFile1Name = 'archiveFile1Name';
-        $archiveFile1 = $this->createUnpackerFileMock($archiveFile1Name, 10);
+        $archiveFile1Path = "path/to/{$archiveFile1Name}";
+        $archiveFile1 = $this->createUnpackerFileMock($archiveFile1Path, 10);
 
         $unpacker = $this->createUnpackerMock(
             $archive,
@@ -92,7 +94,9 @@ final class FiasFileSelectorArchiveTest extends BaseCase
     {
         $archive = $this->mock(\SplFileInfo::class);
 
-        $archiveFile = $this->createUnpackerFileMock('archiveFileName', 10);
+        $archiveFileName = 'archiveFileName';
+        $archiveFilePath = "path/to/{$archiveFileName}";
+        $archiveFile = $this->createUnpackerFileMock($archiveFilePath, 10);
 
         $unpacker = $this->createUnpackerMock(
             $archive,
@@ -116,7 +120,8 @@ final class FiasFileSelectorArchiveTest extends BaseCase
         $archive = $this->mock(\SplFileInfo::class);
 
         $archiveFileName = 'archiveFileName';
-        $archiveFile = $this->createUnpackerFileMock($archiveFileName, 0);
+        $archiveFilePath = "path/to/{$archiveFileName}";
+        $archiveFile = $this->createUnpackerFileMock($archiveFilePath, 0);
 
         $unpacker = $this->createUnpackerMock(
             $archive,
@@ -140,10 +145,12 @@ final class FiasFileSelectorArchiveTest extends BaseCase
         $archive = $this->mock(\SplFileInfo::class);
 
         $archiveFileName = 'archiveFileName';
-        $archiveFile = $this->createUnpackerFileMock($archiveFileName, 10);
+        $archiveFilePath = "path/to/{$archiveFileName}";
+        $archiveFile = $this->createUnpackerFileMock($archiveFilePath, 10);
 
         $archiveFile1Name = 'archiveFile1Name';
-        $archiveFile1 = $this->createUnpackerFileMock($archiveFile1Name, 10);
+        $archiveFile1Path = "path/to/{$archiveFile1Name}";
+        $archiveFile1 = $this->createUnpackerFileMock($archiveFile1Path, 10);
 
         $unpacker = $this->createUnpackerMock(
             $archive,
