@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Liquetsoft\Fias\Component\Pipeline\Task\CleanUpFilesUnpacked;
+use Liquetsoft\Fias\Component\Pipeline\Task\CleanupFilesUnpacked;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Marvin255\FileSystemHelper\FileSystemHelper;
 
@@ -43,7 +43,7 @@ final class CleanupFilesUnpackedTest extends BaseCase
             ]
         );
 
-        $task = new CleanUpFilesUnpacked($fs);
+        $task = new CleanupFilesUnpacked($fs);
         $task->run($state);
     }
 
@@ -60,7 +60,7 @@ final class CleanupFilesUnpackedTest extends BaseCase
             ]
         );
 
-        $task = new CleanUpFilesUnpacked($fs);
+        $task = new CleanupFilesUnpacked($fs);
         $newState = $task->run($state);
 
         $this->assertSame($state, $newState);
