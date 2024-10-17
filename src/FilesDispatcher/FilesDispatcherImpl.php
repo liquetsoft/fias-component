@@ -74,7 +74,9 @@ final class FilesDispatcherImpl implements FilesDispatcher
      */
     private function getEntityNameToInsert(FiasFile $file): ?string
     {
-        return $this->entityManager->getDescriptorByInsertFile($file->getName())?->getName();
+        $fileName = pathinfo($file->getName(), \PATHINFO_BASENAME);
+
+        return $this->entityManager->getDescriptorByInsertFile($fileName)?->getName();
     }
 
     /**
@@ -82,7 +84,9 @@ final class FilesDispatcherImpl implements FilesDispatcher
      */
     private function getEntityNameToDelete(FiasFile $file): ?string
     {
-        return $this->entityManager->getDescriptorByDeleteFile($file->getName())?->getName();
+        $fileName = pathinfo($file->getName(), \PATHINFO_BASENAME);
+
+        return $this->entityManager->getDescriptorByDeleteFile($fileName)?->getName();
     }
 
     /**
