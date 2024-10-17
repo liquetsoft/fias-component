@@ -42,8 +42,9 @@ final class DownloadTaskTest extends BaseCase
         );
 
         $task = new DownloadTask($downloader);
+        $res = $task->run($state)->getParameter(StateParameter::PATH_TO_SOURCE);
 
-        $task->run($state);
+        $this->assertSame($filePath, $res);
     }
 
     /**

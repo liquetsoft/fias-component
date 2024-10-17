@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Pipeline\Task;
 
-use Liquetsoft\Fias\Component\Exception\TaskException;
 use Liquetsoft\Fias\Component\Pipeline\State\StateParameter;
-use Liquetsoft\Fias\Component\Pipeline\Task\CleanUpFilesToProceedTask;
+use Liquetsoft\Fias\Component\Pipeline\Task\CleanupFilesUnpacked;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
 use Marvin255\FileSystemHelper\FileSystemHelper;
 
@@ -15,7 +14,7 @@ use Marvin255\FileSystemHelper\FileSystemHelper;
  *
  * @internal
  */
-final class CleanUpFilesToProceedTaskTest extends BaseCase
+final class CleanupFilesUnpackedTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно удали файлы.
@@ -37,14 +36,14 @@ final class CleanUpFilesToProceedTaskTest extends BaseCase
 
         $state = $this->createStateMock(
             [
-                StateParameter::FILES_TO_PROCEED->value => [
+                StateParameter::FILES_UNPACKED->value => [
                     $file,
                     $file1,
                 ],
             ]
         );
 
-        $task = new CleanUpFilesToProceedTask($fs);
+        $task = new CleanupFilesUnpacked($fs);
         $task->run($state);
     }
 
@@ -57,14 +56,13 @@ final class CleanUpFilesToProceedTaskTest extends BaseCase
 
         $state = $this->createStateMock(
             [
-                StateParameter::FILES_TO_PROCEED->value => '',
+                StateParameter::FILES_UNPACKED->value => '',
             ]
         );
 
-        $task = new CleanUpFilesToProceedTask($fs);
+        $task = new CleanupFilesUnpacked($fs);
+        $newState = $task->run($state);
 
-        $this->expectException(TaskException::class);
-        $this->expectExceptionMessage('param must be an array');
-        $task->run($state);
+        $this->assertSame($state, $newState);
     }
 }

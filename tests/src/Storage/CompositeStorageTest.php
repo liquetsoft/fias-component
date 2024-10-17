@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Liquetsoft\Fias\Component\Tests\Storage;
 
-use Liquetsoft\Fias\Component\Exception\StorageException;
 use Liquetsoft\Fias\Component\Storage\CompositeStorage;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\Tests\BaseCase;
@@ -14,31 +13,17 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class CompositeStorageTest extends BaseCase
+final class CompositeStorageTest extends BaseCase
 {
     /**
-     * Проверяет, что объект выбросит исключение, если в массив конструктора передан объект,
-     * который не реализует интерфейс хранилища.
-     */
-    public function testConstructWrongArgumentException(): void
-    {
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
-
-        $this->expectException(\InvalidArgumentException::class);
-        new CompositeStorage([$storage, 'test']);
-    }
-
-    /**
      * Проверяет, что объект передаст вызов start всем вложенным хранилищам.
-     *
-     * @throws StorageException
      */
     public function testStart(): void
     {
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())->method('start');
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())->method('start');
 
         $compositeStorage = new CompositeStorage([$storage, $storage1]);
@@ -47,15 +32,13 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов stop всем вложенным хранилищам.
-     *
-     * @throws StorageException
      */
     public function testStop(): void
     {
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())->method('stop');
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())->method('stop');
 
         $compositeStorage = new CompositeStorage([$storage, $storage1]);
@@ -70,13 +53,13 @@ class CompositeStorageTest extends BaseCase
     {
         $object = new \stdClass();
 
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
             ->willReturn(false);
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
@@ -96,13 +79,13 @@ class CompositeStorageTest extends BaseCase
     {
         $class = $this->createFakeData()->word();
 
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($class))
             ->willReturn(false);
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($class))
@@ -116,21 +99,19 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов insert всем вложенным хранилищам.
-     *
-     * @throws StorageException
      */
     public function testInsert(): void
     {
         $object = new \stdClass();
 
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
             ->willReturn(false);
         $storage->expects($this->never())->method('insert');
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
@@ -143,21 +124,19 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов delete всем вложенным хранилищам.
-     *
-     * @throws StorageException
      */
     public function testDelete(): void
     {
         $object = new \stdClass();
 
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
             ->willReturn(false);
         $storage->expects($this->never())->method('delete');
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
@@ -172,21 +151,19 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов upsert всем вложенным хранилищам.
-     *
-     * @throws StorageException
      */
     public function testUpsert(): void
     {
         $object = new \stdClass();
 
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
             ->willReturn(false);
         $storage->expects($this->never())->method('upsert');
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())
             ->method('supports')
             ->with($this->identicalTo($object))
@@ -201,21 +178,19 @@ class CompositeStorageTest extends BaseCase
 
     /**
      * Проверяет, что объект передаст вызов truncate всем вложенным хранилищам.
-     *
-     * @throws StorageException
      */
     public function testTruncate(): void
     {
         $object = 'className';
 
-        $storage = $this->getMockBuilder(Storage::class)->getMock();
+        $storage = $this->mock(Storage::class);
         $storage->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($object))
             ->willReturn(false);
         $storage->expects($this->never())->method('truncate');
 
-        $storage1 = $this->getMockBuilder(Storage::class)->getMock();
+        $storage1 = $this->mock(Storage::class);
         $storage1->expects($this->once())
             ->method('supportsClass')
             ->with($this->identicalTo($object))

@@ -29,18 +29,34 @@ final class DownloadTask implements LoggableTask, Task
     {
         $url = $state->getParameterString(StateParameter::FIAS_VERSION_ARCHIVE_URL);
         if ($url === '') {
-            throw TaskException::create("FIAS archive url isn't set");
+            throw TaskException::create("Source url isn't set");
         }
 
         $filePath = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
         if ($filePath === '') {
-            throw TaskException::create("Download file path isn't set");
+            throw TaskException::create("Destination path isn't set");
         }
 
-        $this->log(LogLevel::INFO, "Downloading '{$url}' to '{$filePath}'");
+        $this->log(
+            LogLevel::INFO,
+            'Downloading file',
+            [
+                'url' => $url,
+                'destination' => $filePath,
+            ]
+        );
 
         $this->downloader->download($url, new \SplFileInfo($filePath));
 
-        return $state;
+        $this->log(
+            LogLevel::INFO,
+            'File downloaded',
+            [
+                'url' => $url,
+                'destination' => $filePath,
+            ]
+        );
+
+        return $state->setParameter(StateParameter::PATH_TO_SOURCE, $filePath);
     }
 }

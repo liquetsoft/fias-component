@@ -25,12 +25,16 @@ final class FiasFileSelectorArchive implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    public function supportSource(\SplFileInfo $source): bool
+    {
+        return $this->unpacker->isArchive($source);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function selectFiles(\SplFileInfo $source): array
     {
-        if (!$this->unpacker->isArchive($source)) {
-            return [];
-        }
-
         $selectedFiles = [];
         foreach ($this->unpacker->getListOfFiles($source) as $file) {
             if ($this->isFileAllowedForSelect($file)) {

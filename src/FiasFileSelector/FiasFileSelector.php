@@ -13,6 +13,11 @@ use Liquetsoft\Fias\Component\FiasFile\FiasFile;
 interface FiasFileSelector
 {
     /**
+     * Проверяет может ли указанный источник данных быть обработан.
+     */
+    public function supportSource(\SplFileInfo $source): bool;
+
+    /**
      * Выбирает файлы из архива для последующей обработки.
      *
      * @return FiasFile[]

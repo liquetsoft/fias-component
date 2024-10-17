@@ -7,23 +7,13 @@ namespace Liquetsoft\Fias\Component\Storage;
 /**
  * Объект, который может сохранять данные в несколько других хранилищ.
  */
-class CompositeStorage implements Storage
+final class CompositeStorage implements Storage
 {
     /**
-     * @var Storage[]
+     * @param Storage[] $internalStorages
      */
-    protected array $internalStorages = [];
-
-    public function __construct(iterable $internalStorages)
+    public function __construct(private readonly iterable $internalStorages)
     {
-        foreach ($internalStorages as $key => $storage) {
-            if (!($storage instanceof Storage)) {
-                throw new \InvalidArgumentException(
-                    "Item with key '{$key}' must be instance of '" . Storage::class . "'."
-                );
-            }
-            $this->internalStorages[] = $storage;
-        }
     }
 
     /**
