@@ -27,29 +27,33 @@ final class SelectFilesToProceedTask implements LoggableTask, Task
      */
     public function run(State $state): State
     {
-        $pathToArchive = $state->getParameterString(StateParameter::PATH_TO_DOWNLOAD_FILE);
-        $archive = new \SplFileInfo($pathToArchive);
-
-        if ($pathToArchive === '' || !$archive->isFile()) {
-            throw TaskException::create("'%s' is not a file", $pathToArchive);
+        $pathToSource = $state->getParameterString(StateParameter::PATH_TO_SOURCE);
+        if ($pathToSource === '') {
+            throw TaskException::create("'%s' is not a valid source", $pathToSource);
         }
+
+        $source = new \SplFileInfo($pathToSource);
 
         $this->log(
             LogLevel::INFO,
-            'Selecting files from archive',
+            'Selecting files from source',
             [
-                'path' => $pathToArchive,
+                'path' => $pathToSource,
             ]
         );
 
-        $files = $this->fiasFileSelector->selectFiles($archive);
+        if ($this->fiasFileSelector->supportSource($source)) {
+            $files = $this->fiasFileSelector->selectFiles($source);
+        } else {
+            $files = [];
+        }
 
         if (\count($files) === 0) {
             $this->log(
                 LogLevel::INFO,
-                'No files from archive selected',
+                'No files selected from source',
                 [
-                    'archive' => $pathToArchive,
+                    'source' => $pathToSource,
                     'files' => 0,
                 ]
             );
@@ -59,9 +63,9 @@ final class SelectFilesToProceedTask implements LoggableTask, Task
 
         $this->log(
             LogLevel::INFO,
-            'Files from archive selected',
+            'Files selected from source',
             [
-                'archive' => $pathToArchive,
+                'source' => $pathToSource,
                 'files' => \count($files),
             ]
         );

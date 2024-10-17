@@ -19,6 +19,7 @@ enum StateParameter: string
 
     case PATH_TO_DOWNLOAD_FILE = 'path_to_download_file';
     case PATH_TO_EXTRACT_FOLDER = 'path_to_extract_folder';
+    case PATH_TO_SOURCE = 'path_to_source';
 
     case FILES_TO_PROCEED = 'files_to_proceed';
     case FILES_UNPACKED = 'files_unpacked';

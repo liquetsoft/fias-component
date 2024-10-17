@@ -38,7 +38,7 @@ final class SelectFilesToProceedTaskTest extends BaseCase
      */
     public function testRun(): void
     {
-        $pathToArchive = __DIR__ . '/_fixtures/SelectFilesToProceedTaskTest/testRun.zip';
+        $path = '/test/source';
 
         $expectedFiles = [
             $this->mock(UnpackerFile::class),
@@ -47,17 +47,25 @@ final class SelectFilesToProceedTaskTest extends BaseCase
 
         $selector = $this->mock(FiasFileSelector::class);
         $selector->expects($this->once())
+            ->method('supportSource')
+            ->with(
+                $this->callback(
+                    fn (\SplFileInfo $t): bool => $t->getPathname() === $path
+                )
+            )
+            ->willReturn(true);
+        $selector->expects($this->once())
             ->method('selectFiles')
             ->with(
                 $this->callback(
-                    fn (\SplFileInfo $t): bool => $t->getRealPath() === $pathToArchive
+                    fn (\SplFileInfo $t): bool => $t->getPathname() === $path
                 )
             )
             ->willReturn($expectedFiles);
 
         $state = $this->createStateMock(
             [
-                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $pathToArchive,
+                StateParameter::PATH_TO_SOURCE->value => $path,
             ]
         );
 
@@ -73,14 +81,37 @@ final class SelectFilesToProceedTaskTest extends BaseCase
      */
     public function testRunNothingFound(): void
     {
-        $pathToArchive = __DIR__ . '/_fixtures/SelectFilesToProceedTaskTest/testRun.zip';
+        $path = '/test/source';
 
         $selector = $this->mock(FiasFileSelector::class);
+        $selector->expects($this->once())->method('supportSource')->willReturn(true);
         $selector->expects($this->any())->method('selectFiles')->willReturn([]);
 
         $state = $this->createStateMock(
             [
-                StateParameter::PATH_TO_DOWNLOAD_FILE->value => $pathToArchive,
+                StateParameter::PATH_TO_SOURCE->value => $path,
+            ]
+        );
+
+        $task = new SelectFilesToProceedTask($selector);
+        $newState = $task->run($state);
+
+        $this->assertTrue($newState->isCompleted());
+    }
+
+    /**
+     * Проверяет, что объект завергит процесс, если источник данных не поддерживается.
+     */
+    public function testRunUnsupportedSource(): void
+    {
+        $path = '/test/source';
+
+        $selector = $this->mock(FiasFileSelector::class);
+        $selector->expects($this->once())->method('supportSource')->willReturn(false);
+
+        $state = $this->createStateMock(
+            [
+                StateParameter::PATH_TO_SOURCE->value => $path,
             ]
         );
 
