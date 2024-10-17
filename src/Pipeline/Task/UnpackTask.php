@@ -32,18 +32,11 @@ final class UnpackTask implements LoggableTask, Task
             throw TaskException::create("'%s' param must be an array", StateParameter::FILES_TO_PROCEED->value);
         }
 
-        $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
-        if ($destination === '') {
-            throw new TaskException('Destination path must be a non empty string');
-        } else {
-            $destination = new \SplFileInfo($destination);
-        }
-
         $files = [];
         $filesUnpacked = [];
         foreach ($rawFiles as $rawFile) {
             if ($rawFile instanceof UnpackerFile) {
-                $files[] = $filesUnpacked[] = $this->unpackFile($rawFile, $destination);
+                $files[] = $filesUnpacked[] = $this->unpackFile($rawFile, $state);
             } else {
                 $files[] = $rawFile;
             }
@@ -56,8 +49,15 @@ final class UnpackTask implements LoggableTask, Task
     /**
      * Распаковывает файл и возвращает путь к нему.
      */
-    private function unpackFile(UnpackerFile $file, \SplFileInfo $destination): string
+    private function unpackFile(UnpackerFile $file, State $state): string
     {
+        $destination = $state->getParameterString(StateParameter::PATH_TO_EXTRACT_FOLDER);
+        if ($destination === '') {
+            throw new TaskException('Destination path must be a non empty string');
+        } else {
+            $destination = new \SplFileInfo($destination);
+        }
+
         $res = $this->unpacker->unpackFile(
             $file->getArchiveFile(),
             $file->getName(),
