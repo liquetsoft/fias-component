@@ -26,7 +26,7 @@ final class FiasSerializerTest extends BaseCase
     ACTSTATID="2"
     NAME="&#x41D;&#x435; &#x430;&#x43A;&#x442;&#x443;&#x430;&#x43B;&#x44C;&#x43D;&#x44B;&#x439;"
     TESTDATE="2019-10-10T10:10:10.02"
-    KOD_T_ST="10"
+    KOD_T_ST="227010000010000016740025000000000"
     EMPTYSTRINGINT=""
 />
 EOT;
@@ -41,7 +41,7 @@ EOT;
         $this->assertInstanceOf(FiasSerializerMock::class, $object);
         $this->assertSame(2, $object->getActstatid());
         $this->assertSame('Не актуальный', $object->getName());
-        $this->assertSame('10', $object->getKodtst());
+        $this->assertSame('227010000010000016740025000000000', $object->getKodtst());
         $this->assertSame(0, $object->getEmptyStringInt());
 
         $date = $object->getTestDate();
