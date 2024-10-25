@@ -16,6 +16,7 @@ use Liquetsoft\Fias\Component\Serializer\FiasSerializerFormat;
 use Liquetsoft\Fias\Component\Storage\Storage;
 use Liquetsoft\Fias\Component\XmlReader\XmlReader;
 use Psr\Log\LogLevel;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -140,6 +141,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
                 [
                     FiasSerializerContextParam::FIAS_FLAG->value => true,
                     FiasSerializerContextParam::FIAS_ENTITY->value => $entityClass,
+                    XmlEncoder::TYPE_CAST_ATTRIBUTES => false,
                 ]
             );
         } catch (\Throwable $e) {
