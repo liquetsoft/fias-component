@@ -7,6 +7,7 @@ namespace Liquetsoft\Fias\Component\Serializer;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -56,6 +57,7 @@ final class FiasSerializer implements SerializerInterface
                         XmlEncoder::TYPE_CAST_ATTRIBUTES => false,
                     ]
                 ),
+                new JsonEncoder(),
             ];
         }
 
