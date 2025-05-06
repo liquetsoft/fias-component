@@ -32,7 +32,8 @@ final class PathHelperTest extends BaseCase
     public function testResource(): void
     {
         $fileName = 'test.test';
-        $realPath = realpath(__DIR__ . '/../../../resources') . '/' . $fileName;
+        $resources = (string) realpath(__DIR__ . '/../../../resources');
+        $realPath = "{$resources}/{$fileName}";
 
         $testPath = PathHelper::resource($fileName);
 

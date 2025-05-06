@@ -18,7 +18,13 @@ final class PathHelper
      */
     public static function resources(): string
     {
-        return realpath(__DIR__ . '/../../resources');
+        $path = realpath(__DIR__ . '/../../resources');
+
+        if ($path === false) {
+            throw new \RuntimeException("Can't find resources folder, please check library status");
+        }
+
+        return $path;
     }
 
     /**
