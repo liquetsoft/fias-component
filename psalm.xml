@@ -6,12 +6,11 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config file:///var/www/vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="false"
     findUnusedCode="false"
+    findUnusedIssueHandlerSuppression="false"
 >
     <projectFiles>
         <directory name="./src"/>
         <directory name="./tests"/>
-        <ignoreFiles>
-        </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
@@ -22,8 +21,15 @@
                 <directory name="./tests" />
             </errorLevel>
         </PropertyNotSetInConstructor>
+        <MissingOverrideAttribute>
+            <errorLevel type="suppress">
+                <directory name="./src/Serializer" />
+            </errorLevel>
+        </MissingOverrideAttribute>
+        <ParamNameMismatch>
+            <errorLevel type="suppress">
+                <directory name="./src/Serializer" />
+            </errorLevel>
+        </ParamNameMismatch>
     </issueHandlers>
-
-    <plugins>
-    </plugins>
 </psalm>

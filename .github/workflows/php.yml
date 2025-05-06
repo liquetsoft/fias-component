@@ -15,7 +15,7 @@ jobs:
       fail-fast: true
       matrix:
         php-versions: ['8.2', '8.3']
-        symfony-components-versions: ['^7.0']
+        symfony-components-versions: ['^6.0', '^7.0']
 
     steps:
     - uses: actions/checkout@v2

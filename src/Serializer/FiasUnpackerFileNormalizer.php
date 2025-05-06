@@ -44,7 +44,6 @@ final class FiasUnpackerFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

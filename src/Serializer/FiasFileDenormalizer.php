@@ -46,7 +46,6 @@ final class FiasFileDenormalizer implements DenormalizerInterface
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [
