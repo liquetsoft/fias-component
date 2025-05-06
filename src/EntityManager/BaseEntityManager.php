@@ -48,6 +48,7 @@ final class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
+    #[\Override]
     public function getDescriptorByEntityName(string $entityName): ?EntityDescriptor
     {
         $normalizedEntityName = $this->normalizeEntityName($entityName);
@@ -63,6 +64,7 @@ final class BaseEntityManager implements EntityManager
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getClassByDescriptor(EntityDescriptor $descriptor): ?string
     {
         $normalizedEntityName = $this->normalizeEntityName($descriptor->getName());
@@ -75,6 +77,7 @@ final class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
+    #[\Override]
     public function getDescriptorByInsertFile(string $insertFileName): ?EntityDescriptor
     {
         $return = null;
@@ -95,6 +98,7 @@ final class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
+    #[\Override]
     public function getDescriptorByDeleteFile(string $insertFileName): ?EntityDescriptor
     {
         $return = null;
@@ -115,6 +119,7 @@ final class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
+    #[\Override]
     public function getDescriptorByClass(string $className): ?EntityDescriptor
     {
         $normalizedClassName = $this->normalizeClassName($className);
@@ -137,6 +142,7 @@ final class BaseEntityManager implements EntityManager
      *
      * @throws EntityRegistryException
      */
+    #[\Override]
     public function getDescriptorByObject(mixed $object): ?EntityDescriptor
     {
         $return = null;
@@ -151,6 +157,7 @@ final class BaseEntityManager implements EntityManager
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getBindedClasses(): array
     {
         return array_unique(array_values($this->bindings));

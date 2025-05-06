@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class FiasNameConverterTest extends BaseCase
+final class FiasNameConverterTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует имя.

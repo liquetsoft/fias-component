@@ -9,7 +9,7 @@ namespace Liquetsoft\Fias\Component\Tests\Mock;
  *
  * @internal
  */
-class DataInsertTaskMock
+final class DataInsertTaskMock
 {
     /**
      * @var int

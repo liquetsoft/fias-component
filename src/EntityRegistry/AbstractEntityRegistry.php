@@ -27,6 +27,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function hasDescriptor(string $entityName): bool
     {
         $return = false;
@@ -46,6 +47,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getDescriptor(string $entityName): EntityDescriptor
     {
         $return = null;
@@ -71,6 +73,7 @@ abstract class AbstractEntityRegistry implements EntityRegistry
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getDescriptors(): array
     {
         if ($this->registry === null) {

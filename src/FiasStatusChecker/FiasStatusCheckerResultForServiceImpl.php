@@ -19,6 +19,7 @@ final class FiasStatusCheckerResultForServiceImpl implements FiasStatusCheckerRe
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getStatus(): FiasStatusCheckerStatus
     {
         return $this->status;
@@ -27,6 +28,7 @@ final class FiasStatusCheckerResultForServiceImpl implements FiasStatusCheckerRe
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getService(): FiasStatusCheckerService
     {
         return $this->service;
@@ -35,6 +37,7 @@ final class FiasStatusCheckerResultForServiceImpl implements FiasStatusCheckerRe
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getReason(): string
     {
         return $this->reason;

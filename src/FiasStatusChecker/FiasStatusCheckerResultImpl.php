@@ -21,6 +21,7 @@ final class FiasStatusCheckerResultImpl implements FiasStatusCheckerResult
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getResultStatus(): FiasStatusCheckerStatus
     {
         return $this->resultStatus;
@@ -29,6 +30,7 @@ final class FiasStatusCheckerResultImpl implements FiasStatusCheckerResult
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getPerServiceStatuses(): array
     {
         return $this->perServiceStatuses;
@@ -37,6 +39,7 @@ final class FiasStatusCheckerResultImpl implements FiasStatusCheckerResult
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function canProceed(): bool
     {
         return $this->resultStatus === FiasStatusCheckerStatus::AVAILABLE;

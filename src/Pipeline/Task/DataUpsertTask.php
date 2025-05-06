@@ -11,11 +11,12 @@ use Liquetsoft\Fias\Component\Exception\StorageException;
  * Задача, которая читает данные из xml и либо обновляет, если запись уже имеется,
  * либо создает новую запись.
  */
-class DataUpsertTask extends DataAbstractTask
+final class DataUpsertTask extends DataAbstractTask
 {
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor
     {
         return $this->entityManager->getDescriptorByInsertFile($file->getBasename());
@@ -26,6 +27,7 @@ class DataUpsertTask extends DataAbstractTask
      *
      * @throws StorageException
      */
+    #[\Override]
     protected function processItem(object $item): void
     {
         $this->storage->upsert($item);

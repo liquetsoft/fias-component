@@ -19,6 +19,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function start(): void
     {
         foreach ($this->internalStorages as $storage) {
@@ -29,6 +30,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function stop(): void
     {
         foreach ($this->internalStorages as $storage) {
@@ -39,6 +41,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function supports(object $entity): bool
     {
         $isSupport = false;
@@ -55,6 +58,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function supportsClass(string $class): bool
     {
         $isSupport = false;
@@ -71,6 +75,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function insert(object $entity): void
     {
         foreach ($this->internalStorages as $storage) {
@@ -84,6 +89,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function delete(object $entity): void
     {
         foreach ($this->internalStorages as $storage) {
@@ -97,6 +103,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function upsert(object $entity): void
     {
         foreach ($this->internalStorages as $storage) {
@@ -110,6 +117,7 @@ final class CompositeStorage implements Storage
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function truncate(string $entityClassName): void
     {
         foreach ($this->internalStorages as $storage) {

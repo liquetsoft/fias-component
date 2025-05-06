@@ -20,6 +20,7 @@ final readonly class FiasFileImpl implements FiasFile
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSize(): int
     {
         return $this->size;
@@ -28,6 +29,7 @@ final readonly class FiasFileImpl implements FiasFile
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->name;

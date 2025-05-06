@@ -19,6 +19,7 @@ final class FilesDispatcherImpl implements FilesDispatcher
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function dispatch(array $files, int $processesCount = 6): array
     {
         $files = $this->sortBySizeDesc($files);

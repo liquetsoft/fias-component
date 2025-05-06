@@ -7,14 +7,24 @@ namespace Liquetsoft\Fias\Component\Helper;
 /**
  * Класс, который содержит функции, возвращающие пути до различных частей библиотеки.
  */
-class PathHelper
+final class PathHelper
 {
+    private function __construct()
+    {
+    }
+
     /**
      * Возвращает полный путь к папке с ресурсами.
      */
     public static function resources(): string
     {
-        return realpath(__DIR__ . '/../../resources');
+        $path = realpath(__DIR__ . '/../../resources');
+
+        if ($path === false) {
+            throw new \RuntimeException("Can't find resources folder, please check library status");
+        }
+
+        return $path;
     }
 
     /**

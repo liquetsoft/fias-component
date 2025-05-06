@@ -22,16 +22,6 @@
                 <directory name="./tests" />
             </errorLevel>
         </PropertyNotSetInConstructor>
-        <MixedOperand>
-            <errorLevel type="suppress">
-                <directory name="./tests" />
-            </errorLevel>
-        </MixedOperand>
-        <MixedArrayAssignment>
-            <errorLevel type="suppress">
-                <directory name="./tests" />
-            </errorLevel>
-        </MixedArrayAssignment>
     </issueHandlers>
 
     <plugins>

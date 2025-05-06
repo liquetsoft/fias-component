@@ -10,11 +10,12 @@ use Liquetsoft\Fias\Component\Exception\StorageException;
 /**
  * Задача, которая читает данные из xml и вставляет их в БД.
  */
-class DataInsertTask extends DataAbstractTask
+final class DataInsertTask extends DataAbstractTask
 {
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor
     {
         return $this->entityManager->getDescriptorByInsertFile($file->getBasename());
@@ -25,6 +26,7 @@ class DataInsertTask extends DataAbstractTask
      *
      * @throws StorageException
      */
+    #[\Override]
     protected function processItem(object $item): void
     {
         $this->storage->insert($item);

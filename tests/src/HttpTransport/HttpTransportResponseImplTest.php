@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class HttpTransportResponseImplTest extends BaseCase
+final class HttpTransportResponseImplTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно вернет код ответа.

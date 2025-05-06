@@ -27,6 +27,7 @@ final class SaveFiasFilesTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $movePaths = [];

@@ -9,7 +9,7 @@ namespace Liquetsoft\Fias\Component\Tests\Mock;
  *
  * @internal
  */
-class DataDeleteTaskMock
+final class DataDeleteTaskMock
 {
     /**
      * @var int

@@ -17,23 +17,25 @@ final class FiasUnpackerFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    #[\Override]
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        if (!($object instanceof UnpackerFile)) {
+        if (!($data instanceof UnpackerFile)) {
             throw new InvalidArgumentException("Instance of '" . UnpackerFile::class . "' is expected");
         }
 
         return [
-            'archiveFile' => $object->getArchiveFile()->getPathname(),
-            'name' => $object->getName(),
-            'index' => $object->getIndex(),
-            'size' => $object->getSize(),
+            'archiveFile' => $data->getArchiveFile()->getPathname(),
+            'name' => $data->getName(),
+            'index' => $data->getIndex(),
+            'size' => $data->getSize(),
         ];
     }
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof UnpackerFile;
@@ -42,6 +44,7 @@ final class FiasUnpackerFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

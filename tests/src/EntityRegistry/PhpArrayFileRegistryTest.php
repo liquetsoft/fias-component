@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class PhpArrayFileRegistryTest extends BaseCase
+final class PhpArrayFileRegistryTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если файл не существует.

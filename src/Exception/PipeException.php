@@ -8,6 +8,6 @@ namespace Liquetsoft\Fias\Component\Exception;
  * Исключение, которое выбрасывается в случае возникновения ошибки
  * при проведении цепочки операций.
  */
-class PipeException extends Exception
+final class PipeException extends Exception
 {
 }

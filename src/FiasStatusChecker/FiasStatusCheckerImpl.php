@@ -22,6 +22,7 @@ final class FiasStatusCheckerImpl implements FiasStatusChecker
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function check(): FiasStatusCheckerResult
     {
         $statusesPerServices = [

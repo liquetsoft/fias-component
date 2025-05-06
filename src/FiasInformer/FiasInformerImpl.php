@@ -33,6 +33,7 @@ final class FiasInformerImpl implements FiasInformer
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getLatestVersion(): FiasInformerResponse
     {
         return FiasInformerResponseFactory::createFromJson(
@@ -43,6 +44,7 @@ final class FiasInformerImpl implements FiasInformer
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getNextVersion(int|FiasInformerResponse $currentVersion): ?FiasInformerResponse
     {
         $currentVersionId = $currentVersion instanceof FiasInformerResponse ? $currentVersion->getVersion() : $currentVersion;
@@ -63,6 +65,7 @@ final class FiasInformerImpl implements FiasInformer
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getAllVersions(): array
     {
         $data = $this->query($this->endpointAll);

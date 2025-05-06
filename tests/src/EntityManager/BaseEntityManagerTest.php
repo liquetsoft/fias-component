@@ -17,7 +17,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @internal
  */
-class BaseEntityManagerTest extends BaseCase
+final class BaseEntityManagerTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если реализация не указана.

@@ -8,6 +8,6 @@ namespace Liquetsoft\Fias\Component\Exception;
  * Исключение, которое выбрасывается, если справочник сущностей не смог
  * загрузить описание.
  */
-class EntityRegistryException extends Exception
+final class EntityRegistryException extends Exception
 {
 }

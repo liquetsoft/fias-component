@@ -23,6 +23,7 @@ final class InformFullTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $info = $this->informer->getLatestVersion();

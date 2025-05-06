@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class PathHelperTest extends BaseCase
+final class PathHelperTest extends BaseCase
 {
     /**
      * Тест, который проверяет, что класс вернет правильный путь до папки с ресурсами.
@@ -32,7 +32,8 @@ class PathHelperTest extends BaseCase
     public function testResource(): void
     {
         $fileName = 'test.test';
-        $realPath = realpath(__DIR__ . '/../../../resources') . '/' . $fileName;
+        $resources = (string) realpath(__DIR__ . '/../../../resources');
+        $realPath = "{$resources}/{$fileName}";
 
         $testPath = PathHelper::resource($fileName);
 

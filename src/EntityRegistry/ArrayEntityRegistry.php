@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\EntityDescriptor\EntityDescriptor;
 /**
  * Объект, который хранит описания сущностей ФИАС во внутреннем массиве.
  */
-class ArrayEntityRegistry extends AbstractEntityRegistry
+final class ArrayEntityRegistry extends AbstractEntityRegistry
 {
     /**
      * @var array<int, EntityDescriptor>
@@ -36,6 +36,7 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function createRegistry(): array
     {
         return $this->arrayRegistry;

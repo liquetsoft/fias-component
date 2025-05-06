@@ -49,6 +49,7 @@ abstract class DataAbstractTask implements LoggableTask, Task
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $allFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);

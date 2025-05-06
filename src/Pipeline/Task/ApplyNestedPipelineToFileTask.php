@@ -23,6 +23,7 @@ final class ApplyNestedPipelineToFileTask implements Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $files = $state->getParameter(StateParameter::FILES_TO_PROCEED);

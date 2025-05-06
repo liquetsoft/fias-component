@@ -17,21 +17,23 @@ final class FiasFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    #[\Override]
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        if (!($object instanceof FiasFile)) {
+        if (!($data instanceof FiasFile)) {
             throw new InvalidArgumentException("Instance of '" . FiasFile::class . "' is expected");
         }
 
         return [
-            'name' => $object->getName(),
-            'size' => $object->getSize(),
+            'name' => $data->getName(),
+            'size' => $data->getSize(),
         ];
     }
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof FiasFile;
@@ -40,6 +42,7 @@ final class FiasFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

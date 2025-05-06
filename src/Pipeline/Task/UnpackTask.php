@@ -25,6 +25,7 @@ final class UnpackTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $rawFiles = $state->getParameter(StateParameter::FILES_TO_PROCEED);

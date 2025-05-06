@@ -25,6 +25,7 @@ final class FiasFileSelectorDir implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportSource(\SplFileInfo $source): bool
     {
         return $source->isDir();
@@ -33,6 +34,7 @@ final class FiasFileSelectorDir implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function selectFiles(\SplFileInfo $source): array
     {
         $selectedFiles = [];

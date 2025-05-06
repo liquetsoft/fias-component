@@ -7,6 +7,6 @@ namespace Liquetsoft\Fias\Component\Exception;
 /**
  * Исключение, которое выбрасывается при ошибке в логике задачи.
  */
-class TaskException extends Exception
+final class TaskException extends Exception
 {
 }

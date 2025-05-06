@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @internal
  */
-class DownloaderImplTest extends BaseCase
+final class DownloaderImplTest extends BaseCase
 {
     private const URL = 'https://test.ru/test.zip';
     private const METHOD_HEAD = 'head';

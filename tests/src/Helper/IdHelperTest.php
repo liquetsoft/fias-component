@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class IdHelperTest extends BaseCase
+final class IdHelperTest extends BaseCase
 {
     /**
      * Проверяет, что метод вернет уникальный идентификатор.

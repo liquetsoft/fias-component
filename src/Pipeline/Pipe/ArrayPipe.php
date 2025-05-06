@@ -36,6 +36,7 @@ final class ArrayPipe implements Pipe
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $state = $this->checkAndSetPipelineId($state);

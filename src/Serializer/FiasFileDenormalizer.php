@@ -19,6 +19,7 @@ final class FiasFileDenormalizer implements DenormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $data = \is_array($data) ? $data : [];
@@ -36,6 +37,7 @@ final class FiasFileDenormalizer implements DenormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return is_a($type, FiasFile::class, true);
@@ -44,6 +46,7 @@ final class FiasFileDenormalizer implements DenormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

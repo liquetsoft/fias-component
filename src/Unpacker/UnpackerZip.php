@@ -15,6 +15,7 @@ final class UnpackerZip implements Unpacker
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function unpack(\SplFileInfo $archive, \SplFileInfo $destination): \SplFileInfo
     {
         $callback = function (\ZipArchive $archiveHandler) use ($archive, $destination): \SplFileInfo {
@@ -37,6 +38,7 @@ final class UnpackerZip implements Unpacker
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function unpackFile(\SplFileInfo $archive, string $fileName, \SplFileInfo $destination): \SplFileInfo
     {
         $callback = function (\ZipArchive $archiveHandler) use ($archive, $fileName, $destination): \SplFileInfo {
@@ -59,6 +61,7 @@ final class UnpackerZip implements Unpacker
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getListOfFiles(\SplFileInfo $archive): iterable
     {
         $archiveHandler = $this->openArchive($archive);
@@ -76,6 +79,7 @@ final class UnpackerZip implements Unpacker
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isArchive(\SplFileInfo $archive): bool
     {
         try {
