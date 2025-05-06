@@ -32,7 +32,4 @@
             </errorLevel>
         </ParamNameMismatch>
     </issueHandlers>
-
-    <plugins>
-    </plugins>
 </psalm>
