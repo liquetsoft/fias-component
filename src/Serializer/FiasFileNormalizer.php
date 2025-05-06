@@ -18,15 +18,15 @@ final class FiasFileNormalizer implements NormalizerInterface
      * {@inheritdoc}
      */
     #[\Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        if (!($object instanceof FiasFile)) {
+        if (!($data instanceof FiasFile)) {
             throw new InvalidArgumentException("Instance of '" . FiasFile::class . "' is expected");
         }
 
         return [
-            'name' => $object->getName(),
-            'size' => $object->getSize(),
+            'name' => $data->getName(),
+            'size' => $data->getSize(),
         ];
     }
 

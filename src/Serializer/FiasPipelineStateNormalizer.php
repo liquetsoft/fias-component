@@ -30,15 +30,15 @@ final class FiasPipelineStateNormalizer implements NormalizerAwareInterface, Nor
      * {@inheritdoc}
      */
     #[\Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        if (!($object instanceof State)) {
+        if (!($data instanceof State)) {
             throw new InvalidArgumentException("Instance of '" . State::class . "' is expected");
         }
 
         $parameters = [];
         foreach (StateParameter::cases() as $case) {
-            $stateValue = $object->getParameter($case, null);
+            $stateValue = $data->getParameter($case, null);
             $value = $this->prepareStateParameterValue($stateValue, $format, $context);
             if ($value !== null) {
                 $parameters[$case->value] = $value;
@@ -47,7 +47,7 @@ final class FiasPipelineStateNormalizer implements NormalizerAwareInterface, Nor
 
         return [
             'parameters' => $parameters,
-            'isCompleted' => $object->isCompleted(),
+            'isCompleted' => $data->isCompleted(),
         ];
     }
 
