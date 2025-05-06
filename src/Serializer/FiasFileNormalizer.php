@@ -42,7 +42,6 @@ final class FiasFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

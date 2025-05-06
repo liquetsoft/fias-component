@@ -22,6 +22,13 @@
                 <directory name="./tests" />
             </errorLevel>
         </PropertyNotSetInConstructor>
+        <MissingOverrideAttribute>
+            <errorLevel type="suppress">
+                <file name="./src/Serializer/FiasPipelineStateNormalizer.php" />
+                <file name="./src/Serializer/FiasUnpackerFileNormalizer.php" />
+                <file name="./src/Serializer/FiasFileNormalizer.php" />
+            </errorLevel>
+        </MissingOverrideAttribute>
     </issueHandlers>
 
     <plugins>

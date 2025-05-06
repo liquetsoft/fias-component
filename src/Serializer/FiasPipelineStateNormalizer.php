@@ -63,7 +63,6 @@ final class FiasPipelineStateNormalizer implements NormalizerAwareInterface, Nor
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [
