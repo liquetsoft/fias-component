@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class HttpTransportResponseFactoryTest extends BaseCase
+final class HttpTransportResponseFactoryTest extends BaseCase
 {
     /**
      * Проверяет, что фабрика создаст объект из составных частей.

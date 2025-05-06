@@ -10,7 +10,7 @@ use Liquetsoft\Fias\Component\Exception\StorageException;
 /**
  * Задача, которая читает данные из xml и удаляет их из БД.
  */
-class DataDeleteTask extends DataAbstractTask
+final class DataDeleteTask extends DataAbstractTask
 {
     /**
      * {@inheritDoc}

@@ -10,7 +10,7 @@ use Liquetsoft\Fias\Component\Exception\StorageException;
 /**
  * Задача, которая читает данные из xml и вставляет их в БД.
  */
-class DataInsertTask extends DataAbstractTask
+final class DataInsertTask extends DataAbstractTask
 {
     /**
      * {@inheritDoc}

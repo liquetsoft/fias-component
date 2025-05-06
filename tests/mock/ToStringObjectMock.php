@@ -9,7 +9,7 @@ namespace Liquetsoft\Fias\Component\Tests\Mock;
  *
  * @internal
  */
-class ToStringObjectMock
+final class ToStringObjectMock
 {
     /**
      * @var string

@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class BaseEntityFieldTest extends BaseCase
+final class BaseEntityFieldTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно вернет имя поля.

@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\XmlReader\BaseXmlReader;
  *
  * @internal
  */
-class BaseXmlReaderTest extends BaseCase
+final class BaseXmlReaderTest extends BaseCase
 {
     /**
      * Проверяет, что объект читает данные из xml.

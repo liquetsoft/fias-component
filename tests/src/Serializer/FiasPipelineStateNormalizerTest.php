@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  *
  * @internal
  */
-class FiasPipelineStateNormalizerTest extends BaseCase
+final class FiasPipelineStateNormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует состояние.

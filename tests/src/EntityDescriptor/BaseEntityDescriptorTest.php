@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class BaseEntityDescriptorTest extends BaseCase
+final class BaseEntityDescriptorTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно вернет имя сущности.

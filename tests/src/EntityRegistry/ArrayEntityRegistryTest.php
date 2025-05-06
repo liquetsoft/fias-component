@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class ArrayEntityRegistryTest extends BaseCase
+final class ArrayEntityRegistryTest extends BaseCase
 {
     /**
      * Проверяет, что объект выбросит исключение, если задан объект,

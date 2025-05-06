@@ -14,7 +14,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class FiasInformerResponseImplTest extends BaseCase
+final class FiasInformerResponseImplTest extends BaseCase
 {
     /**
      * Проверяет, что объет выбросит исключение, если указать 0 в качестве версии.

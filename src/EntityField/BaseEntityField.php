@@ -7,7 +7,7 @@ namespace Liquetsoft\Fias\Component\EntityField;
 /**
  * Объект, который описывает поле сущности.
  */
-class BaseEntityField implements EntityField
+final class BaseEntityField implements EntityField
 {
     protected string $name;
 

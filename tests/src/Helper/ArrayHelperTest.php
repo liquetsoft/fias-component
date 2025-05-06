@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class ArrayHelperTest extends BaseCase
+final class ArrayHelperTest extends BaseCase
 {
     /**
      * Проверяет, что метод верно извлечет строку из массива по имени.

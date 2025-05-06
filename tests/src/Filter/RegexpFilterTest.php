@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Tests\Mock\ToStringObjectMock;
  *
  * @internal
  */
-class RegexpFilterTest extends BaseCase
+final class RegexpFilterTest extends BaseCase
 {
     public function testTestException(): void
     {

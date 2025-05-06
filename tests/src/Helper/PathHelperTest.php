@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class PathHelperTest extends BaseCase
+final class PathHelperTest extends BaseCase
 {
     /**
      * Тест, который проверяет, что класс вернет правильный путь до папки с ресурсами.

@@ -11,7 +11,7 @@ use Liquetsoft\Fias\Component\Exception\StorageException;
  * Задача, которая читает данные из xml и либо обновляет, если запись уже имеется,
  * либо создает новую запись.
  */
-class DataUpsertTask extends DataAbstractTask
+final class DataUpsertTask extends DataAbstractTask
 {
     /**
      * {@inheritDoc}

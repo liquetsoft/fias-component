@@ -9,7 +9,7 @@ use Liquetsoft\Fias\Component\EntityField\EntityField;
 /**
  * Объект, который хранит описание сущности ФИАС.
  */
-class BaseEntityDescriptor implements EntityDescriptor
+final class BaseEntityDescriptor implements EntityDescriptor
 {
     protected string $name;
 

@@ -15,7 +15,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class FiasInformerImplTest extends BaseCase
+final class FiasInformerImplTest extends BaseCase
 {
     /**
      * Проверяет получение текущей версии.

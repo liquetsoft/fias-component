@@ -13,7 +13,7 @@ use Liquetsoft\Fias\Component\Helper\PathHelper;
 /**
  * Объект, который получает описания сущностей ФИАС из php файла с массивом.
  */
-class PhpArrayFileRegistry extends AbstractEntityRegistry
+final class PhpArrayFileRegistry extends AbstractEntityRegistry
 {
     private string $pathToSource;
 

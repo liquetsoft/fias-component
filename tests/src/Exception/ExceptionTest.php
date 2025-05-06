@@ -12,7 +12,7 @@ use Liquetsoft\Fias\Component\Tests\BaseCase;
  *
  * @internal
  */
-class ExceptionTest extends BaseCase
+final class ExceptionTest extends BaseCase
 {
     /**
      * Проеряет, что объект приведет код к числу.
