@@ -25,6 +25,7 @@ final class FiasFileSelectorArchive implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportSource(\SplFileInfo $source): bool
     {
         return $this->unpacker->isArchive($source);
@@ -33,6 +34,7 @@ final class FiasFileSelectorArchive implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function selectFiles(\SplFileInfo $source): array
     {
         $selectedFiles = [];

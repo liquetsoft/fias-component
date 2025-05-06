@@ -25,6 +25,7 @@ final class InformDeltaTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $version = $state->getParameterInt(StateParameter::FIAS_VERSION_NUMBER);

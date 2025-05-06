@@ -30,6 +30,7 @@ final class PrepareFolderTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $this->log(LogLevel::INFO, "Emptying '{$this->folder->getPathname()}' folder");

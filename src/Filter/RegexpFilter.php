@@ -20,6 +20,7 @@ final class RegexpFilter implements Filter
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function test(mixed $testData): bool
     {
         if (\is_scalar($testData)) {

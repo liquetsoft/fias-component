@@ -23,6 +23,7 @@ final class CleanupFilesUnpacked implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $files = $state->getParameter(StateParameter::FILES_UNPACKED);

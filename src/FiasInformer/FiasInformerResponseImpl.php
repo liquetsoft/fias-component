@@ -33,6 +33,7 @@ final class FiasInformerResponseImpl implements FiasInformerResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getVersion(): int
     {
         return $this->version;
@@ -41,6 +42,7 @@ final class FiasInformerResponseImpl implements FiasInformerResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFullUrl(): string
     {
         return $this->fullUrl;
@@ -49,6 +51,7 @@ final class FiasInformerResponseImpl implements FiasInformerResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getDeltaUrl(): string
     {
         return $this->deltaUrl;

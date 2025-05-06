@@ -20,6 +20,7 @@ final class FiasPipelineStateNormalizer implements NormalizerAwareInterface, Nor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setNormalizer(NormalizerInterface $normalizer): void
     {
         $this->normalizer = $normalizer;
@@ -28,6 +29,7 @@ final class FiasPipelineStateNormalizer implements NormalizerAwareInterface, Nor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (!($object instanceof State)) {
@@ -52,6 +54,7 @@ final class FiasPipelineStateNormalizer implements NormalizerAwareInterface, Nor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof State;
@@ -60,6 +63,7 @@ final class FiasPipelineStateNormalizer implements NormalizerAwareInterface, Nor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

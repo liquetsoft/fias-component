@@ -15,6 +15,7 @@ class DataDeleteTask extends DataAbstractTask
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor
     {
         return $this->entityManager->getDescriptorByDeleteFile($file->getBasename());
@@ -25,6 +26,7 @@ class DataDeleteTask extends DataAbstractTask
      *
      * @throws StorageException
      */
+    #[\Override]
     protected function processItem(object $item): void
     {
         $this->storage->delete($item);

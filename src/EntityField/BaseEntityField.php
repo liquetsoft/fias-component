@@ -54,6 +54,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -62,6 +63,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getDescription(): string
     {
         return $this->description;
@@ -70,6 +72,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getType(): string
     {
         return $this->type;
@@ -78,6 +81,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSubType(): string
     {
         return $this->subType;
@@ -86,6 +90,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getLength(): ?int
     {
         return $this->length;
@@ -94,6 +99,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isNullable(): bool
     {
         return $this->isNullable;
@@ -102,6 +108,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isPrimary(): bool
     {
         return $this->isPrimary;
@@ -110,6 +117,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isIndex(): bool
     {
         return $this->isIndex;
@@ -118,6 +126,7 @@ class BaseEntityField implements EntityField
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isPartition(): bool
     {
         return $this->isPartition;

@@ -20,6 +20,7 @@ final class FiasPipelineStateDenormalizer implements DenormalizerAwareInterface,
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setDenormalizer(DenormalizerInterface $denormalizer): void
     {
         $this->denormalizer = $denormalizer;
@@ -28,6 +29,7 @@ final class FiasPipelineStateDenormalizer implements DenormalizerAwareInterface,
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         /** @var array */
@@ -55,6 +57,7 @@ final class FiasPipelineStateDenormalizer implements DenormalizerAwareInterface,
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return State::class === $type || is_a($type, State::class, true);
@@ -63,6 +66,7 @@ final class FiasPipelineStateDenormalizer implements DenormalizerAwareInterface,
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

@@ -20,6 +20,7 @@ final class FiasFileSelectorComposite implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportSource(\SplFileInfo $source): bool
     {
         foreach ($this->filesSelectors as $selector) {
@@ -34,6 +35,7 @@ final class FiasFileSelectorComposite implements FiasFileSelector
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function selectFiles(\SplFileInfo $source): array
     {
         foreach ($this->filesSelectors as $selector) {

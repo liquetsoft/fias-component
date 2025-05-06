@@ -23,6 +23,7 @@ final class CheckStatusTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $status = $this->checker->check();

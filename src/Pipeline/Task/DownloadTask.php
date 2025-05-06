@@ -25,6 +25,7 @@ final class DownloadTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $url = $state->getParameterString(StateParameter::FIAS_VERSION_ARCHIVE_URL);

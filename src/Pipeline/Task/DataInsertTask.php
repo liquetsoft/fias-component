@@ -15,6 +15,7 @@ class DataInsertTask extends DataAbstractTask
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     protected function getFileDescriptor(\SplFileInfo $file): ?EntityDescriptor
     {
         return $this->entityManager->getDescriptorByInsertFile($file->getBasename());
@@ -25,6 +26,7 @@ class DataInsertTask extends DataAbstractTask
      *
      * @throws StorageException
      */
+    #[\Override]
     protected function processItem(object $item): void
     {
         $this->storage->insert($item);

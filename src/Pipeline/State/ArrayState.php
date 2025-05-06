@@ -24,6 +24,7 @@ final readonly class ArrayState implements State
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setParameter(StateParameter $parameter, mixed $parameterValue): self
     {
         $parameters = $this->parameters;
@@ -35,6 +36,7 @@ final readonly class ArrayState implements State
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function complete(): self
     {
         return new self($this->parameters, true);
@@ -43,6 +45,7 @@ final readonly class ArrayState implements State
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParameter(StateParameter $parameter, mixed $default = null): mixed
     {
         return $this->parameters[$parameter->value] ?? $default;
@@ -51,6 +54,7 @@ final readonly class ArrayState implements State
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParameterInt(StateParameter $parameter, int $default = 0): int
     {
         return (int) $this->getParameter($parameter, $default);
@@ -59,6 +63,7 @@ final readonly class ArrayState implements State
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getParameterString(StateParameter $parameter, string $default = ''): string
     {
         return (string) $this->getParameter($parameter, $default);
@@ -67,6 +72,7 @@ final readonly class ArrayState implements State
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isCompleted(): bool
     {
         return $this->isCompleted;

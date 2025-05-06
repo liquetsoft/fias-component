@@ -26,6 +26,7 @@ final class TruncateTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $this->storage->start();

@@ -22,6 +22,7 @@ final readonly class UnpackerFileImpl implements UnpackerFile
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getArchiveFile(): \SplFileInfo
     {
         return $this->archiveFile;
@@ -30,6 +31,7 @@ final readonly class UnpackerFileImpl implements UnpackerFile
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getIndex(): int
     {
         return $this->index;
@@ -38,6 +40,7 @@ final readonly class UnpackerFileImpl implements UnpackerFile
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSize(): int
     {
         return $this->size;
@@ -46,6 +49,7 @@ final readonly class UnpackerFileImpl implements UnpackerFile
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->name;

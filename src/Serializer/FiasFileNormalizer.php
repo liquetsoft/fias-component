@@ -17,6 +17,7 @@ final class FiasFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (!($object instanceof FiasFile)) {
@@ -32,6 +33,7 @@ final class FiasFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof FiasFile;
@@ -40,6 +42,7 @@ final class FiasFileNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

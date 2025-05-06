@@ -17,6 +17,7 @@ final class FiasFilterEmptyStringsDenormalizer implements DenormalizerAwareInter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function setDenormalizer(DenormalizerInterface $denormalizer): void
     {
         $this->denormalizer = $denormalizer;
@@ -25,6 +26,7 @@ final class FiasFilterEmptyStringsDenormalizer implements DenormalizerAwareInter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (FiasSerializerFormat::XML->isEqual($format) && \is_array($data)) {
@@ -48,6 +50,7 @@ final class FiasFilterEmptyStringsDenormalizer implements DenormalizerAwareInter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         if (FiasSerializerFormat::XML->isEqual($format) && \is_array($data)) {
@@ -64,6 +67,7 @@ final class FiasFilterEmptyStringsDenormalizer implements DenormalizerAwareInter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         if (FiasSerializerFormat::XML->isEqual($format)) {

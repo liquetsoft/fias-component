@@ -36,6 +36,7 @@ class ArrayEntityRegistry extends AbstractEntityRegistry
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     protected function createRegistry(): array
     {
         return $this->arrayRegistry;

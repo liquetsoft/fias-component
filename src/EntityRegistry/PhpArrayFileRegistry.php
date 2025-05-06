@@ -30,6 +30,7 @@ class PhpArrayFileRegistry extends AbstractEntityRegistry
      *
      * @psalm-suppress UnresolvableInclude
      */
+    #[\Override]
     protected function createRegistry(): array
     {
         $registry = [];

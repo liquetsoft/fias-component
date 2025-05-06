@@ -48,6 +48,7 @@ final class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function open(\SplFileInfo $file, string $xpath): bool
     {
         if (!$file->isFile() || !$file->isReadable()) {
@@ -63,6 +64,7 @@ final class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function close(): void
     {
         $this->unsetReader();
@@ -75,6 +77,7 @@ final class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
+    #[\Override]
     public function rewind(): void
     {
         $this->position = 0;
@@ -88,6 +91,7 @@ final class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
+    #[\Override]
     public function current(): ?string
     {
         if (!$this->isBufferFull) {
@@ -101,6 +105,7 @@ final class BaseXmlReader implements XmlReaderInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function key(): int
     {
         return $this->position;
@@ -111,6 +116,7 @@ final class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
+    #[\Override]
     public function next(): void
     {
         ++$this->position;
@@ -123,6 +129,7 @@ final class BaseXmlReader implements XmlReaderInterface
      *
      * @throws XmlException
      */
+    #[\Override]
     public function valid(): bool
     {
         if (!$this->isBufferFull) {

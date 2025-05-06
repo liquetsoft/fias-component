@@ -16,6 +16,7 @@ final class FiasNameConverter implements NameConverterInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function normalize(string $propertyName, ?string $class = null, ?string $format = null, array $context = []): string
     {
         if (!FiasSerializerFormat::XML->isEqual($format)) {
@@ -33,6 +34,7 @@ final class FiasNameConverter implements NameConverterInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function denormalize(string $propertyName, ?string $class = null, ?string $format = null, array $context = []): string
     {
         if (!FiasSerializerFormat::XML->isEqual($format)) {

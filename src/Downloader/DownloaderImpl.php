@@ -25,6 +25,7 @@ final class DownloaderImpl implements Downloader
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function download(string $url, \SplFileInfo $localFile): void
     {
         if (!preg_match('#^https?://\S+\.\S+#', $url)) {

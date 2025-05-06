@@ -28,6 +28,7 @@ final class HttpTransportCurl implements HttpTransport
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function head(string $url): HttpTransportResponse
     {
         return $this->run(
@@ -43,6 +44,7 @@ final class HttpTransportCurl implements HttpTransport
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function get(string $url, array $params = []): HttpTransportResponse
     {
         return $this->run(
@@ -59,6 +61,7 @@ final class HttpTransportCurl implements HttpTransport
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function download(string $url, $destination, ?int $bytesFrom = null, ?int $bytesTo = null): HttpTransportResponse
     {
         $options = [

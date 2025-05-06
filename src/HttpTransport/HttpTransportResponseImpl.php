@@ -28,6 +28,7 @@ final class HttpTransportResponseImpl implements HttpTransportResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getStatusCode(): int
     {
         return $this->statusCode;
@@ -36,6 +37,7 @@ final class HttpTransportResponseImpl implements HttpTransportResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getHeaders(): array
     {
         return $this->headers;
@@ -44,6 +46,7 @@ final class HttpTransportResponseImpl implements HttpTransportResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isOk(): bool
     {
         return $this->statusCode >= 200 && $this->statusCode < 300;
@@ -52,6 +55,7 @@ final class HttpTransportResponseImpl implements HttpTransportResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getContentLength(): int
     {
         return (int) ($this->headers['content-length'] ?? 0);
@@ -60,6 +64,7 @@ final class HttpTransportResponseImpl implements HttpTransportResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isRangeSupported(): bool
     {
         return $this->getContentLength() > 0 && ($this->headers['accept-ranges'] ?? '') === 'bytes';
@@ -68,6 +73,7 @@ final class HttpTransportResponseImpl implements HttpTransportResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getPayload(): string
     {
         return $this->payload;
@@ -76,6 +82,7 @@ final class HttpTransportResponseImpl implements HttpTransportResponse
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getJsonPayload(): mixed
     {
         return $this->payloadJson;

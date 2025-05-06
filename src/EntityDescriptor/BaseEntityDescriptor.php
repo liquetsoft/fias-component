@@ -47,6 +47,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -55,6 +56,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getDescription(): string
     {
         return $this->description;
@@ -63,6 +65,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getPartitionsCount(): int
     {
         return $this->partitionsCount;
@@ -71,6 +74,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getXmlPath(): string
     {
         return $this->xmlPath;
@@ -79,6 +83,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getXmlInsertFileMask(): string
     {
         return $this->insertFileMask;
@@ -87,6 +92,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getXmlDeleteFileMask(): string
     {
         return $this->deleteFileMask;
@@ -95,6 +101,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getFields(): array
     {
         return $this->fields;
@@ -103,6 +110,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function hasField(string $name): bool
     {
         $return = false;
@@ -120,6 +128,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getField(string $name): EntityField
     {
         $return = null;
@@ -143,6 +152,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isFileNameFitsXmlInsertFileMask(string $fileName): bool
     {
         return $this->isFileNameFitsMask($fileName, $this->insertFileMask);
@@ -151,6 +161,7 @@ class BaseEntityDescriptor implements EntityDescriptor
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function isFileNameFitsXmlDeleteFileMask(string $fileName): bool
     {
         return $this->isFileNameFitsMask($fileName, $this->deleteFileMask);

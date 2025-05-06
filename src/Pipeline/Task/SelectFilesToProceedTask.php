@@ -25,6 +25,7 @@ final class SelectFilesToProceedTask implements LoggableTask, Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $pathToSource = $state->getParameterString(StateParameter::PATH_TO_SOURCE);

@@ -21,6 +21,7 @@ final class VersionGetTask implements Task
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function run(State $state): State
     {
         $version = $this->versionManager->getCurrentVersion();
