@@ -66,7 +66,6 @@ final class FiasPipelineStateDenormalizer implements DenormalizerAwareInterface,
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

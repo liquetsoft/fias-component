@@ -67,7 +67,6 @@ final class FiasFilterEmptyStringsDenormalizer implements DenormalizerAwareInter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         if (FiasSerializerFormat::XML->isEqual($format)) {
