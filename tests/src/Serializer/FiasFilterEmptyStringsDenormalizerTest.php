@@ -18,9 +18,8 @@ final class FiasFilterEmptyStringsDenormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно денормализует данные.
-     *
-     * @dataProvider provideDenormalize
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDenormalize')]
     public function testDenormalize(mixed $data, string $format, mixed $expected): void
     {
         $denormalizer = new FiasFilterEmptyStringsDenormalizer();
@@ -88,9 +87,8 @@ final class FiasFilterEmptyStringsDenormalizerTest extends BaseCase
 
     /**
      * Проверяет, что объект првильно определит, что данные могут быть обработаны.
-     *
-     * @dataProvider provideSupportsDenormalization
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSupportsDenormalization')]
     public function testSupportsDenormalization(mixed $data, string $format, bool $expected): void
     {
         $denormalizer = new FiasFilterEmptyStringsDenormalizer();
@@ -128,9 +126,8 @@ final class FiasFilterEmptyStringsDenormalizerTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет корректный список поддерживаемых типов.
-     *
-     * @dataProvider provideGetSupportedTypesXML
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGetSupportedTypesXML')]
     public function testGetSupportedTypes(string $format, array $expected): void
     {
         $denormalizer = new FiasFilterEmptyStringsDenormalizer();

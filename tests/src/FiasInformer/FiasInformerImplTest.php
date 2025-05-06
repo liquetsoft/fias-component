@@ -114,9 +114,8 @@ final class FiasInformerImplTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет следующую версию.
-     *
-     * @dataProvider provideGetNextVersion
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGetNextVersion')]
     public function testGetNextVersion(?array $responseArray, int $current, int|\Exception|null $awaits): void
     {
         $allUrl = 'https://test.test/latest';
@@ -196,9 +195,8 @@ final class FiasInformerImplTest extends BaseCase
 
     /**
      * Проверяет, что объект выведет список всех версий.
-     *
-     *  @dataProvider provideGetAllVersions
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGetAllVersions')]
     public function testGetAllVersions(array $responseArray, array $awaits): void
     {
         $allUrl = 'https://test.test/latest';

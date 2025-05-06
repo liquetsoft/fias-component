@@ -131,9 +131,8 @@ final class ArrayStateTest extends BaseCase
 
     /**
      * Проверяет флаг, который мягко прерывает исполнение операций.
-     *
-     * @dataProvider provideIsCompleted
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideIsCompleted')]
     public function testIsCompleted(bool $isCompleted): void
     {
         $state = new ArrayState(isCompleted: $isCompleted);

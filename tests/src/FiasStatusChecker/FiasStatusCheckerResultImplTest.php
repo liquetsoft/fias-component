@@ -47,9 +47,8 @@ final class FiasStatusCheckerResultImplTest extends BaseCase
 
     /**
      * Проверяет, что объект возвращает правду, если загрузка доступна.
-     *
-     * @dataProvider provideCanProceed
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideCanProceed')]
     public function testCanProceed(FiasStatusCheckerStatus $status, bool $awaits): void
     {
         $result = new FiasStatusCheckerResultImpl($status, []);

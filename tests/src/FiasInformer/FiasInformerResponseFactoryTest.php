@@ -34,9 +34,8 @@ final class FiasInformerResponseFactoryTest extends BaseCase
 
     /**
      * Проверяет метод, который создает ответ по массиву из json ответа.
-     *
-     * @dataProvider provideCreateFromJson
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideCreateFromJson')]
     public function testCreateFromJson(
         array $data,
         int|\Exception $awaitsVersion,

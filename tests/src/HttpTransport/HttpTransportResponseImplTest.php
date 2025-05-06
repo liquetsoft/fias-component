@@ -29,9 +29,8 @@ final class HttpTransportResponseImplTest extends BaseCase
 
     /**
      * Проверяет, что объект правильно вернет заголовки ответа.
-     *
-     * @dataProvider provideGetHeaders
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGetHeaders')]
     public function testGetHeaders(array $headers, array $awaits): void
     {
         $code = 304;
@@ -111,9 +110,8 @@ final class HttpTransportResponseImplTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет правду, если запрос был успешным.
-     *
-     * @dataProvider provideIsOk
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideIsOk')]
     public function testIsOk(int $code, bool $awaits): void
     {
         $response = new HttpTransportResponseImpl($code);
@@ -134,9 +132,8 @@ final class HttpTransportResponseImplTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет правильное значение заголовка Content-Length.
-     *
-     * @dataProvider provideGetContentLength
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGetContentLength')]
     public function testGetContentLength(array $headers, int $awaits): void
     {
         $response = new HttpTransportResponseImpl(200, $headers);
@@ -157,9 +154,8 @@ final class HttpTransportResponseImplTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет правильное значение заголовка Accept-Ranges.
-     *
-     * @dataProvider provideIsRangeSupported
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideIsRangeSupported')]
     public function testIsRangeSupported(array $headers, bool $awaits): void
     {
         $response = new HttpTransportResponseImpl(200, $headers);
