@@ -16,9 +16,8 @@ final class FiasSerializerFormatTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно сравнит предоставленную строку с форматом.
-     *
-     * @dataProvider provideIsEqual
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideIsEqual')]
     public function testIsEqual(mixed $format, bool $expected): void
     {
         $res = FiasSerializerFormat::TEST->isEqual($format);

@@ -32,10 +32,9 @@ final class FilesDispatcherImplTest extends BaseCase
     /**
      * Проверяет, что объект правильно разбивает на потоки файлы.
      *
-     * @dataProvider dispatchProvider
-     *
      * @psalm-suppress MixedArrayAccess
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dispatchProvider')]
     public function testDispatch(array $files, int $processCount, array $expected): void
     {
         $entityManager = $this->getEntityManagerMock();

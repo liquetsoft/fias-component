@@ -143,9 +143,8 @@ final class UnpackerZipTest extends BaseCase
 
     /**
      * Проверяет, что объект правильно определит является ли файл архивом или нет.
-     *
-     * @dataProvider provideIsArchive
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideIsArchive')]
     public function testIsArchive(string $path, bool $expected): void
     {
         $unpacker = new UnpackerZip();

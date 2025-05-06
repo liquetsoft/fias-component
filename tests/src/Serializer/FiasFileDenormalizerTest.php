@@ -20,9 +20,8 @@ final class FiasFileDenormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект правильно денормализует данные.
-     *
-     * @dataProvider provideDenormalize
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDenormalize')]
     public function testDenormalize(mixed $data, array|\Exception $expected): void
     {
         $denormalizer = new FiasFileDenormalizer();
@@ -69,9 +68,8 @@ final class FiasFileDenormalizerTest extends BaseCase
 
     /**
      * Проверяет, что объект првильно определит, что данные могут быть обработаны.
-     *
-     * @dataProvider provideSupportsDenormalization
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSupportsDenormalization')]
     public function testSupportsDenormalization(string $type, bool $expected): void
     {
         $denormalizer = new FiasFileDenormalizer();
@@ -101,9 +99,8 @@ final class FiasFileDenormalizerTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет корректный список поддерживаемых типов.
-     *
-     * @dataProvider provideGetSupportedTypes
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGetSupportedTypes')]
     public function testGetSupportedTypes(string $format, array $expected): void
     {
         $denormalizer = new FiasFileDenormalizer();

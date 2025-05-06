@@ -17,9 +17,8 @@ final class FiasNameConverterTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует имя.
-     *
-     * @dataProvider provideNormalize
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideNormalize')]
     public function testNormalize(string $name, string $format, string $expected): void
     {
         $converter = new FiasNameConverter();
@@ -56,9 +55,8 @@ final class FiasNameConverterTest extends BaseCase
 
     /**
      * Проверяет, что объект верно преобразует имя из XML.
-     *
-     * @dataProvider provideDenormalize
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDenormalize')]
     public function testDenormalize(string $name, string $format, string $expected): void
     {
         $converter = new FiasNameConverter();

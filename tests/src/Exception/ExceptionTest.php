@@ -30,9 +30,8 @@ final class ExceptionTest extends BaseCase
 
     /**
      * Проверяет, что объект создаст исключение с нужным сообщением.
-     *
-     * @dataProvider provideCreate
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideCreate')]
     public function testCreate(string $message, array $params, string $awaitsMessage): void
     {
         $exception = Exception::create($message, ...$params);

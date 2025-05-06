@@ -22,9 +22,8 @@ final class FiasFileSelectorDirTest extends BaseCase
 {
     /**
      * Проверяет, что объект определит подходит ли источник данных.
-     *
-     * @dataProvider provideSupportSource
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSupportSource')]
     public function testSupportSource(bool $isDir): void
     {
         $source = $this->mock(\SplFileInfo::class);

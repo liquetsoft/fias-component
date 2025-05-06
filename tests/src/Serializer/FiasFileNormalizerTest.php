@@ -21,9 +21,8 @@ final class FiasFileNormalizerTest extends BaseCase
 {
     /**
      * Проверяет, что объект верно преобразует состояние.
-     *
-     * @dataProvider provideNormalize
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideNormalize')]
     public function testNormalize(object $object, array|\Exception $expected): void
     {
         $normalizer = new FiasFileNormalizer();
@@ -61,9 +60,8 @@ final class FiasFileNormalizerTest extends BaseCase
 
     /**
      * Проверяет, что объект првильно определит, что данные могут быть обработаны.
-     *
-     * @dataProvider provideSupportsNormalization
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSupportsNormalization')]
     public function testSupportsNormalization(mixed $data, bool $expected): void
     {
         $normalizer = new FiasFileNormalizer();
@@ -96,9 +94,8 @@ final class FiasFileNormalizerTest extends BaseCase
 
     /**
      * Проверяет, что объект вернет корректный список поддерживаемых типов.
-     *
-     * @dataProvider provideGetSupportedTypes
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideGetSupportedTypes')]
     public function testGetSupportedTypes(string $format, array $expected): void
     {
         $denormalizer = new FiasFileNormalizer();

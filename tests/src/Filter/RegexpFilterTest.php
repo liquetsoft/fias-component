@@ -26,9 +26,8 @@ final class RegexpFilterTest extends BaseCase
     /**
      * @param string[]      $regexps
      * @param object|string $testedObject
-     *
-     * @dataProvider provideTestData
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTestData')]
     public function testTest(array $regexps, $testedObject, bool $result): void
     {
         $filter = new RegexpFilter($regexps);

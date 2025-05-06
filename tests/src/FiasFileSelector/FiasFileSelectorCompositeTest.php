@@ -18,9 +18,8 @@ final class FiasFileSelectorCompositeTest extends BaseCase
 {
     /**
      * Проверяет, что объект определит подходит ли источник данных.
-     *
-     * @dataProvider provideSupportSource
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSupportSource')]
     public function testSupportSource(array $nestedSelectorsResults, bool $expected): void
     {
         $source = $this->mock(\SplFileInfo::class);

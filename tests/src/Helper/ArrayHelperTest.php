@@ -16,9 +16,8 @@ final class ArrayHelperTest extends BaseCase
 {
     /**
      * Проверяет, что метод верно извлечет строку из массива по имени.
-     *
-     * @dataProvider provideExtractStringFromArrayByName
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideExtractStringFromArrayByName')]
     public function testExtractStringFromArrayByName(string $name, array $array, string $awaits, ?string $default = null): void
     {
         if ($default === null) {
@@ -59,9 +58,8 @@ final class ArrayHelperTest extends BaseCase
 
     /**
      * Проверяет, что метод верно извлечет число из массива по имени.
-     *
-     * @dataProvider provideExtractIntFromArrayByName
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideExtractIntFromArrayByName')]
     public function testExtractIntFromArrayByName(string $name, array $array, int $awaits, ?int $default = null): void
     {
         if ($default === null) {
@@ -102,9 +100,8 @@ final class ArrayHelperTest extends BaseCase
 
     /**
      * Проверяет, что метод верно извлечет число из массива по имени.
-     *
-     * @dataProvider provideExtractBoolFromArrayByName
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideExtractBoolFromArrayByName')]
     public function testExtractBoolFromArrayByName(string $name, array $array, bool $awaits, ?bool $default = null): void
     {
         if ($default === null) {
@@ -145,9 +142,8 @@ final class ArrayHelperTest extends BaseCase
 
     /**
      * Проверяет, что метод верно извлечет массив из массива по имени.
-     *
-     * @dataProvider provideExtractArrayFromArrayByName
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideExtractArrayFromArrayByName')]
     public function testExtractArrayFromArrayByName(string $name, array $array, array $awaits, ?array $default = null): void
     {
         if ($default === null) {

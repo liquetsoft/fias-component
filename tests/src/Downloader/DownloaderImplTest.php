@@ -238,9 +238,8 @@ final class DownloaderImplTest extends BaseCase
 
     /**
      * Проверяет, что объект выбросит исключение, если указана битая ссылка.
-     *
-     * @dataProvider provideDownloadMalformedUrlException
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDownloadMalformedUrlException')]
     public function testDownloadMalformedUrlException(string $url): void
     {
         $path = $this->getPathToTestFile('testDownloadMalformedUrlException');
