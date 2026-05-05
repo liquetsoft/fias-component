@@ -12,7 +12,7 @@
         "ext-json": "*",
         "symfony/serializer": "^5.0|^6.0|^7.0",
         "symfony/property-access": "^5.0|^6.0|^7.0",
-        "symfony/property-info": "^5.0|^6.0|^7.0",
+        "symfony/property-info": "^5.0|^6.0|^7.0|^8.0",
         "symfony/process": "^5.0|^6.0|^7.0",
         "psr/log": "^1.0|^2.0|^3.0",
         "marvin255/file-system-helper": "^5.0|^6.0"
